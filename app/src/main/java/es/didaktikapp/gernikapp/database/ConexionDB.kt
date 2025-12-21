@@ -6,10 +6,8 @@ import java.sql.DriverManager
 import java.sql.SQLException
 import java.util.Properties
 
-class Conexion(context: Context) {
-    /**
-     * Atributos de la clase
-     */
+class ConexionDB(context: Context) {
+
     private val dbUrl:String
     private val dbUser:String
     private val dbPassword:String
