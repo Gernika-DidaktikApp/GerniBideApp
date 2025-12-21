@@ -13,3 +13,7 @@
 .externalNativeBuild
 .cxx
 local.properties
+
+# Archivo de configuración con credenciales sensibles
+app/src/main/assets/configuration.properties
+
