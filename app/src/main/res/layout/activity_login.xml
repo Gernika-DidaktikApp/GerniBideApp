@@ -14,7 +14,7 @@
         android:text="Iniciar Sesión"
         android:textSize="32sp"
         android:textStyle="bold"
-        android:textColor="@color/azul"
+        android:textColor="@color/btnSecundario"
         android:layout_marginBottom="48dp" />
 
     <EditText
