@@ -3,6 +3,7 @@ package es.didaktikapp.gernikapp.data.repository
 import android.content.Context
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
+import es.didaktikapp.gernikapp.R
 import es.didaktikapp.gernikapp.data.local.TokenManager
 import es.didaktikapp.gernikapp.data.models.ApiError
 import es.didaktikapp.gernikapp.data.models.LoginResponse
@@ -15,7 +16,7 @@ import retrofit2.Response
 import java.net.SocketTimeoutException
 import java.net.UnknownHostException
 
-class AuthRepository(context: Context) {
+class AuthRepository(private val context: Context) {
 
     private val apiService: ApiService = RetrofitClient.getApiService(context)
     private val tokenManager = TokenManager(context)
@@ -37,11 +38,11 @@ class AuthRepository(context: Context) {
                     loginResponse
                 }
             } catch (e: UnknownHostException) {
-                Resource.Error("No hay conexión a internet")
+                Resource.Error(context.getString(R.string.error_no_internet))
             } catch (e: SocketTimeoutException) {
-                Resource.Error("Tiempo de espera agotado")
+                Resource.Error(context.getString(R.string.error_timeout))
             } catch (e: Exception) {
-                Resource.Error("Error de conexión: ${e.localizedMessage}")
+                Resource.Error(context.getString(R.string.error_connection, e.localizedMessage ?: ""))
             }
         }
     }
@@ -67,19 +68,19 @@ class AuthRepository(context: Context) {
             if (body != null) {
                 Resource.Success(onSuccess(body))
             } else {
-                Resource.Error("Respuesta vacía del servidor", response.code())
+                Resource.Error(context.getString(R.string.error_empty_response), response.code())
             }
         } else {
             val errorBody = response.errorBody()?.string()
             val errorMessage = if (errorBody != null) {
                 try {
                     val apiError = moshi.adapter(ApiError::class.java).fromJson(errorBody)
-                    apiError?.detail ?: "Error desconocido"
+                    apiError?.detail ?: context.getString(R.string.error_unknown)
                 } catch (e: Exception) {
-                    "Error del servidor: ${response.code()}"
+                    context.getString(R.string.error_server, response.code())
                 }
             } else {
-                "Error del servidor: ${response.code()}"
+                context.getString(R.string.error_server, response.code())
             }
             Resource.Error(errorMessage, response.code())
         }

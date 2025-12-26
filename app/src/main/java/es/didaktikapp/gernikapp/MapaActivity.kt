@@ -13,14 +13,18 @@ import android.content.pm.PackageManager
 import android.widget.Toast
 import com.google.android.gms.maps.model.MarkerOptions
 import androidx.appcompat.app.AlertDialog
+import es.didaktikapp.gernikapp.databinding.ActivityMapaBinding
 
 class MapaActivity : AppCompatActivity(), OnMapReadyCallback {
 
+    private lateinit var binding: ActivityMapaBinding
     private lateinit var nMap: GoogleMap
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_mapa)
+
+        binding = ActivityMapaBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         val mapFragment = supportFragmentManager.findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)
@@ -37,71 +41,40 @@ class MapaActivity : AppCompatActivity(), OnMapReadyCallback {
         nMap.addMarker(
             MarkerOptions()
                 .position(LatLng(43.313287, -2.679579))
-                .title("Gernikako Arbola eta Juntetxea")
+                .title(getString(R.string.map_marker_title_arbola))
         )
 
         nMap.addMarker(
             MarkerOptions()
                 .position(LatLng(43.312137, -2.676608))
-                .title("Astrako bunkerrak")
+                .title(getString(R.string.map_marker_title_bunker))
         )
 
         nMap.addMarker(
             MarkerOptions()
                 .position(LatLng(43.315513, -2.680047))
-                .title("Picasso-ren “Guernica”")
+                .title(getString(R.string.map_marker_title_guernica))
         )
 
         nMap.addMarker(
             MarkerOptions()
                 .position(LatLng(43.316139, -2.676672))
-                .title("Gernikako azoka plaza")
+                .title(getString(R.string.map_marker_title_plaza))
         )
 
         nMap.addMarker(
             MarkerOptions()
                 .position(LatLng(43.317399, -2.678783))
-                .title("Jai-Alai frontoia")
+                .title(getString(R.string.map_marker_title_frontoi))
         )
 
         nMap.setOnMarkerClickListener { marker ->
-            when (marker.title) {
-                "Astrako bunkerrak" -> {
-                    mostrarDialogo(
-                        titulo = "Astrako bunkerrak",
-                        mensaje = "Astrako bunkerraren aurrean zaude.\nSartu nahi duzu?"
-                    )
-                }
-
-                "Jai-Alai frontoia" -> {
-                    mostrarDialogo(
-                        titulo = "Jai-Alai frontoia",
-                        mensaje = "Jai-Alai frontoira iritsi zara.\nSartu nahi duzu?"
-                    )
-                }
-
-                "Gernikako Arbola eta Juntetxea" -> {
-                    mostrarDialogo(
-                        titulo = "Gernikako Arbola eta Juntetxea",
-                        mensaje = "Gernikako arbolara iritsi zara.\nSartu nahi duzu?"
-                    )
-                }
-
-                "Gernikako azoka plaza" -> {
-                    mostrarDialogo(
-                        titulo = "Gernikako azoka plaza",
-                        mensaje = "Gernikako azoka plazara iritsi zara.\nSartu nahi duzu?"
-                    )
-                }
-
-                "Picasso-ren “Guernica”" -> {
-                    mostrarDialogo(
-                        titulo = "Picasso-ren “Guernica”",
-                        mensaje = "Picasso-ren 'Guernica-ra' iritsi zara.\nSartu nahi duzu?"
-                    )
-                }
+            marker.title?.let { titulo ->
+                mostrarDialogo(
+                    titulo = titulo,
+                    mensaje = getString(R.string.map_dialog_message, titulo)
+                )
             }
-
             true
         }
 
@@ -122,12 +95,16 @@ class MapaActivity : AppCompatActivity(), OnMapReadyCallback {
         AlertDialog.Builder(this)
             .setTitle(titulo)
             .setMessage(mensaje)
-            .setPositiveButton("Sartu") { _, _ ->
-                Toast.makeText(this, "Sartu zara: $titulo", Toast.LENGTH_SHORT).show()
+            .setPositiveButton(R.string.map_dialog_button_enter) { _, _ ->
+                Toast.makeText(
+                    this,
+                    getString(R.string.map_entered_location, titulo),
+                    Toast.LENGTH_SHORT
+                ).show()
 
                 // Aquí luego abriremos la Activity correspondiente
             }
-            .setNegativeButton("Ez") { dialog, _ ->
+            .setNegativeButton(R.string.map_dialog_button_cancel) { dialog, _ ->
                 dialog.dismiss()
             }
             .show()

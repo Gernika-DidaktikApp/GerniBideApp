@@ -37,12 +37,12 @@ class LoginActivity : AppCompatActivity() {
             val password = binding.editTextPassword.text.toString().trim()
 
             if (usuario.isEmpty()) {
-                binding.editTextUsuario.error = "Ingrese su usuario"
+                binding.editTextUsuario.error = getString(R.string.error_username_required)
                 return@setOnClickListener
             }
 
             if (password.isEmpty()) {
-                binding.editTextPassword.error = "Ingrese su contraseña"
+                binding.editTextPassword.error = getString(R.string.error_password_required)
                 return@setOnClickListener
             }
 
@@ -58,7 +58,7 @@ class LoginActivity : AppCompatActivity() {
                 is Resource.Success -> {
                     Toast.makeText(
                         this@LoginActivity,
-                        "Bienvenido $username",
+                        getString(R.string.login_welcome, username),
                         Toast.LENGTH_SHORT
                     ).show()
                     navigateToMain()
