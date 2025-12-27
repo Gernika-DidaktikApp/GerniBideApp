@@ -44,11 +44,25 @@
 
     <!-- Color Peace -->
     <string name="color_peace_title">Colorear la Paz</string>
-    <string name="color_peace_instructions">Toca un color y luego pinta el área que desees</string>
+    <string name="color_peace_instructions">Pinta con un dedo, pellizca para acercar/alejar y mueve con dos dedos</string>
     <string name="color_peace_clear">Borrar</string>
     <string name="color_peace_finish">Terminar</string>
     <string name="color_peace_dialog_title">¡Excelente!</string>
-    <string name="color_peace_dialog_message">¡Has creado tu imagen de paz! Se ha guardado y podrás verla más tarde.</string>
-    <string name="color_peace_dialog_button">Aceptar</string>
+    <string name="color_peace_dialog_message">¡Has creado tu imagen de paz! Ahora puedes verla.</string>
+    <string name="color_peace_dialog_button">Ver</string>
     <string name="color_peace_save_error">Error al guardar la imagen</string>
+    <string name="color_peace_load_title">Imagen pintada previamente</string>
+    <string name="color_peace_load_message">Ya tienes una imagen pintada anteriormente. ¿Quieres continuar o empezar una nueva?</string>
+    <string name="color_peace_load_continue">Continuar</string>
+    <string name="color_peace_load_start_new">Empezar nueva</string>
+    <string name="color_peace_repaint">Volver a pintar</string>
+    <string name="color_peace_view_result">Ver resultado</string>
+    <string name="color_peace_saved_preview_description">Pintura guardada</string>
+
+    <!-- Result -->
+    <string name="result_title">Tu obra</string>
+    <string name="result_subtitle">¡Excelente! Aquí está tu Guernica coloreado</string>
+    <string name="result_image_description">Guernica coloreado</string>
+    <string name="result_share">Compartir</string>
+    <string name="result_close">Cerrar</string>
 </resources>

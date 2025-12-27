@@ -42,11 +42,25 @@
 
     <!-- Color Peace -->
     <string name="color_peace_title">Kolorez bakea</string>
-    <string name="color_peace_instructions">Ukitu kolorea eta gero margotu nahi duzun eremua</string>
+    <string name="color_peace_instructions">Hatzegin batekin marraztu, bi hatzez handitu/txikitu eta mugitu</string>
     <string name="color_peace_clear">Ezabatu</string>
     <string name="color_peace_finish">Amaitu</string>
     <string name="color_peace_dialog_title">Bikain!</string>
-    <string name="color_peace_dialog_message">Zure bakeko irudia sortu duzu! Gorde da eta beranduago ikusi ahal izango duzu.</string>
-    <string name="color_peace_dialog_button">Ados</string>
+    <string name="color_peace_dialog_message">Zure bakeko irudia sortu duzu! Orain ikusi dezakezu.</string>
+    <string name="color_peace_dialog_button">Ikusi</string>
     <string name="color_peace_save_error">Errorea irudia gordetzean</string>
+    <string name="color_peace_load_title">Aurretik margotutako irudia</string>
+    <string name="color_peace_load_message">Aurretik margotutako irudi bat dago. Jarraitu nahi duzu edo berria hasi?</string>
+    <string name="color_peace_load_continue">Jarraitu</string>
+    <string name="color_peace_load_start_new">Berria hasi</string>
+    <string name="color_peace_repaint">Berriro margotu</string>
+    <string name="color_peace_view_result">Emaitza ikusi</string>
+    <string name="color_peace_saved_preview_description">Gordetako margoketa</string>
+
+    <!-- Result -->
+    <string name="result_title">Zure obra</string>
+    <string name="result_subtitle">Bikain! Hemen duzu zure Guernica koloreduna</string>
+    <string name="result_image_description">Guernica koloreduna</string>
+    <string name="result_share">Partekatu</string>
+    <string name="result_close">Itxi</string>
 </resources>

@@ -127,12 +127,21 @@
             android:layout_height="match_parent"
             android:contentDescription="@string/picasso_guernica_description"
             android:scaleType="fitCenter"
-            android:src="@drawable/guernica_gray" />
+            android:src="@drawable/gernika_outlines" />
 
         <es.didaktikapp.gernikapp.PaintCanvasView
             android:id="@+id/paintCanvas"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
+
+        <!-- Vista previa de la imagen guardada -->
+        <ImageView
+            android:id="@+id/savedImagePreview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:contentDescription="@string/color_peace_saved_preview_description"
+            android:scaleType="fitCenter"
+            android:visibility="gone" />
     </FrameLayout>
 
     <!-- Botones -->
