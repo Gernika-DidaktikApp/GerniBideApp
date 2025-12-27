@@ -39,8 +39,7 @@ class PicassoActivity : AppCompatActivity() {
         }
 
         binding.btnNireMezua.setOnClickListener {
-            // TODO: Implementar navegación a NireMezuaActivity cuando esté disponible
-            Toast.makeText(this, "Actividad: Nire mezua munduarentzat", Toast.LENGTH_SHORT).show()
+            startActivity(Intent(this, MyMessageActivity::class.java))
         }
     }
 }

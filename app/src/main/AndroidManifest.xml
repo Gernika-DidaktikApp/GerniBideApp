@@ -50,6 +50,9 @@
         <activity
             android:name=".MapaActivity"
             android:exported="false" />
+        <activity
+            android:name=".MyMessageActivity"
+            android:exported="false" />
     </application>
 
 </manifest>
