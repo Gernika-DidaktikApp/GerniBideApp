@@ -127,4 +127,30 @@
     <string name="view_interpret_q6_opt3">Bakea</string>
     <string name="view_interpret_q6_opt4">Itxaropena</string>
     <string name="view_interpret_q6_feedback">Zuzena! Soldaduak gerran sakrifizioa eta heriotza irudikatzen du</string>
+
+    <!-- My Message -->
+    <string name="my_message_title">Nire mezua munduarentzat</string>
+    <string name="my_message_instructions">Idatzi zure bakea mezua:</string>
+    <string name="my_message_start">Ni bakea nahi dut…</string>
+    <string name="my_message_hint">Idatzi zure mezua hemen…</string>
+    <string name="my_message_char_count">0/200</string>
+    <string name="my_message_char_count_format">%d/200</string>
+    <string name="my_message_send">Bidali</string>
+    <string name="my_message_messages_title">Bakeko mezuak</string>
+    <string name="my_message_error_empty">Mesedez, idatzi mezu bat</string>
+    <string name="my_message_error_short">Mezua laburregia da. Gutxienez 10 karaktere</string>
+    <string name="my_message_error_save">Errorea mezua gordetzean</string>
+    <string name="my_message_empty_state">Oraindik ez dago mezurik.\nIzango zara lehena!</string>
+    <string name="my_message_confirm_title">Eskerrik asko!</string>
+    <string name="my_message_confirm_message">Zure mezua:\n\n\"%1$s\"\n\nBerria idatzi nahi duzu?</string>
+    <string name="my_message_confirm_keep">Ez, hau mantendu</string>
+    <string name="my_message_confirm_new">Bai, berria idatzi</string>
+    <string name="my_message_sample_1">haur guztiek beldurrik gabe jolastea merezi dutelako</string>
+    <string name="my_message_sample_2">familiak harmonian bizi daitezen</string>
+    <string name="my_message_sample_3">arteak gerra baino gehiago batzen gaitu</string>
+    <string name="my_message_sample_4">etorkizun hobea elkarrekin eraikitzeko</string>
+    <string name="my_message_load_title">Aurretik idatzitako mezua</string>
+    <string name="my_message_load_message">Aurretik mezu hau idatzi duzu:\n\n\"%1$s\"\n\nEditatu nahi duzu edo berria idatzi?</string>
+    <string name="my_message_load_edit">Editatu</string>
+    <string name="my_message_load_new">Berria idatzi</string>
 </resources>

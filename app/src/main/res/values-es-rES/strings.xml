@@ -130,4 +130,30 @@
     <string name="view_interpret_q6_opt3">Paz</string>
     <string name="view_interpret_q6_opt4">Esperanza</string>
     <string name="view_interpret_q6_feedback">¡Correcto! El soldado representa el sacrificio y la muerte en la guerra</string>
+
+    <!-- My Message -->
+    <string name="my_message_title">Mi mensaje para el mundo</string>
+    <string name="my_message_instructions">Escribe tu mensaje de paz:</string>
+    <string name="my_message_start">Yo quiero la paz…</string>
+    <string name="my_message_hint">Escribe tu mensaje aquí…</string>
+    <string name="my_message_char_count">0/200</string>
+    <string name="my_message_char_count_format">%d/200</string>
+    <string name="my_message_send">Enviar</string>
+    <string name="my_message_messages_title">Mensajes de paz</string>
+    <string name="my_message_error_empty">Por favor, escribe un mensaje</string>
+    <string name="my_message_error_short">El mensaje es demasiado corto. Mínimo 10 caracteres</string>
+    <string name="my_message_error_save">Error al guardar el mensaje</string>
+    <string name="my_message_empty_state">Todavía no hay mensajes.\n¡Sé el primero!</string>
+    <string name="my_message_confirm_title">¡Gracias!</string>
+    <string name="my_message_confirm_message">Tu mensaje:\n\n\"%1$s\"\n\n¿Quieres escribir uno nuevo?</string>
+    <string name="my_message_confirm_keep">No, mantener este</string>
+    <string name="my_message_confirm_new">Sí, escribir nuevo</string>
+    <string name="my_message_sample_1">porque todos los niños merecen jugar sin miedo</string>
+    <string name="my_message_sample_2">para que las familias vivan en armonía</string>
+    <string name="my_message_sample_3">porque el arte nos une más que la guerra nos separa</string>
+    <string name="my_message_sample_4">para construir un futuro mejor juntos</string>
+    <string name="my_message_load_title">Mensaje escrito anteriormente</string>
+    <string name="my_message_load_message">Escribiste este mensaje anteriormente:\n\n\"%1$s\"\n\n¿Quieres editarlo o escribir uno nuevo?</string>
+    <string name="my_message_load_edit">Editar</string>
+    <string name="my_message_load_new">Escribir nuevo</string>
 </resources>
