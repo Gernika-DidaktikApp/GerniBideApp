@@ -33,4 +33,22 @@
     <string name="map_dialog_button_enter">Entrar</string>
     <string name="map_dialog_button_cancel">No</string>
     <string name="map_entered_location">Has entrado en: %s</string>
+
+    <!-- Picasso -->
+    <string name="picasso_title">Guernica de Picasso</string>
+    <string name="picasso_subtitle">Actividades</string>
+    <string name="picasso_activity_1">1. Colorear la Paz</string>
+    <string name="picasso_activity_2">2. Ver e Interpretar</string>
+    <string name="picasso_activity_3">3. Mi Mensaje para el Mundo</string>
+    <string name="picasso_guernica_description">Guernica</string>
+
+    <!-- Color Peace -->
+    <string name="color_peace_title">Colorear la Paz</string>
+    <string name="color_peace_instructions">Toca un color y luego pinta el área que desees</string>
+    <string name="color_peace_clear">Borrar</string>
+    <string name="color_peace_finish">Terminar</string>
+    <string name="color_peace_dialog_title">¡Excelente!</string>
+    <string name="color_peace_dialog_message">¡Has creado tu imagen de paz! Se ha guardado y podrás verla más tarde.</string>
+    <string name="color_peace_dialog_button">Aceptar</string>
+    <string name="color_peace_save_error">Error al guardar la imagen</string>
 </resources>
