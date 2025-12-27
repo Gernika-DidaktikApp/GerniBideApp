@@ -31,7 +31,7 @@ class PicassoActivity : AppCompatActivity() {
 
     private fun setupClickListeners() {
         binding.btnKolorezBakea.setOnClickListener {
-            startActivity(Intent(this, KolorezBakeaActivity::class.java))
+            startActivity(Intent(this, ColorPeaceActivity::class.java))
         }
 
         binding.btnIkusiEtaAsmatu.setOnClickListener {
