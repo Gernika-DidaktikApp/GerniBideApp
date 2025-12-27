@@ -65,4 +65,69 @@
     <string name="result_image_description">Guernica coloreado</string>
     <string name="result_share">Compartir</string>
     <string name="result_close">Cerrar</string>
+
+    <!-- View and Interpret -->
+    <string name="view_interpret_title">Ver e Interpretar</string>
+    <string name="view_interpret_element_description">Elemento del Guernica</string>
+    <string name="view_interpret_next">Siguiente</string>
+    <string name="view_interpret_wrong_answer">Respuesta correcta: %1$s\n%2$s</string>
+    <string name="view_interpret_results_title">¡Excelente!</string>
+    <string name="view_interpret_results_message">Puntuación: %1$d/%2$d\n%3$s</string>
+    <string name="view_interpret_results_finish">Terminar</string>
+    <string name="view_interpret_load_title">Test realizado previamente</string>
+    <string name="view_interpret_load_message">Ya tienes un test realizado anteriormente. ¿Quieres continuar o empezar uno nuevo?</string>
+    <string name="view_interpret_load_continue">Continuar</string>
+    <string name="view_interpret_load_start_new">Empezar nuevo</string>
+    <string name="view_interpret_previous_result_title">Resultado anterior</string>
+    <string name="view_interpret_previous_result_message">Puntuación anterior: %1$d/%2$d\n%3$s\n\n¿Quieres volver a hacer el test?</string>
+    <string name="view_interpret_redo_test">Volver a hacer</string>
+    <string name="view_interpret_exit">Salir</string>
+
+    <!-- Pregunta 1: Caballo -->
+    <string name="view_interpret_q1">¿Qué representa esta imagen?</string>
+    <string name="view_interpret_q1_opt1">Violencia</string>
+    <string name="view_interpret_q1_opt2">La fuerza del pueblo</string>
+    <string name="view_interpret_q1_opt3">Esperanza</string>
+    <string name="view_interpret_q1_opt4">Paz</string>
+    <string name="view_interpret_q1_feedback">¡Correcto! El caballo representa la fuerza del pueblo</string>
+
+    <!-- Pregunta 2: Madre con niño -->
+    <string name="view_interpret_q2">¿Qué representa la madre con el niño?</string>
+    <string name="view_interpret_q2_opt1">Dolor</string>
+    <string name="view_interpret_q2_opt2">Impotencia de las víctimas</string>
+    <string name="view_interpret_q2_opt3">Miedo</string>
+    <string name="view_interpret_q2_opt4">Esperanza</string>
+    <string name="view_interpret_q2_feedback">¡Correcto! La madre representa la impotencia y dolor de las víctimas</string>
+
+    <!-- Pregunta 3: Luz -->
+    <string name="view_interpret_q3">¿Qué simboliza la bombilla/luz?</string>
+    <string name="view_interpret_q3_opt1">Paz</string>
+    <string name="view_interpret_q3_opt2">Avance tecnológico</string>
+    <string name="view_interpret_q3_opt3">Miedo</string>
+    <string name="view_interpret_q3_opt4">Esperanza</string>
+    <string name="view_interpret_q3_feedback">¡Correcto! La luz representa el avance tecnológico</string>
+
+    <!-- Pregunta 4: Toro -->
+    <string name="view_interpret_q4">¿Qué representa el toro?</string>
+    <string name="view_interpret_q4_opt1">Fuerza</string>
+    <string name="view_interpret_q4_opt2">Paz</string>
+    <string name="view_interpret_q4_opt3">Barbarie e irracionalidad</string>
+    <string name="view_interpret_q4_opt4">Esperanza</string>
+    <string name="view_interpret_q4_feedback">¡Correcto! El toro representa la barbarie e irracionalidad</string>
+
+    <!-- Pregunta 5: Mujer gritando -->
+    <string name="view_interpret_q5">¿Qué representa la mujer que grita?</string>
+    <string name="view_interpret_q5_opt1">Alegría</string>
+    <string name="view_interpret_q5_opt2">Paz</string>
+    <string name="view_interpret_q5_opt3">Caos y miedo</string>
+    <string name="view_interpret_q5_opt4">Esperanza</string>
+    <string name="view_interpret_q5_feedback">¡Correcto! La mujer que grita representa el caos y el miedo</string>
+
+    <!-- Pregunta 6: Soldado -->
+    <string name="view_interpret_q6">¿Qué representa el soldado caído?</string>
+    <string name="view_interpret_q6_opt1">Victoria</string>
+    <string name="view_interpret_q6_opt2">Sacrificio y muerte</string>
+    <string name="view_interpret_q6_opt3">Paz</string>
+    <string name="view_interpret_q6_opt4">Esperanza</string>
+    <string name="view_interpret_q6_feedback">¡Correcto! El soldado representa el sacrificio y la muerte en la guerra</string>
 </resources>
