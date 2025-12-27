@@ -20,12 +20,6 @@
         android:usesCleartextTraffic="true">
         <activity
             android:name=".PicassoActivity"
-            android:exported="false" />
-        <activity
-            android:name=".ColorPeaceActivity"
-            android:exported="false" />
-        <activity
-            android:name=".LoginActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -33,6 +27,18 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".ColorPeaceActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ViewAndInterpretActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ResultActivity"
+            android:exported="false" />
+        <activity
+            android:name=".LoginActivity"
+            android:exported="false" />
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"

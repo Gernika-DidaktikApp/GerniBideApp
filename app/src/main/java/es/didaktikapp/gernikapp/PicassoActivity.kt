@@ -35,8 +35,7 @@ class PicassoActivity : AppCompatActivity() {
         }
 
         binding.btnIkusiEtaAsmatu.setOnClickListener {
-            // TODO: Implementar navegación a IkusiEtaAsmatuActivity cuando esté disponible
-            Toast.makeText(this, "Actividad: Ikusi eta asmatu", Toast.LENGTH_SHORT).show()
+            startActivity(Intent(this, ViewAndInterpretActivity::class.java))
         }
 
         binding.btnNireMezua.setOnClickListener {
