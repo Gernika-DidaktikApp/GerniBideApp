@@ -1,13 +1,19 @@
-package es.didaktikapp.gernikapp
+package es.didaktikapp.gernikapp.picasso
 
 import android.content.Intent
+import android.content.res.ColorStateList
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.graphics.Canvas
 import android.graphics.Color
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import es.didaktikapp.gernikapp.R
 import es.didaktikapp.gernikapp.databinding.ActivityColorPeaceBinding
+import java.io.File
 
 class ColorPeaceActivity : AppCompatActivity() {
 
@@ -45,26 +51,26 @@ class ColorPeaceActivity : AppCompatActivity() {
         // Cargar y mostrar la imagen combinada
         val savedBitmap = PaintCanvasView.loadFromInternalStorage(this)
         if (savedBitmap != null) {
-            val guernicaBitmap = android.graphics.BitmapFactory.decodeResource(
+            val guernicaBitmap = BitmapFactory.decodeResource(
                 resources,
                 R.drawable.gernika_outlines
             )
             val combinedBitmap = combineBitmapsForPreview(guernicaBitmap, savedBitmap)
 
             binding.savedImagePreview.setImageBitmap(combinedBitmap)
-            binding.savedImagePreview.visibility = android.view.View.VISIBLE
+            binding.savedImagePreview.visibility = View.VISIBLE
         }
 
         // Ocultar controles de pintura
-        binding.colorPalette.visibility = android.view.View.GONE
-        binding.instructionsText.visibility = android.view.View.GONE
-        binding.guernicaImage.visibility = android.view.View.GONE
-        binding.paintCanvas.visibility = android.view.View.GONE
+        binding.colorPalette.visibility = View.GONE
+        binding.instructionsText.visibility = View.GONE
+        binding.guernicaImage.visibility = View.GONE
+        binding.paintCanvas.visibility = View.GONE
 
         // Configurar botones para modo preview
         binding.clearButton.text = getString(R.string.color_peace_repaint)
-        binding.clearButton.backgroundTintList = android.content.res.ColorStateList.valueOf(
-            android.graphics.Color.parseColor("#FF9800")
+        binding.clearButton.backgroundTintList = ColorStateList.valueOf(
+            Color.parseColor("#FF9800")
         )
         binding.finishButton.text = getString(R.string.color_peace_view_result)
 
@@ -76,26 +82,26 @@ class ColorPeaceActivity : AppCompatActivity() {
 
         binding.finishButton.setOnClickListener {
             // Ir a ver el resultado
-            startActivity(android.content.Intent(this, ResultActivity::class.java))
+            startActivity(Intent(this, ResultActivity::class.java))
         }
     }
 
     private fun showPaintMode() {
         // Mostrar controles de pintura
-        binding.savedImagePreview.visibility = android.view.View.GONE
-        binding.colorPalette.visibility = android.view.View.VISIBLE
-        binding.instructionsText.visibility = android.view.View.VISIBLE
-        binding.guernicaImage.visibility = android.view.View.VISIBLE
-        binding.paintCanvas.visibility = android.view.View.VISIBLE
+        binding.savedImagePreview.visibility = View.GONE
+        binding.colorPalette.visibility = View.VISIBLE
+        binding.instructionsText.visibility = View.VISIBLE
+        binding.guernicaImage.visibility = View.VISIBLE
+        binding.paintCanvas.visibility = View.VISIBLE
 
         // Restaurar textos y colores de botones
         binding.clearButton.text = getString(R.string.color_peace_clear)
-        binding.clearButton.backgroundTintList = android.content.res.ColorStateList.valueOf(
-            android.graphics.Color.parseColor("#E57373")
+        binding.clearButton.backgroundTintList = ColorStateList.valueOf(
+            Color.parseColor("#E57373")
         )
         binding.finishButton.text = getString(R.string.color_peace_finish)
-        binding.finishButton.backgroundTintList = android.content.res.ColorStateList.valueOf(
-            android.graphics.Color.parseColor("#66BB6A")
+        binding.finishButton.backgroundTintList = ColorStateList.valueOf(
+            Color.parseColor("#66BB6A")
         )
 
         // Configurar botones para modo pintar
@@ -109,17 +115,17 @@ class ColorPeaceActivity : AppCompatActivity() {
     }
 
     private fun deleteSavedPainting() {
-        val file = java.io.File(filesDir, "guernica_coloreado.png")
+        val file = File(filesDir, "guernica_coloreado.png")
         if (file.exists()) {
             file.delete()
         }
     }
 
-    private fun combineBitmapsForPreview(background: android.graphics.Bitmap, foreground: android.graphics.Bitmap): android.graphics.Bitmap {
+    private fun combineBitmapsForPreview(background: Bitmap, foreground: Bitmap): Bitmap {
         val width = foreground.width
         val height = foreground.height
-        val combined = android.graphics.Bitmap.createBitmap(width, height, android.graphics.Bitmap.Config.ARGB_8888)
-        val canvas = android.graphics.Canvas(combined)
+        val combined = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
+        val canvas = Canvas(combined)
 
         val bgWidth = background.width.toFloat()
         val bgHeight = background.height.toFloat()
@@ -136,7 +142,7 @@ class ColorPeaceActivity : AppCompatActivity() {
         val left = (width - scaledWidth) / 2f
         val top = (height - scaledHeight) / 2f
 
-        val scaledBackground = android.graphics.Bitmap.createScaledBitmap(background, scaledWidth, scaledHeight, true)
+        val scaledBackground = Bitmap.createScaledBitmap(background, scaledWidth, scaledHeight, true)
         canvas.drawBitmap(scaledBackground, left, top, null)
         canvas.drawBitmap(foreground, 0f, 0f, null)
 

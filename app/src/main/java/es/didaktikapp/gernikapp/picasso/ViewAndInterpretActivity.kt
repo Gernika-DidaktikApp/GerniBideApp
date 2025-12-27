@@ -1,11 +1,13 @@
-package es.didaktikapp.gernikapp
+package es.didaktikapp.gernikapp.picasso
 
+import android.content.Context
 import android.graphics.Color
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import es.didaktikapp.gernikapp.R
 import es.didaktikapp.gernikapp.databinding.ActivityViewAndInterpretBinding
 
 class ViewAndInterpretActivity : AppCompatActivity() {
@@ -24,24 +26,24 @@ class ViewAndInterpretActivity : AppCompatActivity() {
         /**
          * Verifica si existe progreso guardado
          */
-        fun hasSavedProgress(context: android.content.Context): Boolean {
-            val prefs = context.getSharedPreferences(PREFS_NAME, android.content.Context.MODE_PRIVATE)
+        fun hasSavedProgress(context: Context): Boolean {
+            val prefs = context.getSharedPreferences(PREFS_NAME, MODE_PRIVATE)
             return prefs.getBoolean(KEY_HAS_SAVED_PROGRESS, false)
         }
 
         /**
          * Verifica si el test fue completado anteriormente
          */
-        fun isTestCompleted(context: android.content.Context): Boolean {
-            val prefs = context.getSharedPreferences(PREFS_NAME, android.content.Context.MODE_PRIVATE)
+        fun isTestCompleted(context: Context): Boolean {
+            val prefs = context.getSharedPreferences(PREFS_NAME, MODE_PRIVATE)
             return prefs.getBoolean(KEY_TEST_COMPLETED, false)
         }
 
         /**
          * Carga el progreso guardado
          */
-        fun loadProgress(context: android.content.Context): Pair<Int, Int>? {
-            val prefs = context.getSharedPreferences(PREFS_NAME, android.content.Context.MODE_PRIVATE)
+        fun loadProgress(context: Context): Pair<Int, Int>? {
+            val prefs = context.getSharedPreferences(PREFS_NAME, MODE_PRIVATE)
             if (!prefs.getBoolean(KEY_HAS_SAVED_PROGRESS, false)) {
                 return null
             }
@@ -53,8 +55,8 @@ class ViewAndInterpretActivity : AppCompatActivity() {
         /**
          * Borra el progreso guardado
          */
-        fun clearProgress(context: android.content.Context) {
-            val prefs = context.getSharedPreferences(PREFS_NAME, android.content.Context.MODE_PRIVATE)
+        fun clearProgress(context: Context) {
+            val prefs = context.getSharedPreferences(PREFS_NAME, MODE_PRIVATE)
             prefs.edit().clear().apply()
         }
     }
@@ -197,7 +199,7 @@ class ViewAndInterpretActivity : AppCompatActivity() {
     }
 
     private fun saveProgress(testCompleted: Boolean = false) {
-        val prefs = getSharedPreferences(PREFS_NAME, android.content.Context.MODE_PRIVATE)
+        val prefs = getSharedPreferences(PREFS_NAME, MODE_PRIVATE)
         prefs.edit().apply {
             putBoolean(KEY_HAS_SAVED_PROGRESS, true)
             putBoolean(KEY_TEST_COMPLETED, testCompleted)

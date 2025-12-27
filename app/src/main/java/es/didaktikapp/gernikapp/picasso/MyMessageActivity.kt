@@ -1,6 +1,5 @@
-package es.didaktikapp.gernikapp
+package es.didaktikapp.gernikapp.picasso
 
-import android.content.Context
 import android.graphics.Color
 import android.os.Bundle
 import android.text.Editable
@@ -13,6 +12,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
+import es.didaktikapp.gernikapp.R
 import es.didaktikapp.gernikapp.databinding.ActivityMyMessageBinding
 import java.io.File
 
@@ -43,7 +43,7 @@ class MyMessageActivity : AppCompatActivity() {
     }
 
     private fun checkForSavedMessage() {
-        val prefs = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
+        val prefs = getSharedPreferences(PREFS_NAME, MODE_PRIVATE)
         val hasMessage = prefs.getBoolean(KEY_HAS_MESSAGE, false)
 
         if (hasMessage) {
@@ -115,7 +115,7 @@ class MyMessageActivity : AppCompatActivity() {
 
     private fun saveMessage(message: String) {
         // Guardar mensaje personal del usuario
-        val prefs = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
+        val prefs = getSharedPreferences(PREFS_NAME, MODE_PRIVATE)
         prefs.edit().apply {
             putBoolean(KEY_HAS_MESSAGE, true)
             putString(KEY_USER_MESSAGE, message)
@@ -131,7 +131,7 @@ class MyMessageActivity : AppCompatActivity() {
     }
 
     private fun clearSavedMessage() {
-        val prefs = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
+        val prefs = getSharedPreferences(PREFS_NAME, MODE_PRIVATE)
         prefs.edit().clear().apply()
     }
 
@@ -233,7 +233,7 @@ class MyMessageActivity : AppCompatActivity() {
     }
 
     private fun hideKeyboard() {
-        val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        val imm = getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
         imm.hideSoftInputFromWindow(binding.messageInput.windowToken, 0)
     }
 

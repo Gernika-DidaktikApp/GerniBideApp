@@ -5,8 +5,8 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F5F5F5"
-    tools:context=".PicassoActivity">
+    android:background="@drawable/fondo1"
+    tools:context=".picasso.PicassoActivity">
 
     <!-- Título principal -->
     <TextView
@@ -14,7 +14,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="150dp"
         android:layout_marginEnd="24dp"
         android:text="@string/picasso_title"
         android:textAlignment="center"

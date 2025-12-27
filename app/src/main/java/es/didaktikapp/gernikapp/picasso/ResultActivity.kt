@@ -1,10 +1,11 @@
-package es.didaktikapp.gernikapp
+package es.didaktikapp.gernikapp.picasso
 
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Canvas
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import es.didaktikapp.gernikapp.R
 import es.didaktikapp.gernikapp.databinding.ActivityResultBinding
 
 class ResultActivity : AppCompatActivity() {

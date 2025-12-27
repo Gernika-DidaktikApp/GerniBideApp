@@ -19,7 +19,7 @@
         android:theme="@style/Theme.GernikApp"
         android:usesCleartextTraffic="true">
         <activity
-            android:name=".PicassoActivity"
+            android:name=".picasso.PicassoActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -28,13 +28,14 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ColorPeaceActivity"
+            android:name=".picasso.ColorPeaceActivity"
+            android:exported="false"
+            android:screenOrientation="landscape" />
+        <activity
+            android:name=".picasso.ViewAndInterpretActivity"
             android:exported="false" />
         <activity
-            android:name=".ViewAndInterpretActivity"
-            android:exported="false" />
-        <activity
-            android:name=".ResultActivity"
+            android:name=".picasso.ResultActivity"
             android:exported="false" />
         <activity
             android:name=".LoginActivity"
@@ -51,7 +52,7 @@
             android:name=".MapaActivity"
             android:exported="false" />
         <activity
-            android:name=".MyMessageActivity"
+            android:name=".picasso.MyMessageActivity"
             android:exported="false" />
     </application>
 
