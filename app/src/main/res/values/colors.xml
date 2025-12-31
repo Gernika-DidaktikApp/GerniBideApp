@@ -4,7 +4,9 @@
     <color name="white">#FFFFFFFF</color>
     <color name="base">#E4F2EA</color>
     <color name="btnPrincipal">#8BC054</color>
+    <color name="btnPrincipalShadow">#6B9E3F</color>
     <color name="btnSecundario">#5F90DE</color>
+    <color name="btnSecundarioShadow">#3D6DBA</color>
     <color name="correcto">#6BCDBF</color>
     <color name="error">#F89F5B</color>
     <color name="aviso">#FBDB23</color>
@@ -12,5 +14,4 @@
     <color name="txtSecundario">#525C77</color>
     <color name="verdeArbol">#85C257</color>
     <color name="marronTronco">#A87457</color>
-
 </resources>
