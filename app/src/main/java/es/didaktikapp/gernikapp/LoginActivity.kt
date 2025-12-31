@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import es.didaktikapp.gernikapp.data.repository.AuthRepository
 import es.didaktikapp.gernikapp.databinding.ActivityLoginBinding
+import es.didaktikapp.gernikapp.picasso.PicassoActivity
 import es.didaktikapp.gernikapp.utils.Resource
 import kotlinx.coroutines.launch
 
@@ -23,10 +24,11 @@ class LoginActivity : AppCompatActivity() {
 
         authRepository = AuthRepository(this)
 
-        if (authRepository.hasActiveSession()) {
-            navigateToMain()
-            return
-        }
+        // TODO: Descomentar esto cuando termines de probar el login
+        // if (authRepository.hasActiveSession()) {
+        //     navigateToMain()
+        //     return
+        // }
 
         setupClickListeners()
     }
@@ -88,7 +90,7 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun navigateToMain() {
-        val intent = Intent(this, MainActivity::class.java)
+        val intent = Intent(this, PicassoActivity::class.java)
         startActivity(intent)
         finish()
     }

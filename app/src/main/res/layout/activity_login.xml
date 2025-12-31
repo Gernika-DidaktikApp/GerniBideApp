@@ -6,7 +6,7 @@
     android:orientation="vertical"
     android:gravity="center"
     android:padding="32dp"
-    android:background="@color/white">
+    android:background="@drawable/fondo2">
 
     <TextView
         android:layout_width="wrap_content"
@@ -25,7 +25,8 @@
         android:inputType="text"
         android:autofillHints="username"
         android:padding="16dp"
-        android:layout_marginBottom="16dp" />
+        android:layout_marginBottom="16dp"
+        android:background="@drawable/edit_text_background" />
 
     <EditText
         android:id="@+id/editTextPassword"
@@ -35,14 +36,16 @@
         android:inputType="textPassword"
         android:autofillHints="password"
         android:padding="16dp"
-        android:layout_marginBottom="24dp" />
+        android:layout_marginBottom="24dp"
+        android:background="@drawable/edit_text_background" />
 
-    <Button
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btnLogin"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/login_button"
         android:textSize="18sp"
-        android:padding="16dp" />
+        android:padding="16dp"
+        android:background="@drawable/bg_boton_primario" />
 
 </LinearLayout>
