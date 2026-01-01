@@ -139,6 +139,7 @@
     <string name="my_message_char_count">0/200</string>
     <string name="my_message_char_count_format">%d/200</string>
     <string name="my_message_send">Enviar</string>
+    <string name="my_message_back">Volver</string>
     <string name="my_message_messages_title">Mensajes de paz</string>
     <string name="my_message_error_empty">Por favor, escribe un mensaje</string>
     <string name="my_message_error_short">El mensaje es demasiado corto. Mínimo 10 caracteres</string>

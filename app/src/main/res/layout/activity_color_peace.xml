@@ -158,23 +158,23 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
 
-        <Button
+        <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/clearButton"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
             android:layout_weight="1"
             android:text="@string/color_peace_clear"
-            android:backgroundTint="#E57373" />
+            android:background="@drawable/bg_boton_secundario" />
 
-        <Button
+        <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/finishButton"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_weight="1"
             android:text="@string/color_peace_finish"
-            android:backgroundTint="#66BB6A" />
+            android:background="@drawable/bg_boton_primario" />
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

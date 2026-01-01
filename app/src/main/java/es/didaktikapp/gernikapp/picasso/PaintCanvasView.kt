@@ -14,6 +14,7 @@ import android.view.GestureDetector
 import android.view.MotionEvent
 import android.view.ScaleGestureDetector
 import android.view.View
+import es.didaktikapp.gernikapp.utils.Constants
 import java.io.File
 import java.io.FileOutputStream
 import kotlin.math.max
@@ -32,12 +33,12 @@ class PaintCanvasView @JvmOverloads constructor(
 
     private var currentPaint = Paint().apply {
         isAntiAlias = true
-        strokeWidth = 8f
+        strokeWidth = Constants.Paint.STROKE_WIDTH
         style = Paint.Style.STROKE
         strokeJoin = Paint.Join.ROUND
         strokeCap = Paint.Cap.ROUND
         color = Color.parseColor("#4FC3F7")
-        alpha = 100 // Semi-transparent para no tapar los trazos
+        alpha = Constants.Paint.ALPHA_VALUE
     }
 
     var currentColor: Int = Color.parseColor("#4FC3F7")
@@ -45,12 +46,12 @@ class PaintCanvasView @JvmOverloads constructor(
             field = value
             currentPaint = Paint().apply {
                 isAntiAlias = true
-                strokeWidth = 8f
+                strokeWidth = Constants.Paint.STROKE_WIDTH
                 style = Paint.Style.STROKE
                 strokeJoin = Paint.Join.ROUND
                 strokeCap = Paint.Cap.ROUND
                 color = value
-                alpha = 100 // Semi-transparent para no tapar los trazos
+                alpha = Constants.Paint.ALPHA_VALUE
             }
         }
 
@@ -179,7 +180,7 @@ class PaintCanvasView @JvmOverloads constructor(
     private inner class ScaleListener : ScaleGestureDetector.SimpleOnScaleGestureListener() {
         override fun onScale(detector: ScaleGestureDetector): Boolean {
             scaleFactor *= detector.scaleFactor
-            scaleFactor = max(0.5f, min(scaleFactor, 5.0f)) // Limitar zoom entre 0.5x y 5x
+            scaleFactor = max(Constants.Paint.MIN_ZOOM, min(scaleFactor, Constants.Paint.MAX_ZOOM))
             invalidate()
             return true
         }
@@ -281,7 +282,7 @@ class PaintCanvasView @JvmOverloads constructor(
          * @param filename Nombre del archivo a cargar
          * @return El bitmap cargado o null si no existe o hay error
          */
-        fun loadFromInternalStorage(context: Context, filename: String = "guernica_coloreado.png"): Bitmap? {
+        fun loadFromInternalStorage(context: Context, filename: String = Constants.Files.GUERNICA_IMAGE_FILENAME): Bitmap? {
             return try {
                 val file = File(context.filesDir, filename)
                 if (file.exists()) {
@@ -301,7 +302,7 @@ class PaintCanvasView @JvmOverloads constructor(
          * @param filename Nombre del archivo a verificar
          * @return true si existe, false en caso contrario
          */
-        fun hasSavedImage(context: Context, filename: String = "guernica_coloreado.png"): Boolean {
+        fun hasSavedImage(context: Context, filename: String = Constants.Files.GUERNICA_IMAGE_FILENAME): Boolean {
             val file = File(context.filesDir, filename)
             return file.exists()
         }

@@ -2,9 +2,7 @@ package es.didaktikapp.gernikapp.picasso
 
 import android.content.Intent
 import android.content.res.ColorStateList
-import android.graphics.Bitmap
 import android.graphics.BitmapFactory
-import android.graphics.Canvas
 import android.graphics.Color
 import android.os.Bundle
 import android.view.View
@@ -13,6 +11,8 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import es.didaktikapp.gernikapp.R
 import es.didaktikapp.gernikapp.databinding.ActivityColorPeaceBinding
+import es.didaktikapp.gernikapp.utils.BitmapUtils
+import es.didaktikapp.gernikapp.utils.Constants
 import java.io.File
 
 class ColorPeaceActivity : AppCompatActivity() {
@@ -55,7 +55,7 @@ class ColorPeaceActivity : AppCompatActivity() {
                 resources,
                 R.drawable.gernika_outlines
             )
-            val combinedBitmap = combineBitmapsForPreview(guernicaBitmap, savedBitmap)
+            val combinedBitmap = BitmapUtils.combineBitmapsWithScaling(guernicaBitmap, savedBitmap)
 
             binding.savedImagePreview.setImageBitmap(combinedBitmap)
             binding.savedImagePreview.visibility = View.VISIBLE
@@ -115,39 +115,12 @@ class ColorPeaceActivity : AppCompatActivity() {
     }
 
     private fun deleteSavedPainting() {
-        val file = File(filesDir, "guernica_coloreado.png")
+        val file = File(filesDir, Constants.Files.GUERNICA_IMAGE_FILENAME)
         if (file.exists()) {
             file.delete()
         }
     }
 
-    private fun combineBitmapsForPreview(background: Bitmap, foreground: Bitmap): Bitmap {
-        val width = foreground.width
-        val height = foreground.height
-        val combined = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
-        val canvas = Canvas(combined)
-
-        val bgWidth = background.width.toFloat()
-        val bgHeight = background.height.toFloat()
-        val fgWidth = width.toFloat()
-        val fgHeight = height.toFloat()
-
-        val scaleX = fgWidth / bgWidth
-        val scaleY = fgHeight / bgHeight
-        val scale = minOf(scaleX, scaleY)
-
-        val scaledWidth = (bgWidth * scale).toInt()
-        val scaledHeight = (bgHeight * scale).toInt()
-
-        val left = (width - scaledWidth) / 2f
-        val top = (height - scaledHeight) / 2f
-
-        val scaledBackground = Bitmap.createScaledBitmap(background, scaledWidth, scaledHeight, true)
-        canvas.drawBitmap(scaledBackground, left, top, null)
-        canvas.drawBitmap(foreground, 0f, 0f, null)
-
-        return combined
-    }
 
     private fun setupPaintableBounds() {
         // Esperar a que la vista se dibuje para calcular los límites
@@ -210,15 +183,6 @@ class ColorPeaceActivity : AppCompatActivity() {
         }
     }
 
-    private fun setupButtonListeners() {
-        binding.clearButton.setOnClickListener {
-            binding.paintCanvas.clearCanvas()
-        }
-
-        binding.finishButton.setOnClickListener {
-            saveAndFinish()
-        }
-    }
 
     private fun highlightSelectedColor(selectedView: View) {
         // Resetear la escala de todos los colores
@@ -226,8 +190,7 @@ class ColorPeaceActivity : AppCompatActivity() {
         binding.colorBlue.scaleY = 1f
         binding.colorGreen.scaleX = 1f
         binding.colorGreen.scaleY = 1f
-        binding.
-        colorYellow.scaleX = 1f
+        binding.colorYellow.scaleX = 1f
         binding.colorYellow.scaleY = 1f
         binding.colorPink.scaleX = 1f
         binding.colorPink.scaleY = 1f

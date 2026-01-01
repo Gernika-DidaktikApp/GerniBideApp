@@ -14,6 +14,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
 import es.didaktikapp.gernikapp.R
 import es.didaktikapp.gernikapp.databinding.ActivityMyMessageBinding
+import es.didaktikapp.gernikapp.utils.Constants
 import java.io.File
 
 class MyMessageActivity : AppCompatActivity() {
@@ -21,7 +22,7 @@ class MyMessageActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMyMessageBinding
 
     private val messagesFile by lazy {
-        File(getExternalFilesDir(null), "peace_messages.txt")
+        File(getExternalFilesDir(null), Constants.Files.PEACE_MESSAGES_FILENAME)
     }
 
     companion object {
@@ -38,6 +39,7 @@ class MyMessageActivity : AppCompatActivity() {
 
         setupCharacterCounter()
         setupSendButton()
+        setupBackButton()
         checkForSavedMessage()
         loadMessages()
     }
@@ -84,6 +86,12 @@ class MyMessageActivity : AppCompatActivity() {
         }
     }
 
+    private fun setupBackButton() {
+        binding.backButton.setOnClickListener {
+            finish()
+        }
+    }
+
     private fun sendMessage() {
         val message = binding.messageInput.text.toString().trim()
 
@@ -92,7 +100,7 @@ class MyMessageActivity : AppCompatActivity() {
             return
         }
 
-        if (message.length < 10) {
+        if (message.length < Constants.Messages.MIN_MESSAGE_LENGTH) {
             Toast.makeText(this, getString(R.string.my_message_error_short), Toast.LENGTH_SHORT).show()
             return
         }
@@ -143,7 +151,7 @@ class MyMessageActivity : AppCompatActivity() {
         }
 
         try {
-            val messages = messagesFile.readLines().filter { it.isNotBlank() }.takeLast(20).reversed()
+            val messages = messagesFile.readLines().filter { it.isNotBlank() }.takeLast(Constants.Messages.MAX_DISPLAYED_MESSAGES).reversed()
 
             if (messages.isEmpty()) {
                 addEmptyStateMessage()

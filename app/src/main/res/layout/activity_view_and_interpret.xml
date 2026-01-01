@@ -93,43 +93,59 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/questionText">
 
-            <Button
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/option1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="12dp"
                 android:minHeight="60dp"
                 android:textSize="16sp"
-                android:backgroundTint="#ECEFF1"
+                android:textColor="@color/txtPrincipal"
+                android:background="@drawable/bg_opcion_normal"
+                android:textAlignment="textStart"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
                 tools:text="Opción 1" />
 
-            <Button
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/option2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="12dp"
                 android:minHeight="60dp"
                 android:textSize="16sp"
-                android:backgroundTint="#ECEFF1"
+                android:textColor="@color/txtPrincipal"
+                android:background="@drawable/bg_opcion_normal"
+                android:textAlignment="textStart"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
                 tools:text="Opción 2" />
 
-            <Button
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/option3"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="12dp"
                 android:minHeight="60dp"
                 android:textSize="16sp"
-                android:backgroundTint="#ECEFF1"
+                android:textColor="@color/txtPrincipal"
+                android:background="@drawable/bg_opcion_normal"
+                android:textAlignment="textStart"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
                 tools:text="Opción 3" />
 
-            <Button
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/option4"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:minHeight="60dp"
                 android:textSize="16sp"
-                android:backgroundTint="#ECEFF1"
+                android:textColor="@color/txtPrincipal"
+                android:background="@drawable/bg_opcion_normal"
+                android:textAlignment="textStart"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
                 tools:text="Opción 4" />
         </LinearLayout>
 
@@ -153,7 +169,7 @@
             tools:visibility="visible" />
 
         <!-- Botón siguiente -->
-        <Button
+        <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/nextButton"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -163,7 +179,7 @@
             android:text="@string/view_interpret_next"
             android:textSize="18sp"
             android:visibility="gone"
-            android:backgroundTint="#66BB6A"
+            android:background="@drawable/bg_boton_primario"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />

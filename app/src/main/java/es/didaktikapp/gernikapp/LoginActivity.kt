@@ -24,11 +24,10 @@ class LoginActivity : AppCompatActivity() {
 
         authRepository = AuthRepository(this)
 
-        // TODO: Descomentar esto cuando termines de probar el login
-        // if (authRepository.hasActiveSession()) {
-        //     navigateToMain()
-        //     return
-        // }
+        if (authRepository.hasActiveSession()) {
+            navigateToMain()
+            return
+        }
 
         setupClickListeners()
     }

@@ -136,6 +136,7 @@
     <string name="my_message_char_count">0/200</string>
     <string name="my_message_char_count_format">%d/200</string>
     <string name="my_message_send">Bidali</string>
+    <string name="my_message_back">Atzera</string>
     <string name="my_message_messages_title">Bakeko mezuak</string>
     <string name="my_message_error_empty">Mesedez, idatzi mezu bat</string>
     <string name="my_message_error_short">Mezua laburregia da. Gutxienez 10 karaktere</string>

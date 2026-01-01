@@ -1,12 +1,11 @@
 package es.didaktikapp.gernikapp.picasso
 
-import android.graphics.Bitmap
 import android.graphics.BitmapFactory
-import android.graphics.Canvas
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import es.didaktikapp.gernikapp.R
 import es.didaktikapp.gernikapp.databinding.ActivityResultBinding
+import es.didaktikapp.gernikapp.utils.BitmapUtils
 
 class ResultActivity : AppCompatActivity() {
 
@@ -31,7 +30,7 @@ class ResultActivity : AppCompatActivity() {
             val guernicaBitmap = BitmapFactory.decodeResource(resources, R.drawable.gernika_outlines)
 
             // Combinar las dos imágenes
-            val combinedBitmap = combineBitmaps(guernicaBitmap, savedBitmap)
+            val combinedBitmap = BitmapUtils.combineBitmapsWithScaling(guernicaBitmap, savedBitmap)
 
             // Mostrar la imagen combinada
             binding.resultImage.setImageBitmap(combinedBitmap)
@@ -41,43 +40,6 @@ class ResultActivity : AppCompatActivity() {
         }
     }
 
-    private fun combineBitmaps(background: Bitmap, foreground: Bitmap): Bitmap {
-        // Ambas imágenes ahora deberían tener el mismo aspect ratio del Guernica
-        // Usar las dimensiones del foreground como base
-        val width = foreground.width
-        val height = foreground.height
-
-        val combined = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
-        val canvas = Canvas(combined)
-
-        // Escalar el background manteniendo el aspect ratio
-        val bgWidth = background.width.toFloat()
-        val bgHeight = background.height.toFloat()
-        val fgWidth = width.toFloat()
-        val fgHeight = height.toFloat()
-
-        // Calcular escala manteniendo aspect ratio
-        val scaleX = fgWidth / bgWidth
-        val scaleY = fgHeight / bgHeight
-        val scale = minOf(scaleX, scaleY)
-
-        val scaledWidth = (bgWidth * scale).toInt()
-        val scaledHeight = (bgHeight * scale).toInt()
-
-        // Centrar la imagen escalada
-        val left = (width - scaledWidth) / 2f
-        val top = (height - scaledHeight) / 2f
-
-        val scaledBackground = Bitmap.createScaledBitmap(background, scaledWidth, scaledHeight, true)
-
-        // Dibujar el background primero
-        canvas.drawBitmap(scaledBackground, left, top, null)
-
-        // Dibujar el foreground (painted content) encima
-        canvas.drawBitmap(foreground, 0f, 0f, null)
-
-        return combined
-    }
 
     private fun setupClickListeners() {
         binding.btnClose.setOnClickListener {

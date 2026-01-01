@@ -267,8 +267,8 @@ class ViewAndInterpretActivity : AppCompatActivity() {
         val options = listOf(binding.option1, binding.option2, binding.option3, binding.option4)
         options.forEach { button ->
             button.isEnabled = true
-            button.setBackgroundColor(Color.parseColor("#ECEFF1"))
-            button.setTextColor(Color.parseColor("#000000"))
+            button.setBackgroundResource(R.drawable.bg_opcion_normal)
+            button.setTextColor(Color.parseColor("#39455F")) // txtPrincipal
         }
     }
 
@@ -281,19 +281,19 @@ class ViewAndInterpretActivity : AppCompatActivity() {
 
         if (selectedIndex == question.correctAnswerIndex) {
             // Respuesta correcta
-            selectedButton.setBackgroundColor(Color.parseColor("#66BB6A"))
-            selectedButton.setTextColor(Color.WHITE)
+            selectedButton.setBackgroundResource(R.drawable.bg_opcion_correcta)
+            selectedButton.setTextColor(Color.parseColor("#2E7D32"))
             binding.feedbackText.text = getStringByKey(question.feedbackKey)
             binding.feedbackText.setTextColor(Color.parseColor("#2E7D32"))
             correctAnswers++
         } else {
             // Respuesta incorrecta
-            selectedButton.setBackgroundColor(Color.parseColor("#E57373"))
-            selectedButton.setTextColor(Color.WHITE)
+            selectedButton.setBackgroundResource(R.drawable.bg_opcion_incorrecta)
+            selectedButton.setTextColor(Color.parseColor("#D84315"))
 
             // Mostrar la respuesta correcta
-            options[question.correctAnswerIndex].setBackgroundColor(Color.parseColor("#66BB6A"))
-            options[question.correctAnswerIndex].setTextColor(Color.WHITE)
+            options[question.correctAnswerIndex].setBackgroundResource(R.drawable.bg_opcion_correcta)
+            options[question.correctAnswerIndex].setTextColor(Color.parseColor("#2E7D32"))
 
             val correctOption = getStringByKey(question.optionsKeys[question.correctAnswerIndex])
             val feedback = getStringByKey(question.feedbackKey)

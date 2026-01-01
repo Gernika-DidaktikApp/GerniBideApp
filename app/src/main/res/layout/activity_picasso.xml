@@ -9,12 +9,15 @@
     tools:context=".picasso.PicassoActivity">
 
     <!-- Título principal -->
+
+    <!-- Subtítulo -->
+
     <TextView
         android:id="@+id/mainTitle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
-        android:layout_marginTop="150dp"
+        android:layout_marginTop="224dp"
         android:layout_marginEnd="24dp"
         android:text="@string/picasso_title"
         android:textAlignment="center"
@@ -22,10 +25,10 @@
         android:textSize="32sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <!-- Subtítulo -->
     <TextView
         android:id="@+id/subtitle"
         android:layout_width="0dp"
@@ -42,53 +45,34 @@
         app:layout_constraintTop_toBottomOf="@id/mainTitle" />
 
     <!-- Imagen del Guernica -->
-    <androidx.cardview.widget.CardView
-        android:id="@+id/guernicaCard"
-        android:layout_width="0dp"
-        android:layout_height="200dp"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="24dp"
-        android:layout_marginEnd="24dp"
-        app:cardCornerRadius="16dp"
-        app:cardElevation="8dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/subtitle">
-
-        <ImageView
-            android:id="@+id/guernicaImage"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:contentDescription="@string/picasso_guernica_description"
-            android:scaleType="centerCrop"
-            android:src="@drawable/guernica_gray" />
-    </androidx.cardview.widget.CardView>
 
     <!-- Botón Actividad 1 -->
-    <Button
+
+    <!-- Botón Actividad 2 -->
+
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btnKolorezBakea"
         android:layout_width="0dp"
         android:layout_height="80dp"
         android:layout_marginStart="24dp"
-        android:layout_marginTop="32dp"
         android:layout_marginEnd="24dp"
-        android:backgroundTint="#4FC3F7"
+        android:background="@drawable/bg_boton_primario"
         android:text="@string/picasso_activity_1"
         android:textSize="18sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/guernicaCard" />
+        app:layout_constraintTop_toBottomOf="@+id/subtitle" />
 
-    <!-- Botón Actividad 2 -->
-    <Button
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btnIkusiEtaAsmatu"
         android:layout_width="0dp"
         android:layout_height="80dp"
         android:layout_marginStart="24dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="24dp"
-        android:backgroundTint="#FFA726"
+        android:background="@drawable/bg_boton_primario"
         android:text="@string/picasso_activity_2"
         android:textSize="18sp"
         android:textStyle="bold"
@@ -97,14 +81,14 @@
         app:layout_constraintTop_toBottomOf="@id/btnKolorezBakea" />
 
     <!-- Botón Actividad 3 -->
-    <Button
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btnNireMezua"
         android:layout_width="0dp"
         android:layout_height="80dp"
         android:layout_marginStart="24dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="24dp"
-        android:backgroundTint="#66BB6A"
+        android:background="@drawable/bg_boton_primario"
         android:text="@string/picasso_activity_3"
         android:textSize="18sp"
         android:textStyle="bold"
