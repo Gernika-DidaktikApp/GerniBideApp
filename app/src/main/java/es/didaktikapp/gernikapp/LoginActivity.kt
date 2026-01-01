@@ -23,10 +23,10 @@ class LoginActivity : AppCompatActivity() {
 
         authRepository = AuthRepository(this)
 
-        if (authRepository.hasActiveSession()) {
-            navigateToMain()
-            return
-        }
+//        if (authRepository.hasActiveSession()) {
+//            navigateToMain()
+//            return
+//        }
 
         setupClickListeners()
     }
