@@ -1,3 +1,27 @@
 <resources>
     <string name="app_name">GernikApp</string>
+
+    <!-- Plaza Gernika Module -->
+    <!-- Pantalla de Video -->
+    <string name="plaza_titulo">Gernikako Plaza</string>
+    <string name="siguiente">Siguiente</string>
+
+    <!-- Pantalla Arrastrar Productos -->
+    <string name="arrastra_productos_titulo">Produktuak postuan jarri</string>
+    <string name="arrastra_instrucciones">Arrastra cada producto al puesto correcto</string>
+    <string name="puesto_lacteos">Esnekiak</string>
+    <string name="puesto_verduras">Barazkiak</string>
+    <string name="puesto_panaderia">Ogia</string>
+
+    <!-- Pantalla de Versos -->
+    <string name="verso_titulo">Bertsoak</string>
+    <string name="comprobar">Comprobar</string>
+    <string name="aciertos">Aciertos: 0/3</string>
+
+    <!-- Pantalla de Fotos -->
+    <string name="foto_mision_titulo">Argazki Misioak</string>
+    <string name="foto_mision_descripcion">Completa las misiones fotográficas</string>
+    <string name="finalizar">Finalizar</string>
+    <string name="mision_icono">Icono de misión</string>
+    <string name="tomar_foto">Tomar foto</string>
 </resources>
