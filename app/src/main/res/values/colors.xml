@@ -14,4 +14,6 @@
     <color name="txtSecundario">#525C77</color>
     <color name="verdeArbol">#85C257</color>
     <color name="marronTronco">#A87457</color>
+    <color name="btnDisabled">#CCCCCC</color>
+    <color name="btnDisabledShadow">#999999</color>
 </resources>
