@@ -4,14 +4,12 @@ import android.content.ClipData
 import android.content.Intent
 import android.media.MediaPlayer
 import android.os.Bundle
-import android.util.Log
 import android.view.DragEvent
 import android.view.View
 import android.widget.Button
 import android.widget.GridLayout
 import android.widget.ImageView
 import android.widget.LinearLayout
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.core.content.ContextCompat
@@ -26,6 +24,7 @@ class ArrastrProductosActivity : AppCompatActivity() {
     private val productos = mutableListOf<Producto>()
     private var productosColocados = 0
     private var mediaPlayer: MediaPlayer? = null
+    private var sonidoAcierto: MediaPlayer? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,6 +46,7 @@ class ArrastrProductosActivity : AppCompatActivity() {
             isLooping = true
             setVolume(0.7f, 0.7f)
         }
+        sonidoAcierto = MediaPlayer.create(this, R.raw.plaza_acierto)
     }
 
     override fun onResume() {
@@ -63,6 +63,8 @@ class ArrastrProductosActivity : AppCompatActivity() {
         super.onDestroy()
         mediaPlayer?.release()
         mediaPlayer = null
+        sonidoAcierto?.release()
+        sonidoAcierto = null
     }
 
     private fun configurarScrollView() {
@@ -162,13 +164,11 @@ class ArrastrProductosActivity : AppCompatActivity() {
                 setOnTouchListener { v, event ->
                     when (event.action) {
                         android.view.MotionEvent.ACTION_DOWN -> {
-                            Log.d("ArrastrProductos", "Touch DOWN en ${producto.nombreEuskera}")
                             // Cancelar el scroll del ScrollView
                             parent.requestDisallowInterceptTouchEvent(true)
 
                             // Iniciar temporizador para long press
                             longPressHandler = Runnable {
-                                Log.d("ArrastrProductos", "Long press detectado!")
                                 onProductoLongClick(v)
                             }
                             postDelayed(longPressHandler, 500) // 500ms para long press
@@ -179,7 +179,6 @@ class ArrastrProductosActivity : AppCompatActivity() {
                             false
                         }
                         android.view.MotionEvent.ACTION_UP, android.view.MotionEvent.ACTION_CANCEL -> {
-                            Log.d("ArrastrProductos", "Touch UP/CANCEL")
                             // Permitir que el ScrollView intercepte de nuevo
                             parent.requestDisallowInterceptTouchEvent(false)
                             // Cancelar el temporizador
@@ -197,9 +196,6 @@ class ArrastrProductosActivity : AppCompatActivity() {
 
     private fun onProductoLongClick(view: View): Boolean {
         val producto = view.tag as Producto
-        Log.d("ArrastrProductos", "Long click detectado en: ${producto.nombreEuskera}")
-        Toast.makeText(this, "Arrastrando ${producto.nombreEuskera}", Toast.LENGTH_SHORT).show()
-
         val clipData = ClipData.newPlainText("producto", producto.id.toString())
         val shadowBuilder = View.DragShadowBuilder(view)
 
@@ -232,29 +228,23 @@ class ArrastrProductosActivity : AppCompatActivity() {
     private fun onPuestoDrag(view: View, event: DragEvent, categoriaEsperada: CategoriaProducto): Boolean {
         when (event.action) {
             DragEvent.ACTION_DRAG_STARTED -> {
-                Log.d("ArrastrProductos", "DRAG_STARTED en puesto $categoriaEsperada")
                 return true
             }
             DragEvent.ACTION_DRAG_ENTERED -> {
-                Log.d("ArrastrProductos", "DRAG_ENTERED en puesto $categoriaEsperada")
                 view.alpha = 0.7f
                 return true
             }
             DragEvent.ACTION_DRAG_EXITED -> {
-                Log.d("ArrastrProductos", "DRAG_EXITED de puesto $categoriaEsperada")
                 view.alpha = 1.0f
                 return true
             }
             DragEvent.ACTION_DROP -> {
-                Log.d("ArrastrProductos", "DROP en puesto $categoriaEsperada")
                 view.alpha = 1.0f
                 val draggedView = event.localState as AppCompatImageView
                 val producto = draggedView.tag as Producto
 
                 if (producto.categoria == categoriaEsperada) {
                     // Respuesta correcta
-                    Log.d("ArrastrProductos", "Correcto! ${producto.nombreEuskera} -> $categoriaEsperada")
-                    Toast.makeText(this, "Oso ondo!", Toast.LENGTH_SHORT).show()
                     mostrarFeedbackCorrecto(view)
                     draggedView.visibility = View.GONE
                     productosColocados++
@@ -264,15 +254,12 @@ class ArrastrProductosActivity : AppCompatActivity() {
                     }
                 } else {
                     // Respuesta incorrecta
-                    Log.d("ArrastrProductos", "Incorrecto! ${producto.nombreEuskera} -> $categoriaEsperada (esperaba ${producto.categoria})")
-                    Toast.makeText(this, "Ez da zuzena", Toast.LENGTH_SHORT).show()
                     mostrarFeedbackIncorrecto(view)
                     draggedView.visibility = View.VISIBLE
                 }
                 return true
             }
             DragEvent.ACTION_DRAG_ENDED -> {
-                Log.d("ArrastrProductos", "DRAG_ENDED, result: ${event.result}")
                 view.alpha = 1.0f
                 if (!event.result) {
                     // No se hizo drop en ningún puesto válido
@@ -292,6 +279,14 @@ class ArrastrProductosActivity : AppCompatActivity() {
         view.postDelayed({
             view.setBackgroundResource(R.drawable.plaza_bg_puesto)
         }, 500)
+
+        // Reproducir sonido de acierto
+        sonidoAcierto?.apply {
+            if (isPlaying) {
+                seekTo(0)
+            }
+            start()
+        }
     }
 
     private fun mostrarFeedbackIncorrecto(view: View) {
