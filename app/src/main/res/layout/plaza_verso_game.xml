@@ -74,7 +74,8 @@
             android:padding="16dp"
             android:layout_marginBottom="8dp"
             android:layout_gravity="center"
-            android:background="@drawable/plaza_bg_producto" />
+            android:button="@null"
+            android:background="@drawable/plaza_bg_producto_selector" />
 
         <RadioButton
             android:id="@+id/rbOpcion2"
@@ -86,7 +87,8 @@
             android:padding="16dp"
             android:layout_marginBottom="8dp"
             android:layout_gravity="center"
-            android:background="@drawable/plaza_bg_producto" />
+            android:button="@null"
+            android:background="@drawable/plaza_bg_producto_selector" />
 
         <RadioButton
             android:id="@+id/rbOpcion3"
@@ -97,7 +99,8 @@
             android:textColor="@color/txtPrincipal"
             android:padding="16dp"
             android:layout_gravity="center"
-            android:background="@drawable/plaza_bg_producto" />
+            android:button="@null"
+            android:background="@drawable/plaza_bg_producto_selector" />
     </RadioGroup>
 
     <Button
