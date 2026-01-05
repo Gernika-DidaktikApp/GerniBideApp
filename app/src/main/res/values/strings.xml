@@ -15,6 +15,9 @@
     <string name="puesto_panaderia">Ogia</string>
     <string name="puesto_natural">Naturala</string>
     <string name="puesto_artesania">Artisautza</string>
+    <string name="completado_titulo">Bikain!</string>
+    <string name="completado_mensaje">Azoka prest! Gernika bizirik dago!</string>
+    <string name="jarraitu">Jarraitu</string>
 
     <!-- Productos -->
     <string name="producto_gazta">Gazta</string>

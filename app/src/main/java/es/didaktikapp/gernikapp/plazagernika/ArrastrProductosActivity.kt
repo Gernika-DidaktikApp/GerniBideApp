@@ -12,6 +12,7 @@ import android.widget.FrameLayout
 import android.widget.GridLayout
 import android.widget.ImageView
 import android.widget.LinearLayout
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.core.content.ContextCompat
@@ -288,6 +289,7 @@ class ArrastrProductosActivity : AppCompatActivity() {
 
                     if (productosColocados >= productos.size) {
                         btnSiguiente.isEnabled = true
+                        mostrarMensajeCompletado()
                     }
                 } else {
                     // Respuesta incorrecta
@@ -324,6 +326,20 @@ class ArrastrProductosActivity : AppCompatActivity() {
             }
             start()
         }
+    }
+
+    private fun mostrarMensajeCompletado() {
+        // Mostrar el diálogo después de un pequeño delay para que se vea el último acierto
+        gridProductos.postDelayed({
+            AlertDialog.Builder(this)
+                .setTitle(R.string.completado_titulo)
+                .setMessage(R.string.completado_mensaje)
+                .setPositiveButton(R.string.jarraitu) { dialog, _ ->
+                    dialog.dismiss()
+                }
+                .setCancelable(false)
+                .show()
+        }, 800)
     }
 
     private fun mostrarFeedbackIncorrecto(view: View) {
