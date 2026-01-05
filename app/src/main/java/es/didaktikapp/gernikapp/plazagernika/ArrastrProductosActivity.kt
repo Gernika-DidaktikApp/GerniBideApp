@@ -246,7 +246,7 @@ class ArrastrProductosActivity : AppCompatActivity() {
                 if (producto.categoria == categoriaEsperada) {
                     // Respuesta correcta
                     mostrarFeedbackCorrecto(view)
-                    draggedView.visibility = View.GONE
+                    draggedView.visibility = View.INVISIBLE // Mantener el espacio en el grid
                     productosColocados++
 
                     if (productosColocados >= productos.size) {
@@ -264,7 +264,7 @@ class ArrastrProductosActivity : AppCompatActivity() {
                 if (!event.result) {
                     // No se hizo drop en ningún puesto válido
                     val draggedView = event.localState as AppCompatImageView
-                    if (draggedView.visibility != View.GONE) {
+                    if (draggedView.visibility == View.INVISIBLE) {
                         draggedView.visibility = View.VISIBLE
                     }
                 }
