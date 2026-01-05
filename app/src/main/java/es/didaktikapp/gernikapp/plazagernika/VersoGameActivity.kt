@@ -131,6 +131,7 @@ class VersoGameActivity : AppCompatActivity() {
 
         if (selectedIndex == pregunta.respuestaCorrecta) {
             aciertos++
+            tvAciertos.text = "Aciertos: $aciertos/${preguntas.size}"
             mostrarFeedbackCorrecto(selectedId)
         } else {
             mostrarFeedbackIncorrecto(selectedId)
