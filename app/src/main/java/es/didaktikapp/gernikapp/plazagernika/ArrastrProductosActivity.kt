@@ -7,13 +7,13 @@ import android.os.Bundle
 import android.util.Log
 import android.view.DragEvent
 import android.view.View
-import android.view.ViewGroup
 import android.widget.Button
 import android.widget.GridLayout
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.AppCompatImageView
 import androidx.core.content.ContextCompat
 import es.didaktikapp.gernikapp.R
 import es.didaktikapp.gernikapp.plazagernika.models.CategoriaProducto
@@ -122,7 +122,12 @@ class ArrastrProductosActivity : AppCompatActivity() {
         val itemSize = (availableWidth - totalMargins) / 4
 
         productos.forEachIndexed { index, producto ->
-            val imageView = ImageView(this).apply {
+            val imageView = object : AppCompatImageView(this) {
+                override fun performClick(): Boolean {
+                    super.performClick()
+                    return true
+                }
+            }.apply {
                 // Calcular posición en la cuadrícula
                 val row = index / 4
                 val col = index % 4
@@ -179,6 +184,7 @@ class ArrastrProductosActivity : AppCompatActivity() {
                             parent.requestDisallowInterceptTouchEvent(false)
                             // Cancelar el temporizador
                             longPressHandler?.let { removeCallbacks(it) }
+                            performClick() // Para accesibilidad
                             false
                         }
                         else -> false
@@ -242,7 +248,7 @@ class ArrastrProductosActivity : AppCompatActivity() {
             DragEvent.ACTION_DROP -> {
                 Log.d("ArrastrProductos", "DROP en puesto $categoriaEsperada")
                 view.alpha = 1.0f
-                val draggedView = event.localState as ImageView
+                val draggedView = event.localState as AppCompatImageView
                 val producto = draggedView.tag as Producto
 
                 if (producto.categoria == categoriaEsperada) {
@@ -270,7 +276,7 @@ class ArrastrProductosActivity : AppCompatActivity() {
                 view.alpha = 1.0f
                 if (!event.result) {
                     // No se hizo drop en ningún puesto válido
-                    val draggedView = event.localState as ImageView
+                    val draggedView = event.localState as AppCompatImageView
                     if (draggedView.visibility != View.GONE) {
                         draggedView.visibility = View.VISIBLE
                     }
