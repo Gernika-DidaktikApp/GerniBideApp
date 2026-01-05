@@ -9,10 +9,28 @@
 
     <!-- Pantalla Arrastrar Productos -->
     <string name="arrastra_productos_titulo">Produktuak postuan jarri</string>
-    <string name="arrastra_instrucciones">Arrastra cada producto al puesto correcto</string>
+    <string name="arrastra_instrucciones">Arrastatu produktu bakoitza dagozkion postura</string>
     <string name="puesto_lacteos">Esnekiak</string>
     <string name="puesto_verduras">Barazkiak</string>
     <string name="puesto_panaderia">Ogia</string>
+    <string name="puesto_natural">Naturala</string>
+    <string name="puesto_artesania">Artisautza</string>
+
+    <!-- Productos -->
+    <string name="producto_gazta">Gazta</string>
+    <string name="producto_esnea">Esnea</string>
+    <string name="producto_jogurta">Jogurta</string>
+    <string name="producto_piperrak">Piperrak</string>
+    <string name="producto_kipula">Tipula</string>
+    <string name="producto_indabak">Indabak</string>
+    <string name="producto_ogi_otzara">Ogia</string>
+    <string name="producto_madalenak">Madalenak</string>
+    <string name="producto_pastela">Pastela</string>
+    <string name="producto_eztia">Eztia</string>
+    <string name="producto_polena">Polena</string>
+    <string name="producto_esku_lanak">Egurrezko Lanak</string>
+    <string name="producto_ontziak">Burdinazko Ontziak</string>
+    <string name="producto_zestak">Zestak</string>
 
     <!-- Pantalla de Versos -->
     <string name="verso_titulo">Bertsoak</string>
