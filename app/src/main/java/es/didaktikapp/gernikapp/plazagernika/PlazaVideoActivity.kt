@@ -1,6 +1,7 @@
 package es.didaktikapp.gernikapp.plazagernika
 
 import android.content.Intent
+import android.graphics.drawable.TransitionDrawable
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -11,6 +12,7 @@ import android.widget.SeekBar
 import android.widget.TextView
 import android.widget.VideoView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import es.didaktikapp.gernikapp.R
 import java.util.Locale
@@ -63,7 +65,7 @@ class PlazaVideoActivity : AppCompatActivity() {
 
         // Habilitar botón cuando el video termine
         videoView.setOnCompletionListener {
-            btnSiguiente.isEnabled = true
+            enableButtonWithTransition()
             updatePlayPauseButton()
         }
 
@@ -134,6 +136,17 @@ class PlazaVideoActivity : AppCompatActivity() {
         btnSiguiente.setOnClickListener {
             val intent = Intent(this, ArrastrProductosActivity::class.java)
             startActivity(intent)
+        }
+    }
+
+    private fun enableButtonWithTransition() {
+        val transition = ContextCompat.getDrawable(this, R.drawable.bg_boton_primario_transition) as? TransitionDrawable
+        if (transition != null) {
+            btnSiguiente.background = transition
+            btnSiguiente.isEnabled = true
+            transition.startTransition(600)
+        } else {
+            btnSiguiente.isEnabled = true
         }
     }
 
