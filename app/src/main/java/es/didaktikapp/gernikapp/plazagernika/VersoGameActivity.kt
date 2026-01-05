@@ -155,12 +155,12 @@ class VersoGameActivity : AppCompatActivity() {
 
     private fun mostrarFeedbackCorrecto(selectedId: Int) {
         val radioButton = findViewById<RadioButton>(selectedId)
-        radioButton.setTextColor(ContextCompat.getColor(this, R.color.correcto))
+        radioButton.setBackgroundResource(R.drawable.plaza_bg_correcto)
     }
 
     private fun mostrarFeedbackIncorrecto(selectedId: Int) {
         val radioButton = findViewById<RadioButton>(selectedId)
-        radioButton.setTextColor(ContextCompat.getColor(this, R.color.error))
+        radioButton.setBackgroundResource(R.drawable.plaza_bg_incorrecto)
     }
 
     private fun resaltarRespuestaCorrecta(correcta: Int) {
@@ -170,7 +170,7 @@ class VersoGameActivity : AppCompatActivity() {
             2 -> rbOpcion3
             else -> return
         }
-        correctRadioButton.setTextColor(ContextCompat.getColor(this, R.color.correcto))
+        correctRadioButton.setBackgroundResource(R.drawable.plaza_bg_correcto)
     }
 
     private fun habilitarOpciones(enabled: Boolean) {
@@ -181,6 +181,9 @@ class VersoGameActivity : AppCompatActivity() {
             rbOpcion1.setTextColor(ContextCompat.getColor(this, R.color.txtPrincipal))
             rbOpcion2.setTextColor(ContextCompat.getColor(this, R.color.txtPrincipal))
             rbOpcion3.setTextColor(ContextCompat.getColor(this, R.color.txtPrincipal))
+            rbOpcion1.setBackgroundResource(R.drawable.plaza_bg_producto_selector)
+            rbOpcion2.setBackgroundResource(R.drawable.plaza_bg_producto_selector)
+            rbOpcion3.setBackgroundResource(R.drawable.plaza_bg_producto_selector)
         }
     }
 
