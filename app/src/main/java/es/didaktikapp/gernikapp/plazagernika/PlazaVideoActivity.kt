@@ -1,42 +1,52 @@
 package es.didaktikapp.gernikapp.plazagernika
 
 import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.widget.Button
-import android.widget.MediaController
+import android.widget.ImageButton
 import android.widget.ProgressBar
+import android.widget.SeekBar
+import android.widget.TextView
 import android.widget.VideoView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import es.didaktikapp.gernikapp.R
+import java.util.Locale
+import androidx.core.net.toUri
 
 class PlazaVideoActivity : AppCompatActivity() {
 
     private lateinit var videoView: VideoView
+    private lateinit var btnPlayPause: ImageButton
+    private lateinit var seekBar: SeekBar
+    private lateinit var tvTime: TextView
     private lateinit var btnSiguiente: Button
     private lateinit var progressBar: ProgressBar
+
+    private val handler = Handler(Looper.getMainLooper())
+    private var isTracking = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.plaza_video)
 
         videoView = findViewById(R.id.videoView)
+        btnPlayPause = findViewById(R.id.btnPlayPause)
+        seekBar = findViewById(R.id.seekBar)
+        tvTime = findViewById(R.id.tvTime)
         btnSiguiente = findViewById(R.id.btnSiguiente)
         progressBar = findViewById(R.id.progressBar)
 
         setupVideoPlayer()
+        setupVideoControls()
         setupButtons()
     }
 
     private fun setupVideoPlayer() {
-        // Configurar MediaController para controles de video
-        val mediaController = MediaController(this)
-        mediaController.setAnchorView(videoView)
-        videoView.setMediaController(mediaController)
-
         // Cargar el video desde raw resources
-        val videoUri = Uri.parse("android.resource://${packageName}/${R.raw.plaza}")
+        val videoUri = "android.resource://${packageName}/${R.raw.plaza}".toUri()
         videoView.setVideoURI(videoUri)
 
         // Mostrar loading mientras se prepara el video
@@ -44,19 +54,80 @@ class PlazaVideoActivity : AppCompatActivity() {
 
         videoView.setOnPreparedListener {
             progressBar.isVisible = false
+            seekBar.max = videoView.duration
+            updateTimeDisplay()
             videoView.start()
+            updatePlayPauseButton()
+            updateSeekBar()
         }
 
         // Habilitar botón cuando el video termine
         videoView.setOnCompletionListener {
             btnSiguiente.isEnabled = true
+            updatePlayPauseButton()
         }
 
         videoView.setOnErrorListener { _, _, _ ->
             progressBar.isVisible = false
-            btnSiguiente.isEnabled = true // Permitir continuar incluso si hay error
+            btnSiguiente.isEnabled = true
             true
         }
+    }
+
+    private fun setupVideoControls() {
+        // Botón Play/Pause
+        btnPlayPause.setOnClickListener {
+            if (videoView.isPlaying) {
+                videoView.pause()
+            } else {
+                videoView.start()
+                updateSeekBar()
+            }
+            updatePlayPauseButton()
+        }
+
+        // SeekBar
+        seekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
+                if (fromUser) {
+                    videoView.seekTo(progress)
+                    updateTimeDisplay()
+                }
+            }
+
+            override fun onStartTrackingTouch(seekBar: SeekBar?) {
+                isTracking = true
+            }
+
+            override fun onStopTrackingTouch(seekBar: SeekBar?) {
+                isTracking = false
+            }
+        })
+    }
+
+    private fun updatePlayPauseButton() {
+        val iconRes = if (videoView.isPlaying) {
+            android.R.drawable.ic_media_pause
+        } else {
+            android.R.drawable.ic_media_play
+        }
+        btnPlayPause.setImageResource(iconRes)
+    }
+
+    private fun updateSeekBar() {
+        if (!isTracking && videoView.isPlaying) {
+            seekBar.progress = videoView.currentPosition
+            updateTimeDisplay()
+            handler.postDelayed({ updateSeekBar() }, 100)
+        }
+    }
+
+    private fun updateTimeDisplay() {
+        val current = videoView.currentPosition / 1000
+        val total = videoView.duration / 1000
+        tvTime.text = String.format(Locale.US, "%d:%02d / %d:%02d",
+            current / 60, current % 60,
+            total / 60, total % 60)
     }
 
     private fun setupButtons() {
@@ -71,5 +142,11 @@ class PlazaVideoActivity : AppCompatActivity() {
         if (videoView.isPlaying) {
             videoView.pause()
         }
+        handler.removeCallbacksAndMessages(null)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        handler.removeCallbacksAndMessages(null)
     }
 }
