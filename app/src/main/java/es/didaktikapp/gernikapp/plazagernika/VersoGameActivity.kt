@@ -6,6 +6,7 @@ import android.widget.Button
 import android.widget.RadioButton
 import android.widget.RadioGroup
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
@@ -156,6 +157,7 @@ class VersoGameActivity : AppCompatActivity() {
     private fun mostrarFeedbackCorrecto(selectedId: Int) {
         val radioButton = findViewById<RadioButton>(selectedId)
         radioButton.setBackgroundResource(R.drawable.plaza_bg_correcto)
+        Toast.makeText(this, "Oso ondo!", Toast.LENGTH_SHORT).show()
     }
 
     private fun mostrarFeedbackIncorrecto(selectedId: Int) {
