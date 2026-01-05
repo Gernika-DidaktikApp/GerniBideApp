@@ -2,11 +2,13 @@ package es.didaktikapp.gernikapp.plazagernika
 
 import android.content.ClipData
 import android.content.Intent
+import android.graphics.Outline
 import android.media.MediaPlayer
 import android.os.Bundle
 import android.view.DragEvent
 import android.view.View
 import android.widget.Button
+import android.widget.FrameLayout
 import android.widget.GridLayout
 import android.widget.ImageView
 import android.widget.LinearLayout
@@ -124,24 +126,20 @@ class ArrastrProductosActivity : AppCompatActivity() {
         val itemSize = (availableWidth - totalMargins) / 4
 
         productos.forEachIndexed { index, producto ->
-            val imageView = object : AppCompatImageView(this) {
-                override fun performClick(): Boolean {
-                    super.performClick()
-                    return true
-                }
-            }.apply {
-                // Calcular posición en la cuadrícula
-                val row = index / 4
-                val col = index % 4
+            // Calcular posición en la cuadrícula
+            val row = index / 4
+            val col = index % 4
 
-                // Centrar la última fila si tiene menos de 4 elementos
-                val isLastRow = index >= 12 // Los últimos 2 productos (índices 12 y 13)
-                val adjustedCol = if (isLastRow) {
-                    col + 1 // Desplazar 1 columna a la derecha para centrar
-                } else {
-                    col
-                }
+            // Centrar la última fila si tiene menos de 4 elementos
+            val isLastRow = index >= 12 // Los últimos 2 productos (índices 12 y 13)
+            val adjustedCol = if (isLastRow) {
+                col + 1 // Desplazar 1 columna a la derecha para centrar
+            } else {
+                col
+            }
 
+            // Crear contenedor exterior con el background
+            val container = FrameLayout(this).apply {
                 layoutParams = GridLayout.LayoutParams().apply {
                     width = itemSize
                     height = itemSize
@@ -149,12 +147,41 @@ class ArrastrProductosActivity : AppCompatActivity() {
                     rowSpec = GridLayout.spec(row)
                     setMargins(itemMargin, itemMargin, itemMargin, itemMargin)
                 }
+                setBackgroundResource(R.drawable.plaza_bg_producto)
+            }
+
+            // Crear contenedor interior para la imagen con bordes redondeados
+            val imageContainer = FrameLayout(this).apply {
+                val marginPx = (5 * resources.displayMetrics.density).toInt()
+                layoutParams = FrameLayout.LayoutParams(
+                    FrameLayout.LayoutParams.MATCH_PARENT,
+                    FrameLayout.LayoutParams.MATCH_PARENT
+                ).apply {
+                    setMargins(marginPx, marginPx, marginPx, marginPx)
+                }
+                clipToOutline = true
+                outlineProvider = object : android.view.ViewOutlineProvider() {
+                    override fun getOutline(view: View, outline: Outline) {
+                        outline.setRoundRect(0, 0, view.width, view.height, 3f * resources.displayMetrics.density)
+                    }
+                }
+            }
+
+            // Crear ImageView dentro del contenedor interior
+            val imageView = object : AppCompatImageView(this) {
+                override fun performClick(): Boolean {
+                    super.performClick()
+                    return true
+                }
+            }.apply {
+                layoutParams = FrameLayout.LayoutParams(
+                    FrameLayout.LayoutParams.MATCH_PARENT,
+                    FrameLayout.LayoutParams.MATCH_PARENT
+                )
                 setImageResource(producto.imagenRes)
                 tag = producto
                 contentDescription = producto.nombreEuskera
                 scaleType = ImageView.ScaleType.CENTER_CROP
-                setBackgroundResource(R.drawable.plaza_bg_producto)
-                setPadding(8, 8, 8, 8)
                 isClickable = true
                 isFocusable = true
                 isLongClickable = true
@@ -165,11 +192,11 @@ class ArrastrProductosActivity : AppCompatActivity() {
                     when (event.action) {
                         android.view.MotionEvent.ACTION_DOWN -> {
                             // Cancelar el scroll del ScrollView
-                            parent.requestDisallowInterceptTouchEvent(true)
+                            parent.parent.parent.requestDisallowInterceptTouchEvent(true)
 
                             // Iniciar temporizador para long press
                             longPressHandler = Runnable {
-                                onProductoLongClick(v)
+                                onProductoLongClick(container)
                             }
                             postDelayed(longPressHandler, 500) // 500ms para long press
                             false
@@ -180,7 +207,7 @@ class ArrastrProductosActivity : AppCompatActivity() {
                         }
                         android.view.MotionEvent.ACTION_UP, android.view.MotionEvent.ACTION_CANCEL -> {
                             // Permitir que el ScrollView intercepte de nuevo
-                            parent.requestDisallowInterceptTouchEvent(false)
+                            parent.parent.parent.requestDisallowInterceptTouchEvent(false)
                             // Cancelar el temporizador
                             longPressHandler?.let { removeCallbacks(it) }
                             performClick() // Para accesibilidad
@@ -190,18 +217,26 @@ class ArrastrProductosActivity : AppCompatActivity() {
                     }
                 }
             }
-            gridProductos.addView(imageView)
+
+            imageContainer.addView(imageView)
+            container.addView(imageContainer)
+            gridProductos.addView(container)
         }
     }
 
     private fun onProductoLongClick(view: View): Boolean {
-        val producto = view.tag as Producto
+        // El view es el contenedor exterior, buscar imageContainer -> imageView
+        val container = view as FrameLayout
+        val imageContainer = container.getChildAt(0) as FrameLayout
+        val imageView = imageContainer.getChildAt(0) as AppCompatImageView
+        val producto = imageView.tag as Producto
+
         val clipData = ClipData.newPlainText("producto", producto.id.toString())
-        val shadowBuilder = View.DragShadowBuilder(view)
+        val shadowBuilder = View.DragShadowBuilder(imageView)
 
         // Iniciar drag and drop
-        view.startDragAndDrop(clipData, shadowBuilder, view, 0)
-        view.visibility = View.INVISIBLE
+        imageView.startDragAndDrop(clipData, shadowBuilder, container, 0)
+        container.visibility = View.INVISIBLE
 
         // Permitir que el ScrollView no interfiera con el drag
         val scrollView = findViewById<android.widget.ScrollView>(R.id.scrollProductos)
@@ -240,13 +275,15 @@ class ArrastrProductosActivity : AppCompatActivity() {
             }
             DragEvent.ACTION_DROP -> {
                 view.alpha = 1.0f
-                val draggedView = event.localState as AppCompatImageView
-                val producto = draggedView.tag as Producto
+                val container = event.localState as FrameLayout
+                val imageContainer = container.getChildAt(0) as FrameLayout
+                val imageView = imageContainer.getChildAt(0) as AppCompatImageView
+                val producto = imageView.tag as Producto
 
                 if (producto.categoria == categoriaEsperada) {
                     // Respuesta correcta
                     mostrarFeedbackCorrecto(view)
-                    draggedView.visibility = View.INVISIBLE // Mantener el espacio en el grid
+                    container.visibility = View.INVISIBLE // Mantener el espacio en el grid
                     productosColocados++
 
                     if (productosColocados >= productos.size) {
@@ -255,7 +292,7 @@ class ArrastrProductosActivity : AppCompatActivity() {
                 } else {
                     // Respuesta incorrecta
                     mostrarFeedbackIncorrecto(view)
-                    draggedView.visibility = View.VISIBLE
+                    container.visibility = View.VISIBLE
                 }
                 return true
             }
@@ -263,9 +300,9 @@ class ArrastrProductosActivity : AppCompatActivity() {
                 view.alpha = 1.0f
                 if (!event.result) {
                     // No se hizo drop en ningún puesto válido
-                    val draggedView = event.localState as AppCompatImageView
-                    if (draggedView.visibility == View.INVISIBLE) {
-                        draggedView.visibility = View.VISIBLE
+                    val container = event.localState as FrameLayout
+                    if (container.visibility == View.INVISIBLE) {
+                        container.visibility = View.VISIBLE
                     }
                 }
                 return true
