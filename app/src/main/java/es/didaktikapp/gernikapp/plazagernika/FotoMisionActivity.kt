@@ -1,29 +1,44 @@
 package es.didaktikapp.gernikapp.plazagernika
 
 import android.Manifest
-import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.os.Bundle
 import android.provider.MediaStore
+import android.view.View
 import android.widget.Button
+import android.widget.ImageView
+import android.widget.RadioButton
+import android.widget.RadioGroup
+import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import es.didaktikapp.gernikapp.R
 import es.didaktikapp.gernikapp.plazagernika.adapters.MisionFotoAdapter
-import es.didaktikapp.gernikapp.plazagernika.models.MisionFoto
+import es.didaktikapp.gernikapp.plazagernika.models.EtiquetaFoto
+import es.didaktikapp.gernikapp.plazagernika.models.FotoGaleria
 
 class FotoMisionActivity : AppCompatActivity() {
 
-    private lateinit var rvMisiones: RecyclerView
+    private lateinit var btnTomarFoto: Button
+    private lateinit var btnIgo: Button
     private lateinit var btnFinalizar: Button
+    private lateinit var ivFotoPreview: ImageView
+    private lateinit var tvSeleccionarEtiqueta: TextView
+    private lateinit var rgEtiquetas: RadioGroup
+    private lateinit var rbTradizioa: RadioButton
+    private lateinit var rbKomunitatea: RadioButton
+    private lateinit var rbBizikidetza: RadioButton
+    private lateinit var rvGaleria: RecyclerView
     private lateinit var adapter: MisionFotoAdapter
-    private val misiones = mutableListOf<MisionFoto>()
-    private var misionActual: MisionFoto? = null
+
+    private val galeriaFotos = mutableListOf<FotoGaleria>()
+    private var fotoActual: Bitmap? = null
+    private var contadorFotos = 0
 
     private val requestPermissionLauncher = registerForActivityResult(
         ActivityResultContracts.RequestPermission()
@@ -31,7 +46,7 @@ class FotoMisionActivity : AppCompatActivity() {
         if (isGranted) {
             abrirCamara()
         } else {
-            Toast.makeText(this, "Permiso de cámara denegado", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "Kameraren baimena ukatuta", Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -40,10 +55,9 @@ class FotoMisionActivity : AppCompatActivity() {
     ) { result ->
         if (result.resultCode == RESULT_OK) {
             val imageBitmap = result.data?.extras?.get("data") as? Bitmap
-            if (imageBitmap != null && misionActual != null) {
-                misionActual?.completada = true
-                adapter.notifyDataSetChanged()
-                Toast.makeText(this, "¡Misión completada!", Toast.LENGTH_SHORT).show()
+            if (imageBitmap != null) {
+                fotoActual = imageBitmap
+                mostrarVistaPrevia(imageBitmap)
             }
         }
     }
@@ -52,59 +66,103 @@ class FotoMisionActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.plaza_foto_mision)
 
-        rvMisiones = findViewById(R.id.rvMisiones)
-        btnFinalizar = findViewById(R.id.btnFinalizar)
-
-        inicializarMisiones()
+        inicializarVistas()
         setupRecyclerView()
         setupButtons()
     }
 
-    private fun inicializarMisiones() {
-        misiones.add(
-            MisionFoto(
-                1,
-                "Puesto de quesos",
-                "Encuentra y fotografía un puesto de quesos",
-                R.drawable.plaza_gazta
-            )
-        )
-        misiones.add(
-            MisionFoto(
-                2,
-                "Pimientos de Gernika",
-                "Encuentra pimientos de Gernika",
-                R.drawable.plaza_piperrak
-            )
-        )
-        misiones.add(
-            MisionFoto(
-                3,
-                "Ambiente del mercado",
-                "Captura la plaza con gente comprando",
-                R.drawable.plaza_postua
-            )
-        )
+    private fun inicializarVistas() {
+        btnTomarFoto = findViewById(R.id.btnTomarFoto)
+        btnIgo = findViewById(R.id.btnIgo)
+        btnFinalizar = findViewById(R.id.btnFinalizar)
+        ivFotoPreview = findViewById(R.id.ivFotoPreview)
+        tvSeleccionarEtiqueta = findViewById(R.id.tvSeleccionarEtiqueta)
+        rgEtiquetas = findViewById(R.id.rgEtiquetas)
+        rbTradizioa = findViewById(R.id.rbTradizioa)
+        rbKomunitatea = findViewById(R.id.rbKomunitatea)
+        rbBizikidetza = findViewById(R.id.rbBizikidetza)
+        rvGaleria = findViewById(R.id.rvGaleria)
     }
 
     private fun setupRecyclerView() {
-        adapter = MisionFotoAdapter(misiones) { mision ->
-            misionActual = mision
-            verificarPermisoCamara()
-        }
-        rvMisiones.layoutManager = LinearLayoutManager(this)
-        rvMisiones.adapter = adapter
+        adapter = MisionFotoAdapter(galeriaFotos)
+        rvGaleria.layoutManager = GridLayoutManager(this, 2)
+        rvGaleria.adapter = adapter
     }
 
     private fun setupButtons() {
+        btnTomarFoto.setOnClickListener {
+            verificarPermisoCamara()
+        }
+
+        btnIgo.setOnClickListener {
+            subirFoto()
+        }
+
         btnFinalizar.setOnClickListener {
             Toast.makeText(
                 this,
-                "¡Felicidades! Has completado la actividad",
+                "Zorionak! Jarduera osatu duzu",
                 Toast.LENGTH_LONG
             ).show()
             finish()
         }
+    }
+
+    private fun mostrarVistaPrevia(bitmap: Bitmap) {
+        ivFotoPreview.setImageBitmap(bitmap)
+        ivFotoPreview.visibility = View.VISIBLE
+        btnTomarFoto.visibility = View.GONE
+        tvSeleccionarEtiqueta.visibility = View.VISIBLE
+        rgEtiquetas.visibility = View.VISIBLE
+        btnIgo.visibility = View.VISIBLE
+    }
+
+    private fun subirFoto() {
+        val selectedId = rgEtiquetas.checkedRadioButtonId
+
+        if (selectedId == -1) {
+            Toast.makeText(this, "Mesedez, aukeratu etiketa bat", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        if (fotoActual == null) {
+            Toast.makeText(this, "Ez dago argazkirik", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        val etiqueta = when (selectedId) {
+            R.id.rbTradizioa -> EtiquetaFoto.TRADIZIOA
+            R.id.rbKomunitatea -> EtiquetaFoto.KOMUNITATEA
+            R.id.rbBizikidetza -> EtiquetaFoto.BIZIKIDETZA
+            else -> return
+        }
+
+        // Añadir foto a la galería
+        contadorFotos++
+        val nuevaFoto = FotoGaleria(
+            id = contadorFotos,
+            bitmap = fotoActual!!,
+            etiqueta = etiqueta
+        )
+        galeriaFotos.add(0, nuevaFoto) // Añadir al inicio
+        adapter.notifyItemInserted(0)
+        rvGaleria.scrollToPosition(0)
+
+        // Resetear vista
+        resetearVista()
+
+        Toast.makeText(this, "Argazkia igo da galerira!", Toast.LENGTH_SHORT).show()
+    }
+
+    private fun resetearVista() {
+        fotoActual = null
+        ivFotoPreview.visibility = View.GONE
+        tvSeleccionarEtiqueta.visibility = View.GONE
+        rgEtiquetas.visibility = View.GONE
+        rgEtiquetas.clearCheck()
+        btnIgo.visibility = View.GONE
+        btnTomarFoto.visibility = View.VISIBLE
     }
 
     private fun verificarPermisoCamara() {
@@ -122,7 +180,7 @@ class FotoMisionActivity : AppCompatActivity() {
     }
 
     private fun abrirCamara() {
-        val takePictureIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+        val takePictureIntent = android.content.Intent(MediaStore.ACTION_IMAGE_CAPTURE)
         takePictureLauncher.launch(takePictureIntent)
     }
 }
