@@ -97,11 +97,23 @@ class ArrastrProductosActivity : AppCompatActivity() {
 
         productos.forEachIndexed { index, producto ->
             val imageView = ImageView(this).apply {
+                // Calcular posición en la cuadrícula
+                val row = index / 4
+                val col = index % 4
+
+                // Centrar la última fila si tiene menos de 4 elementos
+                val isLastRow = index >= 12 // Los últimos 2 productos (índices 12 y 13)
+                val adjustedCol = if (isLastRow) {
+                    col + 1 // Desplazar 1 columna a la derecha para centrar
+                } else {
+                    col
+                }
+
                 layoutParams = GridLayout.LayoutParams().apply {
                     width = itemSize
                     height = itemSize
-                    columnSpec = GridLayout.spec(index % 4)
-                    rowSpec = GridLayout.spec(index / 4)
+                    columnSpec = GridLayout.spec(adjustedCol)
+                    rowSpec = GridLayout.spec(row)
                     setMargins(itemMargin, itemMargin, itemMargin, itemMargin)
                 }
                 setImageResource(producto.imagenRes)
