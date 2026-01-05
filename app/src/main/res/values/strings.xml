@@ -4,7 +4,8 @@
     <!-- Plaza Gernika Module -->
     <!-- Pantalla de Video -->
     <string name="plaza_titulo">Gernikako Plaza</string>
-    <string name="siguiente">Siguiente</string>
+    <string name="siguiente">Hurrengoa</string>
+    <string name="play_pause">Erreproduzitu/Pausatu</string>
 
     <!-- Pantalla Arrastrar Productos -->
     <string name="arrastra_productos_titulo">Produktuak postuan jarri</string>
@@ -24,4 +25,6 @@
     <string name="finalizar">Finalizar</string>
     <string name="mision_icono">Icono de misión</string>
     <string name="tomar_foto">Tomar foto</string>
+    <string name="plaza_txt_video">Plaza da herriko bihotza. Astelehenero, plazan biltzen dira inguruko herrietako nekazariak beraien produktuak saltzeko. Horrez gain, bertan elkartzen gara jaietan, azoketan eta egun berezietan. Urriko Azken Astelehena berezia izaten da, eta gure herria kolorez, postu ezberdin askoz eta musikaz betetzen da. Tradizio hauei esker, gure kultura bizirik dagoela eta guztion artean egiten dugula ikasten dugu.</string>
+    <string name="_0_00_0_00">0:00 / 0:00</string>
 </resources>
