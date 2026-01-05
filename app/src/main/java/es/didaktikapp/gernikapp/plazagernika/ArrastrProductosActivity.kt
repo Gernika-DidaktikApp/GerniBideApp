@@ -2,6 +2,7 @@ package es.didaktikapp.gernikapp.plazagernika
 
 import android.content.ClipData
 import android.content.Intent
+import android.media.MediaPlayer
 import android.os.Bundle
 import android.util.Log
 import android.view.DragEvent
@@ -24,6 +25,7 @@ class ArrastrProductosActivity : AppCompatActivity() {
     private lateinit var btnSiguiente: Button
     private val productos = mutableListOf<Producto>()
     private var productosColocados = 0
+    private var mediaPlayer: MediaPlayer? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,6 +39,30 @@ class ArrastrProductosActivity : AppCompatActivity() {
         configurarPuestos()
         configurarScrollView()
         setupButtons()
+        inicializarAudio()
+    }
+
+    private fun inicializarAudio() {
+        mediaPlayer = MediaPlayer.create(this, R.raw.plaza_ambiente).apply {
+            isLooping = true
+            setVolume(0.7f, 0.7f)
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        mediaPlayer?.start()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        mediaPlayer?.pause()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        mediaPlayer?.release()
+        mediaPlayer = null
     }
 
     private fun configurarScrollView() {
