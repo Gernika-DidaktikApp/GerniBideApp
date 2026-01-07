@@ -18,6 +18,28 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.GernikApp">
 
+        <activity
+            android:name=".fronton.CestaTipActivity"
+            android:exported="false" />
+        <activity
+            android:name=".fronton.DancingBallActivity"
+            android:exported="false" />
+        <activity
+            android:name=".fronton.MainFrontonActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".fronton.FrontonInfoActivity"
+            android:exported="false" />
+        <activity
+            android:name=".fronton.ValuesGroupActivity"
+            android:exported="false" />
+
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
@@ -27,13 +49,7 @@
             android:exported="false" />
         <activity
             android:name=".MapaActivity"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+            android:exported="false" />
     </application>
 
 </manifest>

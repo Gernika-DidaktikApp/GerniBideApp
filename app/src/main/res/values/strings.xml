@@ -1,3 +1,22 @@
 <resources>
     <string name="app_name">GernikApp</string>
+    <string name="informaci_n_del_front_n">Frontoiko Informazioa</string>
+    <string name="juego_pelota_dantzan">Jolasa: Dantza Pilota</string>
+    <string name="video_y_valores">Bideoa eta baloreak</string>
+    <string name="tu_valor_del_equipo">Zure taldearen balioa</string>
+    <string name="videoa_erreproduzitu">Videoa erreproduzitu</string>
+    <string name="gernikako_jai_alai_frontoia_munduko_handienetakoa_eta_garrantzitsuenetakoa_da_hemen_zesta_puntara_jokatzen_da_munduan_zehar_banatuta_dauden_zesta_puntako_frontoi_askori_eman_die_izena_aurrean_dugun_honek_zestalariak_elkarlanean_aritzen_dira_eta_errespetua_dute_oinarri_kirolaren_bidez_askotariko_balioak_ikasi_eta_transmititzen_direlarik">Gernikako Jai Alai frontoia munduko handienetakoa eta garrantzitsuenetakoa da. Hemen, zesta puntara jokatzen da. Munduan zehar banatuta dauden zesta-puntako frontoi askori eman die izena aurrean dugun honek. Zestalariak, elkarlanean aritzen dira eta errespetua dute oinarri. Kirolaren bidez, askotariko balioak ikasi eta transmititzen direlarik.</string>
+    <string name="gehitu">Gehitu</string>
+    <string name="idatzi_zure_taldearen_balioa">Idatzi zure taldearen balioa</string>
+    <string name="zein_balio_agertzen_dira_jokoan">Zein balio agertzen dira jokoan?</string>
+    <string name="lankidetza">Lankidetza</string>
+    <string name="errespetua">Errespetua</string>
+    <string name="bakardadea">Bakardadea</string>
+    <string name="berretsi">Berretsi</string>
+    <string name="amaitu">Amaitu</string>
+    <string name="puntuak_0">Puntuak: 0</string>
+    <string name="gernikako_pilotalekuaren_atzeko_planoaren_irudia">Gernikako pilotalekuaren atzeko planoaren irudia</string>
+    <string name="koordinazio_joko_pilota">Koordinazio-joko pilota</string>
+    <string name="atzera">Atzera</string>
+    <string name="elkarrekin_jokatuz_eta_elkar_entzunez_guztion_balioak_osatuko_ditugu">Elkarrekin jokatuz eta elkar entzunez, guztion balioak osatuko ditugu.</string>
 </resources>
