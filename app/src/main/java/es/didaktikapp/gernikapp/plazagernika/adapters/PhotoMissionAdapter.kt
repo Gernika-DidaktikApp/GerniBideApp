@@ -9,9 +9,9 @@ import androidx.recyclerview.widget.RecyclerView
 import es.didaktikapp.gernikapp.R
 import es.didaktikapp.gernikapp.plazagernika.models.FotoGaleria
 
-class MisionFotoAdapter(
+class PhotoMissionAdapter(
     private val fotos: List<FotoGaleria>
-) : RecyclerView.Adapter<MisionFotoAdapter.FotoViewHolder>() {
+) : RecyclerView.Adapter<PhotoMissionAdapter.FotoViewHolder>() {
 
     class FotoViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val ivFoto: ImageView = view.findViewById(R.id.ivFoto)
@@ -20,7 +20,7 @@ class MisionFotoAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FotoViewHolder {
         val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.plaza_item_mision_foto, parent, false)
+            .inflate(R.layout.plaza_item_photo_mission, parent, false)
         return FotoViewHolder(view)
     }
 

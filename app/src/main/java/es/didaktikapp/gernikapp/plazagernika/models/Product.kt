@@ -1,10 +1,10 @@
 package es.didaktikapp.gernikapp.plazagernika.models
 
-data class Producto(
+data class Product(
     val id: Int,
     val nombre: String,
     val nombreEuskera: String,
     val imagenRes: Int,
-    val categoria: CategoriaProducto,
+    val categoria: ProductCategory,
     val descripcion: String = ""
 )

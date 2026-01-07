@@ -134,13 +134,13 @@ class PlazaVideoActivity : AppCompatActivity() {
 
     private fun setupButtons() {
         btnSiguiente.setOnClickListener {
-            val intent = Intent(this, ArrastrProductosActivity::class.java)
+            val intent = Intent(this, DragProductsActivity::class.java)
             startActivity(intent)
         }
     }
 
     private fun enableButtonWithTransition() {
-        val transition = ContextCompat.getDrawable(this, R.drawable.bg_boton_primario_transition) as? TransitionDrawable
+        val transition = ContextCompat.getDrawable(this, R.drawable.bg_primary_button_transition) as? TransitionDrawable
         if (transition != null) {
             btnSiguiente.background = transition
             btnSiguiente.isEnabled = true

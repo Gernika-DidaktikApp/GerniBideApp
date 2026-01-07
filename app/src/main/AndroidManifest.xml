@@ -43,13 +43,13 @@
             android:name=".plazagernika.PlazaVideoActivity"
             android:exported="false" />
         <activity
-            android:name=".plazagernika.ArrastrProductosActivity"
+            android:name=".plazagernika.DragProductsActivity"
             android:exported="false" />
         <activity
-            android:name=".plazagernika.VersoGameActivity"
+            android:name=".plazagernika.VerseGameActivity"
             android:exported="false" />
         <activity
-            android:name=".plazagernika.FotoMisionActivity"
+            android:name=".plazagernika.PhotoMissionActivity"
             android:exported="false" />
     </application>
 

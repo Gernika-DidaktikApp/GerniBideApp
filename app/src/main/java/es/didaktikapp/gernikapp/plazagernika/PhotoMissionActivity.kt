@@ -18,11 +18,11 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import es.didaktikapp.gernikapp.R
-import es.didaktikapp.gernikapp.plazagernika.adapters.MisionFotoAdapter
+import es.didaktikapp.gernikapp.plazagernika.adapters.PhotoMissionAdapter
 import es.didaktikapp.gernikapp.plazagernika.models.EtiquetaFoto
 import es.didaktikapp.gernikapp.plazagernika.models.FotoGaleria
 
-class FotoMisionActivity : AppCompatActivity() {
+class PhotoMissionActivity : AppCompatActivity() {
 
     private lateinit var btnTomarFoto: Button
     private lateinit var btnIgo: Button
@@ -34,7 +34,7 @@ class FotoMisionActivity : AppCompatActivity() {
     private lateinit var rbKomunitatea: RadioButton
     private lateinit var rbBizikidetza: RadioButton
     private lateinit var rvGaleria: RecyclerView
-    private lateinit var adapter: MisionFotoAdapter
+    private lateinit var adapter: PhotoMissionAdapter
 
     private val galeriaFotos = mutableListOf<FotoGaleria>()
     private var fotoActual: Bitmap? = null
@@ -64,7 +64,7 @@ class FotoMisionActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.plaza_foto_mision)
+        setContentView(R.layout.plaza_photo_mission)
 
         inicializarVistas()
         setupRecyclerView()
@@ -85,7 +85,7 @@ class FotoMisionActivity : AppCompatActivity() {
     }
 
     private fun setupRecyclerView() {
-        adapter = MisionFotoAdapter(galeriaFotos)
+        adapter = PhotoMissionAdapter(galeriaFotos)
         rvGaleria.layoutManager = GridLayoutManager(this, 2)
         rvGaleria.adapter = adapter
     }

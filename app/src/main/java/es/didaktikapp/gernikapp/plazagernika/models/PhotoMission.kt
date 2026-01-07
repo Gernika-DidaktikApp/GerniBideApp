@@ -1,6 +1,6 @@
 package es.didaktikapp.gernikapp.plazagernika.models
 
-data class MisionFoto(
+data class PhotoMission(
     val id: Int,
     val titulo: String,
     val descripcion: String,

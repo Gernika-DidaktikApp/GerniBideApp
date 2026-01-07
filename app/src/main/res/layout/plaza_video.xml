@@ -53,7 +53,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
-        android:background="@drawable/bg_controles_video"
+        android:background="@drawable/bg_video_controls"
         android:gravity="center_vertical"
         android:orientation="horizontal"
         android:paddingVertical="12dp"

@@ -1,6 +1,6 @@
 package es.didaktikapp.gernikapp.plazagernika.models
 
-enum class CategoriaProducto {
+enum class ProductCategory {
     LACTEOS,
     VERDURAS,
     PANADERIA,

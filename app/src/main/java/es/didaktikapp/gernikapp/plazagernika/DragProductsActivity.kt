@@ -17,21 +17,21 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.core.content.ContextCompat
 import es.didaktikapp.gernikapp.R
-import es.didaktikapp.gernikapp.plazagernika.models.CategoriaProducto
-import es.didaktikapp.gernikapp.plazagernika.models.Producto
+import es.didaktikapp.gernikapp.plazagernika.models.ProductCategory
+import es.didaktikapp.gernikapp.plazagernika.models.Product
 
-class ArrastrProductosActivity : AppCompatActivity() {
+class DragProductsActivity : AppCompatActivity() {
 
     private lateinit var gridProductos: GridLayout
     private lateinit var btnSiguiente: Button
-    private val productos = mutableListOf<Producto>()
+    private val products = mutableListOf<Product>()
     private var productosColocados = 0
     private var mediaPlayer: MediaPlayer? = null
     private var sonidoAcierto: MediaPlayer? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.plaza_arrastr_productos)
+        setContentView(R.layout.plaza_drag_products)
 
         gridProductos = findViewById(R.id.gridProductos)
         btnSiguiente = findViewById(R.id.btnSiguiente)
@@ -45,11 +45,11 @@ class ArrastrProductosActivity : AppCompatActivity() {
     }
 
     private fun inicializarAudio() {
-        mediaPlayer = MediaPlayer.create(this, R.raw.plaza_ambiente).apply {
+        mediaPlayer = MediaPlayer.create(this, R.raw.plaza_ambience).apply {
             isLooping = true
             setVolume(0.7f, 0.7f)
         }
-        sonidoAcierto = MediaPlayer.create(this, R.raw.plaza_acierto)
+        sonidoAcierto = MediaPlayer.create(this, R.raw.plaza_success)
     }
 
     override fun onResume() {
@@ -87,28 +87,28 @@ class ArrastrProductosActivity : AppCompatActivity() {
 
     private fun inicializarProductos() {
         // Lácteos
-        productos.add(Producto(1, "Gazta", "Gazta", R.drawable.plaza_gazta, CategoriaProducto.LACTEOS))
-        productos.add(Producto(2, "Esnea", "Esnea", R.drawable.plaza_esnea, CategoriaProducto.LACTEOS))
-        productos.add(Producto(3, "Jogurta", "Jogurta", R.drawable.plaza_jogurta, CategoriaProducto.LACTEOS))
+        products.add(Product(1, "Gazta", "Gazta", R.drawable.plaza_gazta, ProductCategory.LACTEOS))
+        products.add(Product(2, "Esnea", "Esnea", R.drawable.plaza_esnea, ProductCategory.LACTEOS))
+        products.add(Product(3, "Jogurta", "Jogurta", R.drawable.plaza_jogurta, ProductCategory.LACTEOS))
 
         // Verduras
-        productos.add(Producto(4, "Piperrak", "Piperrak", R.drawable.plaza_piperrak, CategoriaProducto.VERDURAS))
-        productos.add(Producto(5, "Tipula", "Tipula", R.drawable.plaza_kipula, CategoriaProducto.VERDURAS))
-        productos.add(Producto(6, "Indabak", "Indabak", R.drawable.plaza_indabak, CategoriaProducto.VERDURAS))
+        products.add(Product(4, "Piperrak", "Piperrak", R.drawable.plaza_piperrak, ProductCategory.VERDURAS))
+        products.add(Product(5, "Tipula", "Tipula", R.drawable.plaza_kipula, ProductCategory.VERDURAS))
+        products.add(Product(6, "Indabak", "Indabak", R.drawable.plaza_indabak, ProductCategory.VERDURAS))
 
         // Panadería
-        productos.add(Producto(7, "Ogia", "Ogia", R.drawable.plaza_ogi_otzara, CategoriaProducto.PANADERIA))
-        productos.add(Producto(8, "Madalenak", "Madalenak", R.drawable.plaza_madalenak, CategoriaProducto.PANADERIA))
-        productos.add(Producto(9, "Pastela", "Pastela", R.drawable.plaza_pastela, CategoriaProducto.PANADERIA))
+        products.add(Product(7, "Ogia", "Ogia", R.drawable.plaza_ogi_otzara, ProductCategory.PANADERIA))
+        products.add(Product(8, "Madalenak", "Madalenak", R.drawable.plaza_madalenak, ProductCategory.PANADERIA))
+        products.add(Product(9, "Pastela", "Pastela", R.drawable.plaza_pastela, ProductCategory.PANADERIA))
 
         // Natural
-        productos.add(Producto(10, "Eztia", "Eztia", R.drawable.plaza_eztia, CategoriaProducto.NATURAL))
-        productos.add(Producto(11, "Polena", "Polena", R.drawable.plaza_polena, CategoriaProducto.NATURAL))
+        products.add(Product(10, "Eztia", "Eztia", R.drawable.plaza_eztia, ProductCategory.NATURAL))
+        products.add(Product(11, "Polena", "Polena", R.drawable.plaza_polena, ProductCategory.NATURAL))
 
         // Artesanía
-        productos.add(Producto(12, "Egurrezko Lanak", "Egurrezko Lanak", R.drawable.plaza_egurrezko_esku_lanak, CategoriaProducto.ARTESANIA))
-        productos.add(Producto(13, "Burdinazko Ontziak", "Burdinazko Ontziak", R.drawable.plaza_buztinezko_ontziak, CategoriaProducto.ARTESANIA))
-        productos.add(Producto(14, "Zestak", "Zestak", R.drawable.plaza_zestak, CategoriaProducto.ARTESANIA))
+        products.add(Product(12, "Egurrezko Lanak", "Egurrezko Lanak", R.drawable.plaza_egurrezko_esku_lanak, ProductCategory.ARTESANIA))
+        products.add(Product(13, "Burdinazko Ontziak", "Burdinazko Ontziak", R.drawable.plaza_buztinezko_ontziak, ProductCategory.ARTESANIA))
+        products.add(Product(14, "Zestak", "Zestak", R.drawable.plaza_zestak, ProductCategory.ARTESANIA))
     }
 
     private fun crearVistaProductos() {
@@ -126,7 +126,7 @@ class ArrastrProductosActivity : AppCompatActivity() {
         val totalMargins = itemMargin * 2 * 4 // 4dp * 2 lados * 4 columnas
         val itemSize = (availableWidth - totalMargins) / 4
 
-        productos.forEachIndexed { index, producto ->
+        products.forEachIndexed { index, producto ->
             // Calcular posición en la cuadrícula
             val row = index / 4
             val col = index % 4
@@ -230,9 +230,9 @@ class ArrastrProductosActivity : AppCompatActivity() {
         val container = view as FrameLayout
         val imageContainer = container.getChildAt(0) as FrameLayout
         val imageView = imageContainer.getChildAt(0) as AppCompatImageView
-        val producto = imageView.tag as Producto
+        val product = imageView.tag as Product
 
-        val clipData = ClipData.newPlainText("producto", producto.id.toString())
+        val clipData = ClipData.newPlainText("producto", product.id.toString())
         val shadowBuilder = View.DragShadowBuilder(imageView)
 
         // Iniciar drag and drop
@@ -254,14 +254,14 @@ class ArrastrProductosActivity : AppCompatActivity() {
         val puesto3 = findViewById<LinearLayout>(R.id.puesto3)
         val puesto4 = findViewById<LinearLayout>(R.id.puesto4)
 
-        puesto0.setOnDragListener { v, event -> onPuestoDrag(v, event, CategoriaProducto.LACTEOS) }
-        puesto1.setOnDragListener { v, event -> onPuestoDrag(v, event, CategoriaProducto.VERDURAS) }
-        puesto2.setOnDragListener { v, event -> onPuestoDrag(v, event, CategoriaProducto.PANADERIA) }
-        puesto3.setOnDragListener { v, event -> onPuestoDrag(v, event, CategoriaProducto.NATURAL) }
-        puesto4.setOnDragListener { v, event -> onPuestoDrag(v, event, CategoriaProducto.ARTESANIA) }
+        puesto0.setOnDragListener { v, event -> onPuestoDrag(v, event, ProductCategory.LACTEOS) }
+        puesto1.setOnDragListener { v, event -> onPuestoDrag(v, event, ProductCategory.VERDURAS) }
+        puesto2.setOnDragListener { v, event -> onPuestoDrag(v, event, ProductCategory.PANADERIA) }
+        puesto3.setOnDragListener { v, event -> onPuestoDrag(v, event, ProductCategory.NATURAL) }
+        puesto4.setOnDragListener { v, event -> onPuestoDrag(v, event, ProductCategory.ARTESANIA) }
     }
 
-    private fun onPuestoDrag(view: View, event: DragEvent, categoriaEsperada: CategoriaProducto): Boolean {
+    private fun onPuestoDrag(view: View, event: DragEvent, categoriaEsperada: ProductCategory): Boolean {
         when (event.action) {
             DragEvent.ACTION_DRAG_STARTED -> {
                 return true
@@ -279,15 +279,15 @@ class ArrastrProductosActivity : AppCompatActivity() {
                 val container = event.localState as FrameLayout
                 val imageContainer = container.getChildAt(0) as FrameLayout
                 val imageView = imageContainer.getChildAt(0) as AppCompatImageView
-                val producto = imageView.tag as Producto
+                val product = imageView.tag as Product
 
-                if (producto.categoria == categoriaEsperada) {
+                if (product.categoria == categoriaEsperada) {
                     // Respuesta correcta
                     mostrarFeedbackCorrecto(view)
                     container.visibility = View.INVISIBLE // Mantener el espacio en el grid
                     productosColocados++
 
-                    if (productosColocados >= productos.size) {
+                    if (productosColocados >= products.size) {
                         btnSiguiente.isEnabled = true
                         mostrarMensajeCompletado()
                     }
@@ -351,7 +351,7 @@ class ArrastrProductosActivity : AppCompatActivity() {
 
     private fun setupButtons() {
         btnSiguiente.setOnClickListener {
-            val intent = Intent(this, VersoGameActivity::class.java)
+            val intent = Intent(this, VerseGameActivity::class.java)
             startActivity(intent)
         }
     }

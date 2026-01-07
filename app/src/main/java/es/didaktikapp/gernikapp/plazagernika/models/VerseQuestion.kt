@@ -1,6 +1,6 @@
 package es.didaktikapp.gernikapp.plazagernika.models
 
-data class VersoQuestion(
+data class VerseQuestion(
     val id: Int,
     val versoInicial: String,
     val opciones: List<String>,

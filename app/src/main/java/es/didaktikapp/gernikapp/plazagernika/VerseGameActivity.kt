@@ -11,9 +11,9 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import es.didaktikapp.gernikapp.R
-import es.didaktikapp.gernikapp.plazagernika.models.VersoQuestion
+import es.didaktikapp.gernikapp.plazagernika.models.VerseQuestion
 
-class VersoGameActivity : AppCompatActivity() {
+class VerseGameActivity : AppCompatActivity() {
 
     private lateinit var tvVersoInicial: TextView
     private lateinit var tvProgreso: TextView
@@ -25,13 +25,13 @@ class VersoGameActivity : AppCompatActivity() {
     private lateinit var btnComprobar: Button
     private lateinit var btnSiguiente: Button
 
-    private val preguntas = mutableListOf<VersoQuestion>()
+    private val preguntas = mutableListOf<VerseQuestion>()
     private var preguntaActual = 0
     private var aciertos = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.plaza_verso_game)
+        setContentView(R.layout.plaza_verse_game)
 
         inicializarVistas()
         inicializarPreguntas()
@@ -53,7 +53,7 @@ class VersoGameActivity : AppCompatActivity() {
 
     private fun inicializarPreguntas() {
         preguntas.add(
-            VersoQuestion(
+            VerseQuestion(
                 1,
                 "Gernikako plazara\nastelehen goizean...",
                 listOf(
@@ -65,7 +65,7 @@ class VersoGameActivity : AppCompatActivity() {
             )
         )
         preguntas.add(
-            VersoQuestion(
+            VerseQuestion(
                 2,
                 "Produktu ederrak\nbaserritik ekarrita...",
                 listOf(
@@ -77,7 +77,7 @@ class VersoGameActivity : AppCompatActivity() {
             )
         )
         preguntas.add(
-            VersoQuestion(
+            VerseQuestion(
                 3,
                 "Gazta eta piperrak\neztia eta ogia...",
                 listOf(
@@ -111,7 +111,7 @@ class VersoGameActivity : AppCompatActivity() {
         }
 
         btnSiguiente.setOnClickListener {
-            val intent = Intent(this, FotoMisionActivity::class.java)
+            val intent = Intent(this, PhotoMissionActivity::class.java)
             startActivity(intent)
         }
     }
@@ -156,13 +156,13 @@ class VersoGameActivity : AppCompatActivity() {
 
     private fun mostrarFeedbackCorrecto(selectedId: Int) {
         val radioButton = findViewById<RadioButton>(selectedId)
-        radioButton.setBackgroundResource(R.drawable.plaza_bg_correcto)
+        radioButton.setBackgroundResource(R.drawable.plaza_bg_correct)
         Toast.makeText(this, "Oso ondo!", Toast.LENGTH_SHORT).show()
     }
 
     private fun mostrarFeedbackIncorrecto(selectedId: Int) {
         val radioButton = findViewById<RadioButton>(selectedId)
-        radioButton.setBackgroundResource(R.drawable.plaza_bg_incorrecto)
+        radioButton.setBackgroundResource(R.drawable.plaza_bg_incorrect)
     }
 
     private fun resaltarRespuestaCorrecta(correcta: Int) {
@@ -172,7 +172,7 @@ class VersoGameActivity : AppCompatActivity() {
             2 -> rbOpcion3
             else -> return
         }
-        correctRadioButton.setBackgroundResource(R.drawable.plaza_bg_correcto)
+        correctRadioButton.setBackgroundResource(R.drawable.plaza_bg_correct)
     }
 
     private fun habilitarOpciones(enabled: Boolean) {
@@ -183,9 +183,9 @@ class VersoGameActivity : AppCompatActivity() {
             rbOpcion1.setTextColor(ContextCompat.getColor(this, R.color.txtPrincipal))
             rbOpcion2.setTextColor(ContextCompat.getColor(this, R.color.txtPrincipal))
             rbOpcion3.setTextColor(ContextCompat.getColor(this, R.color.txtPrincipal))
-            rbOpcion1.setBackgroundResource(R.drawable.plaza_bg_producto_selector)
-            rbOpcion2.setBackgroundResource(R.drawable.plaza_bg_producto_selector)
-            rbOpcion3.setBackgroundResource(R.drawable.plaza_bg_producto_selector)
+            rbOpcion1.setBackgroundResource(R.drawable.plaza_bg_product_selector)
+            rbOpcion2.setBackgroundResource(R.drawable.plaza_bg_product_selector)
+            rbOpcion3.setBackgroundResource(R.drawable.plaza_bg_product_selector)
         }
     }
 
