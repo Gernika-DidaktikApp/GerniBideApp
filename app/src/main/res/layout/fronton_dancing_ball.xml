@@ -1,0 +1,31 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/gameArea"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:id="@+id/background"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:contentDescription="@string/gernikako_pilotalekuaren_atzeko_planoaren_irudia"
+        android:scaleType="centerCrop"
+        android:src="@drawable/fronton_frontoia" />
+
+    <ImageView
+        android:id="@+id/ball"
+        android:contentDescription="@string/koordinazio_joko_pilota"
+        android:src="@drawable/fronton_pilota"
+        android:layout_width="60dp"
+        android:layout_height="60dp" />
+
+    <TextView
+        android:id="@+id/tvPuntos"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/puntuak_0"
+        android:textSize="24sp"
+        android:textColor="#FFFFFF"
+        android:padding="16dp"
+        android:layout_gravity="top|start"/>
+
+</FrameLayout>
