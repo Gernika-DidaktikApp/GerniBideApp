@@ -16,12 +16,13 @@ import es.didaktikapp.gernikapp.R
 
 class DancingBallActivity : AppCompatActivity() {
     private lateinit var ball: ImageView
+    private lateinit var zesta: ImageView
     private lateinit var gameArea: FrameLayout
-    private lateinit var background: ImageView
-    private lateinit var handler: Handler
     private lateinit var tvPuntos: TextView
-    private var dx = 10f
-    private var dy = -10f
+
+    private val handler = Handler(Looper.getMainLooper())
+    private var dx = 8f
+    private var dy = 10f
     private var puntos = 0
     private lateinit var mediaPlayer: MediaPlayer
 
@@ -30,90 +31,60 @@ class DancingBallActivity : AppCompatActivity() {
         setContentView(R.layout.fronton_dancing_ball)
 
         ball = findViewById(R.id.ball)
+        zesta = findViewById(R.id.zesta)
         gameArea = findViewById(R.id.gameArea)
-        background = findViewById(R.id.background)
         tvPuntos = findViewById(R.id.tvPuntos)
-        handler = Handler(Looper.getMainLooper())
-
-        mediaPlayer = MediaPlayer.create(this, R.raw.fronton_bideoaren_audioa)
-
-        ball.x = 200f
-        ball.y = 800f
 
         gameArea.post {
-            handler.post(object : Runnable {
-                override fun run() {
-                    moveBall()
-                    handler.postDelayed(this, 16)
-                }
-            })
+            ball.x = (gameArea.width / 2 - ball.width / 2).toFloat()
+            ball.y = 50f
+            startGameLoop()
         }
 
-        gameArea.setOnTouchListener { _: View, event: MotionEvent ->
-            if (event.action == MotionEvent.ACTION_DOWN) {
-                dx = if (Random.nextBoolean()) 12f else -12f
-                dy = -15f
+        gameArea.setOnTouchListener { _, event ->
+            if (event.action == MotionEvent.ACTION_MOVE) {
+                zesta.x = event.x - zesta.width / 2
             }
             true
         }
+    }
 
-        handler.postDelayed({
-            handler.removeCallbacksAndMessages(null)
-            Toast.makeText(
-                this,
-                "¡Oso ondo! Amaitu duzu. Puntuak: $puntos 🎉",
-                Toast.LENGTH_LONG
-            ).show()
-        }, 60000)
+    private fun startGameLoop() {
+        handler.post(object : Runnable {
+            override fun run() {
+                moveBall()
+                handler.postDelayed(this, 16) // ~60 FPS
+            }
+        })
     }
 
     private fun moveBall() {
         ball.x += dx
         ball.y += dy
 
-        val leftLimit = background.left.toFloat()
-        val rightLimit = background.right.toFloat() - ball.width
-        val topLimit = background.top.toFloat()
-        val bottomLimit = background.bottom.toFloat() - ball.height
-
-        var rebotado = false
-
-        if (ball.x <= leftLimit || ball.x >= rightLimit) {
+        if (ball.x <= 0 || ball.x + ball.width >= gameArea.width) {
             dx = -dx
-            dx += Random.nextFloat() * 4f - 2f
-            rebotado = true
         }
 
-        if (ball.y <= topLimit) {
+        if (ball.y <= 0) {
             dy = Math.abs(dy)
-            dx += Random.nextFloat() * 4f - 2f
-            rebotado = true
         }
 
-        if (ball.y >= bottomLimit) {
-            ball.y = bottomLimit
-            dy = -15f
-            rebotado = true
-        }
-
-        if (rebotado) {
+        if (ball.y + ball.height >= zesta.y &&
+            ball.x + ball.width >= zesta.x &&
+            ball.x <= zesta.x + zesta.width
+        ) {
+            dy = -Math.abs(dy)
             puntos++
             tvPuntos.text = "Puntuak: $puntos"
-            mediaPlayer.start()
+
+            dx *= 1.05f
+            dy *= 1.05f
         }
 
-        val distanceFactor = 1f - (ball.y - topLimit) / (bottomLimit - topLimit)
-        val scale = 0.8f + distanceFactor * 0.4f
-        ball.scaleX = scale
-        ball.scaleY = scale
-
-        dx *= 1.0015f
-        dy *= 1.0015f
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        handler.removeCallbacksAndMessages(null)
-        mediaPlayer.release()
+        if (ball.y > gameArea.height) {
+            handler.removeCallbacksAndMessages(null)
+            Toast.makeText(this, "Game Over 😢  Puntuak: $puntos", Toast.LENGTH_LONG).show()
+        }
     }
 }
