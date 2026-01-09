@@ -24,9 +24,6 @@
 
         <activity
             android:name=".MainActivity"
-            android:exported="false" />
-        <activity
-            android:name=".MapaActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -34,6 +31,21 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".MapaActivity"
+            android:exported="false" />
+        <activity
+            android:name=".arbol.ArbolActivity"
+            android:exported="false" />
+        <activity
+            android:name=".arbol.ArbolInteractivoActivity"
+            android:exported="false" />
+        <activity
+            android:name=".arbol.NireArbolaActivity"
+            android:exported="false" />
+        <activity
+            android:name=".arbol.PuzzleActivity"
+            android:exported="false" />
     </application>
 
 </manifest>

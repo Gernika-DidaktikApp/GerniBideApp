@@ -14,4 +14,15 @@
     <color name="txtSecundario">#525C77</color>
     <color name="verdeArbol">#85C257</color>
     <color name="marronTronco">#A87457</color>
+
+    <!-- Value Colors -->
+    <color name="valueFriendship">#E91E63</color>
+    <color name="valueFreedom">#2196F3</color>
+    <color name="valueSolidarity">#FFC107</color>
+    <color name="valueRespect">#9C27B0</color>
+    <color name="valuePeace">#00BCD4</color>
+
+    <!-- Feedback Colors -->
+    <color name="correct">#4CAF50</color>
+    <color name="incorrect">#F44336</color>
 </resources>

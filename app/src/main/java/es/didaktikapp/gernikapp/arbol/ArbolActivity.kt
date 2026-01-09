@@ -1,4 +1,6 @@
-package com.example.didaktikarbol
+package es.didaktikapp.gernikapp.arbol
+
+import es.didaktikapp.gernikapp.R
 
 import android.content.Intent
 import android.media.MediaPlayer
@@ -38,17 +40,22 @@ class ArbolActivity : AppCompatActivity() {
         tvCongrats = findViewById(R.id.tvCongrats)
 
         // Reproducir audio
-        mediaPlayer = MediaPlayer.create(this, R.raw.genikako_arbola)
+        /* mediaPlayer = MediaPlayer.create(this, R.raw.genikako_arbola)
         mediaPlayer.isLooping = false
         mediaPlayer.start()
 
         mediaPlayer.setOnCompletionListener {
             showQuiz()
-        }
+        } */
+        
+        // Temporarily show quiz immediately since audio is missing
+        showQuiz()
 
         // Setup SeekBar
         seekBar = findViewById(R.id.seekBarAudio)
-        seekBar.max = mediaPlayer.duration
+        if (::mediaPlayer.isInitialized) {
+            seekBar.max = mediaPlayer.duration
+        }
 
         runnable = Runnable {
             if (::mediaPlayer.isInitialized) {

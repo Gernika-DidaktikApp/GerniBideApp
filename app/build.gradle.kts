@@ -4,14 +4,12 @@ plugins {
 }
 
 android {
-    namespace = "com.example.didaktikarbol"
-    compileSdk {
-        version = release(36)
-    }
+    namespace = "es.didaktikapp.gernikapp"
+    compileSdk = 36
 
     defaultConfig {
-        applicationId = "com.example.didaktikarbol"
-        minSdk = 24
+        applicationId = "es.didaktikapp.gernikapp"
+        minSdk = 26
         targetSdk = 36
         versionCode = 1
         versionName = "1.0"
@@ -43,6 +41,7 @@ dependencies {
     implementation(libs.material)
     implementation(libs.androidx.activity)
     implementation(libs.androidx.constraintlayout)
+    implementation(libs.play.services.maps)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)

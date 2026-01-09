@@ -1,4 +1,6 @@
-package com.example.didaktikarbol
+package es.didaktikapp.gernikapp.arbol
+
+import es.didaktikapp.gernikapp.R
 
 import android.content.Intent
 import android.graphics.Bitmap

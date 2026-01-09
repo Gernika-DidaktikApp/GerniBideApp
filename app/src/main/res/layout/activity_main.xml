@@ -7,13 +7,55 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Hello World!"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:padding="24dp"
+        android:background="@color/base">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="GernikApp"
+            android:textSize="40sp"
+            android:textStyle="bold"
+            android:textColor="@color/txtPrincipal"
+            android:fontFamily="sans-serif-condensed"
+            android:layout_marginBottom="8dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Didaktika eta Historia"
+            android:textSize="18sp"
+            android:textColor="@color/txtSecundario"
+            android:layout_marginBottom="48dp"/>
+
+        <Button
+            android:id="@+id/btnMap"
+            android:layout_width="240dp"
+            android:layout_height="64dp"
+            android:text="MAPA"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:textColor="@color/white"
+            android:backgroundTint="@color/btnPrincipal"
+            android:elevation="4dp"
+            android:layout_marginBottom="16dp"/>
+
+        <Button
+            android:id="@+id/btnArbol"
+            android:layout_width="240dp"
+            android:layout_height="64dp"
+            android:text="GERNIKAKO ARBOLA"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:textColor="@color/white"
+            android:backgroundTint="@color/btnSecundario"
+            android:elevation="4dp"/>
+
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
