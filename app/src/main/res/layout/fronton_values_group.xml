@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:flexbox="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:padding="24dp"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/fondo1">
+
+    <EditText
+        android:id="@+id/inputValor"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="150dp"
+        android:autofillHints="username"
+        android:hint="@string/idatzi_zure_taldearen_balioa"
+        android:inputType="text" />
+
+    <Button
+        android:id="@+id/btnAnadir"
+        style="@style/EstiloBotonPrimario"
+        android:text="@string/gehitu"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"/>
+
+    <Button
+        android:id="@+id/btnFinalizar"
+        style="@style/EstiloBotonPrimario"
+        android:text="@string/amaitu"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"/>
+
+    <com.google.android.flexbox.FlexboxLayout
+        android:id="@+id/valoresContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        flexbox:flexWrap="wrap"
+        flexbox:justifyContent="flex_start"
+        flexbox:alignItems="flex_start"
+        android:layout_marginTop="16dp"
+        android:padding="8dp" />
+
+    <TextView
+        android:id="@+id/mensajeFinal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/elkarrekin_jokatuz_eta_elkar_entzunez_guztion_balioak_osatuko_ditugu"
+        android:textSize="18sp"
+        android:gravity="center"
+        android:visibility="gone"
+        android:layout_marginTop="16dp"/>
+
+    <Button
+        android:id="@+id/btnVolver"
+        style="@style/EstiloBotonSecundario"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/atzera"
+        android:visibility="gone"
+        android:layout_gravity="center"
+        android:layout_marginTop="16dp"/>
+
+</LinearLayout>
