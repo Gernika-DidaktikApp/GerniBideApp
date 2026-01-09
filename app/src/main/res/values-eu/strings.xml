@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">GerniBide</string>
+    <!-- Login -->
+    <string name="login_title">Saioa hasi</string>
+    <string name="login_username_hint">Erabiltzailea</string>
+    <string name="login_password_hint">Pasahitza</string>
+    <string name="login_button">Saioa hasi</string>
+    <string name="login_welcome">Ongi etorri %s</string>
+
+    <!-- Errores de validación -->
+    <string name="error_username_required">Sartu zure erabiltzailea</string>
+    <string name="error_password_required">Sartu zure pasahitza</string>
+
+    <!-- Errores de red -->
+    <string name="error_no_internet">Ez dago interneteko konexiorik</string>
+    <string name="error_timeout">Denbora muga gainditu da</string>
+    <string name="error_connection">Konexio errorea: %s</string>
+    <string name="error_server">Zerbitzari errorea: %d</string>
+    <string name="error_unknown">Errore ezezaguna</string>
+    <string name="error_empty_response">Zerbitzariaren erantzun hutsa</string>
+
+    <!-- Mapa -->
+    <string name="map_marker_title_arbola">Gernikako Arbola eta Juntetxea</string>
+    <string name="map_marker_title_bunker">Astrako bunkerrak</string>
+    <string name="map_marker_title_guernica">Picasso-ren "Guernica"</string>
+    <string name="map_marker_title_plaza">Gernikako azoka plaza</string>
+    <string name="map_marker_title_frontoi">Jai-Alai frontoia</string>
+
+    <string name="map_dialog_message">%s-ra iritsi zara.\nSartu nahi duzu?</string>
+    <string name="map_dialog_button_enter">Sartu</string>
+    <string name="map_dialog_button_cancel">Ez</string>
+    <string name="map_entered_location">Sartu zara: %s</string>
+</resources>

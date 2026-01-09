@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- App general -->
+    <string name="app_name">GernikApp</string>
+
+    <!-- Login -->
+    <string name="login_title">Iniciar Sesión</string>
+    <string name="login_username_hint">Usuario</string>
+    <string name="login_password_hint">Contraseña</string>
+    <string name="login_button">Iniciar Sesión</string>
+    <string name="login_welcome">Bienvenido %s</string>
+
+    <!-- Errores de validación -->
+    <string name="error_username_required">Ingrese su usuario</string>
+    <string name="error_password_required">Ingrese su contraseña</string>
+
+    <!-- Errores de red -->
+    <string name="error_no_internet">No hay conexión a internet</string>
+    <string name="error_timeout">Tiempo de espera agotado</string>
+    <string name="error_connection">Error de conexión: %s</string>
+    <string name="error_server">Error del servidor: %d</string>
+    <string name="error_unknown">Error desconocido</string>
+    <string name="error_empty_response">Respuesta vacía del servidor</string>
+
+    <!-- Mapa -->
+    <string name="map_marker_title_arbola">Gernikako Arbola eta Juntetxea</string>
+    <string name="map_marker_title_bunker">Astrako bunkerrak</string>
+    <string name="map_marker_title_guernica">Picasso-ren "Guernica"</string>
+    <string name="map_marker_title_plaza">Gernikako azoka plaza</string>
+    <string name="map_marker_title_frontoi">Jai-Alai frontoia</string>
+
+    <string name="map_dialog_message">Has llegado a %s.\n¿Quieres entrar?</string>
+    <string name="map_dialog_button_enter">Entrar</string>
+    <string name="map_dialog_button_cancel">No</string>
+    <string name="map_entered_location">Has entrado en: %s</string>
+</resources>
