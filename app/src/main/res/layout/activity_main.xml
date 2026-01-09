@@ -5,66 +5,15 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/base"
-    android:padding="24dp"
     tools:context=".MainActivity">
 
     <TextView
-        android:id="@+id/tvTitulo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="GernikApp"
-        android:textSize="32sp"
-        android:textStyle="bold"
-        android:textColor="@color/btnPrincipal"
-        app:layout_constraintTop_toTopOf="parent"
+        android:text="Hello World!"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/btnVideo"
-        app:layout_constraintVertical_chainStyle="packed" />
-
-    <Button
-        android:id="@+id/btnVideo"
-        style="@style/EstiloBotonPrimario"
-        android:layout_width="0dp"
-        android:text="1. Vídeo"
-        android:layout_marginTop="32dp"
-        android:layout_marginBottom="12dp"
-        app:layout_constraintTop_toBottomOf="@id/tvTitulo"
-        app:layout_constraintBottom_toTopOf="@id/btnMercado"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
-
-    <Button
-        android:id="@+id/btnMercado"
-        style="@style/EstiloBotonPrimario"
-        android:layout_width="0dp"
-        android:text="2. Mercado"
-        android:layout_marginBottom="12dp"
-        app:layout_constraintTop_toBottomOf="@id/btnVideo"
-        app:layout_constraintBottom_toTopOf="@id/btnVersos"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
-
-    <Button
-        android:id="@+id/btnVersos"
-        style="@style/EstiloBotonPrimario"
-        android:layout_width="0dp"
-        android:text="3. Versos"
-        android:layout_marginBottom="12dp"
-        app:layout_constraintTop_toBottomOf="@id/btnMercado"
-        app:layout_constraintBottom_toTopOf="@id/btnFotos"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
-
-    <Button
-        android:id="@+id/btnFotos"
-        style="@style/EstiloBotonPrimario"
-        android:layout_width="0dp"
-        android:text="4. Fotos"
-        app:layout_constraintTop_toBottomOf="@id/btnVersos"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
