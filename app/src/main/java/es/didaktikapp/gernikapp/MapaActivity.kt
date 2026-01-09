@@ -14,6 +14,7 @@ import android.widget.Toast
 import com.google.android.gms.maps.model.MarkerOptions
 import androidx.appcompat.app.AlertDialog
 import es.didaktikapp.gernikapp.databinding.ActivityMapaBinding
+import es.didaktikapp.gernikapp.utils.Constants
 
 class MapaActivity : AppCompatActivity(), OnMapReadyCallback {
 
@@ -33,38 +34,38 @@ class MapaActivity : AppCompatActivity(), OnMapReadyCallback {
     override fun onMapReady(googleMap: GoogleMap) {
         nMap = googleMap
 
-        val gernika = LatLng(43.3170, -2.6789)
-        nMap.moveCamera(CameraUpdateFactory.newLatLngZoom(gernika, 16f))
+        val gernika = LatLng(Constants.Map.GERNIKA_CENTER_LAT, Constants.Map.GERNIKA_CENTER_LNG)
+        nMap.moveCamera(CameraUpdateFactory.newLatLngZoom(gernika, Constants.Map.DEFAULT_ZOOM_LEVEL))
 
         nMap.uiSettings.isZoomControlsEnabled = true
 
         nMap.addMarker(
             MarkerOptions()
-                .position(LatLng(43.313287, -2.679579))
+                .position(LatLng(Constants.Map.ARBOLA_LAT, Constants.Map.ARBOLA_LNG))
                 .title(getString(R.string.map_marker_title_arbola))
         )
 
         nMap.addMarker(
             MarkerOptions()
-                .position(LatLng(43.312137, -2.676608))
+                .position(LatLng(Constants.Map.BUNKER_LAT, Constants.Map.BUNKER_LNG))
                 .title(getString(R.string.map_marker_title_bunker))
         )
 
         nMap.addMarker(
             MarkerOptions()
-                .position(LatLng(43.315513, -2.680047))
+                .position(LatLng(Constants.Map.GUERNICA_LAT, Constants.Map.GUERNICA_LNG))
                 .title(getString(R.string.map_marker_title_guernica))
         )
 
         nMap.addMarker(
             MarkerOptions()
-                .position(LatLng(43.316139, -2.676672))
+                .position(LatLng(Constants.Map.PLAZA_LAT, Constants.Map.PLAZA_LNG))
                 .title(getString(R.string.map_marker_title_plaza))
         )
 
         nMap.addMarker(
             MarkerOptions()
-                .position(LatLng(43.317399, -2.678783))
+                .position(LatLng(Constants.Map.FRONTOI_LAT, Constants.Map.FRONTOI_LNG))
                 .title(getString(R.string.map_marker_title_frontoi))
         )
 
@@ -87,7 +88,7 @@ class MapaActivity : AppCompatActivity(), OnMapReadyCallback {
             ActivityCompat.requestPermissions(
                 this,
                 arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
-                1001)
+                Constants.Permissions.LOCATION_PERMISSION_REQUEST_CODE)
         }
     }
 

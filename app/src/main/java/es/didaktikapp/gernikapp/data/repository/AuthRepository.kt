@@ -1,8 +1,6 @@
 package es.didaktikapp.gernikapp.data.repository
 
 import android.content.Context
-import com.squareup.moshi.Moshi
-import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import es.didaktikapp.gernikapp.R
 import es.didaktikapp.gernikapp.data.local.TokenManager
 import es.didaktikapp.gernikapp.data.models.ApiError
@@ -20,9 +18,6 @@ class AuthRepository(private val context: Context) {
 
     private val apiService: ApiService = RetrofitClient.getApiService(context)
     private val tokenManager = TokenManager(context)
-    private val moshi = Moshi.Builder()
-        .add(KotlinJsonAdapterFactory())
-        .build()
 
     suspend fun login(username: String, password: String): Resource<LoginResponse> {
         return withContext(Dispatchers.IO) {
@@ -74,7 +69,8 @@ class AuthRepository(private val context: Context) {
             val errorBody = response.errorBody()?.string()
             val errorMessage = if (errorBody != null) {
                 try {
-                    val apiError = moshi.adapter(ApiError::class.java).fromJson(errorBody)
+                    // Usar la instancia compartida de Moshi desde RetrofitClient
+                    val apiError = RetrofitClient.moshi.adapter(ApiError::class.java).fromJson(errorBody)
                     apiError?.detail ?: context.getString(R.string.error_unknown)
                 } catch (e: Exception) {
                     context.getString(R.string.error_server, response.code())

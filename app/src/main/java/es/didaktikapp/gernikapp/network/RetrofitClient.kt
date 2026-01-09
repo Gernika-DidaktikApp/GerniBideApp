@@ -5,6 +5,7 @@ import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import es.didaktikapp.gernikapp.BuildConfig
 import es.didaktikapp.gernikapp.data.local.TokenManager
+import es.didaktikapp.gernikapp.utils.Constants
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -14,6 +15,16 @@ import java.util.concurrent.TimeUnit
 object RetrofitClient {
 
     private var retrofit: Retrofit? = null
+
+    /**
+     * Instancia única de Moshi para toda la aplicación
+     * (reutilizable para parsing de JSON en diferentes partes del código)
+     */
+    val moshi: Moshi by lazy {
+        Moshi.Builder()
+            .add(KotlinJsonAdapterFactory())
+            .build()
+    }
 
     fun getInstance(context: Context): Retrofit {
         if (retrofit == null) {
@@ -40,13 +51,9 @@ object RetrofitClient {
         val okHttpClient = OkHttpClient.Builder()
             .addInterceptor(AuthInterceptor(tokenManager))
             .addInterceptor(loggingInterceptor)
-            .connectTimeout(30, TimeUnit.SECONDS)
-            .readTimeout(30, TimeUnit.SECONDS)
-            .writeTimeout(30, TimeUnit.SECONDS)
-            .build()
-
-        val moshi = Moshi.Builder()
-            .add(KotlinJsonAdapterFactory())
+            .connectTimeout(Constants.Network.TIMEOUT_SECONDS, TimeUnit.SECONDS)
+            .readTimeout(Constants.Network.TIMEOUT_SECONDS, TimeUnit.SECONDS)
+            .writeTimeout(Constants.Network.TIMEOUT_SECONDS, TimeUnit.SECONDS)
             .build()
 
         return Retrofit.Builder()
