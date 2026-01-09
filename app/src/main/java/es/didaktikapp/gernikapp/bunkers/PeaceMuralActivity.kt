@@ -1,4 +1,6 @@
-package com.example.didaktikarbol
+package es.didaktikapp.gernikapp.bunkers
+
+import es.didaktikapp.gernikapp.R
 
 import android.media.MediaPlayer
 import android.os.Bundle

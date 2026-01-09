@@ -4,6 +4,8 @@ import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
+import es.didaktikapp.gernikapp.bunkers.ArbolActivity
+import es.didaktikapp.gernikapp.bunkers.SoundGameActivity
 import kotlin.jvm.java
 
 class MainActivity : AppCompatActivity() {

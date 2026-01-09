@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <View
+        android:id="@+id/voiceContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <View
+        android:id="@+id/quizContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone" />
+
+    <SeekBar
+        android:id="@+id/seekBarAudio"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <ImageButton
+        android:id="@+id/btnPlay"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_play" />
+
+    <ImageButton
+        android:id="@+id/btnPause"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_pause" />
+
+    <ImageButton
+        android:id="@+id/btnStop"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_stop" />
+
+    <TextView
+        android:id="@+id/tvCongrats"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone" />
+
+    <Button
+        android:id="@+id/btnStartPuzzle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone" />
+        
+    <Button android:id="@+id/q1a1" android:layout_width="wrap_content" android:layout_height="wrap_content" />
+    <Button android:id="@+id/q1a2" android:layout_width="wrap_content" android:layout_height="wrap_content" />
+    <Button android:id="@+id/q2a1" android:layout_width="wrap_content" android:layout_height="wrap_content" />
+    <Button android:id="@+id/q2a2" android:layout_width="wrap_content" android:layout_height="wrap_content" />
+    <Button android:id="@+id/q3a1" android:layout_width="wrap_content" android:layout_height="wrap_content" />
+    <Button android:id="@+id/q3a2" android:layout_width="wrap_content" android:layout_height="wrap_content" />
+
+</LinearLayout>
