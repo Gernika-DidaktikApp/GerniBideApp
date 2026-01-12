@@ -28,5 +28,10 @@ class FrontonInfoActivity : AppCompatActivity() {
             }
         }
 
+        val btnVolver = findViewById<Button>(R.id.btnVolver)
+        btnVolver.setOnClickListener {
+            finish()
+        }
+
     }
 }

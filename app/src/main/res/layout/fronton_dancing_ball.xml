@@ -15,7 +15,7 @@
     <ImageView
         android:id="@+id/zesta"
         android:layout_width="100dp"
-        android:layout_height="60dp"
+        android:layout_height="80dp"
         android:contentDescription="@string/zesta_punta_mugitu_pelota_jotzeko"
         android:src="@drawable/fronton_zesta_punta"
         android:layout_gravity="bottom|center_horizontal"
@@ -26,11 +26,66 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/puntuak_0"
-        android:textSize="32sp"
-        android:textColor="#FFFFFF"
+        android:textSize="36sp"
+        android:textColor="#FFFF00"
         android:textStyle="bold"
+        android:shadowColor="#000000"
+        android:shadowRadius="4"
         android:padding="16dp"
-        android:layout_gravity="bottom|center_horizontal"
-        android:layout_marginBottom="24dp"/>
+        android:layout_gravity="top|center_horizontal"
+        android:layout_marginTop="50dp"/>
+
+    <LinearLayout
+        android:id="@+id/gameOverDialog"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#80000000"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:visibility="gone"
+        android:padding="32dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/game_over"
+            android:textSize="48sp"
+            android:textColor="#FFEB3B"
+            android:textStyle="bold"
+            android:layout_marginBottom="24dp"/>
+
+        <TextView
+            android:id="@+id/tvFinalScore"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/puntuak_0"
+            android:textSize="36sp"
+            android:textColor="#FFFFFF"
+            android:layout_marginBottom="48dp"/>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/btnReiniciar"
+                style="@style/EstiloBotonPrimario"
+                android:layout_width="wrap_content"
+                android:layout_height="60dp"
+                android:text="@string/saiatu_berriro"
+                android:textSize="20sp"
+                android:layout_marginEnd="24dp"/>
+
+            <Button
+                android:id="@+id/btnSalir"
+                style="@style/EstiloBotonSecundario"
+                android:layout_width="wrap_content"
+                android:layout_height="60dp"
+                android:text="@string/atzera"
+                android:textSize="20sp" />
+
+        </LinearLayout>
+    </LinearLayout>
 
 </FrameLayout>
