@@ -7,10 +7,10 @@ import androidx.appcompat.app.AppCompatActivity
 import es.didaktikapp.gernikapp.arbol.ArbolActivity
 import kotlin.jvm.java
 
-class MainActivity : AppCompatActivity() {
+class ArbolMainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        setContentView(R.layout.activity_arbol)
 
         val btnMap = findViewById<Button>(R.id.btnMap)
         val btnArbol = findViewById<Button>(R.id.btnArbol)
