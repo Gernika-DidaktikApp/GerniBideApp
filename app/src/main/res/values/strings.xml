@@ -20,4 +20,6 @@
     <string name="atzera">Atzera</string>
     <string name="elkarrekin_jokatuz_eta_elkar_entzunez_guztion_balioak_osatuko_ditugu">Elkarrekin jokatuz eta elkar entzunez, guztion balioak osatuko ditugu.</string>
     <string name="zesta_punta_mugitu_pelota_jotzeko">Zesta punta, mugitu pelota jotzeko</string>
+    <string name="saiatu_berriro">Saiatu Berriro</string>
+    <string name="game_over">GAME OVER</string>
 </resources>
