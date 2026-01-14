@@ -208,10 +208,10 @@
     <string name="my_message_load_new">Berria idatzi</string>
 
     <!--Fronton-->
-    <string name="informaci_n_del_front_n">Frontoiko Informazioa</string>
-    <string name="juego_pelota_dantzan">Jolasa: Dantza Pilota</string>
-    <string name="video_y_valores">Bideoa eta baloreak</string>
-    <string name="tu_valor_del_equipo">Zure taldearen balioa</string>
+    <string name="informaci_n_del_front_n">1. Frontoiko Informazioa</string>
+    <string name="juego_pelota_dantzan">2. Jolasa: Dantza Pilota</string>
+    <string name="video_y_valores">3. Bideoa eta baloreak</string>
+    <string name="tu_valor_del_equipo">4. Zure taldearen balioa</string>
     <string name="videoa_erreproduzitu">Videoa erreproduzitu</string>
     <string name="gernikako_jai_alai_frontoia_munduko_handienetakoa_eta_garrantzitsuenetakoa_da_hemen_zesta_puntara_jokatzen_da_munduan_zehar_banatuta_dauden_zesta_puntako_frontoi_askori_eman_die_izena_aurrean_dugun_honek_zestalariak_elkarlanean_aritzen_dira_eta_errespetua_dute_oinarri_kirolaren_bidez_askotariko_balioak_ikasi_eta_transmititzen_direlarik">Gernikako Jai Alai frontoia munduko handienetakoa eta garrantzitsuenetakoa da. Hemen, zesta puntara jokatzen da. Munduan zehar banatuta dauden zesta-puntako frontoi askori eman die izena aurrean dugun honek. Zestalariak, elkarlanean aritzen dira eta errespetua dute oinarri. Kirolaren bidez, askotariko balioak ikasi eta transmititzen direlarik.</string>
     <string name="gehitu">Gehitu</string>
