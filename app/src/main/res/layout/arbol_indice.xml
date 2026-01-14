@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:padding="24dp"
+    android:gravity="center"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/base"
+    tools:context=".fronton.MainFrontonActivity">
+
+    <TextView
+        android:id="@+id/tvTituloArbola"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="32dp"
+        android:text="Gernikako Arbola"
+        android:textColor="@color/btnPrincipal"
+        android:textSize="32sp"
+        android:textStyle="bold" />
+
+    <Button
+        android:id="@+id/btnArbolaInfo"
+        style="@style/EstiloBotonPrimario"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="12dp"
+        android:minHeight="70dp"
+        android:text="@string/infor_arbol" />
+
+    <Button
+        android:id="@+id/btnArbolaInfo2"
+        style="@style/EstiloBotonPrimario"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="12dp"
+        android:minHeight="70dp"
+        android:text="@string/preguntas_arbol" />
+
+    <Button
+        android:id="@+id/btnPelota"
+        style="@style/EstiloBotonPrimario"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="12dp"
+        android:minHeight="70dp"
+        android:text="@string/juego_puzzle" />
+
+    <Button
+        android:id="@+id/btnBalioak"
+        style="@style/EstiloBotonPrimario"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="12dp"
+        android:minHeight="70dp"
+        android:text="@string/btn_arbol_mural" />
+
+    <Button
+        android:id="@+id/btnVolverMapa"
+        style="@style/EstiloBotonSecundario"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="70dp"
+        android:text="Itzuli mapara"
+        android:layout_marginBottom="12dp"/>
+
+</LinearLayout>

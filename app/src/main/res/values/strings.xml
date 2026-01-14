@@ -230,4 +230,11 @@
     <string name="zesta_punta_mugitu_pelota_jotzeko">Zesta punta, mugitu pelota jotzeko</string>
     <string name="saiatu_berriro">Saiatu Berriro</string>
     <string name="game_over">GAME OVER</string>
+
+    <!--Arbola-->
+    <string name="infor_arbol">1. Gernikako Arbola informazioa</string>
+    <string name="juego_puzzle">3. Jolasa: Arbolaren puzzlea</string>
+    <string name="preguntas_arbol">2. Galderak erantzun</string>
+    <string name="btn_arbol_mural">5. Baloreen arbola</string>
+
 </resources>
