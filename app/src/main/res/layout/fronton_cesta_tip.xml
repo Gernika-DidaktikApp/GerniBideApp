@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/fondo3">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:padding="24dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <VideoView
+            android:id="@+id/videoFronton"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:layout_marginTop="130dp"/>
+
+        <Button
+            android:id="@+id/btnPlayVideo"
+            style="@style/EstiloBotonPrimario"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/videoa_erreproduzitu"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="16dp"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/zein_balio_agertzen_dira_jokoan"
+            android:textSize="20sp"
+            android:layout_marginTop="20dp"
+            android:paddingBottom="16dp"/>
+
+        <RadioGroup
+            android:id="@+id/opcionesGroup"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <RadioButton
+                android:id="@+id/op1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/lankidetza"
+                android:paddingBottom="8dp" />
+
+            <RadioButton
+                android:id="@+id/op2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/errespetua"
+                android:paddingBottom="8dp" />
+
+            <RadioButton
+                android:id="@+id/op3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/bakardadea"
+                android:paddingBottom="8dp" />
+
+        </RadioGroup>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_horizontal"
+            android:layout_marginTop="24dp"
+            android:weightSum="2">
+
+            <Button
+                android:id="@+id/btnConfirmar"
+                style="@style/EstiloBotonPrimario"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/berretsi"/>
+
+            <Button
+                android:id="@+id/btnAtzera"
+                style="@style/EstiloBotonSecundario"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/atzera"
+                android:visibility="gone"
+                android:layout_marginStart="16dp"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+</ScrollView>

@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/fondo5"
+    android:padding="16dp">
+
+    <TextView
+        android:id="@+id/tvTitulo"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:gravity="center"
+        android:text="@string/verso_titulo"
+        android:textColor="@color/btnPrincipal"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tvProgreso"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="64dp"
+        android:text="1/3"
+        android:textColor="@color/txtSecundario"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvTitulo" />
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardVerso"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        app:cardCornerRadius="12dp"
+        app:cardElevation="4dp"
+        app:layout_constraintTop_toBottomOf="@id/tvProgreso"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <TextView
+            android:id="@+id/tvVersoInicial"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Gernikako plazara\nastelehen goizean..."
+            android:textSize="20sp"
+            android:textStyle="italic"
+            android:textColor="@color/btnPrincipal"
+            android:padding="24dp"
+            android:gravity="center" />
+    </androidx.cardview.widget.CardView>
+
+    <RadioGroup
+        android:id="@+id/radioGroupOpciones"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        app:layout_constraintTop_toBottomOf="@id/cardVerso"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <RadioButton
+            android:id="@+id/rbOpcion1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/opcion_1"
+            android:textSize="16sp"
+            android:textColor="@color/txtPrincipal"
+            android:padding="16dp"
+            android:layout_marginBottom="8dp"
+            android:layout_gravity="center"
+            android:button="@null"
+            android:background="@drawable/plaza_bg_product_selector" />
+
+        <RadioButton
+            android:id="@+id/rbOpcion2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/opcion_2"
+            android:textSize="16sp"
+            android:textColor="@color/txtPrincipal"
+            android:padding="16dp"
+            android:layout_marginBottom="8dp"
+            android:layout_gravity="center"
+            android:button="@null"
+            android:background="@drawable/plaza_bg_product_selector" />
+
+        <RadioButton
+            android:id="@+id/rbOpcion3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/opcion_3"
+            android:textSize="16sp"
+            android:textColor="@color/txtPrincipal"
+            android:padding="16dp"
+            android:layout_gravity="center"
+            android:button="@null"
+            android:background="@drawable/plaza_bg_product_selector" />
+    </RadioGroup>
+
+    <Button
+        android:id="@+id/btnComprobar"
+
+        style="@style/EstiloBotonSecundario"
+        android:layout_width="wrap_content"
+        android:text="@string/comprobar"
+        android:layout_marginTop="24dp"
+        app:layout_constraintTop_toBottomOf="@id/radioGroupOpciones"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <TextView
+        android:id="@+id/tvAciertos"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/aciertos"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:textColor="@color/txtPrincipal"
+        android:layout_marginTop="16dp"
+        app:layout_constraintTop_toBottomOf="@id/btnComprobar"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <Button
+        android:id="@+id/btnSiguiente"
+        style="@style/EstiloBotonPrimario"
+        android:layout_width="0dp"
+        android:text="@string/siguiente"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,3 +1,233 @@
 <resources>
     <string name="app_name">GernikApp</string>
+
+    <!-- Plaza Gernika Module -->
+    <!-- Pantalla de Video -->
+    <string name="plaza_titulo">Gernikako Plaza</string>
+    <string name="siguiente">Hurrengoa</string>
+    <string name="play_pause">Erreproduzitu/Pausatu</string>
+
+    <!-- Pantalla Arrastrar Productos -->
+    <string name="arrastra_productos_titulo">Produktuak postuan jarri</string>
+    <string name="arrastra_instrucciones">Arrastatu produktu bakoitza dagozkion postura</string>
+    <string name="puesto_lacteos">Esnekiak</string>
+    <string name="puesto_verduras">Barazkiak</string>
+    <string name="puesto_panaderia">Ogia</string>
+    <string name="puesto_natural">Naturala</string>
+    <string name="puesto_artesania">Artisautza</string>
+    <string name="completado_titulo">Bikain!</string>
+    <string name="completado_mensaje">Azoka prest! Gernika bizirik dago!</string>
+    <string name="jarraitu">Jarraitu</string>
+
+    <!-- Productos -->
+    <string name="producto_gazta">Gazta</string>
+    <string name="producto_esnea">Esnea</string>
+    <string name="producto_jogurta">Jogurta</string>
+    <string name="producto_piperrak">Piperrak</string>
+    <string name="producto_kipula">Tipula</string>
+    <string name="producto_indabak">Indabak</string>
+    <string name="producto_ogi_otzara">Ogia</string>
+    <string name="producto_madalenak">Madalenak</string>
+    <string name="producto_pastela">Pastela</string>
+    <string name="producto_eztia">Eztia</string>
+    <string name="producto_polena">Polena</string>
+    <string name="producto_esku_lanak">Egurrezko Lanak</string>
+    <string name="producto_ontziak">Burdinazko Ontziak</string>
+    <string name="producto_zestak">Zestak</string>
+
+    <!-- Pantalla de Versos -->
+    <string name="verso_titulo">Bertsoak</string>
+    <string name="comprobar">Comprobar</string>
+    <string name="aciertos">Aciertos: 0/3</string>
+
+    <!-- Pantalla de Fotos -->
+    <string name="foto_mision_titulo">Argazki Misioak</string>
+    <string name="foto_mision_descripcion">Completa las misiones fotográficas</string>
+    <string name="finalizar">Finalizar</string>
+    <string name="mision_icono">Icono de misión</string>
+    <string name="tomar_foto">Tomar foto</string>
+    <string name="plaza_txt_video">Plaza da herriko bihotza. Astelehenero, plazan biltzen dira inguruko herrietako nekazariak beraien produktuak saltzeko. Horrez gain, bertan elkartzen gara jaietan, azoketan eta egun berezietan. Urriko Azken Astelehena berezia izaten da, eta gure herria kolorez, postu ezberdin askoz eta musikaz betetzen da. Tradizio hauei esker, gure kultura bizirik dagoela eta guztion artean egiten dugula ikasten dugu.</string>
+    <string name="_0_00_0_00">0:00 / 0:00</string>
+    <string name="opcion_1">Opción 1</string>
+    <string name="opcion_2">Opción 2</string>
+    <string name="opcion_3">Opción 3</string>
+
+    <!-- Login -->
+    <string name="login_title">Saioa hasi</string>
+    <string name="login_username_hint">Erabiltzailea</string>
+    <string name="login_password_hint">Pasahitza</string>
+    <string name="login_button">Saioa hasi</string>
+    <string name="login_welcome">Ongi etorri %s</string>
+
+    <!-- Errores de validación -->
+    <string name="error_username_required">Sartu zure erabiltzailea</string>
+    <string name="error_password_required">Sartu zure pasahitza</string>
+
+    <!-- Errores de red -->
+    <string name="error_no_internet">Ez dago interneteko konexiorik</string>
+    <string name="error_timeout">Denbora muga gainditu da</string>
+    <string name="error_connection">Konexio errorea: %s</string>
+    <string name="error_server">Zerbitzari errorea: %d</string>
+    <string name="error_unknown">Errore ezezaguna</string>
+    <string name="error_empty_response">Zerbitzariaren erantzun hutsa</string>
+
+    <!-- Mapa -->
+    <string name="map_marker_title_arbola">Gernikako Arbola eta Juntetxea</string>
+    <string name="map_marker_title_bunker">Astrako bunkerrak</string>
+    <string name="map_marker_title_guernica">Picasso-ren "Guernica"</string>
+    <string name="map_marker_title_plaza">Gernikako azoka plaza</string>
+    <string name="map_marker_title_frontoi">Jai-Alai frontoia</string>
+
+    <string name="map_dialog_message">%s-ra iritsi zara.\nSartu nahi duzu?</string>
+    <string name="map_dialog_button_enter">Sartu</string>
+    <string name="map_dialog_button_cancel">Ez</string>
+    <string name="map_entered_location">Sartu zara: %s</string>
+
+    <!-- Picasso -->
+    <string name="picasso_title">Picassoren Guernica</string>
+    <string name="picasso_subtitle">Jarduerak</string>
+    <string name="picasso_activity_1">1. Kolorez bakea</string>
+    <string name="picasso_activity_2">2. Ikusi eta asmatu</string>
+    <string name="picasso_activity_3">3. Nire mezua munduarentzat</string>
+    <string name="picasso_guernica_description">Guernica</string>
+
+    <!-- Color Peace -->
+    <string name="color_peace_title">Kolorez bakea</string>
+    <string name="color_peace_instructions">Hatzegin batekin marraztu, bi hatzez handitu/txikitu eta mugitu</string>
+    <string name="color_peace_clear">Ezabatu</string>
+    <string name="color_peace_finish">Amaitu</string>
+    <string name="color_peace_dialog_title">Bikain!</string>
+    <string name="color_peace_dialog_message">Zure bakeko irudia sortu duzu! Orain ikusi dezakezu.</string>
+    <string name="color_peace_dialog_button">Ikusi</string>
+    <string name="color_peace_save_error">Errorea irudia gordetzean</string>
+    <string name="color_peace_load_title">Aurretik margotutako irudia</string>
+    <string name="color_peace_load_message">Aurretik margotutako irudi bat dago. Jarraitu nahi duzu edo berria hasi?</string>
+    <string name="color_peace_load_continue">Jarraitu</string>
+    <string name="color_peace_load_start_new">Berria hasi</string>
+    <string name="color_peace_repaint">Berriro margotu</string>
+    <string name="color_peace_view_result">Emaitza ikusi</string>
+    <string name="color_peace_saved_preview_description">Gordetako margoketa</string>
+
+    <!-- Result -->
+    <string name="result_title">Zure obra</string>
+    <string name="result_subtitle">Bikain! Hemen duzu zure "Guernica" koloreduna</string>
+    <string name="result_image_description">Guernica koloreduna</string>
+    <string name="result_share">Partekatu</string>
+    <string name="result_close">Itxi</string>
+
+    <!-- View and Interpret -->
+    <string name="view_interpret_title">Ikusi eta asmatu</string>
+    <string name="view_interpret_element_description">Guernicaren elementua</string>
+    <string name="view_interpret_next">Hurrengoa</string>
+    <string name="view_interpret_wrong_answer">Erantzun zuzena: %1$s\n%2$s</string>
+    <string name="view_interpret_results_title">Bikain!</string>
+    <string name="view_interpret_results_message">Puntuazioa: %1$d/%2$d\n%3$s</string>
+    <string name="view_interpret_results_finish">Amaitu</string>
+    <string name="view_interpret_load_title">Aurretik egindako testa</string>
+    <string name="view_interpret_load_message">Aurretik egindako test bat dago. Jarraitu nahi duzu edo berria hasi?</string>
+    <string name="view_interpret_load_continue">Jarraitu</string>
+    <string name="view_interpret_load_start_new">Berria hasi</string>
+    <string name="view_interpret_previous_result_title">Aurreko emaitza</string>
+    <string name="view_interpret_previous_result_message">Aurreko puntuazioa: %1$d/%2$d\n%3$s\n\nBerriro egin nahi duzu testa?</string>
+    <string name="view_interpret_redo_test">Berriro egin</string>
+    <string name="view_interpret_exit">Irten</string>
+
+    <!-- Pregunta 1: Zaldia -->
+    <string name="view_interpret_q1">Zer irudikatzen du irudi honek?</string>
+    <string name="view_interpret_q1_opt1">Indarkeria</string>
+    <string name="view_interpret_q1_opt2">Herriko indarra</string>
+    <string name="view_interpret_q1_opt3">Itxaropena</string>
+    <string name="view_interpret_q1_opt4">Bakea</string>
+    <string name="view_interpret_q1_feedback">Zuzena! Zaldiak herriko indarra irudikatzen du</string>
+
+    <!-- Pregunta 2: Ama haurrarekin -->
+    <string name="view_interpret_q2">Zer irudikatzen du haurra duen amak?</string>
+    <string name="view_interpret_q2_opt1">Mina</string>
+    <string name="view_interpret_q2_opt2">Biktimen ezintasuna</string>
+    <string name="view_interpret_q2_opt3">Beldurra</string>
+    <string name="view_interpret_q2_opt4">Itxaropena</string>
+    <string name="view_interpret_q2_feedback">Zuzena! Amak biktimen ezintasuna eta mina irudikatzen du</string>
+
+    <!-- Pregunta 3: Argia -->
+    <string name="view_interpret_q3">Zer sinbolizatzen du bonbilla/argiak?</string>
+    <string name="view_interpret_q3_opt1">Bakea</string>
+    <string name="view_interpret_q3_opt2">Aurrerapen teknologikoa</string>
+    <string name="view_interpret_q3_opt3">Beldurra</string>
+    <string name="view_interpret_q3_opt4">Itxaropena</string>
+    <string name="view_interpret_q3_feedback">Zuzena! Argiak aurrerapen teknologikoa irudikatzen du</string>
+
+    <!-- Pregunta 4: Zezena -->
+    <string name="view_interpret_q4">Zer irudikatzen du zezenak?</string>
+    <string name="view_interpret_q4_opt1">Indarra</string>
+    <string name="view_interpret_q4_opt2">Bakea</string>
+    <string name="view_interpret_q4_opt3">Basatikeria eta irrazionaltasuna</string>
+    <string name="view_interpret_q4_opt4">Itxaropena</string>
+    <string name="view_interpret_q4_feedback">Zuzena! Zezenak basatikeria eta irrazionaltasuna irudikatzen du</string>
+
+    <!-- Pregunta 5: Oihua -->
+    <string name="view_interpret_q5">Zer irudikatzen du oihu egiten duen emakumeak?</string>
+    <string name="view_interpret_q5_opt1">Poza</string>
+    <string name="view_interpret_q5_opt2">Bakea</string>
+    <string name="view_interpret_q5_opt3">Kaosa eta beldurra</string>
+    <string name="view_interpret_q5_opt4">Itxaropena</string>
+    <string name="view_interpret_q5_feedback">Zuzena! Oihu egiten duen emakumeak kaosa eta beldurra irudikatzen du</string>
+
+    <!-- Pregunta 6: Gerlaria -->
+    <string name="view_interpret_q6">Zer irudikatzen du eroritako soldaduak?</string>
+    <string name="view_interpret_q6_opt1">Garaipena</string>
+    <string name="view_interpret_q6_opt2">Sakrifizioa eta heriotza</string>
+    <string name="view_interpret_q6_opt3">Bakea</string>
+    <string name="view_interpret_q6_opt4">Itxaropena</string>
+    <string name="view_interpret_q6_feedback">Zuzena! Soldaduak gerran sakrifizioa eta heriotza irudikatzen du</string>
+
+    <!-- My Message -->
+    <string name="my_message_title">Nire mezua munduarentzat</string>
+    <string name="my_message_instructions">Idatzi zure bakea mezua:</string>
+    <string name="my_message_start">Ni bakea nahi dut…</string>
+    <string name="my_message_hint">Idatzi zure mezua hemen…</string>
+    <string name="my_message_char_count">0/200</string>
+    <string name="my_message_char_count_format">%d/200</string>
+    <string name="my_message_send">Bidali</string>
+    <string name="my_message_back">Atzera</string>
+    <string name="my_message_messages_title">Bakeko mezuak</string>
+    <string name="my_message_error_empty">Mesedez, idatzi mezu bat</string>
+    <string name="my_message_error_short">Mezua laburregia da. Gutxienez 10 karaktere</string>
+    <string name="my_message_error_save">Errorea mezua gordetzean</string>
+    <string name="my_message_empty_state">Oraindik ez dago mezurik.\nIzango zara lehena!</string>
+    <string name="my_message_confirm_title">Eskerrik asko!</string>
+    <string name="my_message_confirm_message">Zure mezua:\n\n\"%1$s\"\n\nBerria idatzi nahi duzu?</string>
+    <string name="my_message_confirm_keep">Ez, hau mantendu</string>
+    <string name="my_message_confirm_new">Bai, berria idatzi</string>
+    <string name="my_message_sample_1">haur guztiek beldurrik gabe jolastea merezi dutelako</string>
+    <string name="my_message_sample_2">familiak harmonian bizi daitezen</string>
+    <string name="my_message_sample_3">arteak gerra baino gehiago batzen gaitu</string>
+    <string name="my_message_sample_4">etorkizun hobea elkarrekin eraikitzeko</string>
+    <string name="my_message_load_title">Aurretik idatzitako mezua</string>
+    <string name="my_message_load_message">Aurretik mezu hau idatzi duzu:\n\n\"%1$s\"\n\nEditatu nahi duzu edo berria idatzi?</string>
+    <string name="my_message_load_edit">Editatu</string>
+    <string name="my_message_load_new">Berria idatzi</string>
+
+    <!--Fronton-->
+    <string name="informaci_n_del_front_n">1. Frontoiko Informazioa</string>
+    <string name="juego_pelota_dantzan">2. Jolasa: Dantza Pilota</string>
+    <string name="video_y_valores">3. Bideoa eta baloreak</string>
+    <string name="tu_valor_del_equipo">4. Zure taldearen balioa</string>
+    <string name="videoa_erreproduzitu">Videoa erreproduzitu</string>
+    <string name="gernikako_jai_alai_frontoia_munduko_handienetakoa_eta_garrantzitsuenetakoa_da_hemen_zesta_puntara_jokatzen_da_munduan_zehar_banatuta_dauden_zesta_puntako_frontoi_askori_eman_die_izena_aurrean_dugun_honek_zestalariak_elkarlanean_aritzen_dira_eta_errespetua_dute_oinarri_kirolaren_bidez_askotariko_balioak_ikasi_eta_transmititzen_direlarik">Gernikako Jai Alai frontoia munduko handienetakoa eta garrantzitsuenetakoa da. Hemen, zesta puntara jokatzen da. Munduan zehar banatuta dauden zesta-puntako frontoi askori eman die izena aurrean dugun honek. Zestalariak, elkarlanean aritzen dira eta errespetua dute oinarri. Kirolaren bidez, askotariko balioak ikasi eta transmititzen direlarik.</string>
+    <string name="gehitu">Gehitu</string>
+    <string name="idatzi_zure_taldearen_balioa">Idatzi zure taldearen balioa</string>
+    <string name="zein_balio_agertzen_dira_jokoan">Zein balio agertzen dira jokoan?</string>
+    <string name="lankidetza">Lankidetza</string>
+    <string name="errespetua">Errespetua</string>
+    <string name="bakardadea">Bakardadea</string>
+    <string name="berretsi">Berretsi</string>
+    <string name="amaitu">Amaitu</string>
+    <string name="puntuak_0">Puntuak: 0</string>
+    <string name="gernikako_pilotalekuaren_atzeko_planoaren_irudia">Gernikako pilotalekuaren atzeko planoaren irudia</string>
+    <string name="koordinazio_joko_pilota">Koordinazio-joko pilota</string>
+    <string name="atzera">Atzera</string>
+    <string name="elkarrekin_jokatuz_eta_elkar_entzunez_guztion_balioak_osatuko_ditugu">Elkarrekin jokatuz eta elkar entzunez, guztion balioak osatuko ditugu.</string>
+    <string name="zesta_punta_mugitu_pelota_jotzeko">Zesta punta, mugitu pelota jotzeko</string>
+    <string name="saiatu_berriro">Saiatu Berriro</string>
+    <string name="game_over">GAME OVER</string>
 </resources>
