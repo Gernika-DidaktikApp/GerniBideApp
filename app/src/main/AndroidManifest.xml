@@ -26,17 +26,22 @@
             android:value="@string/google_maps_key" />
 
         <activity
-            android:name=".MainActivity"
-            android:exported="false">
-        </activity>
-        <activity
-            android:name=".MapaActivity"
+            android:name=".LoginActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+
+        <activity
+            android:name=".MainActivity"
+            android:exported="false">
+        </activity>
+        <activity
+            android:name=".MapaActivity"
+            android:exported="false">
         </activity>
 
         <!-- Plaza Gernika Activities -->
