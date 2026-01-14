@@ -24,10 +24,11 @@ class LoginActivity : AppCompatActivity() {
 
         authRepository = AuthRepository(this)
 
-//        if (authRepository.hasActiveSession()) {
-//            navigateToMain()
-//            return
-//        }
+        // Si ya hay una sesión activa, ir directamente al mapa
+        if (authRepository.hasActiveSession()) {
+            navigateToMap()
+            return
+        }
 
         setupClickListeners()
     }
@@ -62,7 +63,7 @@ class LoginActivity : AppCompatActivity() {
                         getString(R.string.login_welcome, username),
                         Toast.LENGTH_SHORT
                     ).show()
-                    navigateToMain()
+                    navigateToMap()
                 }
 
                 is Resource.Error -> {
@@ -88,8 +89,8 @@ class LoginActivity : AppCompatActivity() {
         binding.editTextPassword.isEnabled = !isLoading
     }
 
-    private fun navigateToMain() {
-        val intent = Intent(this, PicassoActivity::class.java)
+    private fun navigateToMap() {
+        val intent = Intent(this, MapaActivity::class.java)
         startActivity(intent)
         finish()
     }
