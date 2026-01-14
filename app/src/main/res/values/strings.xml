@@ -83,6 +83,19 @@
     <string name="map_dialog_button_cancel">Ez</string>
     <string name="map_entered_location">Sartu zara: %s</string>
 
+    <!-- Bottom Sheet -->
+    <string name="map_bottom_sheet_default_title">Hautatu puntu bat</string>
+    <string name="map_bottom_sheet_default_description">Sakatu markatzaile bat mapan informazioa ikusteko</string>
+    <string name="map_location_icon">Lekuaren ikonoa</string>
+    <string name="map_button_go_to_activity">Jarduera bisitatu</string>
+
+    <!-- Descripciones de ubicaciones -->
+    <string name="map_description_arbola">Gernikako Arbola euskal herriaren sinbolo nagusietakoa da. Bere azpian bildu ohi ziren legebiltzarrak eta askatasunaren ikurra da.</string>
+    <string name="map_description_bunker">Astrako bunkerrak Gerra Zibileko lekukotzak dira. 1937ko bonbardaketan herritarrek babesleku gisa erabili zituzten.</string>
+    <string name="map_description_guernica">Pablo Picassok margotutako Guernica lana gerra zibilaren aurkako protesta artistiko bat da, eta mundu osoan ezaguna da.</string>
+    <string name="map_description_plaza">Gernikako azoka plaza herriko bihotza da. Astelehenero, nekazariek beraien produktuak saltzen dituzte hemen.</string>
+    <string name="map_description_frontoi">Jai-Alai frontoia munduko handienetakoa da, non zesta punta jolasten den, euskal kirola.</string>
+
     <!-- Picasso -->
     <string name="picasso_title">Picassoren Guernica</string>
     <string name="picasso_subtitle">Jarduerak</string>
