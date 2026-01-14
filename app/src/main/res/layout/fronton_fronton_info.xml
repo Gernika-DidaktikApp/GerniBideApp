@@ -9,12 +9,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
+        <!-- Vídeo descriptivo del frontón -->
         <VideoView
             android:id="@+id/videoFronton"
             android:layout_width="match_parent"
             android:layout_height="200dp"
             android:layout_marginTop="16dp"/>
 
+        <!-- Texto del vídeo descriptivo -->
         <TextView
             android:id="@+id/videoDescripcion"
             android:text="@string/gernikako_jai_alai_frontoia_munduko_handienetakoa_eta_garrantzitsuenetakoa_da_hemen_zesta_puntara_jokatzen_da_munduan_zehar_banatuta_dauden_zesta_puntako_frontoi_askori_eman_die_izena_aurrean_dugun_honek_zestalariak_elkarlanean_aritzen_dira_eta_errespetua_dute_oinarri_kirolaren_bidez_askotariko_balioak_ikasi_eta_transmititzen_direlarik"
@@ -23,6 +25,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"/>
 
+        <!-- Botón para reproducir el vídeo -->
         <Button
             android:id="@+id/btnPlayVideo"
             style="@style/EstiloBotonPrimario"
@@ -31,6 +34,7 @@
             android:text="@string/videoa_erreproduzitu"
             android:layout_marginTop="16dp"/>
 
+        <!-- Botón para volver a atras -->
         <Button
             android:id="@+id/btnVolver"
             style="@style/EstiloBotonSecundario"

@@ -207,7 +207,7 @@
     <string name="my_message_load_edit">Editatu</string>
     <string name="my_message_load_new">Berria idatzi</string>
 
-    <!--Fronton-->
+    <!-- Fronton - xml -->
     <string name="informaci_n_del_front_n">1. Frontoiko Informazioa</string>
     <string name="juego_pelota_dantzan">2. Jolasa: Dantza Pilota</string>
     <string name="video_y_valores">3. Bideoa eta baloreak</string>
@@ -230,4 +230,25 @@
     <string name="zesta_punta_mugitu_pelota_jotzeko">Zesta punta, mugitu pelota jotzeko</string>
     <string name="saiatu_berriro">Saiatu Berriro</string>
     <string name="game_over">GAME OVER</string>
+    <string name="itzuli_mapara">Itzuli mapara</string>
+    <string name="frontoia">Frontoia</string>
+
+    <!-- Fronton - CestaTipActivity -->
+    <string name="videoa_gelditu">Videoa gelditu</string>
+    <string name="erantzun_zuzena">Erantzun Zuzena ✅</string>
+    <string name="erantzun_okerra">Erantzun okerra ❌</string>
+    <string name="hautatu_aukera_bat">Hautatu aukera bat</string>
+
+    <!-- SettingActivity -->
+    <string name="ezarpenak_gordeta">Ezarpenerak gordeta!</string>
+    <string name="ezarpenak">EZARPENAK</string>
+    <string name="ezarpenak_gorde">EZARPENAK GORDE</string>
+    <string name="soinuarekin">🔊 Soinuarekin</string>
+    <string name="desaktibatu_soinua">Desaktibatu jokoaren soinu guztiak</string>
+    <string name="letren_tamaina">📖 Letren tamaina</string>
+    <string name="aukeratu_tamaina">Aukeratu irakurtzeko tamaina egokia</string>
+    <string name="gaueko_modua">🌙 Gaueko modua</string>
+    <string name="gauez_jolasteko_plano_ilunak">Gauez jolasteko azteko plano ilunak</string>
+    <string name="hizkuntza">🗣️ Hizkuntza</string>
+    <string name="euskara_edo_gaztelania">Euskara edo Gaztelania</string>
 </resources>

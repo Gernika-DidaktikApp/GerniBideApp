@@ -2,10 +2,10 @@
 <resources>
     <!-- Tamaño de los textos-->
     <string-array name="text_sizes">
-        <item>Txikia (14sp)</item>
-        <item>Normala (16sp)</item>
-        <item>Handia (20sp)</item>
-        <item>Oso handia (24sp)</item>
+        <item>Txikia</item>
+        <item>Normala</item>
+        <item>Handia</item>
+        <item>Oso handia</item>
     </string-array>
 
     <!-- Los idiomas disponibles-->

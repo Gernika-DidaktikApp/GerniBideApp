@@ -10,12 +10,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
+        <!-- Video introductorio -->
         <VideoView
             android:id="@+id/videoFronton"
             android:layout_width="match_parent"
             android:layout_height="200dp"
             android:layout_marginTop="130dp"/>
 
+        <!-- Controles del video -->
         <Button
             android:id="@+id/btnPlayVideo"
             style="@style/EstiloBotonPrimario"
@@ -25,6 +27,7 @@
             android:layout_marginTop="16dp"
             android:layout_marginBottom="16dp"/>
 
+        <!-- Pregunta del quiz -->
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -33,11 +36,13 @@
             android:layout_marginTop="20dp"
             android:paddingBottom="16dp"/>
 
+        <!-- Opciones de respuesta -->
         <RadioGroup
             android:id="@+id/opcionesGroup"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
+            <!-- Opción 1: Lankidetza -->
             <RadioButton
                 android:id="@+id/op1"
                 android:layout_width="wrap_content"
@@ -45,6 +50,7 @@
                 android:text="@string/lankidetza"
                 android:paddingBottom="8dp" />
 
+            <!-- Opción 2: Errespetua -->
             <RadioButton
                 android:id="@+id/op2"
                 android:layout_width="wrap_content"
@@ -52,6 +58,7 @@
                 android:text="@string/errespetua"
                 android:paddingBottom="8dp" />
 
+            <!-- Opción 3: Bakardadea -->
             <RadioButton
                 android:id="@+id/op3"
                 android:layout_width="wrap_content"
@@ -69,6 +76,7 @@
             android:layout_marginTop="24dp"
             android:weightSum="2">
 
+            <!-- Botón confirmar respuesta -->
             <Button
                 android:id="@+id/btnConfirmar"
                 style="@style/EstiloBotonPrimario"
@@ -77,6 +85,7 @@
                 android:layout_weight="1"
                 android:text="@string/berretsi"/>
 
+            <!-- Botón volver (oculto inicialmente) -->
             <Button
                 android:id="@+id/btnAtzera"
                 style="@style/EstiloBotonSecundario"
