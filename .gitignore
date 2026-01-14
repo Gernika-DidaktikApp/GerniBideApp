@@ -17,3 +17,6 @@ local.properties
 # Archivo de configuración con credenciales sensibles
 app/src/main/assets/configuration.properties
 
+# Google Maps API Key
+app/src/main/res/values/google_maps_api.xml
+
