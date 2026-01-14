@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/fondo2"
-    tools:context=".ArbolMainActivity">
+    tools:context=".arbol.ArbolActivity">
 
     <!-- Voice Info Screen -->
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -75,6 +75,19 @@
                 android:src="@drawable/ic_stop"
                 app:tint="@color/white" />
         </LinearLayout>
+
+        <Button
+            android:id="@+id/btnToQuiz"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:backgroundTint="@color/btnPrincipal"
+            android:text="@string/boton_ir_a_preguntas_quiz"
+            android:textColor="@color/white"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/mediaControls" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <!-- Quiz Screen -->
@@ -96,7 +109,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="ULERMEN GALDERAK"
+                android:text="@string/titulo_preguntas"
                 android:textAlignment="center"
                 android:textSize="24sp"
                 android:textStyle="bold"
@@ -107,7 +120,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="1. Zertarako elkartzen ziren Arbolaren azpian?"
+                android:text="@string/pregunta_1"
                 android:textSize="18sp"
                 android:textStyle="bold"
                 android:layout_marginBottom="8dp"/>
@@ -115,20 +128,20 @@
                 android:id="@+id/q1a1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Legeak adosteko eta foruak zin egiteko"
+                android:text="@string/resp_1_correcta"
                 android:layout_marginBottom="4dp"/>
             <Button
                 android:id="@+id/q1a2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Bazkaltzeko"
+                android:text="@string/resp_1_incorrecta"
                 android:layout_marginBottom="16dp"/>
 
             <!-- Question 2 -->
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="2. Zer adierazten du Batzar Etxeak?"
+                android:text="@string/pregunta_2"
                 android:textSize="18sp"
                 android:textStyle="bold"
                 android:layout_marginBottom="8dp"/>
@@ -136,20 +149,20 @@
                 android:id="@+id/q2a1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Euskal Herriko demokrazia eta askatasuna"
+                android:text="@string/resp_2_correcta"
                 android:layout_marginBottom="4dp"/>
             <Button
                 android:id="@+id/q2a2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Museo soil bat"
+                android:text="@string/resp_2_incorrecta"
                 android:layout_marginBottom="16dp"/>
 
             <!-- Question 3 -->
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="3. Zertarako erabiltzen da Batzar Etxea?"
+                android:text="@string/pregunta_3"
                 android:textSize="18sp"
                 android:textStyle="bold"
                 android:layout_marginBottom="8dp"/>
@@ -157,24 +170,24 @@
                 android:id="@+id/q3a1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Batzar Nagusiak egiteko"
+                android:text="@string/resp_3_correcta"
                 android:layout_marginBottom="4dp"/>
             <Button
                 android:id="@+id/q3a2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Kontzertuak emateko"
+                android:text="@string/resp_3_incorrecta"
                 android:layout_marginBottom="16dp"/>
 
             <TextView
                 android:id="@+id/tvCongrats"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Ondo egin duzu! Orain zure arbola sortzera goaz."
+                android:text="@string/felicitacion_quiz"
                 android:textAlignment="center"
                 android:textSize="20sp"
                 android:textStyle="bold"
-                android:textColor="@color/correcto"
+                android:textColor="@color/correct"
                 android:visibility="gone"
                 android:layout_marginTop="16dp"/>
 
@@ -187,7 +200,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="24dp"
         android:backgroundTint="@color/btnPrincipal"
-        android:text="HASI PUZZLEA"
+        android:text="@string/boton_empezar_puzzle"
         android:textSize="18sp"
         android:textColor="@color/white"
         android:visibility="gone"

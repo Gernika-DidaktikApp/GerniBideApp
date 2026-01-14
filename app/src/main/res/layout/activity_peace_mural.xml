@@ -12,7 +12,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
-        android:text="Zein hitzek adierazten dute zuretzat bakea?"
+        android:text="@string/titulo_mural"
         android:textAlignment="center"
         android:textColor="@color/black"
         android:textSize="22sp"
@@ -41,7 +41,7 @@
                 android:layout_margin="4dp"
                 android:background="@drawable/bg_boton_secundario"
                 app:backgroundTint="@null"
-                android:text="Itxaropena"
+                android:text="@string/palabra_esperanza"
                 android:textColor="@color/white" />
 
             <Button
@@ -51,7 +51,7 @@
                 android:layout_margin="4dp"
                 android:background="@drawable/bg_boton_secundario"
                 app:backgroundTint="@null"
-                android:text="Elkarbizitza"
+                android:text="@string/palabra_convivencia"
                 android:textColor="@color/white" />
 
             <Button
@@ -61,7 +61,7 @@
                 android:layout_margin="4dp"
                 android:background="@drawable/bg_boton_secundario"
                 app:backgroundTint="@null"
-                android:text="Laguntza"
+                android:text="@string/palabra_ayuda"
                 android:textColor="@color/white" />
 
             <Button
@@ -71,7 +71,7 @@
                 android:layout_margin="4dp"
                 android:background="@drawable/bg_boton_secundario"
                 app:backgroundTint="@null"
-                android:text="Adiskidetasuna"
+                android:text="@string/palabra_amistad_mural"
                 android:textColor="@color/white" />
         </LinearLayout>
     </HorizontalScrollView>
@@ -102,7 +102,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
-        android:text="Zorionak, bakearen mezua zabaldu duzu."
+        android:text="@string/felicitacion_mural"
         android:textColor="@color/black"
         android:textStyle="bold"
         android:visibility="gone"
@@ -116,7 +116,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="24dp"
         android:backgroundTint="@color/btnPrincipal"
-        android:text="AMAITU"
+        android:text="@string/boton_terminar"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

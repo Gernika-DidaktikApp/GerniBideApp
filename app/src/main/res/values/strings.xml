@@ -237,4 +237,54 @@
     <string name="preguntas_arbol">2. Galderak erantzun</string>
     <string name="btn_arbol_mural">5. Baloreen arbola</string>
 
+    <!-- Arbol Actividades -->
+    <string name="titulo_app">GernikApp</string>
+    <string name="subtitulo_main">Didaktika eta Historia</string>
+    <string name="boton_bunkers">BUNKERRAK</string>
+    <string name="boton_arbol">GERNIKAKO ARBOLA</string>
+    <string name="titulo_preguntas">ULERMEN GALDERAK</string>
+    <string name="pregunta_1">1. Zertarako elkartzen ziren Arbolaren azpian?</string>
+    <string name="resp_1_correcta">Legeak adosteko eta foruak zin egiteko</string>
+    <string name="resp_1_incorrecta">Bazkaltzeko</string>
+    <string name="pregunta_2">2. Zer adierazten du Batzar Etxeak?</string>
+    <string name="resp_2_correcta">Euskal Herriko demokrazia eta askatasuna</string>
+    <string name="resp_2_incorrecta">Museo soil bat</string>
+    <string name="pregunta_3">3. Zertarako erabiltzen da Batzar Etxea?</string>
+    <string name="resp_3_correcta">Batzar Nagusiak egiteko</string>
+    <string name="resp_3_incorrecta">Kontzertuak emateko</string>
+    <string name="felicitacion_quiz">Ondo egin duzu! Orain zure arbola sortzera goaz.</string>
+    <string name="boton_empezar_puzzle">HASI PUZZLEA</string>
+    <string name="boton_ir_a_preguntas_quiz">GALDETEGIRA JOAN</string>
+    <string name="victoria_puzzle">Gernikako bihotza berreraiki duzu!</string>
+    <string name="boton_siguiente_puzzle">HURRENGOA</string>
+    <string name="pregunta_valores">Zer balio adieraziko luke zure zuhaitzak?</string>
+    <string name="valor_amistad">adiskidetasuna</string>
+    <string name="valor_libertad">askatasuna</string>
+    <string name="valor_solidaridad">elkartasuna</string>
+    <string name="valor_respeto">errespetua</string>
+    <string name="valor_paz">bakea</string>
+    <string name="boton_volver">ITZULI</string>
+    <string name="boton_atras">ATZERA</string>
+
+    <!-- Bunkers Actividades -->
+    <string name="titulo_bunkers">SOINU JOLASA</string>
+    <string name="puntuacion_estrellas">⭐ %1$d / %2$d</string>
+    <string name="pregunta_bunkers">Soinu honek beldurra edo babesa adierazten du?</string>
+    <string name="boton_miedo">BELDURRA</string>
+    <string name="boton_proteccion">BABESA</string>
+    <string name="mensaje_historia">Soinuek historia kontatzen dute.</string>
+    <string name="sentimiento_pregunta">Zer sentituko zenuke babesleku batean egon beharko bazenu?</string>
+    <string name="sentimiento_miedo">Beldurra</string>
+    <string name="sentimiento_tristeza">Tristura</string>
+    <string name="sentimiento_tranquilidad">Lasaitasuna</string>
+    <string name="sentimiento_esperanza">Itxaropena</string>
+    <string name="feedback_sentimiento">Eskerrik asko zure sentimendua partekatzeagatik.</string>
+    <string name="titulo_mural">Zein hitzek adierazten dute zuretzat bakea?</string>
+    <string name="palabra_esperanza">Itxaropena</string>
+    <string name="palabra_convivencia">Elkarbizitza</string>
+    <string name="palabra_ayuda">Laguntza</string>
+    <string name="palabra_amistad_mural">Adiskidetasuna</string>
+    <string name="felicitacion_mural">Zorionak, bakearen mezua zabaldu duzu.</string>
+    <string name="boton_terminar">AMAITU</string>
+
 </resources>

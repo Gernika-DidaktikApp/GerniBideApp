@@ -117,7 +117,7 @@ class SoundGameActivity : AppCompatActivity() {
         val correctCategory = soundCategories[currentSoundId]
         if (category == correctCategory) {
             stars++
-            tvStars.text = "⭐ $stars / $totalSounds"
+            tvStars.text = getString(R.string.puntuacion_estrellas, stars, totalSounds)
             
             // Change background color based on selection with a smooth transition
             val targetColor = if (category == 0) 

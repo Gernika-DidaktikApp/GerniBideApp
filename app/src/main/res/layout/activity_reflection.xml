@@ -12,7 +12,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_margin="32dp"
-        android:text="Zer sentituko zenuke babesleku batean egon beharko bazenu?"
+        android:text="@string/sentimiento_pregunta"
         android:textAlignment="center"
         android:textColor="@color/black"
         android:textSize="24sp"
@@ -55,7 +55,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
-                android:text="Beldurra"
+                android:text="@string/sentimiento_miedo"
                 android:textColor="@color/black"
                 android:textStyle="bold" />
         </LinearLayout>
@@ -81,7 +81,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
-                android:text="Tristura"
+                android:text="@string/sentimiento_tristeza"
                 android:textColor="@color/black"
                 android:textStyle="bold" />
         </LinearLayout>
@@ -107,7 +107,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
-                android:text="Lasaitasuna"
+                android:text="@string/sentimiento_tranquilidad"
                 android:textColor="@color/black"
                 android:textStyle="bold" />
         </LinearLayout>
@@ -133,7 +133,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
-                android:text="Itxaropena"
+                android:text="@string/sentimiento_esperanza"
                 android:textColor="@color/black"
                 android:textStyle="bold" />
         </LinearLayout>
@@ -144,7 +144,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:padding="24dp"
-        android:text="Eskerrik asko zure sentimendua partekatzeagatik."
+        android:text="@string/feedback_sentimiento"
         android:textAlignment="center"
         android:textColor="@color/black"
         android:textSize="20sp"
@@ -161,7 +161,7 @@
         android:layout_marginBottom="48dp"
         android:background="@drawable/bg_boton_primario"
         app:backgroundTint="@null"
-        android:text="JARRAITU"
+        android:text="@string/jarraitu"
         android:textColor="@color/white"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"

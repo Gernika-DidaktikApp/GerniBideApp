@@ -162,7 +162,16 @@ class PuzzleActivity : AppCompatActivity() {
         if (piecesPlaced == totalPieces) {
             tvVictory.visibility = View.VISIBLE
             btnNext.visibility = View.VISIBLE
-            guideImage.alpha = 0.5f // Reveal image slightly more
+            guideImage.alpha = 0.5f 
+
+            // Pequeño retardo para que el usuario vea el mensaje antes de cambiar de pantalla automáticamente
+            android.os.Handler(android.os.Looper.getMainLooper()).postDelayed({
+                if (!isFinishing) {
+                    val intent = Intent(this, NireArbolaActivity::class.java)
+                    startActivity(intent)
+                    finish()
+                }
+            }, 2000) // 2 segundos de espera
         }
     }
 

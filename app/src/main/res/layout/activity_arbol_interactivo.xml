@@ -25,7 +25,7 @@
         android:layout_margin="16dp"
         android:background="@drawable/bg_boton_secundario"
         app:backgroundTint="@null"
-        android:text="ATZERA"
+        android:text="@string/boton_atras"
         android:textColor="@color/white" />
 
 </FrameLayout>

@@ -34,10 +34,10 @@
             android:layout_marginBottom="48dp"/>
 
         <Button
-            android:id="@+id/btnMap"
+            android:id="@+id/btnBunkers"
             android:layout_width="240dp"
             android:layout_height="64dp"
-            android:text="MAPA"
+            android:text="@string/boton_bunkers"
             android:textSize="18sp"
             android:textStyle="bold"
             android:textColor="@color/white"
@@ -49,7 +49,7 @@
             android:id="@+id/btnArbol"
             android:layout_width="240dp"
             android:layout_height="64dp"
-            android:text="GERNIKAKO ARBOLA"
+            android:text="@string/boton_arbol"
             android:textSize="18sp"
             android:textStyle="bold"
             android:textColor="@color/white"

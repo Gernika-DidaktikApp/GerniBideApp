@@ -21,12 +21,22 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.GernikApp">
 
-        <meta-data
-            android:name="com.google.android.geo.API_KEY"
-            android:value="@string/google_maps_key" />
 
         <activity
-            android:name=".LoginActivity"
+            android:name=".arbol.ArbolActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".arbol.PuzzleActivity"
+            android:exported="false" />
+        <activity
+            android:name=".arbol.ArbolInteractivoActivity"
+            android:exported="false" />
+        <activity
+            android:name=".arbol.NireArbolaActivity"
+            android:exported="false" />
+        <activity
+            android:name=".arbol.ArbolMainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -34,6 +44,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".LoginActivity"
+            android:exported="false" />
 
         <activity
             android:name=".MainActivity"
@@ -56,6 +69,51 @@
             android:exported="false" />
         <activity
             android:name=".plazagernika.PhotoMissionActivity"
+            android:exported="false" />
+
+        <!-- Bunkers Activities -->
+        <activity
+            android:name=".bunkers.SoundGameActivity"
+            android:exported="false" />
+        <activity
+            android:name=".bunkers.ReflectionActivity"
+            android:exported="false" />
+        <activity
+            android:name=".bunkers.PeaceMuralActivity"
+            android:exported="false" />
+
+        <!-- Picasso Activities -->
+        <activity
+            android:name=".picasso.PicassoActivity"
+            android:exported="false" />
+        <activity
+            android:name=".picasso.ViewAndInterpretActivity"
+            android:exported="false" />
+        <activity
+            android:name=".picasso.ColorPeaceActivity"
+            android:exported="false" />
+        <activity
+            android:name=".picasso.MyMessageActivity"
+            android:exported="false" />
+        <activity
+            android:name=".picasso.ResultActivity"
+            android:exported="false" />
+
+        <!-- Fronton Activities -->
+        <activity
+            android:name=".fronton.MainFrontonActivity"
+            android:exported="false" />
+        <activity
+            android:name=".fronton.FrontonInfoActivity"
+            android:exported="false" />
+        <activity
+            android:name=".fronton.CestaTipActivity"
+            android:exported="false" />
+        <activity
+            android:name=".fronton.DancingBallActivity"
+            android:exported="false" />
+        <activity
+            android:name=".fronton.ValuesGroupActivity"
             android:exported="false" />
     </application>
 

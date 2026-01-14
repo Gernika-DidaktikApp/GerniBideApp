@@ -21,4 +21,6 @@
     <color name="valueSolidarity">#9B59B6</color>
     <color name="valueRespect">#85C257</color>
     <color name="valuePeace">#6BCDBF</color>
+    <color name="correct">#6BCDBF</color>
+    <color name="incorrect">#F89F5B</color>
 </resources>
