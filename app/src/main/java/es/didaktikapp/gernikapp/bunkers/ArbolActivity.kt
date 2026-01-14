@@ -109,11 +109,11 @@ class ArbolActivity : AppCompatActivity() {
                 if (questionAnswered) return@setOnClickListener
                 
                 if (id == correctId) {
-                    button.setBackgroundColor(ContextCompat.getColor(this, R.color.correct))
+                    button.setBackgroundColor(ContextCompat.getColor(this, R.color.correcto))
                     questionAnswered = true
                     checkCompletion()
                 } else {
-                    button.setBackgroundColor(ContextCompat.getColor(this, R.color.incorrect))
+                    button.setBackgroundColor(ContextCompat.getColor(this, R.color.error))
                 }
             }
         }

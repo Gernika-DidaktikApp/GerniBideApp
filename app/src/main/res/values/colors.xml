@@ -16,4 +16,9 @@
     <color name="marronTronco">#A87457</color>
     <color name="btnDisabled">#CCCCCC</color>
     <color name="btnDisabledShadow">#999999</color>
+    <color name="valueFriendship">#FFB347</color>
+    <color name="valueFreedom">#5F90DE</color>
+    <color name="valueSolidarity">#9B59B6</color>
+    <color name="valueRespect">#85C257</color>
+    <color name="valuePeace">#6BCDBF</color>
 </resources>
