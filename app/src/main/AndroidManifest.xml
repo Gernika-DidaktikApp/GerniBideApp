@@ -18,12 +18,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.GernikApp">
 
-        <meta-data
+        g<meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
 
         <activity
-            android:name=".ArbolMainActivity"
+            android:name=".arbol.ArbolActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -32,10 +32,10 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".MapaActivity"
+            android:name=".ArbolMainActivity"
             android:exported="false" />
         <activity
-            android:name=".arbol.ArbolActivity"
+            android:name=".MapaActivity"
             android:exported="false" />
         <activity
             android:name=".arbol.ArbolInteractivoActivity"
