@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Tamaño de los textos-->
+    <string-array name="text_sizes">
+        <item>Txikia (14sp)</item>
+        <item>Normala (16sp)</item>
+        <item>Handia (20sp)</item>
+        <item>Oso handia (24sp)</item>
+    </string-array>
+
+    <!-- Los idiomas disponibles-->
+    <string-array name="languages">
+        <item>Euskara</item>
+        <item>Gaztelania</item>
+    </string-array>
+</resources>
