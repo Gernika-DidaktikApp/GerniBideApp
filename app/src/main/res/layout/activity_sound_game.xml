@@ -159,7 +159,7 @@
         android:id="@+id/btnNextActivity"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="32dp"
+        android:layout_marginBottom="96dp"
         android:backgroundTint="@color/btnPrincipal"
         android:text="@string/jarraitu"
         android:visibility="gone"

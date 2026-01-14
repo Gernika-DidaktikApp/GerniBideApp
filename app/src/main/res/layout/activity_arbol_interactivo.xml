@@ -23,9 +23,18 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|start"
         android:layout_margin="16dp"
-        android:background="@drawable/bg_boton_secundario"
-        app:backgroundTint="@null"
+        android:backgroundTint="@color/btnSecundario"
         android:text="@string/boton_atras"
+        android:textColor="@color/white" />
+
+    <Button
+        android:id="@+id/btnFinish"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="16dp"
+        android:backgroundTint="@color/btnPrincipal"
+        android:text="@string/boton_terminar"
         android:textColor="@color/white" />
 
 </FrameLayout>

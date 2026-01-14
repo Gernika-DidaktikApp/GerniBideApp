@@ -21,6 +21,7 @@ class SoundGameActivity : AppCompatActivity() {
     private lateinit var rootLayout: View
 
     private var stars = 0
+    private var answeredSounds = 0
     private var currentSoundId = -1
     private val totalSounds = 5
     private var mediaPlayer: MediaPlayer? = null
@@ -71,6 +72,10 @@ class SoundGameActivity : AppCompatActivity() {
             findViewById<ImageButton>(id).setOnClickListener {
                 currentSoundId = id
                 playSound(id)
+                // Deshabilitar el botón para que solo se escuche una vez
+                it.isEnabled = false
+                it.alpha = 0.5f
+                
                 // Highlight selected sound
                 resetSoundButtonColors()
                 it.setBackgroundColor(getColor(R.color.btnPrincipal))
@@ -91,58 +96,63 @@ class SoundGameActivity : AppCompatActivity() {
             mediaPlayer = MediaPlayer.create(this, resId)
             mediaPlayer?.start()
         } else {
-            // Silence - do nothing or play very short silence
             mediaPlayer = null
         }
     }
 
     private fun resetSoundButtonColors() {
         listOf(R.id.btnSound1, R.id.btnSound2, R.id.btnSound3, R.id.btnSound4, R.id.btnSound5).forEach {
-            findViewById<ImageButton>(it).setBackgroundResource(R.drawable.bg_boton_secundario)
+            val btn = findViewById<ImageButton>(it)
+            if (btn.isEnabled) {
+                btn.setBackgroundResource(R.drawable.bg_boton_secundario)
+            }
         }
     }
 
     private fun setupCategoryButtons() {
         findViewById<Button>(R.id.btnBeldurra).setOnClickListener {
-            checkAnswer(0)
+            handleAnswer(0)
         }
         findViewById<Button>(R.id.btnBabesa).setOnClickListener {
-            checkAnswer(1)
+            handleAnswer(1)
         }
     }
 
-    private fun checkAnswer(category: Int) {
+    private fun handleAnswer(category: Int) {
         if (currentSoundId == -1) return
 
         val correctCategory = soundCategories[currentSoundId]
+        
+        // Si es correcto, sumamos estrella
         if (category == correctCategory) {
             stars++
-            tvStars.text = getString(R.string.puntuacion_estrellas, stars, totalSounds)
-            
-            // Change background color based on selection with a smooth transition
-            val targetColor = if (category == 0) 
-                android.graphics.Color.parseColor("#80F44336") // Soft Red
-            else 
-                android.graphics.Color.parseColor("#802196F3") // Soft Blue
+        }
+        
+        // En cualquier caso (acierto o fallo), esa pregunta ya está respondida
+        answeredSounds++
+        tvStars.text = getString(R.string.puntuacion_estrellas, stars, totalSounds)
 
-            rootLayout.setBackgroundColor(targetColor)
-            
-            // Fade back to previous state after a delay
-            rootLayout.postDelayed({
-                rootLayout.setBackgroundResource(R.drawable.fondo6)
-            }, 1000)
+        // Feedback visual del color de fondo
+        val targetColor = if (category == 0) 
+            android.graphics.Color.parseColor("#80F44336") // Soft Red
+        else 
+            android.graphics.Color.parseColor("#802196F3") // Soft Blue
 
-            currentSoundId = -1
-            resetSoundButtonColors()
-            
-            // Hide question until next sound
-            tvQuestion.visibility = View.INVISIBLE
-            categoryControls.visibility = View.INVISIBLE
+        rootLayout.setBackgroundColor(targetColor)
+        rootLayout.postDelayed({
+            rootLayout.setBackgroundResource(R.drawable.fondo6)
+        }, 1000)
 
-            if (stars >= totalSounds) {
-                tvHistoryMessage.visibility = View.VISIBLE
-                btnNext.visibility = View.VISIBLE
-            }
+        // Limpieza para el siguiente sonido
+        currentSoundId = -1
+        resetSoundButtonColors()
+        tvQuestion.visibility = View.INVISIBLE
+        categoryControls.visibility = View.INVISIBLE
+
+        // Si se han respondido todos los sonidos, habilitamos el final
+        if (answeredSounds >= totalSounds) {
+            tvHistoryMessage.visibility = View.VISIBLE
+            btnNext.visibility = View.VISIBLE
         }
     }
 
