@@ -48,7 +48,7 @@ class PuzzleActivity : AppCompatActivity() {
         guideImage = findViewById(R.id.guideImage)
 
         btnNext.setOnClickListener {
-            startActivity(Intent(this, NireArbolaActivity::class.java))
+            startActivity(Intent(this, ArbolInteractivoActivity::class.java))
             finish()
         }
 
@@ -167,7 +167,7 @@ class PuzzleActivity : AppCompatActivity() {
             // Pequeño retardo para que el usuario vea el mensaje antes de cambiar de pantalla automáticamente
             android.os.Handler(android.os.Looper.getMainLooper()).postDelayed({
                 if (!isFinishing) {
-                    val intent = Intent(this, NireArbolaActivity::class.java)
+                    val intent = Intent(this, ArbolInteractivoActivity::class.java)
                     startActivity(intent)
                     finish()
                 }

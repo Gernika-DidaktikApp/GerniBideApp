@@ -258,11 +258,11 @@
     <string name="victoria_puzzle">Gernikako bihotza berreraiki duzu!</string>
     <string name="boton_siguiente_puzzle">HURRENGOA</string>
     <string name="pregunta_valores">Zer balio adieraziko luke zure zuhaitzak?</string>
-    <string name="valor_amistad">adiskidetasuna</string>
-    <string name="valor_libertad">askatasuna</string>
-    <string name="valor_solidaridad">elkartasuna</string>
-    <string name="valor_respeto">errespetua</string>
-    <string name="valor_paz">bakea</string>
+    <string name="valor_amistad">Adiskidetasuna</string>
+    <string name="valor_libertad">Askatasuna</string>
+    <string name="valor_solidaridad">Elkartasuna</string>
+    <string name="valor_respeto">Errespetua</string>
+    <string name="valor_paz">Bakea</string>
     <string name="boton_volver">ITZULI</string>
     <string name="boton_atras">ATZERA</string>
 

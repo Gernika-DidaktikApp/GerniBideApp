@@ -30,12 +30,15 @@ class ReflectionActivity : AppCompatActivity() {
                 tvFeedback.visibility = View.VISIBLE
                 btnJarraitu.visibility = View.VISIBLE
                 
-                // Visual feedback for selection
+                // Bloquear todos los botones para que no se pueda cambiar la selección
                 emojiButtons.forEach { 
+                    it.isEnabled = false
                     it.alpha = 0.5f 
                     it.scaleX = 0.9f
                     it.scaleY = 0.9f
                 }
+                
+                // Destacar el seleccionado
                 button.alpha = 1.0f
                 button.scaleX = 1.1f
                 button.scaleY = 1.1f

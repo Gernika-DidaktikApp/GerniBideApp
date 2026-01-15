@@ -9,17 +9,16 @@
 
     <TextView
         android:id="@+id/tvQuestion"
-        android:layout_width="0dp"
+        android:layout_width="347dp"
         android:layout_height="wrap_content"
-        android:layout_margin="32dp"
+        android:layout_marginTop="70dp"
         android:text="@string/sentimiento_pregunta"
         android:textAlignment="center"
         android:textColor="@color/black"
         android:textSize="24sp"
         android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:layout_editor_absoluteX="32dp" />
 
     <GridLayout
         android:id="@+id/emojiGrid"

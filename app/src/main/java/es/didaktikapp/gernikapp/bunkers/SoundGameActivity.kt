@@ -23,6 +23,7 @@ class SoundGameActivity : AppCompatActivity() {
     private var stars = 0
     private var answeredSounds = 0
     private var currentSoundId = -1
+    private var isWaitingForClassification = false
     private val totalSounds = 5
     private var mediaPlayer: MediaPlayer? = null
 
@@ -70,15 +71,17 @@ class SoundGameActivity : AppCompatActivity() {
 
         buttons.forEach { id ->
             findViewById<ImageButton>(id).setOnClickListener {
+                if (isWaitingForClassification) return@setOnClickListener
+
                 currentSoundId = id
+                isWaitingForClassification = true
                 playSound(id)
                 // Deshabilitar el botón para que solo se escuche una vez
                 it.isEnabled = false
-                it.alpha = 0.5f
+                it.alpha = 0.8f // Un poco menos transparente para que se vea mejor el fondo
                 
-                // Highlight selected sound
+                // Highlight selected sound - ya no usamos setBackgroundColor para no perder bordes redondos
                 resetSoundButtonColors()
-                it.setBackgroundColor(getColor(R.color.btnPrincipal))
                 
                 // Show question and category selection
                 tvQuestion.visibility = View.VISIBLE
@@ -103,9 +106,8 @@ class SoundGameActivity : AppCompatActivity() {
     private fun resetSoundButtonColors() {
         listOf(R.id.btnSound1, R.id.btnSound2, R.id.btnSound3, R.id.btnSound4, R.id.btnSound5).forEach {
             val btn = findViewById<ImageButton>(it)
-            if (btn.isEnabled) {
-                btn.setBackgroundResource(R.drawable.bg_boton_secundario)
-            }
+            // Aseguramos que siempre usen el recurso de fondo con estados para mantener bordes redondos
+            btn.setBackgroundResource(R.drawable.bg_boton_secundario)
         }
     }
 
@@ -145,6 +147,7 @@ class SoundGameActivity : AppCompatActivity() {
 
         // Limpieza para el siguiente sonido
         currentSoundId = -1
+        isWaitingForClassification = false
         resetSoundButtonColors()
         tvQuestion.visibility = View.INVISIBLE
         categoryControls.visibility = View.INVISIBLE
