@@ -50,6 +50,12 @@ class LoginActivity : AppCompatActivity() {
 
             performLogin(usuario, password)
         }
+
+        binding.tvRegisterLink.setOnClickListener {
+            val intent = Intent(this, RegisterActivity::class.java)
+            startActivity(intent)
+            finish()
+        }
     }
 
     private fun performLogin(username: String, password: String) {

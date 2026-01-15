@@ -9,6 +9,22 @@
     <string name="login_password_hint">Contraseña</string>
     <string name="login_button">Iniciar sesión</string>
     <string name="login_welcome">¡Bienvenido %s!</string>
+    <string name="ez_duzu_konturik_izena_eman">¿No tienes cuenta? Regístrate</string>
+
+    <!-- Registro -->
+    <string name="sortu_kontua">Crear cuenta</string>
+    <string name="erabiltzaile_izena">Nombre de usuario</string>
+    <string name="izena">Nombre</string>
+    <string name="abizena_k">Apellido(s)</string>
+    <string name="klase_batekoa_zara">¿Perteneces a una clase?</string>
+    <string name="klase_id">ID de la clase</string>
+    <string name="izena_eman">REGISTRARSE</string>
+    <string name="baduzu_kontu_bat_saioa_hasi">¿Ya tienes cuenta? Inicia sesión</string>
+    <string name="registro_exitoso">¡Registro exitoso!</string>
+    <string name="nombre_usuario_requerido">Nombre de usuario requerido</string>
+    <string name="nombre_requerido">Nombre requerido</string>
+    <string name="apellido_requerido">Apellido requerido</string>
+    <string name="id_clase_requerido">ID de clase requerido</string>
 
     <!-- Plaza Gernika Module -->
     <!-- Pantalla de Video -->

@@ -8,6 +8,22 @@
     <string name="login_password_hint">Pasahitza</string>
     <string name="login_button">Saioa hasi</string>
     <string name="login_welcome">Ongi etorri %s</string>
+    <string name="ez_duzu_konturik_izena_eman">Ez duzu konturik? Izena eman</string>
+
+    <!-- Registro -->
+    <string name="sortu_kontua">Sortu kontua</string>
+    <string name="erabiltzaile_izena">Erabiltzaile izena</string>
+    <string name="izena">Izena</string>
+    <string name="abizena_k">Abizena(k)</string>
+    <string name="klase_batekoa_zara">Klase batekoa zara?</string>
+    <string name="klase_id">Klase ID</string>
+    <string name="izena_eman">IZENA EMAN</string>
+    <string name="baduzu_kontu_bat_saioa_hasi">Baduzu kontu bat? Saioa hasi</string>
+    <string name="registro_exitoso">Erregistroa arrakastaz egin da!</string>
+    <string name="nombre_usuario_requerido">Erabiltzaile izena beharrezkoa</string>
+    <string name="nombre_requerido">Izena beharrezkoa</string>
+    <string name="apellido_requerido">Abizena(k) beharrezkoa(k)</string>
+    <string name="id_clase_requerido">Klase ID beharrezkoa</string>
 
     <!-- Plaza Gernika Module -->
     <!-- Pantalla de Video -->
@@ -59,13 +75,6 @@
     <string name="opcion_1">Opción 1</string>
     <string name="opcion_2">Opción 2</string>
     <string name="opcion_3">Opción 3</string>
-
-    <!-- Login -->
-    <string name="login_title">Saioa hasi</string>
-    <string name="login_username_hint">Erabiltzailea</string>
-    <string name="login_password_hint">Pasahitza</string>
-    <string name="login_button">Saioa hasi</string>
-    <string name="login_welcome">Ongi etorri %s</string>
 
     <!-- Errores de validación -->
     <string name="error_username_required">Sartu zure erabiltzailea</string>
