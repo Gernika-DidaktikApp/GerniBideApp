@@ -239,6 +239,12 @@
     <string name="erantzun_okerra">Erantzun okerra ❌</string>
     <string name="hautatu_aukera_bat">Hautatu aukera bat</string>
 
+    <!-- Fronton - ValuesGroupActivity -->
+    <string name="gehitu_aurretik_sartu_balioa">Gehitu aurretik, sartu balio bat</string>
+
+    <!-- Fronton - DancingBallActivity -->
+    <string name="puntuak_d">Puntuak: %d</string>
+
     <!-- SettingActivity -->
     <string name="ezarpenak_gordeta">Ezarpenerak gordeta!</string>
     <string name="ezarpenak">EZARPENAK</string>

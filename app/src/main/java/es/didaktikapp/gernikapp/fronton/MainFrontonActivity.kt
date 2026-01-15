@@ -7,8 +7,24 @@ import androidx.appcompat.app.AppCompatActivity
 import es.didaktikapp.gernikapp.MapaActivity
 import es.didaktikapp.gernikapp.R
 
+/**
+ * Activity principal del módulo del Frontón.
+ * Muestra un menú con 5 opciones.
+ *
+ * @author Erlantz
+ * @version 1.0
+ * @see AppCompatActivity
+ * @see R.layout.fronton_main_fronton
+ */
 class MainFrontonActivity : AppCompatActivity() {
 
+    /**
+     * Metodo principal del ciclo de vida de la Activity.
+     * Inicializa el layout del menú y configura la navegación
+     * hacia el resto de pantallas del módulo de frontón.
+     *
+     * @param savedInstanceState Estado previo de la Activity, si existe
+     */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.fronton_main_fronton)
