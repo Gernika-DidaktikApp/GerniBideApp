@@ -1,5 +1,13 @@
 <resources>
-    <string name="app_name">GernikApp</string>
+    <!-- Nombre de la app -->
+    <string name="app_name">GerniBide</string>
+
+    <!-- Login -->
+    <string name="login_title">Saioa hasi</string>
+    <string name="login_username_hint">Erabiltzailea</string>
+    <string name="login_password_hint">Pasahitza</string>
+    <string name="login_button">Saioa hasi</string>
+    <string name="login_welcome">Ongi etorri %s</string>
 
     <!-- Plaza Gernika Module -->
     <!-- Pantalla de Video -->
@@ -77,7 +85,6 @@
     <string name="map_marker_title_guernica">Picasso-ren "Guernica"</string>
     <string name="map_marker_title_plaza">Gernikako azoka plaza</string>
     <string name="map_marker_title_frontoi">Jai-Alai frontoia</string>
-
     <string name="map_dialog_message">%s-ra iritsi zara.\nSartu nahi duzu?</string>
     <string name="map_dialog_button_enter">Sartu</string>
     <string name="map_dialog_button_cancel">Ez</string>

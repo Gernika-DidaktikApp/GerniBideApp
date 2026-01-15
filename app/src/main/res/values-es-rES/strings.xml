@@ -1,34 +1,84 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- App general -->
-    <string name="app_name">GernikApp</string>
+    <!-- Nombre de la app -->
+    <string name="app_name">GerniBide</string>
 
     <!-- Login -->
-    <string name="login_title">Iniciar Sesión</string>
+    <string name="login_title">Iniciar sesión</string>
     <string name="login_username_hint">Usuario</string>
     <string name="login_password_hint">Contraseña</string>
-    <string name="login_button">Iniciar Sesión</string>
-    <string name="login_welcome">Bienvenido %s</string>
+    <string name="login_button">Iniciar sesión</string>
+    <string name="login_welcome">¡Bienvenido %s!</string>
+
+    <!-- Plaza Gernika Module -->
+    <!-- Pantalla de Video -->
+    <string name="plaza_titulo">Plaza de Gernika</string>
+    <string name="siguiente">Siguiente</string>
+    <string name="play_pause">Reproducir/Pausar</string>
+
+    <!-- Pantalla Arrastrar Productos -->
+    <string name="arrastra_productos_titulo">Coloca los productos en su puesto</string>
+    <string name="arrastra_instrucciones">Arrastra cada producto a su puesto correspondiente</string>
+    <string name="puesto_lacteos">Lácteos</string>
+    <string name="puesto_verduras">Verduras</string>
+    <string name="puesto_panaderia">Panadería</string>
+    <string name="puesto_natural">Natural</string>
+    <string name="puesto_artesania">Artesanía</string>
+    <string name="completado_titulo">¡Perfecto!</string>
+    <string name="completado_mensaje">¡Mercado listo! ¡Gernika está viva!</string>
+    <string name="jarraitu">Continuar</string>
+
+    <!-- Productos -->
+    <string name="producto_gazta">Queso</string>
+    <string name="producto_esnea">Leche</string>
+    <string name="producto_jogurta">Yogur</string>
+    <string name="producto_piperrak">Pimientos</string>
+    <string name="producto_kipula">Cebolla</string>
+    <string name="producto_indabak">Endibias</string>
+    <string name="producto_ogi_otzara">Pan</string>
+    <string name="producto_madalenak">Madeleines</string>
+    <string name="producto_pastela">Pastel</string>
+    <string name="producto_eztia">Miel</string>
+    <string name="producto_polena">Polen</string>
+    <string name="producto_esku_lanak">Trabajos de madera</string>
+    <string name="producto_ontziak">Recipientes de hierro</string>
+    <string name="producto_zestak">Cestas</string>
+
+    <!-- Pantalla de Versos -->
+    <string name="verso_titulo">Versos</string>
+    <string name="comprobar">Comprobar</string>
+    <string name="aciertos">Aciertos: 0/3</string>
+
+    <!-- Pantalla de Fotos -->
+    <string name="foto_mision_titulo">Misiones Fotográficas</string>
+    <string name="foto_mision_descripcion">Completa las misiones fotográficas</string>
+    <string name="finalizar">Finalizar</string>
+    <string name="mision_icono">Icono de misión</string>
+    <string name="tomar_foto">Tomar foto</string>
+    <string name="plaza_txt_video">La plaza es el corazón del pueblo. Cada lunes, los agricultores de los alrededores se reúnen en la plaza para vender sus productos. Además, nos reunimos allí en fiestas, mercados y días especiales. El Último Lunes de Octubre es especial, y nuestro pueblo se llena de colores, numerosos puestos y música. Gracias a estas tradiciones, aprendemos que nuestra cultura está viva y que la hacemos todos juntos.</string>
+    <string name="_0_00_0_00">0:00 / 0:00</string>
+    <string name="opcion_1">Opción 1</string>
+    <string name="opcion_2">Opción 2</string>
+    <string name="opcion_3">Opción 3</string>
 
     <!-- Errores de validación -->
-    <string name="error_username_required">Ingrese su usuario</string>
-    <string name="error_password_required">Ingrese su contraseña</string>
+    <string name="error_username_required">Introduce tu usuario</string>
+    <string name="error_password_required">Introduce tu contraseña</string>
 
     <!-- Errores de red -->
     <string name="error_no_internet">No hay conexión a internet</string>
-    <string name="error_timeout">Tiempo de espera agotado</string>
+    <string name="error_timeout">Se ha superado el tiempo límite</string>
     <string name="error_connection">Error de conexión: %s</string>
     <string name="error_server">Error del servidor: %d</string>
     <string name="error_unknown">Error desconocido</string>
     <string name="error_empty_response">Respuesta vacía del servidor</string>
 
     <!-- Mapa -->
-    <string name="map_marker_title_arbola">Gernikako Arbola eta Juntetxea</string>
-    <string name="map_marker_title_bunker">Astrako bunkerrak</string>
-    <string name="map_marker_title_guernica">Picasso-ren "Guernica"</string>
-    <string name="map_marker_title_plaza">Gernikako azoka plaza</string>
-    <string name="map_marker_title_frontoi">Jai-Alai frontoia</string>
-
+    <string name="map_marker_title_arbola">Árbol de Gernika y Juntetxea</string>
+    <string name="map_marker_title_bunker">Búnkeres de Astrak</string>
+    <string name="map_marker_title_guernica">Picasso \"Guernica\"</string>
+    <string name="map_marker_title_plaza">Plaza de mercado de Gernika</string>
+    <string name="map_marker_title_frontoi">Frontón Jai-Alai</string>
     <string name="map_dialog_message">Has llegado a %s.\n¿Quieres entrar?</string>
     <string name="map_dialog_button_enter">Entrar</string>
     <string name="map_dialog_button_cancel">No</string>
@@ -37,124 +87,175 @@
     <!-- Picasso -->
     <string name="picasso_title">Guernica de Picasso</string>
     <string name="picasso_subtitle">Actividades</string>
-    <string name="picasso_activity_1">1. Colorear la Paz</string>
-    <string name="picasso_activity_2">2. Ver e Interpretar</string>
-    <string name="picasso_activity_3">3. Mi Mensaje para el Mundo</string>
+    <string name="picasso_activity_1">1. Colorea la paz</string>
+    <string name="picasso_activity_2">2. Observa y adivina</string>
+    <string name="picasso_activity_3">3. Mi mensaje para el mundo</string>
     <string name="picasso_guernica_description">Guernica</string>
 
     <!-- Color Peace -->
-    <string name="color_peace_title">Colorear la Paz</string>
-    <string name="color_peace_instructions">Pinta con un dedo, pellizca para acercar/alejar y mueve con dos dedos</string>
+    <string name="color_peace_title">Colorea la paz</string>
+    <string name="color_peace_instructions">Dibuja con un dedo, pellizca con dos para acercar/alejar y mueve</string>
     <string name="color_peace_clear">Borrar</string>
     <string name="color_peace_finish">Terminar</string>
-    <string name="color_peace_dialog_title">¡Excelente!</string>
+    <string name="color_peace_dialog_title">¡Perfecto!</string>
     <string name="color_peace_dialog_message">¡Has creado tu imagen de paz! Ahora puedes verla.</string>
     <string name="color_peace_dialog_button">Ver</string>
     <string name="color_peace_save_error">Error al guardar la imagen</string>
-    <string name="color_peace_load_title">Imagen pintada previamente</string>
-    <string name="color_peace_load_message">Ya tienes una imagen pintada anteriormente. ¿Quieres continuar o empezar una nueva?</string>
+    <string name="color_peace_load_title">Imagen pintada anteriormente</string>
+    <string name="color_peace_load_message">Ya existe una imagen pintada anteriormente. ¿Quieres continuar o empezar una nueva?</string>
     <string name="color_peace_load_continue">Continuar</string>
-    <string name="color_peace_load_start_new">Empezar nueva</string>
-    <string name="color_peace_repaint">Volver a pintar</string>
+    <string name="color_peace_load_start_new">Nueva</string>
+    <string name="color_peace_repaint">Repintar</string>
     <string name="color_peace_view_result">Ver resultado</string>
     <string name="color_peace_saved_preview_description">Pintura guardada</string>
 
     <!-- Result -->
     <string name="result_title">Tu obra</string>
-    <string name="result_subtitle">¡Excelente! Aquí está tu Guernica coloreado</string>
-    <string name="result_image_description">Guernica coloreado</string>
+    <string name="result_subtitle">¡Perfecto! Aquí tienes tu \"Guernica\" de colores</string>
+    <string name="result_image_description">Guernica de colores</string>
     <string name="result_share">Compartir</string>
     <string name="result_close">Cerrar</string>
 
     <!-- View and Interpret -->
-    <string name="view_interpret_title">Ver e Interpretar</string>
+    <string name="view_interpret_title">Observa y adivina</string>
     <string name="view_interpret_element_description">Elemento del Guernica</string>
     <string name="view_interpret_next">Siguiente</string>
     <string name="view_interpret_wrong_answer">Respuesta correcta: %1$s\n%2$s</string>
-    <string name="view_interpret_results_title">¡Excelente!</string>
+    <string name="view_interpret_results_title">¡Perfecto!</string>
     <string name="view_interpret_results_message">Puntuación: %1$d/%2$d\n%3$s</string>
     <string name="view_interpret_results_finish">Terminar</string>
-    <string name="view_interpret_load_title">Test realizado previamente</string>
-    <string name="view_interpret_load_message">Ya tienes un test realizado anteriormente. ¿Quieres continuar o empezar uno nuevo?</string>
+    <string name="view_interpret_load_title">Test realizado anteriormente</string>
+    <string name="view_interpret_load_message">Ya existe un test realizado anteriormente. ¿Quieres continuar o empezar uno nuevo?</string>
     <string name="view_interpret_load_continue">Continuar</string>
-    <string name="view_interpret_load_start_new">Empezar nuevo</string>
+    <string name="view_interpret_load_start_new">Nuevo</string>
     <string name="view_interpret_previous_result_title">Resultado anterior</string>
-    <string name="view_interpret_previous_result_message">Puntuación anterior: %1$d/%2$d\n%3$s\n\n¿Quieres volver a hacer el test?</string>
-    <string name="view_interpret_redo_test">Volver a hacer</string>
+    <string name="view_interpret_previous_result_message">Puntuación anterior: %1$d/%2$d\n%3$s\n\n¿Quieres hacer el test de nuevo?</string>
+    <string name="view_interpret_redo_test">Repetir</string>
     <string name="view_interpret_exit">Salir</string>
 
-    <!-- Pregunta 1: Caballo -->
+    <!-- Pregunta 1: Zaldia (Caballo) -->
     <string name="view_interpret_q1">¿Qué representa esta imagen?</string>
     <string name="view_interpret_q1_opt1">Violencia</string>
-    <string name="view_interpret_q1_opt2">La fuerza del pueblo</string>
+    <string name="view_interpret_q1_opt2">Fuerza del pueblo</string>
     <string name="view_interpret_q1_opt3">Esperanza</string>
     <string name="view_interpret_q1_opt4">Paz</string>
     <string name="view_interpret_q1_feedback">¡Correcto! El caballo representa la fuerza del pueblo</string>
 
-    <!-- Pregunta 2: Madre con niño -->
+    <!-- Pregunta 2: Ama haurrarekin (Madre con niño) -->
     <string name="view_interpret_q2">¿Qué representa la madre con el niño?</string>
     <string name="view_interpret_q2_opt1">Dolor</string>
     <string name="view_interpret_q2_opt2">Impotencia de las víctimas</string>
     <string name="view_interpret_q2_opt3">Miedo</string>
     <string name="view_interpret_q2_opt4">Esperanza</string>
-    <string name="view_interpret_q2_feedback">¡Correcto! La madre representa la impotencia y dolor de las víctimas</string>
+    <string name="view_interpret_q2_feedback">¡Correcto! La madre representa la impotencia y el dolor de las víctimas</string>
 
-    <!-- Pregunta 3: Luz -->
+    <!-- Pregunta 3: Argia (Luz) -->
     <string name="view_interpret_q3">¿Qué simboliza la bombilla/luz?</string>
     <string name="view_interpret_q3_opt1">Paz</string>
-    <string name="view_interpret_q3_opt2">Avance tecnológico</string>
+    <string name="view_interpret_q3_opt2">Progreso tecnológico</string>
     <string name="view_interpret_q3_opt3">Miedo</string>
     <string name="view_interpret_q3_opt4">Esperanza</string>
-    <string name="view_interpret_q3_feedback">¡Correcto! La luz representa el avance tecnológico</string>
+    <string name="view_interpret_q3_feedback">¡Correcto! La luz representa el progreso tecnológico</string>
 
-    <!-- Pregunta 4: Toro -->
+    <!-- Pregunta 4: Zezena (Toro) -->
     <string name="view_interpret_q4">¿Qué representa el toro?</string>
     <string name="view_interpret_q4_opt1">Fuerza</string>
     <string name="view_interpret_q4_opt2">Paz</string>
-    <string name="view_interpret_q4_opt3">Barbarie e irracionalidad</string>
+    <string name="view_interpret_q4_opt3">Brutalidad e irracionalidad</string>
     <string name="view_interpret_q4_opt4">Esperanza</string>
-    <string name="view_interpret_q4_feedback">¡Correcto! El toro representa la barbarie e irracionalidad</string>
+    <string name="view_interpret_q4_feedback">¡Correcto! El toro representa brutalidad e irracionalidad</string>
 
-    <!-- Pregunta 5: Mujer gritando -->
+    <!-- Pregunta 5: Oihua (Grito) -->
     <string name="view_interpret_q5">¿Qué representa la mujer que grita?</string>
     <string name="view_interpret_q5_opt1">Alegría</string>
     <string name="view_interpret_q5_opt2">Paz</string>
     <string name="view_interpret_q5_opt3">Caos y miedo</string>
     <string name="view_interpret_q5_opt4">Esperanza</string>
-    <string name="view_interpret_q5_feedback">¡Correcto! La mujer que grita representa el caos y el miedo</string>
+    <string name="view_interpret_q5_feedback">¡Correcto! La mujer que grita representa caos y miedo</string>
 
-    <!-- Pregunta 6: Soldado -->
+    <!-- Pregunta 6: Gerlaria (Soldado caído) -->
     <string name="view_interpret_q6">¿Qué representa el soldado caído?</string>
     <string name="view_interpret_q6_opt1">Victoria</string>
     <string name="view_interpret_q6_opt2">Sacrificio y muerte</string>
     <string name="view_interpret_q6_opt3">Paz</string>
     <string name="view_interpret_q6_opt4">Esperanza</string>
-    <string name="view_interpret_q6_feedback">¡Correcto! El soldado representa el sacrificio y la muerte en la guerra</string>
+    <string name="view_interpret_q6_feedback">¡Correcto! El soldado representa sacrificio y muerte en la guerra</string>
 
     <!-- My Message -->
     <string name="my_message_title">Mi mensaje para el mundo</string>
     <string name="my_message_instructions">Escribe tu mensaje de paz:</string>
-    <string name="my_message_start">Yo quiero la paz…</string>
-    <string name="my_message_hint">Escribe tu mensaje aquí…</string>
+    <string name="my_message_start">Yo quiero la paz...</string>
+    <string name="my_message_hint">Escribe aquí tu mensaje...</string>
     <string name="my_message_char_count">0/200</string>
     <string name="my_message_char_count_format">%d/200</string>
     <string name="my_message_send">Enviar</string>
-    <string name="my_message_back">Volver</string>
+    <string name="my_message_back">Atrás</string>
     <string name="my_message_messages_title">Mensajes de paz</string>
     <string name="my_message_error_empty">Por favor, escribe un mensaje</string>
-    <string name="my_message_error_short">El mensaje es demasiado corto. Mínimo 10 caracteres</string>
+    <string name="my_message_error_short">El mensaje es muy corto. Mínimo 10 caracteres</string>
     <string name="my_message_error_save">Error al guardar el mensaje</string>
-    <string name="my_message_empty_state">Todavía no hay mensajes.\n¡Sé el primero!</string>
+    <string name="my_message_empty_state">Todavía no hay mensajes.\n¡Serás el primero!</string>
     <string name="my_message_confirm_title">¡Gracias!</string>
     <string name="my_message_confirm_message">Tu mensaje:\n\n\"%1$s\"\n\n¿Quieres escribir uno nuevo?</string>
     <string name="my_message_confirm_keep">No, mantener este</string>
     <string name="my_message_confirm_new">Sí, escribir nuevo</string>
     <string name="my_message_sample_1">porque todos los niños merecen jugar sin miedo</string>
-    <string name="my_message_sample_2">para que las familias vivan en armonía</string>
-    <string name="my_message_sample_3">porque el arte nos une más que la guerra nos separa</string>
+    <string name="my_message_sample_2">para que las familias puedan vivir en armonía</string>
+    <string name="my_message_sample_3">porque el arte nos une más que la guerra</string>
     <string name="my_message_sample_4">para construir un futuro mejor juntos</string>
     <string name="my_message_load_title">Mensaje escrito anteriormente</string>
-    <string name="my_message_load_message">Escribiste este mensaje anteriormente:\n\n\"%1$s\"\n\n¿Quieres editarlo o escribir uno nuevo?</string>
+    <string name="my_message_load_message">Anteriormente escribiste este mensaje:\n\n\"%1$s\"\n\n¿Quieres editarlo o escribir uno nuevo?</string>
     <string name="my_message_load_edit">Editar</string>
-    <string name="my_message_load_new">Escribir nuevo</string>
+    <string name="my_message_load_new">Nuevo</string>
+
+    <!-- Fronton -->
+    <string name="informaci_n_del_front_n">1. Información del Frontón</string>
+    <string name="juego_pelota_dantzan">2. Juego: Pelota Dantzan</string>
+    <string name="video_y_valores">3. Vídeo y valores</string>
+    <string name="tu_valor_del_equipo">4. Tu valor del equipo</string>
+    <string name="videoa_erreproduzitu">Reproducir vídeo</string>
+    <string name="gernikako_jai_alai_frontoia_munduko_handienetakoa_eta_garrantzitsuenetakoa_da_hemen_zesta_puntara_jokatzen_da_munduan_zehar_banatuta_dauden_zesta_puntako_frontoi_askori_eman_die_izena_aurrean_dugun_honek_zestalariak_elkarlanean_aritzen_dira_eta_errespetua_dute_oinarri_kirolaren_bidez_askotariko_balioak_ikasi_eta_transmititzen_direlarik">El Frontón Jai Alai de Gernika es uno de los más grandes e importantes del mundo. Aquí se juega a Cesta Punta. Ha dado nombre a numerosos frontones de cesta punta repartidos por todo el mundo. Los jugadores colaboran entre sí y tienen el respeto como base. A través del deporte se aprenden y transmiten diversos valores.</string>
+    <string name="gehitu">Añadir</string>
+    <string name="idatzi_zure_taldearen_balioa">Escribe el valor de tu equipo</string>
+    <string name="zein_balio_agertzen_dira_jokoan">¿Qué valores aparecen en el juego?</string>
+    <string name="lankidetza">Colaboración</string>
+    <string name="errespetua">Respeto</string>
+    <string name="bakardadea">Solidaridad</string>
+    <string name="berretsi">Confirmar</string>
+    <string name="amaitu">Finalizar</string>
+    <string name="puntuak_0">Puntos: 0</string>
+    <string name="gernikako_pilotalekuaren_atzeko_planoaren_irudia">Imagen del frontón de Gernika en perspectiva</string>
+    <string name="koordinazio_joko_pilota">Juego de coordinación con pelota</string>
+    <string name="atzera">Atrás</string>
+    <string name="elkarrekin_jokatuz_eta_elkar_entzunez_guztion_balioak_osatuko_ditugu">Jugando juntos y escuchándonos, construiremos todos los valores.</string>
+    <string name="zesta_punta_mugitu_pelota_jotzeko">Cesta punta, muévela para golpear la pelota</string>
+    <string name="saiatu_berriro">Intentar de nuevo</string>
+    <string name="game_over">GAME OVER</string>
+    <string name="itzuli_mapara">Volver al mapa</string>
+    <string name="frontoia">Frontón</string>
+
+    <!-- Fronton - CestaTipActivity -->
+    <string name="videoa_gelditu">Pausar vídeo</string>
+    <string name="erantzun_zuzena">¡Respuesta correcta! ✅</string>
+    <string name="erantzun_okerra">Respuesta incorrecta ❌</string>
+    <string name="hautatu_aukera_bat">Selecciona una opción</string>
+
+    <!-- Fronton - ValuesGroupActivity -->
+    <string name="gehitu_aurretik_sartu_balioa">Primero introduce un valor</string>
+
+    <!-- Fronton - DancingBallActivity -->
+    <string name="puntuak_d">Puntos: %d</string>
+
+    <!-- SettingsActivity -->
+    <string name="ezarpenak_gordeta">¡Ajustes guardados!</string>
+    <string name="ezarpenak">AJUSTES</string>
+    <string name="ezarpenak_gorde">GUARDAR AJUSTES</string>
+    <string name="soinuarekin">🔊 Sonido</string>
+    <string name="desaktibatu_soinua">Desactivar todos los sonidos del juego</string>
+    <string name="letren_tamaina">📖 Tamaño de letra</string>
+    <string name="aukeratu_tamaina">Elige el tamaño adecuado para leer</string>
+    <string name="gaueko_modua">🌙 Modo nocturno</string>
+    <string name="gauez_jolasteko_plano_ilunak">Fondos oscuros para jugar de noche</string>
+    <string name="hizkuntza">🗣️ Idioma</string>
+    <string name="euskara_edo_gaztelania">Euskera o Castellano</string>
 </resources>
