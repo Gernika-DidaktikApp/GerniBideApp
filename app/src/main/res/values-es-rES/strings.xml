@@ -25,6 +25,9 @@
     <string name="nombre_requerido">Nombre requerido</string>
     <string name="apellido_requerido">Apellido requerido</string>
     <string name="id_clase_requerido">ID de clase requerido</string>
+    <string name="pasahitza">Contraseña</string>
+    <string name="pasahitza_requerida">Contraseña requerida</string>
+    <string name="pasahitza_laburgia">Contraseña de almenos 6 caracteres</string>
 
     <!-- Plaza Gernika Module -->
     <!-- Pantalla de Video -->

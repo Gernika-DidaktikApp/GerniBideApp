@@ -141,6 +141,15 @@ class RegisterActivity : AppCompatActivity() {
             getString(R.string.apellido_requerido)
         } else null
 
+        // Contraseña vacia
+        binding.editTextPassword.error = if (binding.editTextPassword.text.isBlank()) {
+            isValid = false
+            getString(R.string.pasahitza_requerida)
+        } else if (binding.editTextPassword.text.length <= 6) {
+            isValid = false
+            getString(R.string.pasahitza_laburgia)
+        } else null
+
         // ID Clase si checkbox marcado
         if (binding.checkBoxClase.isChecked && binding.editTextIdClase.text.isBlank()) {
             binding.editTextIdClase.error = getString(R.string.id_clase_requerido)

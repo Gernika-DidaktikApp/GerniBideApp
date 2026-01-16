@@ -24,6 +24,9 @@
     <string name="nombre_requerido">Izena beharrezkoa</string>
     <string name="apellido_requerido">Abizena(k) beharrezkoa(k)</string>
     <string name="id_clase_requerido">Klase ID beharrezkoa</string>
+    <string name="pasahitza">Pasahitza</string>
+    <string name="pasahitza_requerida">Pasahitza beharrezkoa</string>
+    <string name="pasahitza_laburgia">Pasahitza gutxienez 6 karaktere</string>
 
     <!-- Plaza Gernika Module -->
     <!-- Pantalla de Video -->
