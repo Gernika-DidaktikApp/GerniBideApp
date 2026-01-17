@@ -25,66 +25,62 @@
         android:focusable="true" />
 
     <!-- Mini FAB: Home -->
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
+    <ImageButton
         android:id="@+id/fabHome"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="48dp"
+        android:layout_height="52dp"
         android:layout_gravity="top|end"
-        android:layout_marginTop="22dp"
-        android:layout_marginEnd="22dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="20dp"
+        android:background="@drawable/bg_fab_secundario"
         android:contentDescription="@string/fab_home"
         android:src="@drawable/ic_home"
+        android:scaleType="center"
         android:visibility="invisible"
-        app:fabSize="mini"
-        app:backgroundTint="@color/btnSecundario"
-        app:tint="@color/white"
-        app:elevation="6dp" />
+        app:tint="@color/white" />
 
     <!-- Mini FAB: Settings -->
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
+    <ImageButton
         android:id="@+id/fabSettings"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="48dp"
+        android:layout_height="52dp"
         android:layout_gravity="top|end"
-        android:layout_marginTop="22dp"
-        android:layout_marginEnd="22dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="20dp"
+        android:background="@drawable/bg_fab_secundario"
         android:contentDescription="@string/fab_settings"
         android:src="@drawable/ic_settings"
+        android:scaleType="center"
         android:visibility="invisible"
-        app:fabSize="mini"
-        app:backgroundTint="@color/valueFriendship"
-        app:tint="@color/white"
-        app:elevation="6dp" />
+        app:tint="@color/white" />
 
     <!-- Mini FAB: Profile -->
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
+    <ImageButton
         android:id="@+id/fabProfile"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="48dp"
+        android:layout_height="52dp"
         android:layout_gravity="top|end"
-        android:layout_marginTop="22dp"
-        android:layout_marginEnd="22dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="20dp"
+        android:background="@drawable/bg_fab_secundario"
         android:contentDescription="@string/fab_profile"
         android:src="@drawable/ic_person"
+        android:scaleType="center"
         android:visibility="invisible"
-        app:fabSize="mini"
-        app:backgroundTint="@color/valueSolidarity"
-        app:tint="@color/white"
-        app:elevation="6dp" />
+        app:tint="@color/white" />
 
     <!-- Main FAB -->
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
+    <ImageButton
         android:id="@+id/fabMain"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="64dp"
+        android:layout_height="68dp"
         android:layout_gravity="top|end"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
+        android:background="@drawable/bg_fab_primario"
         android:contentDescription="@string/fab_menu"
         android:src="@drawable/ic_menu"
-        app:fabSize="normal"
-        app:backgroundTint="@color/btnPrincipal"
-        app:tint="@color/white"
-        app:elevation="8dp" />
+        android:scaleType="center"
+        app:tint="@color/white" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

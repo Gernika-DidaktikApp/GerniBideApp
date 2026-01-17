@@ -7,10 +7,10 @@ import android.view.View
 import android.view.animation.AccelerateInterpolator
 import android.view.animation.OvershootInterpolator
 import android.widget.FrameLayout
+import android.widget.ImageButton
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.coordinatorlayout.widget.CoordinatorLayout
-import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 /**
  * Activity base que incluye el menú FAB flotante.
@@ -23,13 +23,13 @@ abstract class BaseMenuActivity : AppCompatActivity() {
 
     // Views del menú
     private lateinit var fabOverlay: View
-    private lateinit var fabMain: FloatingActionButton
-    private lateinit var fabHome: FloatingActionButton
-    private lateinit var fabSettings: FloatingActionButton
-    private lateinit var fabProfile: FloatingActionButton
+    private lateinit var fabMain: ImageButton
+    private lateinit var fabHome: ImageButton
+    private lateinit var fabSettings: ImageButton
+    private lateinit var fabProfile: ImageButton
 
     // Configuración del abanico
-    private val fanRadius = 100f // dp
+    private val fanRadius = 80f // dp
     private val angleHome = 180f
     private val angleSettings = 225f
     private val angleProfile = 270f
@@ -128,7 +128,7 @@ abstract class BaseMenuActivity : AppCompatActivity() {
     }
 
     private fun animateFabOpen(
-        fab: FloatingActionButton,
+        fab: ImageButton,
         angle: Float,
         radius: Float,
         interpolator: OvershootInterpolator,
@@ -170,7 +170,7 @@ abstract class BaseMenuActivity : AppCompatActivity() {
     }
 
     private fun animateFabClose(
-        fab: FloatingActionButton,
+        fab: ImageButton,
         interpolator: AccelerateInterpolator,
         delay: Long
     ) {

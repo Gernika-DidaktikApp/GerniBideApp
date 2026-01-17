@@ -102,6 +102,12 @@
     <string name="map_dialog_button_cancel">Ez</string>
     <string name="map_entered_location">Sartu zara: %s</string>
 
+    <!-- Menu FAB -->
+    <string name="fab_menu">Menua</string>
+    <string name="fab_home">Hasiera</string>
+    <string name="fab_settings">Ezarpenak</string>
+    <string name="fab_profile">Profila</string>
+
     <!-- Picasso -->
     <string name="picasso_title">Picassoren Guernica</string>
     <string name="picasso_subtitle">Jarduerak</string>
