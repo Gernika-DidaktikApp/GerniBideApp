@@ -6,7 +6,13 @@ import android.text.InputFilter
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.lifecycleScope
+import es.didaktikapp.gernikapp.data.models.RegisterRequest
 import es.didaktikapp.gernikapp.databinding.ActivityRegisterBinding
+import es.didaktikapp.gernikapp.network.ApiErrorParser
+import es.didaktikapp.gernikapp.network.RetrofitClient
+import kotlinx.coroutines.launch
+import retrofit2.HttpException
 
 /**
  * Activity para el registro de nuevos usuarios en la aplicación.
@@ -92,13 +98,53 @@ class RegisterActivity : AppCompatActivity() {
 
     /**
      * Configura el listener del botón REGISTRARSE.
-     * Valida campos y muestra mensaje de éxito (TODO: integrar con API real)
+     * Valida campos y maneja errores con ApiErrorParser.
      */
     private fun setupRegisterButton() {
         binding.btnRegistro.setOnClickListener {
             if (validateFields()) {
-                Toast.makeText(this, getString(R.string.registro_exitoso), Toast.LENGTH_SHORT).show()
-                finish()
+                val registerRequest = RegisterRequest (
+                    username = binding.editTextUsername.text.toString().trim(),
+                    nombre = binding.editTextNombre.text.toString().trim(),
+                    apellido = binding.editTextApellido.text.toString().trim(),
+                    password = binding.editTextPassword.text.toString().trim(),
+                    claseId = if (binding.checkBoxClase.isChecked &&
+                                !binding.editTextIdClase.text.isBlank())
+                        binding.editTextIdClase.text.toString().trim()
+                    else null
+                )
+
+                binding.btnRegistro.isEnabled = false
+                binding.btnRegistro.text = getString(R.string.registrandose)
+
+                lifecycleScope.launch {
+                    try {
+                        val apiService = RetrofitClient.getApiService(this@RegisterActivity)
+                        val response = apiService.register(registerRequest)
+
+                        if (response.isSuccessful) {
+                            Toast.makeText(this@RegisterActivity, getString(R.string.registro_exitoso), Toast.LENGTH_LONG).show()
+                            val intent = Intent(this@RegisterActivity, MapaActivity::class.java)
+                            startActivity(intent)
+                            finish()
+
+                        } else {
+                            val errorBody = response.errorBody()?.string()
+                            val errorMsg = ApiErrorParser.parse(errorBody, response.code(), this@RegisterActivity)
+                            Toast.makeText(this@RegisterActivity, errorMsg, Toast.LENGTH_LONG).show()
+                        }
+
+                    } catch (e: HttpException) {
+                        val errorBody = e.response()?.errorBody()?.string()
+                        val errorMsg = ApiErrorParser.parse(errorBody, e.code(), this@RegisterActivity)
+                        Toast.makeText(this@RegisterActivity, errorMsg, Toast.LENGTH_LONG).show()
+                    } catch (e: Exception) {
+                        Toast.makeText(this@RegisterActivity, getString(R.string.error_de_conexion), Toast.LENGTH_LONG).show()
+                    } finally {
+                        binding.btnRegistro.isEnabled = true
+                        binding.btnRegistro.text = getString(R.string.izena_eman)
+                    }
+                }
             }
         }
     }
@@ -145,7 +191,7 @@ class RegisterActivity : AppCompatActivity() {
         binding.editTextPassword.error = if (binding.editTextPassword.text.isBlank()) {
             isValid = false
             getString(R.string.pasahitza_requerida)
-        } else if (binding.editTextPassword.text.length <= 6) {
+        } else if (binding.editTextPassword.text.length < 6) {
             isValid = false
             getString(R.string.pasahitza_laburgia)
         } else null

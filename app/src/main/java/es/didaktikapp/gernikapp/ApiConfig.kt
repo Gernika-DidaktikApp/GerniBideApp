@@ -14,7 +14,7 @@ object ApiConfig {
     const val AUTH_LOGIN = "/api/v1/auth/login-app"
 
     /** POST - Registro de nuevo usuario */
-    const val AUTH_REGISTER = "/api/v1/auth/register"
+    const val AUTH_REGISTER = "/api/v1/usuarios"
 
     // ============ HEALTH CHECK ============
     /** GET - Verificar estado de la API */

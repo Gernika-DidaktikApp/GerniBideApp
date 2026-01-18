@@ -20,7 +20,6 @@
     <string name="klase_id">ID de la clase</string>
     <string name="izena_eman">REGISTRARSE</string>
     <string name="baduzu_kontu_bat_saioa_hasi">¿Ya tienes cuenta? Inicia sesión</string>
-    <string name="registro_exitoso">¡Registro exitoso!</string>
     <string name="nombre_usuario_requerido">Nombre de usuario requerido</string>
     <string name="nombre_requerido">Nombre requerido</string>
     <string name="apellido_requerido">Apellido requerido</string>
@@ -28,6 +27,9 @@
     <string name="pasahitza">Contraseña</string>
     <string name="pasahitza_requerida">Contraseña requerida</string>
     <string name="pasahitza_laburgia">Contraseña de almenos 6 caracteres</string>
+    <string name="registrandose">Registrándose…</string>
+    <string name="error_de_conexion">Error de conexión</string>
+    <string name="registro_exitoso">¡Usuario registrado!</string>
 
     <!-- Plaza Gernika Module -->
     <!-- Pantalla de Video -->
@@ -102,6 +104,12 @@
     <string name="map_dialog_button_enter">Entrar</string>
     <string name="map_dialog_button_cancel">No</string>
     <string name="map_entered_location">Has entrado en: %s</string>
+
+    <!-- Menu FAB -->
+    <string name="fab_menu">Menu</string>
+    <string name="fab_home">Principio</string>
+    <string name="fab_settings">Ajustes</string>
+    <string name="fab_profile">Perfil</string>
 
     <!-- Picasso -->
     <string name="picasso_title">Guernica de Picasso</string>

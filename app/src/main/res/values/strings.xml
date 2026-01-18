@@ -19,7 +19,6 @@
     <string name="klase_id">Klase ID</string>
     <string name="izena_eman">IZENA EMAN</string>
     <string name="baduzu_kontu_bat_saioa_hasi">Baduzu kontu bat? Saioa hasi</string>
-    <string name="registro_exitoso">Erregistroa arrakastaz egin da!</string>
     <string name="nombre_usuario_requerido">Erabiltzaile izena beharrezkoa</string>
     <string name="nombre_requerido">Izena beharrezkoa</string>
     <string name="apellido_requerido">Abizena(k) beharrezkoa(k)</string>
@@ -27,6 +26,9 @@
     <string name="pasahitza">Pasahitza</string>
     <string name="pasahitza_requerida">Pasahitza beharrezkoa</string>
     <string name="pasahitza_laburgia">Pasahitza gutxienez 6 karaktere</string>
+    <string name="registrandose">Erregistratzen…</string>
+    <string name="error_de_conexion">Konexio-errorea</string>
+    <string name="registro_exitoso">Erabiltzailea erregistratuta!</string>
 
     <!-- Plaza Gernika Module -->
     <!-- Pantalla de Video -->
