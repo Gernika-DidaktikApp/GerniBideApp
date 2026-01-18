@@ -4,17 +4,17 @@ import android.graphics.BitmapFactory
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import es.didaktikapp.gernikapp.R
-import es.didaktikapp.gernikapp.databinding.ActivityResultBinding
+import es.didaktikapp.gernikapp.databinding.PicassoResultBinding
 import es.didaktikapp.gernikapp.utils.BitmapUtils
 
 class ResultActivity : AppCompatActivity() {
 
-    private lateinit var binding: ActivityResultBinding
+    private lateinit var binding: PicassoResultBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        binding = ActivityResultBinding.inflate(layoutInflater)
+        binding = PicassoResultBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         loadAndDisplayResult()

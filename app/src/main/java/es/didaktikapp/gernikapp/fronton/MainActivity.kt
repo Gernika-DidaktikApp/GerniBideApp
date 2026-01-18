@@ -14,9 +14,9 @@ import es.didaktikapp.gernikapp.R
  * @author Erlantz
  * @version 1.0
  * @see AppCompatActivity
- * @see R.layout.fronton_main_fronton
+ * @see R.layout.fronton_main
  */
-class MainFrontonActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity() {
 
     /**
      * Metodo principal del ciclo de vida de la Activity.
@@ -27,7 +27,7 @@ class MainFrontonActivity : AppCompatActivity() {
      */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.fronton_main_fronton)
+        setContentView(R.layout.fronton_main)
 
         val btnFrontonInfo = findViewById<Button>(R.id.btnFrontonInfo)
         val btnPelota = findViewById<Button>(R.id.btnPelota)
@@ -36,7 +36,7 @@ class MainFrontonActivity : AppCompatActivity() {
         val btnVolverMapa = findViewById<Button>(R.id.btnVolverMapa)
 
         btnFrontonInfo.setOnClickListener {
-            startActivity(Intent(this, FrontonInfoActivity::class.java))
+            startActivity(Intent(this, InfoActivity::class.java))
         }
 
         btnPelota.setOnClickListener {

@@ -8,11 +8,11 @@ import android.widget.Button
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import es.didaktikapp.gernikapp.R
-import es.didaktikapp.gernikapp.databinding.ActivityViewAndInterpretBinding
+import es.didaktikapp.gernikapp.databinding.PicassoViewInterpretBinding
 
-class ViewAndInterpretActivity : AppCompatActivity() {
+class ViewInterpretActivity : AppCompatActivity() {
 
-    private lateinit var binding: ActivityViewAndInterpretBinding
+    private lateinit var binding: PicassoViewInterpretBinding
     private var currentQuestionIndex = 0
     private var correctAnswers = 0
 
@@ -118,7 +118,7 @@ class ViewAndInterpretActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        binding = ActivityViewAndInterpretBinding.inflate(layoutInflater)
+        binding = PicassoViewInterpretBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         // Restaurar estado si existe

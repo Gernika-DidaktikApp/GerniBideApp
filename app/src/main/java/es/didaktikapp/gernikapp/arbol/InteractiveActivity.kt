@@ -12,7 +12,7 @@ import androidx.appcompat.app.AppCompatActivity
 import org.json.JSONArray
 import org.json.JSONObject
 
-class ArbolInteractivoActivity : AppCompatActivity() {
+class InteractiveActivity : AppCompatActivity() {
 
     private lateinit var treeContainer: FrameLayout
     private val PREFS_NAME = "CollectiveTreePrefs"
@@ -20,7 +20,7 @@ class ArbolInteractivoActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_arbol_interactivo)
+        setContentView(R.layout.arbol_interactive)
 
         treeContainer = findViewById(R.id.treeContainer)
 

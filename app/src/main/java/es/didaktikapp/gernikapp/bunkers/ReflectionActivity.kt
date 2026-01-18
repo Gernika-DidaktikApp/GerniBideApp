@@ -13,7 +13,7 @@ class ReflectionActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_reflection)
+        setContentView(R.layout.bunkers_reflection)
 
         val tvFeedback: TextView = findViewById(R.id.tvFeedback)
         val btnJarraitu: Button = findViewById(R.id.btnJarraitu)

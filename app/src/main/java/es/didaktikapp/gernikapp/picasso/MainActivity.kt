@@ -6,17 +6,17 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import es.didaktikapp.gernikapp.databinding.ActivityPicassoBinding
+import es.didaktikapp.gernikapp.databinding.PicassoMainBinding
 
-class PicassoActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity() {
 
-    private lateinit var binding: ActivityPicassoBinding
+    private lateinit var binding: PicassoMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
 
-        binding = ActivityPicassoBinding.inflate(layoutInflater)
+        binding = PicassoMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         ViewCompat.setOnApplyWindowInsetsListener(binding.main) { v, insets ->
@@ -34,7 +34,7 @@ class PicassoActivity : AppCompatActivity() {
         }
 
         binding.btnIkusiEtaAsmatu.setOnClickListener {
-            startActivity(Intent(this, ViewAndInterpretActivity::class.java))
+            startActivity(Intent(this, ViewInterpretActivity::class.java))
         }
 
         binding.btnNireMezua.setOnClickListener {

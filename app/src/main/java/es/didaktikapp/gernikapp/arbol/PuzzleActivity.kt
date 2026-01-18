@@ -40,7 +40,7 @@ class PuzzleActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_puzzle)
+        setContentView(R.layout.arbol_puzzle)
 
         puzzleContainer = findViewById(R.id.puzzleContainer)
         tvVictory = findViewById(R.id.tvVictory)
@@ -48,7 +48,7 @@ class PuzzleActivity : AppCompatActivity() {
         guideImage = findViewById(R.id.guideImage)
 
         btnNext.setOnClickListener {
-            startActivity(Intent(this, NireArbolaActivity::class.java))
+            startActivity(Intent(this, MyTreeActivity::class.java))
             finish()
         }
 

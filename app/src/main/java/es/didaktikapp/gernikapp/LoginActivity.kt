@@ -7,7 +7,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import es.didaktikapp.gernikapp.data.repository.AuthRepository
 import es.didaktikapp.gernikapp.databinding.ActivityLoginBinding
-import es.didaktikapp.gernikapp.picasso.PicassoActivity
 import es.didaktikapp.gernikapp.utils.Resource
 import kotlinx.coroutines.launch
 

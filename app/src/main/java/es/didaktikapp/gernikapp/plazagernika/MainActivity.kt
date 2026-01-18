@@ -6,15 +6,15 @@ import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import es.didaktikapp.gernikapp.R
 
-class PlazaIndexActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.plaza_index)
+        setContentView(R.layout.plaza_main)
 
         val btnVideo = findViewById<Button>(R.id.btnVideo)
         btnVideo.setOnClickListener {
-            val intent = Intent(this, PlazaVideoActivity::class.java)
+            val intent = Intent(this, VideoActivity::class.java)
             startActivity(intent)
         }
 
