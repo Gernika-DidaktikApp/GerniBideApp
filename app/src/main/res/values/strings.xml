@@ -297,4 +297,19 @@
     <string name="gauez_jolasteko_plano_ilunak">Gauez jolasteko azteko plano ilunak</string>
     <string name="hizkuntza">🗣️ Hizkuntza</string>
     <string name="euskara_edo_gaztelania">Euskara edo Gaztelania</string>
+    <string name="itzuli">Itzuli</string>
+    <string name="play">Play</string>
+    <string name="pause">Pause</string>
+    <string name="stop">Stop</string>
+    <string name="ulermen_galderak">ULERMEN GALDERAK</string>
+    <string name="_1_zertarako_elkartzen_ziren_arbolaren_azpian">1. Zertarako elkartzen ziren Arbolaren azpian?</string>
+    <string name="legeak_adosteko_eta_foruak_zin_egiteko">Legeak adosteko eta foruak zin egiteko</string>
+    <string name="bazkaltzeko">Bazkaltzeko</string>
+    <string name="_2_zer_adierazten_du_batzar_etxeak">2. Zer adierazten du Batzar Etxeak?</string>
+    <string name="euskal_herriko_demokrazia_eta_askatasuna">Euskal Herriko demokrazia eta askatasuna</string>
+    <string name="museo_soil_bat">Museo soil bat</string>
+    <string name="_3_zertarako_erabiltzen_da_batzar_etxea">3. Zertarako erabiltzen da Batzar Etxea?</string>
+    <string name="batzar_nagusiak_egiteko">Batzar Nagusiak egiteko</string>
+    <string name="kontzertuak_emateko">Kontzertuak emateko</string>
+    <string name="ondo_egin_duzu_orain_zure_arbola_sortzera_goaz">Ondo egin duzu! Orain zure arbola sortzera goaz.</string>
 </resources>

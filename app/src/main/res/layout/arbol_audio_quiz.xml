@@ -52,7 +52,7 @@
                 android:layout_height="48dp"
                 android:layout_marginEnd="8dp"
                 android:background="@drawable/bg_boton_primario"
-                android:contentDescription="Play"
+                android:contentDescription="@string/play"
                 android:src="@drawable/ic_play"
                 app:tint="@color/white" />
 
@@ -62,7 +62,7 @@
                 android:layout_height="48dp"
                 android:layout_marginEnd="8dp"
                 android:background="@drawable/bg_boton_primario"
-                android:contentDescription="Pause"
+                android:contentDescription="@string/pause"
                 android:src="@drawable/ic_pause"
                 app:tint="@color/white" />
 
@@ -71,7 +71,7 @@
                 android:layout_width="48dp"
                 android:layout_height="48dp"
                 android:background="@drawable/bg_boton_primario"
-                android:contentDescription="Stop"
+                android:contentDescription="@string/stop"
                 android:src="@drawable/ic_stop"
                 app:tint="@color/white" />
         </LinearLayout>
@@ -96,7 +96,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="ULERMEN GALDERAK"
+                android:text="@string/ulermen_galderak"
                 android:textAlignment="center"
                 android:textSize="24sp"
                 android:textStyle="bold"
@@ -107,7 +107,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="1. Zertarako elkartzen ziren Arbolaren azpian?"
+                android:text="@string/_1_zertarako_elkartzen_ziren_arbolaren_azpian"
                 android:textSize="18sp"
                 android:textStyle="bold"
                 android:layout_marginBottom="8dp"/>
@@ -115,20 +115,20 @@
                 android:id="@+id/q1a1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Legeak adosteko eta foruak zin egiteko"
+                android:text="@string/legeak_adosteko_eta_foruak_zin_egiteko"
                 android:layout_marginBottom="4dp"/>
             <Button
                 android:id="@+id/q1a2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Bazkaltzeko"
+                android:text="@string/bazkaltzeko"
                 android:layout_marginBottom="16dp"/>
 
             <!-- Question 2 -->
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="2. Zer adierazten du Batzar Etxeak?"
+                android:text="@string/_2_zer_adierazten_du_batzar_etxeak"
                 android:textSize="18sp"
                 android:textStyle="bold"
                 android:layout_marginBottom="8dp"/>
@@ -136,20 +136,20 @@
                 android:id="@+id/q2a1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Euskal Herriko demokrazia eta askatasuna"
+                android:text="@string/euskal_herriko_demokrazia_eta_askatasuna"
                 android:layout_marginBottom="4dp"/>
             <Button
                 android:id="@+id/q2a2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Museo soil bat"
+                android:text="@string/museo_soil_bat"
                 android:layout_marginBottom="16dp"/>
 
             <!-- Question 3 -->
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="3. Zertarako erabiltzen da Batzar Etxea?"
+                android:text="@string/_3_zertarako_erabiltzen_da_batzar_etxea"
                 android:textSize="18sp"
                 android:textStyle="bold"
                 android:layout_marginBottom="8dp"/>
@@ -157,20 +157,20 @@
                 android:id="@+id/q3a1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Batzar Nagusiak egiteko"
+                android:text="@string/batzar_nagusiak_egiteko"
                 android:layout_marginBottom="4dp"/>
             <Button
                 android:id="@+id/q3a2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Kontzertuak emateko"
+                android:text="@string/kontzertuak_emateko"
                 android:layout_marginBottom="16dp"/>
 
             <TextView
                 android:id="@+id/tvCongrats"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Ondo egin duzu! Orain zure arbola sortzera goaz."
+                android:text="@string/ondo_egin_duzu_orain_zure_arbola_sortzera_goaz"
                 android:textAlignment="center"
                 android:textSize="20sp"
                 android:textStyle="bold"
@@ -187,7 +187,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="24dp"
-        android:text="Itzuli"
+        android:text="@string/itzuli"
         android:enabled="false"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
