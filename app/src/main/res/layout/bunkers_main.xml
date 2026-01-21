@@ -38,21 +38,12 @@
         android:layout_marginBottom="12dp"/>
 
     <Button
-        android:id="@+id/btnPuzzle"
-        style="@style/EstiloBotonPrimario"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:minHeight="70dp"
-        android:text="3. Puzzle"
-        android:layout_marginBottom="12dp"/>
-
-    <Button
         android:id="@+id/btnPeaceMural"
         style="@style/EstiloBotonPrimario"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:minHeight="70dp"
-        android:text="4. Bake Murala"
+        android:text="3. Bake Murala"
         android:layout_marginBottom="12dp"/>
 
     <Button
@@ -61,7 +52,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:minHeight="70dp"
-        android:text="5. Hausnarketa"
+        android:text="4. Hausnarketa"
         android:layout_marginBottom="12dp"/>
 
     <Button
