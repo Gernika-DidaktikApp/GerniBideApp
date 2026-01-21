@@ -21,4 +21,6 @@
     <color name="valueSolidarity">#9B59B6</color>
     <color name="valueRespect">#85C257</color>
     <color name="valuePeace">#6BCDBF</color>
+    <color name="btnCompletado">#6BCDBF</color>
+    <color name="btnCompletadoShadow">#4BA89A</color>
 </resources>

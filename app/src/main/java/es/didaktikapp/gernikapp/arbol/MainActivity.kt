@@ -1,9 +1,11 @@
 package es.didaktikapp.gernikapp.arbol
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import es.didaktikapp.gernikapp.MapaActivity
+import androidx.core.content.ContextCompat
+import es.didaktikapp.gernikapp.R
 import es.didaktikapp.gernikapp.databinding.ArbolMainBinding
 
 class MainActivity : AppCompatActivity() {
@@ -16,6 +18,20 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         setupClickListeners()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        updateCompletedActivities()
+    }
+
+    private fun updateCompletedActivities() {
+        val prefs = getSharedPreferences("arbol_progress", Context.MODE_PRIVATE)
+
+        if (prefs.getBoolean("audio_quiz_completed", false)) {
+            binding.btnAudioQuiz.background =
+                ContextCompat.getDrawable(this, R.drawable.bg_boton_completado)
+        }
     }
 
     private fun setupClickListeners() {
@@ -33,11 +49,6 @@ class MainActivity : AppCompatActivity() {
 
         binding.btnMyTree.setOnClickListener {
             startActivity(Intent(this, MyTreeActivity::class.java))
-        }
-
-        binding.btnVolverMapa.setOnClickListener {
-            startActivity(Intent(this, MapaActivity::class.java))
-            finish()
         }
     }
 }

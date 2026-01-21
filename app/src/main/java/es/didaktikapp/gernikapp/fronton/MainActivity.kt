@@ -3,7 +3,6 @@ package es.didaktikapp.gernikapp.fronton
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import es.didaktikapp.gernikapp.MapaActivity
 import es.didaktikapp.gernikapp.databinding.FrontonMainBinding
 
 class MainActivity : AppCompatActivity() {
@@ -33,11 +32,6 @@ class MainActivity : AppCompatActivity() {
 
         binding.btnBalioak.setOnClickListener {
             startActivity(Intent(this, ValuesGroupActivity::class.java))
-        }
-
-        binding.btnVolverMapa.setOnClickListener {
-            startActivity(Intent(this, MapaActivity::class.java))
-            finish()
         }
     }
 }

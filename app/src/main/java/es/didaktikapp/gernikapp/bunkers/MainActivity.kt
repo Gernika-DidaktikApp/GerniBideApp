@@ -3,7 +3,6 @@ package es.didaktikapp.gernikapp.bunkers
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import es.didaktikapp.gernikapp.MapaActivity
 import es.didaktikapp.gernikapp.databinding.BunkersMainBinding
 
 class MainActivity : AppCompatActivity() {
@@ -30,11 +29,6 @@ class MainActivity : AppCompatActivity() {
 
         binding.btnReflection.setOnClickListener {
             startActivity(Intent(this, ReflectionActivity::class.java))
-        }
-
-        binding.btnVolverMapa.setOnClickListener {
-            startActivity(Intent(this, MapaActivity::class.java))
-            finish()
         }
     }
 }
