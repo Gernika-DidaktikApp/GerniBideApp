@@ -37,6 +37,11 @@ class MainActivity : AppCompatActivity() {
             binding.btnInteractive.background =
                 ContextCompat.getDrawable(this, R.drawable.bg_boton_completado)
         }
+
+        if (prefs.getBoolean("my_tree_completed", false)) {
+            binding.btnMyTree.background =
+                ContextCompat.getDrawable(this, R.drawable.bg_boton_completado)
+        }
     }
 
     private fun setupClickListeners() {

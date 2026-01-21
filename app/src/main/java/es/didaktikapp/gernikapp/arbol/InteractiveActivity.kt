@@ -31,14 +31,15 @@ class InteractiveActivity : AppCompatActivity() {
             finish()
         }
 
-        // Si ya estaba completada, habilitar botón
         val arbolPrefs = getSharedPreferences("arbol_progress", Context.MODE_PRIVATE)
-        if (arbolPrefs.getBoolean("interactive_completed", false)) {
-            btnBack.isEnabled = true
-        }
 
         // 1. Load existing entries
-        loadAndDisplayEntries()
+        val hasExistingEntries = loadAndDisplayEntries()
+
+        // Si ya estaba completada o hay entradas existentes, habilitar botón
+        if (arbolPrefs.getBoolean("interactive_completed", false) || hasExistingEntries) {
+            btnBack.isEnabled = true
+        }
 
         // 2. Add current entry from intent
         val text = intent.getStringExtra("EXTRA_VALUE_TEXT") ?: ""
@@ -125,7 +126,7 @@ class InteractiveActivity : AppCompatActivity() {
         prefs.edit().putString(KEY_ENTRIES, jsonArray.toString()).apply()
     }
 
-    private fun loadAndDisplayEntries() {
+    private fun loadAndDisplayEntries(): Boolean {
         val prefs = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
         val currentData = prefs.getString(KEY_ENTRIES, "[]")
         val jsonArray = JSONArray(currentData)
@@ -141,5 +142,6 @@ class InteractiveActivity : AppCompatActivity() {
                 false
             )
         }
+        return jsonArray.length() > 0
     }
 }

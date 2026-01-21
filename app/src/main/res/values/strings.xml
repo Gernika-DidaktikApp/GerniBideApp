@@ -312,4 +312,12 @@
     <string name="batzar_nagusiak_egiteko">Batzar Nagusiak egiteko</string>
     <string name="kontzertuak_emateko">Kontzertuak emateko</string>
     <string name="ondo_egin_duzu_orain_zure_arbola_sortzera_goaz">Ondo egin duzu! Orain zure arbola sortzera goaz.</string>
+
+    <!-- My Tree -->
+    <string name="my_tree_question">Zer balio adieraziko luke zure zuhaitzak?</string>
+    <string name="value_friendship">Adiskidetasuna</string>
+    <string name="value_freedom">Askatasuna</string>
+    <string name="value_solidarity">Elkartasuna</string>
+    <string name="value_respect">Errespetua</string>
+    <string name="value_peace">Bakea</string>
 </resources>

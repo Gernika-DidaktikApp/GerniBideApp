@@ -5,20 +5,23 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/fondo5"
-    tools:context=".NireArbolaActivity">
+    tools:context=".arbol.MyTreeActivity">
 
     <TextView
         android:id="@+id/tvQuestion"
-        android:layout_width="268dp"
-        android:layout_height="66dp"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
         android:layout_marginTop="60dp"
-        android:text="Zer balio adieraziko luke zure zuhaitzak?"
+        android:layout_marginEnd="32dp"
+        android:text="@string/my_tree_question"
         android:textAlignment="center"
         android:textColor="@color/black"
         android:textSize="24sp"
         android:textStyle="bold"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:layout_editor_absoluteX="71dp" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <LinearLayout
         android:id="@+id/buttonContainer"
@@ -38,7 +41,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="12dp"
             android:backgroundTint="@color/valueFriendship"
-            android:text="adiskidetasuna"
+            android:text="@string/value_friendship"
             android:textSize="18sp" />
 
         <Button
@@ -47,7 +50,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="12dp"
             android:backgroundTint="@color/valueFreedom"
-            android:text="askatasuna"
+            android:text="@string/value_freedom"
             android:textSize="18sp" />
 
         <Button
@@ -56,7 +59,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="12dp"
             android:backgroundTint="@color/valueSolidarity"
-            android:text="elkartasuna"
+            android:text="@string/value_solidarity"
             android:textSize="18sp" />
 
         <Button
@@ -65,7 +68,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="12dp"
             android:backgroundTint="@color/valueRespect"
-            android:text="errespetua"
+            android:text="@string/value_respect"
             android:textSize="18sp" />
 
         <Button
@@ -73,9 +76,21 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:backgroundTint="@color/valuePeace"
-            android:text="bakea"
+            android:text="@string/value_peace"
             android:textSize="18sp" />
 
     </LinearLayout>
+
+    <Button
+        android:id="@+id/btnBack"
+        style="@style/EstiloBotonPrimario"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="24dp"
+        android:text="@string/itzuli"
+        android:enabled="false"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

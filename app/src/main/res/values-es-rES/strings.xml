@@ -224,8 +224,8 @@
     <!-- My Message -->
     <string name="my_message_title">Mi mensaje para el mundo</string>
     <string name="my_message_instructions">Escribe tu mensaje de paz:</string>
-    <string name="my_message_start">Yo quiero la paz...</string>
-    <string name="my_message_hint">Escribe aquí tu mensaje...</string>
+    <string name="my_message_start">Yo quiero la paz…</string>
+    <string name="my_message_hint">Escribe aquí tu mensaje…</string>
     <string name="my_message_char_count">0/200</string>
     <string name="my_message_char_count_format">%d/200</string>
     <string name="my_message_send">Enviar</string>
@@ -313,4 +313,12 @@
     <string name="batzar_nagusiak_egiteko">Para celebrar las Juntas Generales</string>
     <string name="kontzertuak_emateko">Para dar conciertos</string>
     <string name="ondo_egin_duzu_orain_zure_arbola_sortzera_goaz">¡Lo has hecho bien! Ahora vamos a crear tu árbol.</string>
+
+    <!-- My Tree -->
+    <string name="my_tree_question">¿Qué valor representaría tu árbol?</string>
+    <string name="value_friendship">Amistad</string>
+    <string name="value_freedom">Libertad</string>
+    <string name="value_solidarity">Solidaridad</string>
+    <string name="value_respect">Respeto</string>
+    <string name="value_peace">Paz</string>
 </resources>
