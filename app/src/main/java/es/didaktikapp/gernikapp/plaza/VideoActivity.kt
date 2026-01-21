@@ -1,4 +1,4 @@
-package es.didaktikapp.gernikapp.plazagernika
+package es.didaktikapp.gernikapp.plaza
 
 import android.content.Intent
 import android.graphics.drawable.TransitionDrawable
@@ -18,7 +18,7 @@ import es.didaktikapp.gernikapp.R
 import java.util.Locale
 import androidx.core.net.toUri
 
-class PlazaVideoActivity : AppCompatActivity() {
+class VideoActivity : AppCompatActivity() {
 
     private lateinit var videoView: VideoView
     private lateinit var btnPlayPause: ImageButton

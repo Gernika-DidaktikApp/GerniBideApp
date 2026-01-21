@@ -29,6 +29,9 @@
         <!-- Actividades principales -->
         <activity
             android:name=".LoginActivity"
+            android:exported="false" />
+        <activity
+            android:name=".MapaActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -36,12 +39,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".MainActivity"
-            android:exported="false" />
-        <activity
-            android:name=".MapaActivity"
-            android:exported="false" />
         <activity
             android:name=".RegisterActivity"
             android:exported="false" />
@@ -57,10 +54,10 @@
             android:name=".fronton.DancingBallActivity"
             android:exported="false" />
         <activity
-            android:name=".fronton.FrontonInfoActivity"
+            android:name=".fronton.InfoActivity"
             android:exported="false" />
         <activity
-            android:name=".fronton.MainFrontonActivity"
+            android:name=".fronton.MainActivity"
             android:exported="false" />
         <activity
             android:name=".fronton.ValuesGroupActivity"
@@ -68,19 +65,19 @@
 
         <!-- Actividades de la Plaza Gernika -->
         <activity
-            android:name=".plazagernika.DragProductsActivity"
+            android:name=".plaza.DragProductsActivity"
             android:exported="false" />
         <activity
-            android:name=".plazagernika.PhotoMissionActivity"
+            android:name=".plaza.PhotoMissionActivity"
             android:exported="false" />
         <activity
-            android:name=".plazagernika.PlazaIndexActivity"
+            android:name=".plaza.MainActivity"
             android:exported="false" />
         <activity
-            android:name=".plazagernika.PlazaVideoActivity"
+            android:name=".plaza.VideoActivity"
             android:exported="false" />
         <activity
-            android:name=".plazagernika.VerseGameActivity"
+            android:name=".plaza.VerseGameActivity"
             android:exported="false" />
 
         <!-- Actividades de picasso -->
@@ -91,24 +88,27 @@
             android:name=".picasso.MyMessageActivity"
             android:exported="false" />
         <activity
-            android:name=".picasso.PicassoActivity"
+            android:name=".picasso.MainActivity"
             android:exported="false" />
         <activity
             android:name=".picasso.ResultActivity"
             android:exported="false" />
         <activity
-            android:name=".picasso.ViewAndInterpretActivity"
+            android:name=".picasso.ViewInterpretActivity"
             android:exported="false" />
 
         <!-- Actividades de arbol -->
         <activity
-            android:name=".arbol.ArbolActivity"
+            android:name=".arbol.MainActivity"
             android:exported="false" />
         <activity
-            android:name=".arbol.ArbolInteractivoActivity"
+            android:name=".arbol.AudioQuizActivity"
             android:exported="false" />
         <activity
-            android:name=".arbol.NireArbolaActivity"
+            android:name=".arbol.InteractiveActivity"
+            android:exported="false" />
+        <activity
+            android:name=".arbol.MyTreeActivity"
             android:exported="false" />
         <activity
             android:name=".arbol.PuzzleActivity"
@@ -116,10 +116,10 @@
 
         <!-- Actividades de bunkers -->
         <activity
-            android:name=".bunkers.PeaceMuralActivity"
+            android:name=".bunkers.MainActivity"
             android:exported="false" />
         <activity
-            android:name=".bunkers.PuzzleActivity"
+            android:name=".bunkers.PeaceMuralActivity"
             android:exported="false" />
         <activity
             android:name=".bunkers.ReflectionActivity"

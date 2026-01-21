@@ -1,5 +1,6 @@
 package es.didaktikapp.gernikapp
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.gms.maps.GoogleMap
@@ -10,11 +11,15 @@ import com.google.android.gms.maps.CameraUpdateFactory
 import androidx.core.app.ActivityCompat
 import android.Manifest
 import android.content.pm.PackageManager
-import android.widget.Toast
 import com.google.android.gms.maps.model.MarkerOptions
 import androidx.appcompat.app.AlertDialog
 import es.didaktikapp.gernikapp.databinding.ActivityMapaBinding
 import es.didaktikapp.gernikapp.utils.Constants
+import es.didaktikapp.gernikapp.arbol.MainActivity as ArbolMainActivity
+import es.didaktikapp.gernikapp.bunkers.MainActivity as BunkersMainActivity
+import es.didaktikapp.gernikapp.fronton.MainActivity as FrontonMainActivity
+import es.didaktikapp.gernikapp.picasso.MainActivity as PicassoMainActivity
+import es.didaktikapp.gernikapp.plaza.MainActivity as PlazaMainActivity
 
 class MapaActivity : AppCompatActivity(), OnMapReadyCallback {
 
@@ -43,37 +48,38 @@ class MapaActivity : AppCompatActivity(), OnMapReadyCallback {
             MarkerOptions()
                 .position(LatLng(Constants.Map.ARBOLA_LAT, Constants.Map.ARBOLA_LNG))
                 .title(getString(R.string.map_marker_title_arbola))
-        )
+        )?.tag = "arbola"
 
         nMap.addMarker(
             MarkerOptions()
                 .position(LatLng(Constants.Map.BUNKER_LAT, Constants.Map.BUNKER_LNG))
                 .title(getString(R.string.map_marker_title_bunker))
-        )
+        )?.tag = "bunkers"
 
         nMap.addMarker(
             MarkerOptions()
                 .position(LatLng(Constants.Map.GUERNICA_LAT, Constants.Map.GUERNICA_LNG))
                 .title(getString(R.string.map_marker_title_guernica))
-        )
+        )?.tag = "picasso"
 
         nMap.addMarker(
             MarkerOptions()
                 .position(LatLng(Constants.Map.PLAZA_LAT, Constants.Map.PLAZA_LNG))
                 .title(getString(R.string.map_marker_title_plaza))
-        )
+        )?.tag = "plaza"
 
         nMap.addMarker(
             MarkerOptions()
                 .position(LatLng(Constants.Map.FRONTOI_LAT, Constants.Map.FRONTOI_LNG))
                 .title(getString(R.string.map_marker_title_frontoi))
-        )
+        )?.tag = "fronton"
 
         nMap.setOnMarkerClickListener { marker ->
             marker.title?.let { titulo ->
                 mostrarDialogo(
                     titulo = titulo,
-                    mensaje = getString(R.string.map_dialog_message, titulo)
+                    mensaje = getString(R.string.map_dialog_message, titulo),
+                    tag = marker.tag as? String
                 )
             }
             true
@@ -92,18 +98,20 @@ class MapaActivity : AppCompatActivity(), OnMapReadyCallback {
         }
     }
 
-    private fun mostrarDialogo(titulo: String, mensaje: String) {
+    private fun mostrarDialogo(titulo: String, mensaje: String, tag: String?) {
         AlertDialog.Builder(this)
             .setTitle(titulo)
             .setMessage(mensaje)
             .setPositiveButton(R.string.map_dialog_button_enter) { _, _ ->
-                Toast.makeText(
-                    this,
-                    getString(R.string.map_entered_location, titulo),
-                    Toast.LENGTH_SHORT
-                ).show()
-
-                // Aquí luego abriremos la Activity correspondiente
+                val intent = when (tag) {
+                    "arbola" -> Intent(this, ArbolMainActivity::class.java)
+                    "bunkers" -> Intent(this, BunkersMainActivity::class.java)
+                    "picasso" -> Intent(this, PicassoMainActivity::class.java)
+                    "plaza" -> Intent(this, PlazaMainActivity::class.java)
+                    "fronton" -> Intent(this, FrontonMainActivity::class.java)
+                    else -> null
+                }
+                intent?.let { startActivity(it) }
             }
             .setNegativeButton(R.string.map_dialog_button_cancel) { dialog, _ ->
                 dialog.dismiss()

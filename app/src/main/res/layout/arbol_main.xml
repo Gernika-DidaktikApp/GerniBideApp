@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:padding="24dp"
+    android:gravity="center"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/base"
+    tools:context=".arbol.MainActivity">
+
+    <TextView
+        android:id="@+id/tvTitulo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Gernikako Arbola"
+        android:textSize="32sp"
+        android:textStyle="bold"
+        android:textColor="@color/btnPrincipal"
+        android:layout_marginBottom="32dp" />
+
+    <Button
+        android:id="@+id/btnInteractive"
+        style="@style/EstiloBotonPrimario"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="70dp"
+        android:text="1. Arbola Interaktiboa"
+        android:layout_marginBottom="12dp"/>
+
+    <Button
+        android:id="@+id/btnAudioQuiz"
+        style="@style/EstiloBotonPrimario"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="70dp"
+        android:text="2. Audio Quiz"
+        android:layout_marginBottom="12dp"/>
+
+    <Button
+        android:id="@+id/btnPuzzle"
+        style="@style/EstiloBotonPrimario"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="70dp"
+        android:text="3. Puzzle"
+        android:layout_marginBottom="12dp"/>
+
+    <Button
+        android:id="@+id/btnMyTree"
+        style="@style/EstiloBotonPrimario"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="70dp"
+        android:text="4. Nire Arbola"
+        android:layout_marginBottom="12dp"/>
+
+    <Button
+        android:id="@+id/btnVolverMapa"
+        style="@style/EstiloBotonSecundario"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="70dp"
+        android:text="Itzuli Mapara"
+        android:layout_marginBottom="12dp"/>
+
+</LinearLayout>

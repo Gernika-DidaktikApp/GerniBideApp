@@ -26,7 +26,7 @@ class PeaceMuralActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_peace_mural)
+        setContentView(R.layout.bunkers_peace_mural)
 
         muralContainer = findViewById(R.id.muralContainer)
         tvFinalCongrats = findViewById(R.id.tvFinalCongrats)

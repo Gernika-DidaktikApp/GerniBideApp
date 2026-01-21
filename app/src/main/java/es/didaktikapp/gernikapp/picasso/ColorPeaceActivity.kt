@@ -10,14 +10,14 @@ import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import es.didaktikapp.gernikapp.R
-import es.didaktikapp.gernikapp.databinding.ActivityColorPeaceBinding
+import es.didaktikapp.gernikapp.databinding.PicassoColorPeaceBinding
 import es.didaktikapp.gernikapp.utils.BitmapUtils
 import es.didaktikapp.gernikapp.utils.Constants
 import java.io.File
 
 class ColorPeaceActivity : AppCompatActivity() {
 
-    private lateinit var binding: ActivityColorPeaceBinding
+    private lateinit var binding: PicassoColorPeaceBinding
 
     // Colores disponibles
     private val colorBlue = Color.parseColor("#4FC3F7")
@@ -29,7 +29,7 @@ class ColorPeaceActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        binding = ActivityColorPeaceBinding.inflate(layoutInflater)
+        binding = PicassoColorPeaceBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         setupColorListeners()

@@ -15,9 +15,9 @@ import es.didaktikapp.gernikapp.R
  * @author Erlantz
  * @version 1.0
  * @see AppCompatActivity
- * @see R.layout.fronton_fronton_info
+ * @see R.layout.fronton_info
  */
-class FrontonInfoActivity : AppCompatActivity() {
+class InfoActivity : AppCompatActivity() {
 
     /**
      * Metodo principal del ciclo de vida de la Activity.
@@ -28,7 +28,7 @@ class FrontonInfoActivity : AppCompatActivity() {
      */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.fronton_fronton_info)
+        setContentView(R.layout.fronton_info)
 
         val videoView = findViewById<VideoView>(R.id.videoFronton)
         val btnPlayPause = findViewById<Button>(R.id.btnPlayVideo)

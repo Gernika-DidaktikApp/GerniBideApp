@@ -85,7 +85,7 @@ abstract class BaseMenuActivity : AppCompatActivity() {
 
         fabHome.setOnClickListener {
             closeMenu()
-            startActivity(Intent(this, MainActivity::class.java))
+            startActivity(Intent(this, MapaActivity::class.java))
             finish()
         }
 

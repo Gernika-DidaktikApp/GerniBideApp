@@ -1,4 +1,6 @@
-package es.didaktikapp.gernikapp.bunkers
+package es.didaktikapp.gernikapp.arbol
+
+import es.didaktikapp.gernikapp.R
 
 import android.content.Intent
 import android.media.MediaPlayer
@@ -12,9 +14,8 @@ import android.widget.SeekBar
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import es.didaktikapp.gernikapp.R
 
-class ArbolActivity : AppCompatActivity() {
+class AudioQuizActivity : AppCompatActivity() {
 
     private lateinit var mediaPlayer: MediaPlayer
     private lateinit var seekBar: SeekBar
@@ -31,7 +32,7 @@ class ArbolActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_arbol)
+        setContentView(R.layout.arbol_audio_quiz)
 
         voiceContainer = findViewById(R.id.voiceContainer)
         quizContainer = findViewById(R.id.quizContainer)
@@ -39,17 +40,22 @@ class ArbolActivity : AppCompatActivity() {
         tvCongrats = findViewById(R.id.tvCongrats)
 
         // Reproducir audio
-        mediaPlayer = MediaPlayer.create(this, R.raw.arnasa)
+        /* mediaPlayer = MediaPlayer.create(this, R.raw.genikako_arbola)
         mediaPlayer.isLooping = false
         mediaPlayer.start()
 
         mediaPlayer.setOnCompletionListener {
             showQuiz()
-        }
+        } */
+        
+        // Temporarily show quiz immediately since audio is missing
+        showQuiz()
 
         // Setup SeekBar
         seekBar = findViewById(R.id.seekBarAudio)
-        seekBar.max = mediaPlayer.duration
+        if (::mediaPlayer.isInitialized) {
+            seekBar.max = mediaPlayer.duration
+        }
 
         runnable = Runnable {
             if (::mediaPlayer.isInitialized) {
@@ -97,8 +103,11 @@ class ArbolActivity : AppCompatActivity() {
     }
 
     private fun setupQuiz() {
+        // Q1 Correct: q1a1
         setupQuestion(listOf(R.id.q1a1, R.id.q1a2), R.id.q1a1)
+        // Q2 Correct: q2a1
         setupQuestion(listOf(R.id.q2a1, R.id.q2a2), R.id.q2a1)
+        // Q3 Correct: q3a1
         setupQuestion(listOf(R.id.q3a1, R.id.q3a2), R.id.q3a1)
     }
 

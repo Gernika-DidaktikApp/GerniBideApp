@@ -44,7 +44,7 @@ class SoundGameActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_sound_game)
+        setContentView(R.layout.bunkers_sound_game)
 
         tvStars = findViewById(R.id.tvStars)
         tvQuestion = findViewById(R.id.tvQuestion)

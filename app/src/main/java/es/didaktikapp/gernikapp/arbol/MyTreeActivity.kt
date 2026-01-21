@@ -8,11 +8,11 @@ import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 
-class NireArbolaActivity : AppCompatActivity() {
+class MyTreeActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_nire_arbola)
+        setContentView(R.layout.arbol_my_tree)
 
         setupButton(R.id.btnFriendship, R.color.valueFriendship)
         setupButton(R.id.btnFreedom, R.color.valueFreedom)
@@ -27,9 +27,9 @@ class NireArbolaActivity : AppCompatActivity() {
 
     private fun setupButton(buttonId: Int, colorId: Int) {
         findViewById<Button>(buttonId).setOnClickListener { button ->
-            val intent = Intent(this, ArbolInteractivoActivity::class.java).apply {
+            val intent = Intent(this, InteractiveActivity::class.java).apply {
                 putExtra("EXTRA_VALUE_TEXT", (button as Button).text.toString())
-                putExtra("EXTRA_VALUE_COLOR", ContextCompat.getColor(this@NireArbolaActivity, colorId))
+                putExtra("EXTRA_VALUE_COLOR", ContextCompat.getColor(this@MyTreeActivity, colorId))
             }
             startActivity(intent)
         }

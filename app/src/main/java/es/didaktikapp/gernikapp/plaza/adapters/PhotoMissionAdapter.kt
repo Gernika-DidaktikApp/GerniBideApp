@@ -1,4 +1,4 @@
-package es.didaktikapp.gernikapp.plazagernika.adapters
+package es.didaktikapp.gernikapp.plaza.adapters
 
 import android.view.LayoutInflater
 import android.view.View
@@ -7,7 +7,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import es.didaktikapp.gernikapp.R
-import es.didaktikapp.gernikapp.plazagernika.models.FotoGaleria
+import es.didaktikapp.gernikapp.plaza.models.FotoGaleria
 
 class PhotoMissionAdapter(
     private val fotos: List<FotoGaleria>
