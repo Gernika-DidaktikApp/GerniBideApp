@@ -32,6 +32,11 @@ class MainActivity : AppCompatActivity() {
             binding.btnAudioQuiz.background =
                 ContextCompat.getDrawable(this, R.drawable.bg_boton_completado)
         }
+
+        if (prefs.getBoolean("interactive_completed", false)) {
+            binding.btnInteractive.background =
+                ContextCompat.getDrawable(this, R.drawable.bg_boton_completado)
+        }
     }
 
     private fun setupClickListeners() {

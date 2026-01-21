@@ -6,6 +6,7 @@ import android.content.Context
 import android.os.Bundle
 import android.view.MotionEvent
 import android.view.View
+import android.widget.Button
 import android.widget.FrameLayout
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
@@ -15,6 +16,7 @@ import org.json.JSONObject
 class InteractiveActivity : AppCompatActivity() {
 
     private lateinit var treeContainer: FrameLayout
+    private lateinit var btnBack: Button
     private val PREFS_NAME = "CollectiveTreePrefs"
     private val KEY_ENTRIES = "treeEntries"
 
@@ -23,9 +25,16 @@ class InteractiveActivity : AppCompatActivity() {
         setContentView(R.layout.arbol_interactive)
 
         treeContainer = findViewById(R.id.treeContainer)
+        btnBack = findViewById(R.id.btnBack)
 
-        findViewById<View>(R.id.btnBack).setOnClickListener {
-            onBackPressedDispatcher.onBackPressed()
+        btnBack.setOnClickListener {
+            finish()
+        }
+
+        // Si ya estaba completada, habilitar botón
+        val arbolPrefs = getSharedPreferences("arbol_progress", Context.MODE_PRIVATE)
+        if (arbolPrefs.getBoolean("interactive_completed", false)) {
+            btnBack.isEnabled = true
         }
 
         // 1. Load existing entries
@@ -38,6 +47,10 @@ class InteractiveActivity : AppCompatActivity() {
         if (text.isNotEmpty()) {
             val entryId = "entry_${System.currentTimeMillis()}"
             addNewValue(entryId, text, color, 400f, 400f, true)
+
+            // Marcar como completada y habilitar botón
+            btnBack.isEnabled = true
+            arbolPrefs.edit().putBoolean("interactive_completed", true).apply()
         }
     }
 

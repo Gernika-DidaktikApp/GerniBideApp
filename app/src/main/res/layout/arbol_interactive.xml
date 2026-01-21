@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/fondo5"
-    tools:context=".ArbolInteractivoActivity">
+    tools:context=".arbol.InteractiveActivity">
 
     <ImageView
         android:id="@+id/treeImage"
@@ -19,13 +19,12 @@
     
     <Button
         android:id="@+id/btnBack"
+        style="@style/EstiloBotonPrimario"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="bottom|start"
+        android:layout_gravity="bottom|center"
         android:layout_margin="16dp"
-        android:background="@drawable/bg_boton_secundario"
-        app:backgroundTint="@null"
-        android:text="ATZERA"
-        android:textColor="@color/white" />
+        android:text="Itzuli"
+        android:enabled="false" />
 
 </FrameLayout>
