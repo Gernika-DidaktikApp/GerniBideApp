@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:background="@color/base"
     android:padding="24dp"
-    tools:context=".picasso.PicassoActivity">
+    tools:context=".picasso.MainActivity">
 
     <TextView
         android:id="@+id/tvTitulo"
