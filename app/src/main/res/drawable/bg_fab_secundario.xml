@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:state_pressed="true">
+        <layer-list>
+            <item android:top="3dp">
+                <shape android:shape="oval">
+                    <solid android:color="@color/btnSecundario" />
+                    <size android:width="40dp" android:height="40dp" />
+                </shape>
+            </item>
+        </layer-list>
+    </item>
+    <item>
+        <layer-list>
+            <item>
+                <shape android:shape="oval">
+                    <solid android:color="@color/btnSecundarioShadow" />
+                    <size android:width="40dp" android:height="40dp" />
+                </shape>
+            </item>
+            <item android:bottom="3dp">
+                <shape android:shape="oval">
+                    <solid android:color="@color/btnSecundario" />
+                    <size android:width="40dp" android:height="40dp" />
+                </shape>
+            </item>
+        </layer-list>
+    </item>
+</selector>

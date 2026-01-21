@@ -13,13 +13,13 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
 import es.didaktikapp.gernikapp.R
-import es.didaktikapp.gernikapp.databinding.ActivityMyMessageBinding
+import es.didaktikapp.gernikapp.databinding.PicassoMyMessageBinding
 import es.didaktikapp.gernikapp.utils.Constants
 import java.io.File
 
 class MyMessageActivity : AppCompatActivity() {
 
-    private lateinit var binding: ActivityMyMessageBinding
+    private lateinit var binding: PicassoMyMessageBinding
 
     private val messagesFile by lazy {
         File(getExternalFilesDir(null), Constants.Files.PEACE_MESSAGES_FILENAME)
@@ -34,7 +34,7 @@ class MyMessageActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        binding = ActivityMyMessageBinding.inflate(layoutInflater)
+        binding = PicassoMyMessageBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         setupCharacterCounter()

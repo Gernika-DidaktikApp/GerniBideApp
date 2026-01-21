@@ -15,8 +15,26 @@ import com.google.android.flexbox.FlexboxLayout
 import androidx.appcompat.content.res.AppCompatResources
 import es.didaktikapp.gernikapp.R
 
+/**
+ * Activity para crear valores del grupo mediante tags/bubbles dinámicos.
+ * Permite al usuario escribir valores del equipo y visualizarlos como
+ * etiquetas de colores aleatorios en un FlexboxLayout.
+ *
+ * @author Erlantz
+ * @version 1.0
+ * @see AppCompatActivity
+ * @see R.layout.fronton_values_group
+ * @see com.google.android.flexbox.FlexboxLayout
+ */
 class ValuesGroupActivity : AppCompatActivity() {
 
+    /**
+     * Metodo principal del ciclo de vida de la Activity.
+     * Configura la entrada de texto, la creación dinámica de bubbles de colores,
+     * y estados visuales (añadiendo/finalizando valores del grupo).
+     *
+     * @param savedInstanceState Estado previo de la Activity, si existe
+     */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.fronton_values_group)
@@ -32,7 +50,7 @@ class ValuesGroupActivity : AppCompatActivity() {
             val texto = input.text.toString().trim()
 
             if (texto.isEmpty()) {
-                Toast.makeText(this, "Gehitu aurretik, sartu balio bat", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, getString(R.string.gehitu_aurretik_sartu_balioa), Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
 

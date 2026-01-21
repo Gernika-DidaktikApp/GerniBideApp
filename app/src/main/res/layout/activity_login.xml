@@ -46,6 +46,18 @@
         android:text="@string/login_button"
         android:textSize="18sp"
         android:padding="16dp"
-        android:background="@drawable/bg_boton_primario" />
+        android:background="@drawable/bg_boton_primario"
+        android:layout_marginBottom="16dp"/>
+
+    <TextView
+        android:id="@+id/tvRegisterLink"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/ez_duzu_konturik_izena_eman"
+        android:textSize="14sp"
+        android:textColor="@color/btnSecundario"
+        android:clickable="true"
+        android:focusable="true"
+        android:background="?attr/selectableItemBackgroundBorderless" />
 
 </LinearLayout>

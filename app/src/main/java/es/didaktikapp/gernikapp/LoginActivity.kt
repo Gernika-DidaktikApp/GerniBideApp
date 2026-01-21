@@ -7,7 +7,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import es.didaktikapp.gernikapp.data.repository.AuthRepository
 import es.didaktikapp.gernikapp.databinding.ActivityLoginBinding
-import es.didaktikapp.gernikapp.picasso.PicassoActivity
 import es.didaktikapp.gernikapp.utils.Resource
 import kotlinx.coroutines.launch
 
@@ -24,10 +23,11 @@ class LoginActivity : AppCompatActivity() {
 
         authRepository = AuthRepository(this)
 
-//        if (authRepository.hasActiveSession()) {
-//            navigateToMain()
-//            return
-//        }
+        // Si ya hay una sesión activa, ir directamente al mapa
+        if (authRepository.hasActiveSession()) {
+            navigateToMap()
+            return
+        }
 
         setupClickListeners()
     }
@@ -49,6 +49,12 @@ class LoginActivity : AppCompatActivity() {
 
             performLogin(usuario, password)
         }
+
+        binding.tvRegisterLink.setOnClickListener {
+            val intent = Intent(this, RegisterActivity::class.java)
+            startActivity(intent)
+            finish()
+        }
     }
 
     private fun performLogin(username: String, password: String) {
@@ -62,7 +68,7 @@ class LoginActivity : AppCompatActivity() {
                         getString(R.string.login_welcome, username),
                         Toast.LENGTH_SHORT
                     ).show()
-                    navigateToMain()
+                    navigateToMap()
                 }
 
                 is Resource.Error -> {
@@ -88,8 +94,8 @@ class LoginActivity : AppCompatActivity() {
         binding.editTextPassword.isEnabled = !isLoading
     }
 
-    private fun navigateToMain() {
-        val intent = Intent(this, PicassoActivity::class.java)
+    private fun navigateToMap() {
+        val intent = Intent(this, MapaActivity::class.java)
         startActivity(intent)
         finish()
     }

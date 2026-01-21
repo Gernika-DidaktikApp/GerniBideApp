@@ -1,5 +1,34 @@
 <resources>
-    <string name="app_name">GernikApp</string>
+    <!-- Nombre de la app -->
+    <string name="app_name">GerniBide</string>
+
+    <!-- Login -->
+    <string name="login_title">Saioa hasi</string>
+    <string name="login_username_hint">Erabiltzailea</string>
+    <string name="login_password_hint">Pasahitza</string>
+    <string name="login_button">Saioa hasi</string>
+    <string name="login_welcome">Ongi etorri %s</string>
+    <string name="ez_duzu_konturik_izena_eman">Ez duzu konturik? Izena eman</string>
+
+    <!-- Registro -->
+    <string name="sortu_kontua">Sortu kontua</string>
+    <string name="erabiltzaile_izena">Erabiltzaile izena</string>
+    <string name="izena">Izena</string>
+    <string name="abizena_k">Abizena(k)</string>
+    <string name="klase_batekoa_zara">Klase batekoa zara?</string>
+    <string name="klase_id">Klase ID</string>
+    <string name="izena_eman">IZENA EMAN</string>
+    <string name="baduzu_kontu_bat_saioa_hasi">Baduzu kontu bat? Saioa hasi</string>
+    <string name="nombre_usuario_requerido">Erabiltzaile izena beharrezkoa</string>
+    <string name="nombre_requerido">Izena beharrezkoa</string>
+    <string name="apellido_requerido">Abizena(k) beharrezkoa(k)</string>
+    <string name="id_clase_requerido">Klase ID beharrezkoa</string>
+    <string name="pasahitza">Pasahitza</string>
+    <string name="pasahitza_requerida">Pasahitza beharrezkoa</string>
+    <string name="pasahitza_laburgia">Pasahitza gutxienez 6 karaktere</string>
+    <string name="registrandose">Erregistratzen…</string>
+    <string name="error_de_conexion">Konexio-errorea</string>
+    <string name="registro_exitoso">Erabiltzailea erregistratuta!</string>
 
     <!-- Plaza Gernika Module -->
     <!-- Pantalla de Video -->
@@ -52,13 +81,6 @@
     <string name="opcion_2">Opción 2</string>
     <string name="opcion_3">Opción 3</string>
 
-    <!-- Login -->
-    <string name="login_title">Saioa hasi</string>
-    <string name="login_username_hint">Erabiltzailea</string>
-    <string name="login_password_hint">Pasahitza</string>
-    <string name="login_button">Saioa hasi</string>
-    <string name="login_welcome">Ongi etorri %s</string>
-
     <!-- Errores de validación -->
     <string name="error_username_required">Sartu zure erabiltzailea</string>
     <string name="error_password_required">Sartu zure pasahitza</string>
@@ -77,7 +99,6 @@
     <string name="map_marker_title_guernica">Picasso-ren "Guernica"</string>
     <string name="map_marker_title_plaza">Gernikako azoka plaza</string>
     <string name="map_marker_title_frontoi">Jai-Alai frontoia</string>
-
     <string name="map_dialog_message">%s-ra iritsi zara.\nSartu nahi duzu?</string>
     <string name="map_dialog_button_enter">Sartu</string>
     <string name="map_dialog_button_cancel">Ez</string>
@@ -95,6 +116,12 @@
     <string name="map_description_guernica">Pablo Picassok margotutako Guernica lana gerra zibilaren aurkako protesta artistiko bat da, eta mundu osoan ezaguna da.</string>
     <string name="map_description_plaza">Gernikako azoka plaza herriko bihotza da. Astelehenero, nekazariek beraien produktuak saltzen dituzte hemen.</string>
     <string name="map_description_frontoi">Jai-Alai frontoia munduko handienetakoa da, non zesta punta jolasten den, euskal kirola.</string>
+
+    <!-- Menu FAB -->
+    <string name="fab_menu">Menua</string>
+    <string name="fab_home">Hasiera</string>
+    <string name="fab_settings">Ezarpenak</string>
+    <string name="fab_profile">Profila</string>
 
     <!-- Picasso -->
     <string name="picasso_title">Picassoren Guernica</string>
@@ -220,11 +247,11 @@
     <string name="my_message_load_edit">Editatu</string>
     <string name="my_message_load_new">Berria idatzi</string>
 
-    <!--Fronton-->
-    <string name="informaci_n_del_front_n">Frontoiko Informazioa</string>
-    <string name="juego_pelota_dantzan">Jolasa: Dantza Pilota</string>
-    <string name="video_y_valores">Bideoa eta baloreak</string>
-    <string name="tu_valor_del_equipo">Zure taldearen balioa</string>
+    <!-- Fronton - xml -->
+    <string name="informaci_n_del_front_n">1. Frontoiko Informazioa</string>
+    <string name="juego_pelota_dantzan">2. Jolasa: Dantza Pilota</string>
+    <string name="video_y_valores">3. Bideoa eta baloreak</string>
+    <string name="tu_valor_del_equipo">4. Zure taldearen balioa</string>
     <string name="videoa_erreproduzitu">Videoa erreproduzitu</string>
     <string name="gernikako_jai_alai_frontoia_munduko_handienetakoa_eta_garrantzitsuenetakoa_da_hemen_zesta_puntara_jokatzen_da_munduan_zehar_banatuta_dauden_zesta_puntako_frontoi_askori_eman_die_izena_aurrean_dugun_honek_zestalariak_elkarlanean_aritzen_dira_eta_errespetua_dute_oinarri_kirolaren_bidez_askotariko_balioak_ikasi_eta_transmititzen_direlarik">Gernikako Jai Alai frontoia munduko handienetakoa eta garrantzitsuenetakoa da. Hemen, zesta puntara jokatzen da. Munduan zehar banatuta dauden zesta-puntako frontoi askori eman die izena aurrean dugun honek. Zestalariak, elkarlanean aritzen dira eta errespetua dute oinarri. Kirolaren bidez, askotariko balioak ikasi eta transmititzen direlarik.</string>
     <string name="gehitu">Gehitu</string>
@@ -243,4 +270,31 @@
     <string name="zesta_punta_mugitu_pelota_jotzeko">Zesta punta, mugitu pelota jotzeko</string>
     <string name="saiatu_berriro">Saiatu Berriro</string>
     <string name="game_over">GAME OVER</string>
+    <string name="itzuli_mapara">Itzuli mapara</string>
+    <string name="frontoia">Frontoia</string>
+
+    <!-- Fronton - CestaTipActivity -->
+    <string name="videoa_gelditu">Videoa gelditu</string>
+    <string name="erantzun_zuzena">Erantzun Zuzena ✅</string>
+    <string name="erantzun_okerra">Erantzun okerra ❌</string>
+    <string name="hautatu_aukera_bat">Hautatu aukera bat</string>
+
+    <!-- Fronton - ValuesGroupActivity -->
+    <string name="gehitu_aurretik_sartu_balioa">Gehitu aurretik, sartu balio bat</string>
+
+    <!-- Fronton - DancingBallActivity -->
+    <string name="puntuak_d">Puntuak: %d</string>
+
+    <!-- SettingActivity -->
+    <string name="ezarpenak_gordeta">Ezarpenerak gordeta!</string>
+    <string name="ezarpenak">EZARPENAK</string>
+    <string name="ezarpenak_gorde">EZARPENAK GORDE</string>
+    <string name="soinuarekin">🔊 Soinuarekin</string>
+    <string name="desaktibatu_soinua">Desaktibatu jokoaren soinu guztiak</string>
+    <string name="letren_tamaina">📖 Letren tamaina</string>
+    <string name="aukeratu_tamaina">Aukeratu irakurtzeko tamaina egokia</string>
+    <string name="gaueko_modua">🌙 Gaueko modua</string>
+    <string name="gauez_jolasteko_plano_ilunak">Gauez jolasteko azteko plano ilunak</string>
+    <string name="hizkuntza">🗣️ Hizkuntza</string>
+    <string name="euskara_edo_gaztelania">Euskara edo Gaztelania</string>
 </resources>

@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="24dp"
+    android:background="@color/base">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <!-- Título principal de la pantalla de ajustes -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/ezarpenak"
+            android:textSize="28sp"
+            android:textStyle="bold"
+            android:textColor="@color/btnPrincipal"
+            android:gravity="center"
+            android:layout_marginBottom="40dp"/>
+
+        <!-- Tarjeta: activar/desactivar sonido del juego -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginBottom="20dp"
+            android:padding="16dp"
+            android:background="@drawable/border_only">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <!-- Título de la opción de sonido -->
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/soinuarekin"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    android:layout_marginBottom="4dp"/>
+
+                <!-- Descripción corta de lo que hace el ajuste -->
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/desaktibatu_soinua"
+                    android:textSize="14sp"
+                    android:textColor="@android:color/darker_gray"/>
+            </LinearLayout>
+
+            <!-- Interruptor para activar/desactivar sonido -->
+            <Switch
+                android:id="@+id/switchMute"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="true"/>
+        </LinearLayout>
+
+        <!-- Tarjeta: selección del tamaño de la letra de la app -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginBottom="20dp"
+            android:padding="16dp"
+            android:background="@drawable/border_only">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <!-- Título de la opción de tamaño -->
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/letren_tamaina"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    android:layout_marginBottom="4dp"/>
+
+                <!-- Descripción corta de lo que hace el ajuste -->
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/aukeratu_tamaina"
+                    android:textSize="14sp"
+                    android:textColor="@android:color/darker_gray"/>
+            </LinearLayout>
+
+            <!-- Selector de tamaño de letra -->
+            <Spinner
+                android:id="@+id/spinnerTextSize"
+                android:layout_width="wrap_content"
+                android:layout_height="48dp"
+                android:entries="@array/text_sizes" />
+        </LinearLayout>
+
+        <!-- Tarjeta: activar/desactivar modo oscuro de la app -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginBottom="20dp"
+            android:padding="16dp"
+            android:background="@drawable/border_only">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <!-- Título de la opción de modo noche -->
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/gaueko_modua"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    android:layout_marginBottom="4dp"/>
+
+                <!-- Descripción corta de lo que hace el ajuste -->
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/gauez_jolasteko_plano_ilunak"
+                    android:textSize="14sp"
+                    android:textColor="@android:color/darker_gray"/>
+            </LinearLayout>
+
+            <!-- Interruptor para activar/desactivar el modo oscuro -->
+            <Switch
+                android:id="@+id/switchDarkMode"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+        </LinearLayout>
+
+        <!-- Tarjeta: selección de idioma de la aplicación -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginBottom="40dp"
+            android:padding="16dp"
+            android:background="@drawable/border_only">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <!-- Título de la opción de idioma -->
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/hizkuntza"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    android:layout_marginBottom="4dp"/>
+
+                <!-- Descripción corta de lo que hace el ajuste -->
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/euskara_edo_gaztelania"
+                    android:textSize="14sp"
+                    android:textColor="@android:color/darker_gray"/>
+            </LinearLayout>
+
+            <!-- Selector de idioma -->
+            <Spinner
+                android:id="@+id/spinnerLanguage"
+                android:layout_width="wrap_content"
+                android:layout_height="48dp"
+                android:entries="@array/languages" />
+        </LinearLayout>
+
+        <!-- Botón para guardar los ajustes seleccionados -->
+        <Button
+            android:id="@+id/btnSaveSettings"
+            style="@style/EstiloBotonPrimario"
+            android:layout_width="match_parent"
+            android:layout_height="72dp"
+            android:text="@string/ezarpenak_gorde"
+            android:textSize="18sp"/>
+
+    </LinearLayout>
+</ScrollView>

@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/baseRootLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:clipChildren="false"
+    android:clipToPadding="false">
+
+    <!-- Contenedor donde las activities hijas ponen su contenido -->
+    <FrameLayout
+        android:id="@+id/contentContainer"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <!-- Overlay oscuro cuando el menu esta abierto -->
+    <View
+        android:id="@+id/fabOverlay"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#80000000"
+        android:visibility="gone"
+        android:alpha="0"
+        android:clickable="true"
+        android:focusable="true" />
+
+    <!-- Mini FAB: Home -->
+    <ImageButton
+        android:id="@+id/fabHome"
+        android:layout_width="48dp"
+        android:layout_height="52dp"
+        android:layout_gravity="top|end"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="20dp"
+        android:background="@drawable/bg_fab_secundario"
+        android:contentDescription="@string/fab_home"
+        android:src="@drawable/ic_home"
+        android:scaleType="center"
+        android:visibility="invisible"
+        app:tint="@color/white" />
+
+    <!-- Mini FAB: Settings -->
+    <ImageButton
+        android:id="@+id/fabSettings"
+        android:layout_width="48dp"
+        android:layout_height="52dp"
+        android:layout_gravity="top|end"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="20dp"
+        android:background="@drawable/bg_fab_secundario"
+        android:contentDescription="@string/fab_settings"
+        android:src="@drawable/ic_settings"
+        android:scaleType="center"
+        android:visibility="invisible"
+        app:tint="@color/white" />
+
+    <!-- Mini FAB: Profile -->
+    <ImageButton
+        android:id="@+id/fabProfile"
+        android:layout_width="48dp"
+        android:layout_height="52dp"
+        android:layout_gravity="top|end"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="20dp"
+        android:background="@drawable/bg_fab_secundario"
+        android:contentDescription="@string/fab_profile"
+        android:src="@drawable/ic_person"
+        android:scaleType="center"
+        android:visibility="invisible"
+        app:tint="@color/white" />
+
+    <!-- Main FAB -->
+    <ImageButton
+        android:id="@+id/fabMain"
+        android:layout_width="64dp"
+        android:layout_height="68dp"
+        android:layout_gravity="top|end"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:background="@drawable/bg_fab_primario"
+        android:contentDescription="@string/fab_menu"
+        android:src="@drawable/ic_menu"
+        android:scaleType="center"
+        app:tint="@color/white" />
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

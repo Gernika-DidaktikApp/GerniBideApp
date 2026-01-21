@@ -11,8 +11,25 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.net.toUri
 import es.didaktikapp.gernikapp.R
 
+/**
+ * Activity del quiz de valores de Cesta Punta.
+ * Muestra vídeo introductorio del frontón  quiz interactivo sobre
+ * los valores que representa el deporte (Lankidetza, Errespetua...)
+ *
+ * @author Erlantz
+ * @version 1.0
+ * @see AppCompatActivity
+ * @see R.layout.fronton_cesta_tip
+ */
 class CestaTipActivity : AppCompatActivity() {
 
+    /**
+     * Metodo principal del ciclo de vida.
+     * Configura vídeo del frontón, reproductor, quiz interactivo
+     * y lógica de validación de respuestas.
+     *
+     * @param savedInstanceState Estado previo de la Activity
+     */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.fronton_cesta_tip)
@@ -26,10 +43,10 @@ class CestaTipActivity : AppCompatActivity() {
         btnPlayPause.setOnClickListener {
             if (videoView.isPlaying) {
                 videoView.pause()
-                btnPlayPause.text = "Videoa erreproduzitu"
+                btnPlayPause.text = getString(R.string.videoa_erreproduzitu)
             } else {
                 videoView.start()
-                btnPlayPause.text = "Videoa gelditu"
+                btnPlayPause.text = getString(R.string.videoa_gelditu)
             }
         }
 
@@ -45,15 +62,15 @@ class CestaTipActivity : AppCompatActivity() {
 
                 val correcta = listOf("Lankidetza", "Errespetua")
                 if (seleccion in correcta) {
-                    Toast.makeText(this, "Erantzun Zuzena ✅", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, getString(R.string.erantzun_zuzena), Toast.LENGTH_SHORT).show()
                 } else {
-                    Toast.makeText(this, "Erantzun okerra ❌", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, getString(R.string.erantzun_okerra), Toast.LENGTH_SHORT).show()
                 }
 
                 btnAtzera.visibility = View.VISIBLE
 
             } else {
-                Toast.makeText(this, "Hautatu aukera bat", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, getString(R.string.hautatu_aukera_bat), Toast.LENGTH_SHORT).show()
             }
         }
 

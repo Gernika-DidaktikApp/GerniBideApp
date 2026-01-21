@@ -1,3 +1,6 @@
+import java.util.Properties
+import java.io.FileInputStream
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
@@ -16,12 +19,15 @@ android {
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
-        // URL de la API
-        // Desarrollo (emulador): 10.0.2.2 apunta a localhost de tu máquina
-        // Desarrollo (dispositivo físico): usa la IP de tu computadora, ej: 192.168.1.100
-        buildConfigField("String", "API_BASE_URL", "\"http://10.0.2.2:8000\"")
-        // Producción (cuando esté listo):
-        // buildConfigField("String", "API_BASE_URL", "\"https://api.gernikapp.com\"")
+        // URL de la API - Se lee desde local.properties
+        val localProperties = File(rootProject.projectDir, "local.properties")
+        val properties = Properties()
+        if (localProperties.exists()) {
+            properties.load(FileInputStream(localProperties))
+        }
+
+        val apiUrl = properties.getProperty("API_BASE_URL") ?: "http://10.0.2.2:8000"
+        buildConfigField("String", "API_BASE_URL", "\"$apiUrl\"")
     }
 
     buildTypes {

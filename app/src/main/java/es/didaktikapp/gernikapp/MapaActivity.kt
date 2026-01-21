@@ -1,5 +1,6 @@
 package es.didaktikapp.gernikapp
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.gms.maps.GoogleMap
@@ -18,6 +19,11 @@ import android.widget.TextView
 import android.widget.ImageView
 import android.widget.Button
 import android.view.View
+import es.didaktikapp.gernikapp.arbol.MainActivity as ArbolMainActivity
+import es.didaktikapp.gernikapp.bunkers.MainActivity as BunkersMainActivity
+import es.didaktikapp.gernikapp.fronton.MainActivity as FrontonMainActivity
+import es.didaktikapp.gernikapp.picasso.MainActivity as PicassoMainActivity
+import es.didaktikapp.gernikapp.plaza.MainActivity as PlazaMainActivity
 
 class MapaActivity : AppCompatActivity(), OnMapReadyCallback {
 
@@ -45,11 +51,16 @@ class MapaActivity : AppCompatActivity(), OnMapReadyCallback {
         btnGoToActivity = binding.root.findViewById(R.id.btnGoToActivity)
 
         btnGoToActivity.setOnClickListener {
-            selectedLocation?.let { location ->
-                // TODO: Enlazar con las actividades correspondientes según la ubicación seleccionada
-                // Ejemplo: cuando location == getString(R.string.map_marker_title_arbola) -> abrir ArbolActivity
-                // cuando location == getString(R.string.map_marker_title_plaza) -> abrir PlazaVideoActivity
-                // etc.
+            selectedTag?.let { tag ->
+                val intent = when (tag) {
+                    "arbola" -> Intent(this, ArbolMainActivity::class.java)
+                    "bunkers" -> Intent(this, BunkersMainActivity::class.java)
+                    "picasso" -> Intent(this, PicassoMainActivity::class.java)
+                    "plaza" -> Intent(this, PlazaMainActivity::class.java)
+                    "fronton" -> Intent(this, FrontonMainActivity::class.java)
+                    else -> null
+                }
+                intent?.let { startActivity(it) }
             }
         }
 
@@ -73,35 +84,35 @@ class MapaActivity : AppCompatActivity(), OnMapReadyCallback {
             MarkerOptions()
                 .position(LatLng(Constants.Map.ARBOLA_LAT, Constants.Map.ARBOLA_LNG))
                 .title(getString(R.string.map_marker_title_arbola))
-        )
+        )?.tag = "arbola"
 
         nMap.addMarker(
             MarkerOptions()
                 .position(LatLng(Constants.Map.BUNKER_LAT, Constants.Map.BUNKER_LNG))
                 .title(getString(R.string.map_marker_title_bunker))
-        )
+        )?.tag = "bunkers"
 
         nMap.addMarker(
             MarkerOptions()
                 .position(LatLng(Constants.Map.GUERNICA_LAT, Constants.Map.GUERNICA_LNG))
                 .title(getString(R.string.map_marker_title_guernica))
-        )
+        )?.tag = "picasso"
 
         nMap.addMarker(
             MarkerOptions()
                 .position(LatLng(Constants.Map.PLAZA_LAT, Constants.Map.PLAZA_LNG))
                 .title(getString(R.string.map_marker_title_plaza))
-        )
+        )?.tag = "plaza"
 
         nMap.addMarker(
             MarkerOptions()
                 .position(LatLng(Constants.Map.FRONTOI_LAT, Constants.Map.FRONTOI_LNG))
                 .title(getString(R.string.map_marker_title_frontoi))
-        )
+        )?.tag = "fronton"
 
         nMap.setOnMarkerClickListener { marker ->
             marker.title?.let { titulo ->
-                actualizarBottomSheet(titulo)
+                actualizarBottomSheet(titulo, marker.tag as? String)
                 bottomSheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
             }
             true
@@ -123,9 +134,12 @@ class MapaActivity : AppCompatActivity(), OnMapReadyCallback {
         }
     }
 
-    private fun actualizarBottomSheet(titulo: String) {
+    private var selectedTag: String? = null
+
+    private fun actualizarBottomSheet(titulo: String, tag: String?) {
         tvBottomSheetTitle.text = titulo
         selectedLocation = titulo
+        selectedTag = tag
 
         val descripcion: String
         val iconResId: Int
@@ -168,6 +182,7 @@ class MapaActivity : AppCompatActivity(), OnMapReadyCallback {
         ivBottomSheetIcon.setImageResource(R.drawable.ic_map_pin)
         btnGoToActivity.visibility = View.GONE
         selectedLocation = null
+        selectedTag = null
         bottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
     }
 

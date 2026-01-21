@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
     <uses-permission android:name="android.permission.INTERNET" />
@@ -9,7 +8,9 @@
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.CAMERA" />
 
-    <uses-feature android:name="android.hardware.camera" android:required="false" />
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="false" />
 
     <application
         android:allowBackup="true"
@@ -25,10 +26,10 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
 
+        <!-- Actividades principales -->
         <activity
-            android:name=".MainActivity"
-            android:exported="false">
-        </activity>
+            android:name=".LoginActivity"
+            android:exported="false" />
         <activity
             android:name=".MapaActivity"
             android:exported="true">
@@ -38,20 +39,95 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".RegisterActivity"
+            android:exported="false" />
+        <activity
+            android:name=".SettingsActivity"
+            android:exported="false" />
 
-        <!-- Plaza Gernika Activities -->
+        <!-- Actividades del fronton -->
         <activity
-            android:name=".plazagernika.PlazaVideoActivity"
+            android:name=".fronton.CestaTipActivity"
             android:exported="false" />
         <activity
-            android:name=".plazagernika.DragProductsActivity"
+            android:name=".fronton.DancingBallActivity"
             android:exported="false" />
         <activity
-            android:name=".plazagernika.VerseGameActivity"
+            android:name=".fronton.InfoActivity"
             android:exported="false" />
         <activity
-            android:name=".plazagernika.PhotoMissionActivity"
+            android:name=".fronton.MainActivity"
             android:exported="false" />
+        <activity
+            android:name=".fronton.ValuesGroupActivity"
+            android:exported="false" />
+
+        <!-- Actividades de la Plaza Gernika -->
+        <activity
+            android:name=".plaza.DragProductsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".plaza.PhotoMissionActivity"
+            android:exported="false" />
+        <activity
+            android:name=".plaza.MainActivity"
+            android:exported="false" />
+        <activity
+            android:name=".plaza.VideoActivity"
+            android:exported="false" />
+        <activity
+            android:name=".plaza.VerseGameActivity"
+            android:exported="false" />
+
+        <!-- Actividades de picasso -->
+        <activity
+            android:name=".picasso.ColorPeaceActivity"
+            android:exported="false" />
+        <activity
+            android:name=".picasso.MyMessageActivity"
+            android:exported="false" />
+        <activity
+            android:name=".picasso.MainActivity"
+            android:exported="false" />
+        <activity
+            android:name=".picasso.ResultActivity"
+            android:exported="false" />
+        <activity
+            android:name=".picasso.ViewInterpretActivity"
+            android:exported="false" />
+
+        <!-- Actividades de arbol -->
+        <activity
+            android:name=".arbol.MainActivity"
+            android:exported="false" />
+        <activity
+            android:name=".arbol.AudioQuizActivity"
+            android:exported="false" />
+        <activity
+            android:name=".arbol.InteractiveActivity"
+            android:exported="false" />
+        <activity
+            android:name=".arbol.MyTreeActivity"
+            android:exported="false" />
+        <activity
+            android:name=".arbol.PuzzleActivity"
+            android:exported="false" />
+
+        <!-- Actividades de bunkers -->
+        <activity
+            android:name=".bunkers.MainActivity"
+            android:exported="false" />
+        <activity
+            android:name=".bunkers.PeaceMuralActivity"
+            android:exported="false" />
+        <activity
+            android:name=".bunkers.ReflectionActivity"
+            android:exported="false" />
+        <activity
+            android:name=".bunkers.SoundGameActivity"
+            android:exported="false" />
+
     </application>
 
 </manifest>

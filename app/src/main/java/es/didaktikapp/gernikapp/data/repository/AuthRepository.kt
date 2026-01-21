@@ -1,84 +1,105 @@
 package es.didaktikapp.gernikapp.data.repository
 
 import android.content.Context
-import es.didaktikapp.gernikapp.R
 import es.didaktikapp.gernikapp.data.local.TokenManager
-import es.didaktikapp.gernikapp.data.models.ApiError
+import es.didaktikapp.gernikapp.data.models.HealthResponse
+import es.didaktikapp.gernikapp.data.models.LoginRequest
 import es.didaktikapp.gernikapp.data.models.LoginResponse
+import es.didaktikapp.gernikapp.data.models.RegisterRequest
+import es.didaktikapp.gernikapp.data.models.RegisterResponse
 import es.didaktikapp.gernikapp.network.ApiService
 import es.didaktikapp.gernikapp.network.RetrofitClient
 import es.didaktikapp.gernikapp.utils.Resource
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
-import retrofit2.Response
-import java.net.SocketTimeoutException
-import java.net.UnknownHostException
 
-class AuthRepository(private val context: Context) {
+/**
+ * Repository para operaciones de autenticación.
+ * Maneja login, registro, logout y gestión de sesión.
+ */
+class AuthRepository(context: Context) : BaseRepository(context) {
 
     private val apiService: ApiService = RetrofitClient.getApiService(context)
     private val tokenManager = TokenManager(context)
 
+    /**
+     * Verifica si la API está disponible.
+     */
+    suspend fun healthCheck(): Resource<HealthResponse> {
+        return safeApiCall(
+            apiCall = { apiService.healthCheck() }
+        )
+    }
+
+    /**
+     * Inicia sesión con username y password.
+     * Guarda el token JWT si el login es exitoso.
+     */
     suspend fun login(username: String, password: String): Resource<LoginResponse> {
-        return withContext(Dispatchers.IO) {
-            try {
-                val loginRequest = es.didaktikapp.gernikapp.data.models.LoginRequest(
+        return safeApiCall(
+            apiCall = {
+                val loginRequest = LoginRequest(
                     nombre = username,
                     contrasenya = password
                 )
-                val response = apiService.login(loginRequest)
-                handleApiResponse(response) { loginResponse ->
-                    tokenManager.saveToken(loginResponse.accessToken, loginResponse.tokenType)
-                    tokenManager.saveUsername(username)
-                    loginResponse
-                }
-            } catch (e: UnknownHostException) {
-                Resource.Error(context.getString(R.string.error_no_internet))
-            } catch (e: SocketTimeoutException) {
-                Resource.Error(context.getString(R.string.error_timeout))
-            } catch (e: Exception) {
-                Resource.Error(context.getString(R.string.error_connection, e.localizedMessage ?: ""))
+                apiService.login(loginRequest)
+            },
+            onSuccess = { loginResponse ->
+                tokenManager.saveToken(loginResponse.accessToken, loginResponse.tokenType)
+                tokenManager.saveUsername(username)
+                loginResponse
             }
-        }
+        )
     }
 
+    /**
+     * Registra un nuevo usuario.
+     */
+    suspend fun register(
+        username: String,
+        nombre: String,
+        apellido: String,
+        password: String,
+        claseId: String? = null
+    ): Resource<RegisterResponse> {
+        return safeApiCall(
+            apiCall = {
+                val registerRequest = RegisterRequest(
+                    username = username,
+                    nombre = nombre,
+                    apellido = apellido,
+                    password = password,
+                    claseId = claseId
+                )
+                apiService.register(registerRequest)
+            }
+        )
+    }
+
+    /**
+     * Cierra la sesión actual.
+     * Elimina el token y datos del usuario.
+     */
     fun logout() {
         tokenManager.clearSession()
     }
 
+    /**
+     * Verifica si hay una sesión activa (token guardado).
+     */
     fun hasActiveSession(): Boolean {
         return tokenManager.hasActiveSession()
     }
 
+    /**
+     * Obtiene el nombre de usuario de la sesión actual.
+     */
     fun getUsername(): String? {
         return tokenManager.getUsername()
     }
 
-    private fun <T> handleApiResponse(
-        response: Response<T>,
-        onSuccess: (T) -> T
-    ): Resource<T> {
-        return if (response.isSuccessful) {
-            val body = response.body()
-            if (body != null) {
-                Resource.Success(onSuccess(body))
-            } else {
-                Resource.Error(context.getString(R.string.error_empty_response), response.code())
-            }
-        } else {
-            val errorBody = response.errorBody()?.string()
-            val errorMessage = if (errorBody != null) {
-                try {
-                    // Usar la instancia compartida de Moshi desde RetrofitClient
-                    val apiError = RetrofitClient.moshi.adapter(ApiError::class.java).fromJson(errorBody)
-                    apiError?.detail ?: context.getString(R.string.error_unknown)
-                } catch (e: Exception) {
-                    context.getString(R.string.error_server, response.code())
-                }
-            } else {
-                context.getString(R.string.error_server, response.code())
-            }
-            Resource.Error(errorMessage, response.code())
-        }
+    /**
+     * Obtiene el token actual (para uso interno).
+     */
+    fun getToken(): String? {
+        return tokenManager.getToken()
     }
 }
