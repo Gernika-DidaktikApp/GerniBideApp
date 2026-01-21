@@ -122,9 +122,6 @@
             android:name=".bunkers.PeaceMuralActivity"
             android:exported="false" />
         <activity
-            android:name=".bunkers.PuzzleActivity"
-            android:exported="false" />
-        <activity
             android:name=".bunkers.ReflectionActivity"
             android:exported="false" />
         <activity
