@@ -320,4 +320,7 @@
     <string name="value_solidarity">Elkartasuna</string>
     <string name="value_respect">Errespetua</string>
     <string name="value_peace">Bakea</string>
+
+    <!-- Puzzle -->
+    <string name="puzzle_victory">Gernikako bihotza berreraiki duzu!</string>
 </resources>

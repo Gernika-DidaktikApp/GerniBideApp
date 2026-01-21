@@ -321,4 +321,7 @@
     <string name="value_solidarity">Solidaridad</string>
     <string name="value_respect">Respeto</string>
     <string name="value_peace">Paz</string>
+
+    <!-- Puzzle -->
+    <string name="puzzle_victory">¡Has reconstruido el corazón de Gernika!</string>
 </resources>

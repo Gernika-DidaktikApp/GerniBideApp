@@ -42,6 +42,11 @@ class MainActivity : AppCompatActivity() {
             binding.btnMyTree.background =
                 ContextCompat.getDrawable(this, R.drawable.bg_boton_completado)
         }
+
+        if (prefs.getBoolean("puzzle_completed", false)) {
+            binding.btnPuzzle.background =
+                ContextCompat.getDrawable(this, R.drawable.bg_boton_completado)
+        }
     }
 
     private fun setupClickListeners() {

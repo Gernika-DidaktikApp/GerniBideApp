@@ -2,7 +2,7 @@ package es.didaktikapp.gernikapp.arbol
 
 import es.didaktikapp.gernikapp.R
 
-import android.content.Intent
+import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Rect
@@ -22,7 +22,7 @@ class PuzzleActivity : AppCompatActivity() {
 
     private lateinit var puzzleContainer: FrameLayout
     private lateinit var tvVictory: TextView
-    private lateinit var btnNext: Button
+    private lateinit var btnBack: Button
     private lateinit var guideImage: ImageView
 
     private val rows = 2
@@ -44,12 +44,17 @@ class PuzzleActivity : AppCompatActivity() {
 
         puzzleContainer = findViewById(R.id.puzzleContainer)
         tvVictory = findViewById(R.id.tvVictory)
-        btnNext = findViewById(R.id.btnNext)
+        btnBack = findViewById(R.id.btnBack)
         guideImage = findViewById(R.id.guideImage)
 
-        btnNext.setOnClickListener {
-            startActivity(Intent(this, MyTreeActivity::class.java))
+        btnBack.setOnClickListener {
             finish()
+        }
+
+        // Si ya estaba completada, habilitar botón
+        val prefs = getSharedPreferences("arbol_progress", Context.MODE_PRIVATE)
+        if (prefs.getBoolean("puzzle_completed", false)) {
+            btnBack.isEnabled = true
         }
 
         // Delay setup until guideImage is measured to get correct target positions
@@ -161,8 +166,12 @@ class PuzzleActivity : AppCompatActivity() {
         piecesPlaced++
         if (piecesPlaced == totalPieces) {
             tvVictory.visibility = View.VISIBLE
-            btnNext.visibility = View.VISIBLE
+            btnBack.isEnabled = true
             guideImage.alpha = 0.5f // Reveal image slightly more
+
+            // Guardar progreso
+            val prefs = getSharedPreferences("arbol_progress", Context.MODE_PRIVATE)
+            prefs.edit().putBoolean("puzzle_completed", true).apply()
         }
     }
 
