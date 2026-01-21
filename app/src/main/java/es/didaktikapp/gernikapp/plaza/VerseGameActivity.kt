@@ -1,19 +1,18 @@
 package es.didaktikapp.gernikapp.plaza
 
 import android.content.Intent
-import android.os.Bundle
 import android.widget.Button
 import android.widget.RadioButton
 import android.widget.RadioGroup
 import android.widget.TextView
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
+import es.didaktikapp.gernikapp.BaseMenuActivity
 import es.didaktikapp.gernikapp.R
 import es.didaktikapp.gernikapp.plaza.models.VerseQuestion
 
-class VerseGameActivity : AppCompatActivity() {
+class VerseGameActivity : BaseMenuActivity() {
 
     private lateinit var tvVersoInicial: TextView
     private lateinit var tvProgreso: TextView
@@ -29,10 +28,9 @@ class VerseGameActivity : AppCompatActivity() {
     private var preguntaActual = 0
     private var aciertos = 0
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.plaza_verse_game)
+    override fun getContentLayoutId(): Int = R.layout.plaza_verse_game
 
+    override fun onContentInflated() {
         inicializarVistas()
         inicializarPreguntas()
         mostrarPregunta()
@@ -40,15 +38,15 @@ class VerseGameActivity : AppCompatActivity() {
     }
 
     private fun inicializarVistas() {
-        tvVersoInicial = findViewById(R.id.tvVersoInicial)
-        tvProgreso = findViewById(R.id.tvProgreso)
-        tvAciertos = findViewById(R.id.tvAciertos)
-        radioGroup = findViewById(R.id.radioGroupOpciones)
-        rbOpcion1 = findViewById(R.id.rbOpcion1)
-        rbOpcion2 = findViewById(R.id.rbOpcion2)
-        rbOpcion3 = findViewById(R.id.rbOpcion3)
-        btnComprobar = findViewById(R.id.btnComprobar)
-        btnSiguiente = findViewById(R.id.btnSiguiente)
+        tvVersoInicial = contentContainer.findViewById(R.id.tvVersoInicial)
+        tvProgreso = contentContainer.findViewById(R.id.tvProgreso)
+        tvAciertos = contentContainer.findViewById(R.id.tvAciertos)
+        radioGroup = contentContainer.findViewById(R.id.radioGroupOpciones)
+        rbOpcion1 = contentContainer.findViewById(R.id.rbOpcion1)
+        rbOpcion2 = contentContainer.findViewById(R.id.rbOpcion2)
+        rbOpcion3 = contentContainer.findViewById(R.id.rbOpcion3)
+        btnComprobar = contentContainer.findViewById(R.id.btnComprobar)
+        btnSiguiente = contentContainer.findViewById(R.id.btnSiguiente)
     }
 
     private fun inicializarPreguntas() {
@@ -111,15 +109,14 @@ class VerseGameActivity : AppCompatActivity() {
         }
 
         btnSiguiente.setOnClickListener {
-            val intent = Intent(this, PhotoMissionActivity::class.java)
-            startActivity(intent)
+            startActivity(Intent(this, PhotoMissionActivity::class.java))
         }
     }
 
     private fun comprobarRespuesta() {
         val selectedId = radioGroup.checkedRadioButtonId
         if (selectedId == -1) {
-            return // No hay selección
+            return
         }
 
         val pregunta = preguntas[preguntaActual]
@@ -144,24 +141,22 @@ class VerseGameActivity : AppCompatActivity() {
 
         preguntaActual++
         if (preguntaActual < preguntas.size) {
-            // Siguiente pregunta después de un delay
             tvVersoInicial.postDelayed({
                 mostrarPregunta()
             }, 2000)
         } else {
-            // Fin del juego
             mostrarResultadoFinal()
         }
     }
 
     private fun mostrarFeedbackCorrecto(selectedId: Int) {
-        val radioButton = findViewById<RadioButton>(selectedId)
+        val radioButton = contentContainer.findViewById<RadioButton>(selectedId)
         radioButton.setBackgroundResource(R.drawable.plaza_bg_correct)
         Toast.makeText(this, "Oso ondo!", Toast.LENGTH_SHORT).show()
     }
 
     private fun mostrarFeedbackIncorrecto(selectedId: Int) {
-        val radioButton = findViewById<RadioButton>(selectedId)
+        val radioButton = contentContainer.findViewById<RadioButton>(selectedId)
         radioButton.setBackgroundResource(R.drawable.plaza_bg_incorrect)
     }
 

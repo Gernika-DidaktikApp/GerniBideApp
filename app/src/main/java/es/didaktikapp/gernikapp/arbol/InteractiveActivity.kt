@@ -1,37 +1,28 @@
 package es.didaktikapp.gernikapp.arbol
 
-import es.didaktikapp.gernikapp.R
-
 import android.content.Context
-import android.os.Bundle
 import android.view.MotionEvent
 import android.view.View
 import android.widget.FrameLayout
 import android.widget.TextView
-import androidx.appcompat.app.AppCompatActivity
+import es.didaktikapp.gernikapp.BaseMenuActivity
+import es.didaktikapp.gernikapp.R
 import org.json.JSONArray
 import org.json.JSONObject
 
-class InteractiveActivity : AppCompatActivity() {
+class InteractiveActivity : BaseMenuActivity() {
 
     private lateinit var treeContainer: FrameLayout
     private val PREFS_NAME = "CollectiveTreePrefs"
     private val KEY_ENTRIES = "treeEntries"
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.arbol_interactive)
+    override fun getContentLayoutId(): Int = R.layout.arbol_interactive
 
-        treeContainer = findViewById(R.id.treeContainer)
+    override fun onContentInflated() {
+        treeContainer = contentContainer.findViewById(R.id.treeContainer)
 
-        findViewById<View>(R.id.btnBack).setOnClickListener {
-            onBackPressedDispatcher.onBackPressed()
-        }
-
-        // 1. Load existing entries
         loadAndDisplayEntries()
 
-        // 2. Add current entry from intent
         val text = intent.getStringExtra("EXTRA_VALUE_TEXT") ?: ""
         val color = intent.getIntExtra("EXTRA_VALUE_COLOR", 0xFF000000.toInt())
 
@@ -86,7 +77,7 @@ class InteractiveActivity : AppCompatActivity() {
         val prefs = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
         val currentData = prefs.getString(KEY_ENTRIES, "[]")
         val jsonArray = JSONArray(currentData)
-        
+
         var found = false
         for (i in 0 until jsonArray.length()) {
             val obj = jsonArray.getJSONObject(i)

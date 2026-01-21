@@ -1,40 +1,29 @@
 package es.didaktikapp.gernikapp.bunkers
 
 import android.content.Intent
-import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
-import es.didaktikapp.gernikapp.MapaActivity
-import es.didaktikapp.gernikapp.databinding.BunkersMainBinding
+import android.widget.Button
+import es.didaktikapp.gernikapp.BaseMenuActivity
+import es.didaktikapp.gernikapp.R
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : BaseMenuActivity() {
 
-    private lateinit var binding: BunkersMainBinding
+    override fun getContentLayoutId(): Int = R.layout.bunkers_main
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        binding = BunkersMainBinding.inflate(layoutInflater)
-        setContentView(binding.root)
-
+    override fun onContentInflated() {
         setupClickListeners()
     }
 
     private fun setupClickListeners() {
-        binding.btnSoundGame.setOnClickListener {
+        contentContainer.findViewById<Button>(R.id.btnSoundGame).setOnClickListener {
             startActivity(Intent(this, SoundGameActivity::class.java))
         }
 
-
-        binding.btnPeaceMural.setOnClickListener {
+        contentContainer.findViewById<Button>(R.id.btnPeaceMural).setOnClickListener {
             startActivity(Intent(this, PeaceMuralActivity::class.java))
         }
 
-        binding.btnReflection.setOnClickListener {
+        contentContainer.findViewById<Button>(R.id.btnReflection).setOnClickListener {
             startActivity(Intent(this, ReflectionActivity::class.java))
-        }
-
-        binding.btnVolverMapa.setOnClickListener {
-            startActivity(Intent(this, MapaActivity::class.java))
-            finish()
         }
     }
 }

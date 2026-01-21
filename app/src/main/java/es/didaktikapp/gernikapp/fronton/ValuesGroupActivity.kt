@@ -1,7 +1,6 @@
 package es.didaktikapp.gernikapp.fronton
 
 import android.graphics.Color
-import android.os.Bundle
 import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
@@ -9,42 +8,23 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.graphics.toColorInt
 import com.google.android.flexbox.FlexboxLayout
-import androidx.appcompat.content.res.AppCompatResources
+import es.didaktikapp.gernikapp.BaseMenuActivity
 import es.didaktikapp.gernikapp.R
 
-/**
- * Activity para crear valores del grupo mediante tags/bubbles dinámicos.
- * Permite al usuario escribir valores del equipo y visualizarlos como
- * etiquetas de colores aleatorios en un FlexboxLayout.
- *
- * @author Erlantz
- * @version 1.0
- * @see AppCompatActivity
- * @see R.layout.fronton_values_group
- * @see com.google.android.flexbox.FlexboxLayout
- */
-class ValuesGroupActivity : AppCompatActivity() {
+class ValuesGroupActivity : BaseMenuActivity() {
 
-    /**
-     * Metodo principal del ciclo de vida de la Activity.
-     * Configura la entrada de texto, la creación dinámica de bubbles de colores,
-     * y estados visuales (añadiendo/finalizando valores del grupo).
-     *
-     * @param savedInstanceState Estado previo de la Activity, si existe
-     */
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.fronton_values_group)
+    override fun getContentLayoutId(): Int = R.layout.fronton_values_group
 
-        val input = findViewById<EditText>(R.id.inputValor)
-        val btnAnadir = findViewById<Button>(R.id.btnAnadir)
-        val btnFinalizar = findViewById<Button>(R.id.btnFinalizar)
-        val container = findViewById<FlexboxLayout>(R.id.valoresContainer)
-        val mensajeFinal = findViewById<TextView>(R.id.mensajeFinal)
-        val btnVolver = findViewById<Button>(R.id.btnVolver)
+    override fun onContentInflated() {
+        val input = contentContainer.findViewById<EditText>(R.id.inputValor)
+        val btnAnadir = contentContainer.findViewById<Button>(R.id.btnAnadir)
+        val btnFinalizar = contentContainer.findViewById<Button>(R.id.btnFinalizar)
+        val container = contentContainer.findViewById<FlexboxLayout>(R.id.valoresContainer)
+        val mensajeFinal = contentContainer.findViewById<TextView>(R.id.mensajeFinal)
+        val btnVolver = contentContainer.findViewById<Button>(R.id.btnVolver)
 
         btnAnadir.setOnClickListener {
             val texto = input.text.toString().trim()

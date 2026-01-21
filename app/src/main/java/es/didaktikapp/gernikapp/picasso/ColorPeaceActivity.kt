@@ -4,112 +4,117 @@ import android.content.Intent
 import android.content.res.ColorStateList
 import android.graphics.BitmapFactory
 import android.graphics.Color
-import android.os.Bundle
 import android.view.View
+import android.widget.Button
+import android.widget.ImageView
+import android.widget.LinearLayout
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
-import androidx.appcompat.app.AppCompatActivity
+import es.didaktikapp.gernikapp.BaseMenuActivity
 import es.didaktikapp.gernikapp.R
-import es.didaktikapp.gernikapp.databinding.PicassoColorPeaceBinding
 import es.didaktikapp.gernikapp.utils.BitmapUtils
 import es.didaktikapp.gernikapp.utils.Constants
 import java.io.File
 
-class ColorPeaceActivity : AppCompatActivity() {
+class ColorPeaceActivity : BaseMenuActivity() {
 
-    private lateinit var binding: PicassoColorPeaceBinding
+    private lateinit var savedImagePreview: ImageView
+    private lateinit var colorPalette: LinearLayout
+    private lateinit var instructionsText: TextView
+    private lateinit var guernicaImage: ImageView
+    private lateinit var paintCanvas: PaintCanvasView
+    private lateinit var clearButton: Button
+    private lateinit var finishButton: Button
+    private lateinit var colorBlueView: View
+    private lateinit var colorGreenView: View
+    private lateinit var colorYellowView: View
+    private lateinit var colorPinkView: View
+    private lateinit var colorWhiteView: View
 
-    // Colores disponibles
     private val colorBlue = Color.parseColor("#4FC3F7")
     private val colorGreen = Color.parseColor("#66BB6A")
     private val colorYellow = Color.parseColor("#FFEB3B")
     private val colorPink = Color.parseColor("#F48FB1")
     private val colorWhite = Color.parseColor("#FFFFFF")
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+    override fun getContentLayoutId(): Int = R.layout.picasso_color_peace
 
-        binding = PicassoColorPeaceBinding.inflate(layoutInflater)
-        setContentView(binding.root)
-
+    override fun onContentInflated() {
+        initViews()
         setupColorListeners()
         setupPaintableBounds()
         checkForSavedPainting()
     }
 
+    private fun initViews() {
+        savedImagePreview = contentContainer.findViewById(R.id.savedImagePreview)
+        colorPalette = contentContainer.findViewById(R.id.colorPalette)
+        instructionsText = contentContainer.findViewById(R.id.instructionsText)
+        guernicaImage = contentContainer.findViewById(R.id.guernicaImage)
+        paintCanvas = contentContainer.findViewById(R.id.paintCanvas)
+        clearButton = contentContainer.findViewById(R.id.clearButton)
+        finishButton = contentContainer.findViewById(R.id.finishButton)
+        colorBlueView = contentContainer.findViewById(R.id.colorBlue)
+        colorGreenView = contentContainer.findViewById(R.id.colorGreen)
+        colorYellowView = contentContainer.findViewById(R.id.colorYellow)
+        colorPinkView = contentContainer.findViewById(R.id.colorPink)
+        colorWhiteView = contentContainer.findViewById(R.id.colorWhite)
+    }
+
     private fun checkForSavedPainting() {
         if (PaintCanvasView.hasSavedImage(this)) {
-            // Mostrar modo vista previa
             showPreviewMode()
         } else {
-            // Mostrar modo pintar
             showPaintMode()
         }
     }
 
     private fun showPreviewMode() {
-        // Cargar y mostrar la imagen combinada
         val savedBitmap = PaintCanvasView.loadFromInternalStorage(this)
         if (savedBitmap != null) {
-            val guernicaBitmap = BitmapFactory.decodeResource(
-                resources,
-                R.drawable.gernika_outlines
-            )
+            val guernicaBitmap = BitmapFactory.decodeResource(resources, R.drawable.gernika_outlines)
             val combinedBitmap = BitmapUtils.combineBitmapsWithScaling(guernicaBitmap, savedBitmap)
-
-            binding.savedImagePreview.setImageBitmap(combinedBitmap)
-            binding.savedImagePreview.visibility = View.VISIBLE
+            savedImagePreview.setImageBitmap(combinedBitmap)
+            savedImagePreview.visibility = View.VISIBLE
         }
 
-        // Ocultar controles de pintura
-        binding.colorPalette.visibility = View.GONE
-        binding.instructionsText.visibility = View.GONE
-        binding.guernicaImage.visibility = View.GONE
-        binding.paintCanvas.visibility = View.GONE
+        colorPalette.visibility = View.GONE
+        instructionsText.visibility = View.GONE
+        guernicaImage.visibility = View.GONE
+        paintCanvas.visibility = View.GONE
 
-        // Configurar botones para modo preview
-        binding.clearButton.text = getString(R.string.color_peace_repaint)
-        binding.clearButton.backgroundTintList = ColorStateList.valueOf(
-            Color.parseColor("#FF9800")
-        )
-        binding.finishButton.text = getString(R.string.color_peace_view_result)
+        clearButton.text = getString(R.string.color_peace_repaint)
+        clearButton.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#FF9800"))
+        finishButton.text = getString(R.string.color_peace_view_result)
 
-        binding.clearButton.setOnClickListener {
-            // Borrar imagen guardada y volver a modo pintar
+        clearButton.setOnClickListener {
             deleteSavedPainting()
             showPaintMode()
         }
 
-        binding.finishButton.setOnClickListener {
-            // Ir a ver el resultado
+        finishButton.setOnClickListener {
             startActivity(Intent(this, ResultActivity::class.java))
         }
     }
 
     private fun showPaintMode() {
-        // Mostrar controles de pintura
-        binding.savedImagePreview.visibility = View.GONE
-        binding.colorPalette.visibility = View.VISIBLE
-        binding.instructionsText.visibility = View.VISIBLE
-        binding.guernicaImage.visibility = View.VISIBLE
-        binding.paintCanvas.visibility = View.VISIBLE
+        savedImagePreview.visibility = View.GONE
+        colorPalette.visibility = View.VISIBLE
+        instructionsText.visibility = View.VISIBLE
+        guernicaImage.visibility = View.VISIBLE
+        paintCanvas.visibility = View.VISIBLE
 
-        // Restaurar textos y colores de botones
-        binding.clearButton.text = getString(R.string.color_peace_clear)
-        binding.clearButton.backgroundTintList = ColorStateList.valueOf(
-            Color.parseColor("#E57373")
-        )
-        binding.finishButton.text = getString(R.string.color_peace_finish)
-        binding.finishButton.backgroundTintList = ColorStateList.valueOf(
-            Color.parseColor("#66BB6A")
-        )
+        clearButton.text = getString(R.string.color_peace_clear)
+        clearButton.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#E57373"))
+        finishButton.text = getString(R.string.color_peace_finish)
+        finishButton.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#66BB6A"))
 
-        // Configurar botones para modo pintar
-        binding.clearButton.setOnClickListener {
-            binding.paintCanvas.clearCanvas()
+        clearButton.setOnClickListener {
+            paintCanvas.clearCanvas()
         }
 
-        binding.finishButton.setOnClickListener {
+        finishButton.setOnClickListener {
             saveAndFinish()
         }
     }
@@ -121,83 +126,64 @@ class ColorPeaceActivity : AppCompatActivity() {
         }
     }
 
-
     private fun setupPaintableBounds() {
-        // Esperar a que la vista se dibuje para calcular los límites
-        binding.guernicaImage.post {
-            val imageView = binding.guernicaImage
-            val drawable = imageView.drawable ?: return@post
+        guernicaImage.post {
+            val drawable = guernicaImage.drawable ?: return@post
 
-            // Obtener las dimensiones del ImageView
-            val viewWidth = imageView.width.toFloat()
-            val viewHeight = imageView.height.toFloat()
-
-            // Obtener las dimensiones reales de la imagen
+            val viewWidth = guernicaImage.width.toFloat()
+            val viewHeight = guernicaImage.height.toFloat()
             val imageWidth = drawable.intrinsicWidth.toFloat()
             val imageHeight = drawable.intrinsicHeight.toFloat()
 
-            // Calcular el ratio de escala (fitCenter mantiene aspect ratio)
             val scaleX = viewWidth / imageWidth
             val scaleY = viewHeight / imageHeight
             val scale = minOf(scaleX, scaleY)
 
-            // Calcular el tamaño escalado de la imagen
             val scaledWidth = imageWidth * scale
             val scaledHeight = imageHeight * scale
 
-            // Calcular los márgenes (centrado)
             val left = (viewWidth - scaledWidth) / 2f
             val top = (viewHeight - scaledHeight) / 2f
             val right = left + scaledWidth
             val bottom = top + scaledHeight
 
-            // Pasar los límites al canvas de pintura
-            binding.paintCanvas.setPaintableBounds(left, top, right, bottom)
+            paintCanvas.setPaintableBounds(left, top, right, bottom)
         }
     }
 
     private fun setupColorListeners() {
-        binding.colorBlue.setOnClickListener {
-            binding.paintCanvas.currentColor = colorBlue
+        colorBlueView.setOnClickListener {
+            paintCanvas.currentColor = colorBlue
             highlightSelectedColor(it)
         }
 
-        binding.colorGreen.setOnClickListener {
-            binding.paintCanvas.currentColor = colorGreen
+        colorGreenView.setOnClickListener {
+            paintCanvas.currentColor = colorGreen
             highlightSelectedColor(it)
         }
 
-        binding.colorYellow.setOnClickListener {
-            binding.paintCanvas.currentColor = colorYellow
+        colorYellowView.setOnClickListener {
+            paintCanvas.currentColor = colorYellow
             highlightSelectedColor(it)
         }
 
-        binding.colorPink.setOnClickListener {
-            binding.paintCanvas.currentColor = colorPink
+        colorPinkView.setOnClickListener {
+            paintCanvas.currentColor = colorPink
             highlightSelectedColor(it)
         }
 
-        binding.colorWhite.setOnClickListener {
-            binding.paintCanvas.currentColor = colorWhite
+        colorWhiteView.setOnClickListener {
+            paintCanvas.currentColor = colorWhite
             highlightSelectedColor(it)
         }
     }
 
-
     private fun highlightSelectedColor(selectedView: View) {
-        // Resetear la escala de todos los colores
-        binding.colorBlue.scaleX = 1f
-        binding.colorBlue.scaleY = 1f
-        binding.colorGreen.scaleX = 1f
-        binding.colorGreen.scaleY = 1f
-        binding.colorYellow.scaleX = 1f
-        binding.colorYellow.scaleY = 1f
-        binding.colorPink.scaleX = 1f
-        binding.colorPink.scaleY = 1f
-        binding.colorWhite.scaleX = 1f
-        binding.colorWhite.scaleY = 1f
+        listOf(colorBlueView, colorGreenView, colorYellowView, colorPinkView, colorWhiteView).forEach {
+            it.scaleX = 1f
+            it.scaleY = 1f
+        }
 
-        // Resaltar el color seleccionado
         selectedView.animate()
             .scaleX(1.2f)
             .scaleY(1.2f)
@@ -206,16 +192,12 @@ class ColorPeaceActivity : AppCompatActivity() {
     }
 
     private fun saveAndFinish() {
-        val saved = binding.paintCanvas.saveToInternalStorage(this)
+        val saved = paintCanvas.saveToInternalStorage(this)
 
         if (saved) {
             showCompletionDialog()
         } else {
-            Toast.makeText(
-                this,
-                getString(R.string.color_peace_save_error),
-                Toast.LENGTH_LONG
-            ).show()
+            Toast.makeText(this, getString(R.string.color_peace_save_error), Toast.LENGTH_LONG).show()
         }
     }
 
@@ -225,7 +207,6 @@ class ColorPeaceActivity : AppCompatActivity() {
             .setMessage(getString(R.string.color_peace_dialog_message))
             .setPositiveButton(getString(R.string.color_peace_dialog_button)) { dialog, _ ->
                 dialog.dismiss()
-                // Navegar a ResultActivity para mostrar el resultado
                 startActivity(Intent(this, ResultActivity::class.java))
                 finish()
             }

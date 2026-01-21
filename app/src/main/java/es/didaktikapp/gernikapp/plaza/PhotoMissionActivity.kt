@@ -3,7 +3,6 @@ package es.didaktikapp.gernikapp.plaza
 import android.Manifest
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
-import android.os.Bundle
 import android.provider.MediaStore
 import android.view.View
 import android.widget.Button
@@ -13,16 +12,16 @@ import android.widget.RadioGroup
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import es.didaktikapp.gernikapp.BaseMenuActivity
 import es.didaktikapp.gernikapp.R
 import es.didaktikapp.gernikapp.plaza.adapters.PhotoMissionAdapter
 import es.didaktikapp.gernikapp.plaza.models.EtiquetaFoto
 import es.didaktikapp.gernikapp.plaza.models.FotoGaleria
 
-class PhotoMissionActivity : AppCompatActivity() {
+class PhotoMissionActivity : BaseMenuActivity() {
 
     private lateinit var btnTomarFoto: Button
     private lateinit var btnIgo: Button
@@ -62,26 +61,25 @@ class PhotoMissionActivity : AppCompatActivity() {
         }
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.plaza_photo_mission)
+    override fun getContentLayoutId(): Int = R.layout.plaza_photo_mission
 
+    override fun onContentInflated() {
         inicializarVistas()
         setupRecyclerView()
         setupButtons()
     }
 
     private fun inicializarVistas() {
-        btnTomarFoto = findViewById(R.id.btnTomarFoto)
-        btnIgo = findViewById(R.id.btnIgo)
-        btnFinalizar = findViewById(R.id.btnFinalizar)
-        ivFotoPreview = findViewById(R.id.ivFotoPreview)
-        tvSeleccionarEtiqueta = findViewById(R.id.tvSeleccionarEtiqueta)
-        rgEtiquetas = findViewById(R.id.rgEtiquetas)
-        rbTradizioa = findViewById(R.id.rbTradizioa)
-        rbKomunitatea = findViewById(R.id.rbKomunitatea)
-        rbBizikidetza = findViewById(R.id.rbBizikidetza)
-        rvGaleria = findViewById(R.id.rvGaleria)
+        btnTomarFoto = contentContainer.findViewById(R.id.btnTomarFoto)
+        btnIgo = contentContainer.findViewById(R.id.btnIgo)
+        btnFinalizar = contentContainer.findViewById(R.id.btnFinalizar)
+        ivFotoPreview = contentContainer.findViewById(R.id.ivFotoPreview)
+        tvSeleccionarEtiqueta = contentContainer.findViewById(R.id.tvSeleccionarEtiqueta)
+        rgEtiquetas = contentContainer.findViewById(R.id.rgEtiquetas)
+        rbTradizioa = contentContainer.findViewById(R.id.rbTradizioa)
+        rbKomunitatea = contentContainer.findViewById(R.id.rbKomunitatea)
+        rbBizikidetza = contentContainer.findViewById(R.id.rbBizikidetza)
+        rvGaleria = contentContainer.findViewById(R.id.rvGaleria)
     }
 
     private fun setupRecyclerView() {
@@ -138,18 +136,16 @@ class PhotoMissionActivity : AppCompatActivity() {
             else -> return
         }
 
-        // Añadir foto a la galería
         contadorFotos++
         val nuevaFoto = FotoGaleria(
             id = contadorFotos,
             bitmap = fotoActual!!,
             etiqueta = etiqueta
         )
-        galeriaFotos.add(0, nuevaFoto) // Añadir al inicio
+        galeriaFotos.add(0, nuevaFoto)
         adapter.notifyItemInserted(0)
         rvGaleria.scrollToPosition(0)
 
-        // Resetear vista
         resetearVista()
 
         Toast.makeText(this, "Argazkia igo da galerira!", Toast.LENGTH_SHORT).show()

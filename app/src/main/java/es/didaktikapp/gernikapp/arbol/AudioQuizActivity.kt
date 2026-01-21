@@ -1,10 +1,7 @@
 package es.didaktikapp.gernikapp.arbol
 
-import es.didaktikapp.gernikapp.R
-
 import android.content.Intent
 import android.media.MediaPlayer
-import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.view.View
@@ -12,10 +9,11 @@ import android.widget.Button
 import android.widget.ImageButton
 import android.widget.SeekBar
 import android.widget.TextView
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import es.didaktikapp.gernikapp.BaseMenuActivity
+import es.didaktikapp.gernikapp.R
 
-class AudioQuizActivity : AppCompatActivity() {
+class AudioQuizActivity : BaseMenuActivity() {
 
     private lateinit var mediaPlayer: MediaPlayer
     private lateinit var seekBar: SeekBar
@@ -30,29 +28,19 @@ class AudioQuizActivity : AppCompatActivity() {
     private var answeredCount = 0
     private val totalQuestions = 3
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.arbol_audio_quiz)
+    override fun getContentLayoutId(): Int = R.layout.arbol_audio_quiz
 
-        voiceContainer = findViewById(R.id.voiceContainer)
-        quizContainer = findViewById(R.id.quizContainer)
-        btnStartPuzzle = findViewById(R.id.btnStartPuzzle)
-        tvCongrats = findViewById(R.id.tvCongrats)
+    override fun onContentInflated() {
+        voiceContainer = contentContainer.findViewById(R.id.voiceContainer)
+        quizContainer = contentContainer.findViewById(R.id.quizContainer)
+        btnStartPuzzle = contentContainer.findViewById(R.id.btnStartPuzzle)
+        tvCongrats = contentContainer.findViewById(R.id.tvCongrats)
 
-        // Reproducir audio
-        /* mediaPlayer = MediaPlayer.create(this, R.raw.genikako_arbola)
-        mediaPlayer.isLooping = false
-        mediaPlayer.start()
-
-        mediaPlayer.setOnCompletionListener {
-            showQuiz()
-        } */
-        
         // Temporarily show quiz immediately since audio is missing
         showQuiz()
 
         // Setup SeekBar
-        seekBar = findViewById(R.id.seekBarAudio)
+        seekBar = contentContainer.findViewById(R.id.seekBarAudio)
         if (::mediaPlayer.isInitialized) {
             seekBar.max = mediaPlayer.duration
         }
@@ -77,21 +65,22 @@ class AudioQuizActivity : AppCompatActivity() {
             override fun onStopTrackingTouch(seekBar: SeekBar?) {}
         })
 
-        findViewById<ImageButton>(R.id.btnPlay).setOnClickListener {
-            if (!mediaPlayer.isPlaying) mediaPlayer.start()
+        contentContainer.findViewById<ImageButton>(R.id.btnPlay).setOnClickListener {
+            if (::mediaPlayer.isInitialized && !mediaPlayer.isPlaying) mediaPlayer.start()
         }
-        findViewById<ImageButton>(R.id.btnPause).setOnClickListener {
-            if (mediaPlayer.isPlaying) mediaPlayer.pause()
+        contentContainer.findViewById<ImageButton>(R.id.btnPause).setOnClickListener {
+            if (::mediaPlayer.isInitialized && mediaPlayer.isPlaying) mediaPlayer.pause()
         }
-        findViewById<ImageButton>(R.id.btnStop).setOnClickListener {
-            mediaPlayer.pause()
-            mediaPlayer.seekTo(0)
-            seekBar.progress = 0
+        contentContainer.findViewById<ImageButton>(R.id.btnStop).setOnClickListener {
+            if (::mediaPlayer.isInitialized) {
+                mediaPlayer.pause()
+                mediaPlayer.seekTo(0)
+                seekBar.progress = 0
+            }
         }
 
         btnStartPuzzle.setOnClickListener {
-            val intent = Intent(this, PuzzleActivity::class.java)
-            startActivity(intent)
+            startActivity(Intent(this, PuzzleActivity::class.java))
         }
 
         setupQuiz()
@@ -103,20 +92,17 @@ class AudioQuizActivity : AppCompatActivity() {
     }
 
     private fun setupQuiz() {
-        // Q1 Correct: q1a1
         setupQuestion(listOf(R.id.q1a1, R.id.q1a2), R.id.q1a1)
-        // Q2 Correct: q2a1
         setupQuestion(listOf(R.id.q2a1, R.id.q2a2), R.id.q2a1)
-        // Q3 Correct: q3a1
         setupQuestion(listOf(R.id.q3a1, R.id.q3a2), R.id.q3a1)
     }
 
     private fun setupQuestion(buttonIds: List<Int>, correctId: Int) {
         var questionAnswered = false
         buttonIds.forEach { id ->
-            findViewById<Button>(id).setOnClickListener { button ->
+            contentContainer.findViewById<Button>(id).setOnClickListener { button ->
                 if (questionAnswered) return@setOnClickListener
-                
+
                 if (id == correctId) {
                     button.setBackgroundColor(ContextCompat.getColor(this, R.color.correcto))
                     questionAnswered = true

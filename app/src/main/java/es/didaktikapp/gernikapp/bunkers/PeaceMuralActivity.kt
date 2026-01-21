@@ -1,9 +1,6 @@
 package es.didaktikapp.gernikapp.bunkers
 
-import es.didaktikapp.gernikapp.R
-
 import android.media.MediaPlayer
-import android.os.Bundle
 import android.view.View
 import android.view.animation.AlphaAnimation
 import android.view.animation.AnimationSet
@@ -12,11 +9,11 @@ import android.widget.Button
 import android.widget.FrameLayout
 import android.widget.ImageButton
 import android.widget.TextView
-import androidx.appcompat.app.AppCompatActivity
-import java.util.*
+import es.didaktikapp.gernikapp.BaseMenuActivity
+import es.didaktikapp.gernikapp.R
 import kotlin.random.Random
 
-class PeaceMuralActivity : AppCompatActivity() {
+class PeaceMuralActivity : BaseMenuActivity() {
 
     private lateinit var muralContainer: FrameLayout
     private lateinit var tvFinalCongrats: TextView
@@ -24,24 +21,23 @@ class PeaceMuralActivity : AppCompatActivity() {
     private var mediaPlayer: MediaPlayer? = null
     private var isMuted = false
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.bunkers_peace_mural)
+    override fun getContentLayoutId(): Int = R.layout.bunkers_peace_mural
 
-        muralContainer = findViewById(R.id.muralContainer)
-        tvFinalCongrats = findViewById(R.id.tvFinalCongrats)
+    override fun onContentInflated() {
+        muralContainer = contentContainer.findViewById(R.id.muralContainer)
+        tvFinalCongrats = contentContainer.findViewById(R.id.tvFinalCongrats)
 
         loadMural()
         setupWordButtons()
         setupMusic()
 
-        findViewById<Button>(R.id.btnFinishMural).setOnClickListener {
+        contentContainer.findViewById<Button>(R.id.btnFinishMural).setOnClickListener {
             mediaPlayer?.stop()
             mediaPlayer?.release()
             finish()
         }
 
-        findViewById<ImageButton>(R.id.btnMute).setOnClickListener {
+        contentContainer.findViewById<ImageButton>(R.id.btnMute).setOnClickListener {
             toggleMute(it as ImageButton)
         }
     }
@@ -69,7 +65,7 @@ class PeaceMuralActivity : AppCompatActivity() {
         )
 
         buttons.forEach { id ->
-            findViewById<Button>(id).setOnClickListener {
+            contentContainer.findViewById<Button>(id).setOnClickListener {
                 val text = (it as Button).text.toString()
                 addWordToMural(text, isNew = true)
                 tvFinalCongrats.visibility = View.VISIBLE
@@ -88,7 +84,7 @@ class PeaceMuralActivity : AppCompatActivity() {
         muralContainer.post {
             val finalX = x ?: Random.nextInt(50, (muralContainer.width - 200).coerceAtLeast(51)).toFloat()
             val finalY = y ?: Random.nextInt(50, (muralContainer.height - 100).coerceAtLeast(51)).toFloat()
-            
+
             textView.x = finalX
             textView.y = finalY
 
@@ -103,13 +99,13 @@ class PeaceMuralActivity : AppCompatActivity() {
 
     private fun applyAnimation(view: View) {
         val animSet = AnimationSet(true)
-        
+
         val scale = ScaleAnimation(0.5f, 1.2f, 0.5f, 1.2f, view.width / 2f, view.height / 2f)
         scale.duration = 500
-        
+
         val fade = AlphaAnimation(0f, 1f)
         fade.duration = 500
-        
+
         animSet.addAnimation(scale)
         animSet.addAnimation(fade)
         view.startAnimation(animSet)

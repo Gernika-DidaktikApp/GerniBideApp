@@ -1,17 +1,15 @@
 package es.didaktikapp.gernikapp.bunkers
 
-import es.didaktikapp.gernikapp.R
-
 import android.content.Intent
 import android.media.MediaPlayer
-import android.os.Bundle
 import android.view.View
 import android.widget.Button
 import android.widget.ImageButton
 import android.widget.TextView
-import androidx.appcompat.app.AppCompatActivity
+import es.didaktikapp.gernikapp.BaseMenuActivity
+import es.didaktikapp.gernikapp.R
 
-class SoundGameActivity : AppCompatActivity() {
+class SoundGameActivity : BaseMenuActivity() {
 
     private lateinit var tvStars: TextView
     private lateinit var tvQuestion: TextView
@@ -25,13 +23,12 @@ class SoundGameActivity : AppCompatActivity() {
     private val totalSounds = 5
     private var mediaPlayer: MediaPlayer? = null
 
-    // Mapping of sound buttons to "correct" category (0 for Beldurra, 1 for Babesa)
     private val soundCategories = mapOf(
-        R.id.btnSound1 to 0, // Sirens -> Beldurra
-        R.id.btnSound2 to 0, // Bombs -> Beldurra
-        R.id.btnSound3 to 0, // Crying -> Beldurra
-        R.id.btnSound4 to 1, // Breathing -> Babesa
-        R.id.btnSound5 to 1  // Silence -> Babesa
+        R.id.btnSound1 to 0,
+        R.id.btnSound2 to 0,
+        R.id.btnSound3 to 0,
+        R.id.btnSound4 to 1,
+        R.id.btnSound5 to 1
     )
 
     private val soundResources = mapOf(
@@ -39,19 +36,18 @@ class SoundGameActivity : AppCompatActivity() {
         R.id.btnSound2 to R.raw.bonbak,
         R.id.btnSound3 to R.raw.haurren_negarrak,
         R.id.btnSound4 to R.raw.arnasa,
-        R.id.btnSound5 to -1 // Special case for silence
+        R.id.btnSound5 to -1
     )
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.bunkers_sound_game)
+    override fun getContentLayoutId(): Int = R.layout.bunkers_sound_game
 
-        tvStars = findViewById(R.id.tvStars)
-        tvQuestion = findViewById(R.id.tvQuestion)
-        categoryControls = findViewById(R.id.categoryControls)
-        tvHistoryMessage = findViewById(R.id.tvHistoryMessage)
-        btnNext = findViewById(R.id.btnNextActivity)
-        rootLayout = findViewById(R.id.soundGameRoot)
+    override fun onContentInflated() {
+        tvStars = contentContainer.findViewById(R.id.tvStars)
+        tvQuestion = contentContainer.findViewById(R.id.tvQuestion)
+        categoryControls = contentContainer.findViewById(R.id.categoryControls)
+        tvHistoryMessage = contentContainer.findViewById(R.id.tvHistoryMessage)
+        btnNext = contentContainer.findViewById(R.id.btnNextActivity)
+        rootLayout = contentContainer.findViewById(R.id.soundGameRoot)
 
         setupSoundButtons()
         setupCategoryButtons()
@@ -68,14 +64,12 @@ class SoundGameActivity : AppCompatActivity() {
         )
 
         buttons.forEach { id ->
-            findViewById<ImageButton>(id).setOnClickListener {
+            contentContainer.findViewById<ImageButton>(id).setOnClickListener {
                 currentSoundId = id
                 playSound(id)
-                // Highlight selected sound
                 resetSoundButtonColors()
                 it.setBackgroundColor(getColor(R.color.btnPrincipal))
-                
-                // Show question and category selection
+
                 tvQuestion.visibility = View.VISIBLE
                 categoryControls.visibility = View.VISIBLE
             }
@@ -85,28 +79,27 @@ class SoundGameActivity : AppCompatActivity() {
     private fun playSound(id: Int) {
         mediaPlayer?.stop()
         mediaPlayer?.release()
-        
+
         val resId = soundResources[id] ?: return
         if (resId != -1) {
             mediaPlayer = MediaPlayer.create(this, resId)
             mediaPlayer?.start()
         } else {
-            // Silence - do nothing or play very short silence
             mediaPlayer = null
         }
     }
 
     private fun resetSoundButtonColors() {
         listOf(R.id.btnSound1, R.id.btnSound2, R.id.btnSound3, R.id.btnSound4, R.id.btnSound5).forEach {
-            findViewById<ImageButton>(it).setBackgroundResource(R.drawable.bg_boton_secundario)
+            contentContainer.findViewById<ImageButton>(it).setBackgroundResource(R.drawable.bg_boton_secundario)
         }
     }
 
     private fun setupCategoryButtons() {
-        findViewById<Button>(R.id.btnBeldurra).setOnClickListener {
+        contentContainer.findViewById<Button>(R.id.btnBeldurra).setOnClickListener {
             checkAnswer(0)
         }
-        findViewById<Button>(R.id.btnBabesa).setOnClickListener {
+        contentContainer.findViewById<Button>(R.id.btnBabesa).setOnClickListener {
             checkAnswer(1)
         }
     }
@@ -118,24 +111,21 @@ class SoundGameActivity : AppCompatActivity() {
         if (category == correctCategory) {
             stars++
             tvStars.text = "⭐ $stars / $totalSounds"
-            
-            // Change background color based on selection with a smooth transition
-            val targetColor = if (category == 0) 
-                android.graphics.Color.parseColor("#80F44336") // Soft Red
-            else 
-                android.graphics.Color.parseColor("#802196F3") // Soft Blue
+
+            val targetColor = if (category == 0)
+                android.graphics.Color.parseColor("#80F44336")
+            else
+                android.graphics.Color.parseColor("#802196F3")
 
             rootLayout.setBackgroundColor(targetColor)
-            
-            // Fade back to previous state after a delay
+
             rootLayout.postDelayed({
                 rootLayout.setBackgroundResource(R.drawable.fondo6)
             }, 1000)
 
             currentSoundId = -1
             resetSoundButtonColors()
-            
-            // Hide question until next sound
+
             tvQuestion.visibility = View.INVISIBLE
             categoryControls.visibility = View.INVISIBLE
 

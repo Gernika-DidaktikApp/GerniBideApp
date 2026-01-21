@@ -1,25 +1,29 @@
 package es.didaktikapp.gernikapp.picasso
 
 import android.graphics.Color
-import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.Gravity
 import android.view.inputmethod.InputMethodManager
+import android.widget.Button
+import android.widget.EditText
 import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
-import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
+import es.didaktikapp.gernikapp.BaseMenuActivity
 import es.didaktikapp.gernikapp.R
-import es.didaktikapp.gernikapp.databinding.PicassoMyMessageBinding
 import es.didaktikapp.gernikapp.utils.Constants
 import java.io.File
 
-class MyMessageActivity : AppCompatActivity() {
+class MyMessageActivity : BaseMenuActivity() {
 
-    private lateinit var binding: PicassoMyMessageBinding
+    private lateinit var messageInput: EditText
+    private lateinit var characterCount: TextView
+    private lateinit var sendButton: Button
+    private lateinit var backButton: Button
+    private lateinit var messagesContainer: LinearLayout
 
     private val messagesFile by lazy {
         File(getExternalFilesDir(null), Constants.Files.PEACE_MESSAGES_FILENAME)
@@ -31,17 +35,23 @@ class MyMessageActivity : AppCompatActivity() {
         private const val KEY_HAS_MESSAGE = "has_message"
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+    override fun getContentLayoutId(): Int = R.layout.picasso_my_message
 
-        binding = PicassoMyMessageBinding.inflate(layoutInflater)
-        setContentView(binding.root)
-
+    override fun onContentInflated() {
+        initViews()
         setupCharacterCounter()
         setupSendButton()
         setupBackButton()
         checkForSavedMessage()
         loadMessages()
+    }
+
+    private fun initViews() {
+        messageInput = contentContainer.findViewById(R.id.messageInput)
+        characterCount = contentContainer.findViewById(R.id.characterCount)
+        sendButton = contentContainer.findViewById(R.id.sendButton)
+        backButton = contentContainer.findViewById(R.id.backButton)
+        messagesContainer = contentContainer.findViewById(R.id.messagesContainer)
     }
 
     private fun checkForSavedMessage() {
@@ -56,8 +66,8 @@ class MyMessageActivity : AppCompatActivity() {
                 .setMessage(getString(R.string.my_message_load_message, savedMessage))
                 .setPositiveButton(getString(R.string.my_message_load_edit)) { dialog, _ ->
                     dialog.dismiss()
-                    binding.messageInput.setText(savedMessage)
-                    binding.messageInput.setSelection(savedMessage.length)
+                    messageInput.setText(savedMessage)
+                    messageInput.setSelection(savedMessage.length)
                 }
                 .setNegativeButton(getString(R.string.my_message_load_new)) { dialog, _ ->
                     dialog.dismiss()
@@ -69,31 +79,25 @@ class MyMessageActivity : AppCompatActivity() {
     }
 
     private fun setupCharacterCounter() {
-        binding.messageInput.addTextChangedListener(object : TextWatcher {
+        messageInput.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
-
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                binding.characterCount.text = getString(R.string.my_message_char_count_format, s?.length ?: 0)
+                characterCount.text = getString(R.string.my_message_char_count_format, s?.length ?: 0)
             }
-
             override fun afterTextChanged(s: Editable?) {}
         })
     }
 
     private fun setupSendButton() {
-        binding.sendButton.setOnClickListener {
-            sendMessage()
-        }
+        sendButton.setOnClickListener { sendMessage() }
     }
 
     private fun setupBackButton() {
-        binding.backButton.setOnClickListener {
-            finish()
-        }
+        backButton.setOnClickListener { finish() }
     }
 
     private fun sendMessage() {
-        val message = binding.messageInput.text.toString().trim()
+        val message = messageInput.text.toString().trim()
 
         if (message.isEmpty()) {
             Toast.makeText(this, getString(R.string.my_message_error_empty), Toast.LENGTH_SHORT).show()
@@ -105,24 +109,14 @@ class MyMessageActivity : AppCompatActivity() {
             return
         }
 
-        // Guardar mensaje
         saveMessage(message)
-
-        // Limpiar input
-        binding.messageInput.text.clear()
-
-        // Ocultar teclado
+        messageInput.text.clear()
         hideKeyboard()
-
-        // Recargar mensajes
         loadMessages()
-
-        // Mostrar mensaje de confirmación con el mensaje enviado
         showConfirmationDialog(message)
     }
 
     private fun saveMessage(message: String) {
-        // Guardar mensaje personal del usuario
         val prefs = getSharedPreferences(PREFS_NAME, MODE_PRIVATE)
         prefs.edit().apply {
             putBoolean(KEY_HAS_MESSAGE, true)
@@ -130,7 +124,6 @@ class MyMessageActivity : AppCompatActivity() {
             apply()
         }
 
-        // Guardar en archivo compartido
         try {
             messagesFile.appendText("$message\n")
         } catch (e: Exception) {
@@ -139,12 +132,11 @@ class MyMessageActivity : AppCompatActivity() {
     }
 
     private fun clearSavedMessage() {
-        val prefs = getSharedPreferences(PREFS_NAME, MODE_PRIVATE)
-        prefs.edit().clear().apply()
+        getSharedPreferences(PREFS_NAME, MODE_PRIVATE).edit().clear().apply()
     }
 
     private fun loadMessages() {
-        binding.messagesContainer.removeAllViews()
+        messagesContainer.removeAllViews()
 
         if (!messagesFile.exists()) {
             addSampleMessages()
@@ -156,9 +148,7 @@ class MyMessageActivity : AppCompatActivity() {
             if (messages.isEmpty()) {
                 addEmptyStateMessage()
             } else {
-                messages.forEach { message ->
-                    addMessageView(message)
-                }
+                messages.forEach { message -> addMessageView(message) }
             }
         } catch (e: Exception) {
             addEmptyStateMessage()
@@ -191,7 +181,7 @@ class MyMessageActivity : AppCompatActivity() {
         }
 
         messageCard.addView(messageText)
-        binding.messagesContainer.addView(messageCard)
+        messagesContainer.addView(messageCard)
     }
 
     private fun addEmptyStateMessage() {
@@ -207,7 +197,7 @@ class MyMessageActivity : AppCompatActivity() {
             setPadding(dpToPx(24), dpToPx(48), dpToPx(24), dpToPx(48))
         }
 
-        binding.messagesContainer.addView(emptyText)
+        messagesContainer.addView(emptyText)
     }
 
     private fun addSampleMessages() {
@@ -220,9 +210,7 @@ class MyMessageActivity : AppCompatActivity() {
 
         try {
             messagesFile.writeText(sampleMessages.joinToString("\n") + "\n")
-        } catch (e: Exception) {
-            // Ignorar error
-        }
+        } catch (e: Exception) {}
     }
 
     private fun showConfirmationDialog(message: String) {
@@ -242,7 +230,7 @@ class MyMessageActivity : AppCompatActivity() {
 
     private fun hideKeyboard() {
         val imm = getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
-        imm.hideSoftInputFromWindow(binding.messageInput.windowToken, 0)
+        imm.hideSoftInputFromWindow(messageInput.windowToken, 0)
     }
 
     private fun dpToPx(dp: Int): Int {

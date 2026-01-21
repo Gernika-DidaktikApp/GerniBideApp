@@ -1,33 +1,30 @@
 package es.didaktikapp.gernikapp
 
+import android.Manifest
 import android.content.Intent
-import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
+import android.content.pm.PackageManager
+import android.view.View
+import android.widget.Button
+import android.widget.ImageView
+import android.widget.TextView
+import androidx.core.app.ActivityCompat
+import androidx.core.widget.NestedScrollView
+import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
-import com.google.android.gms.maps.CameraUpdateFactory
-import androidx.core.app.ActivityCompat
-import android.Manifest
-import android.content.pm.PackageManager
 import com.google.android.gms.maps.model.MarkerOptions
-import es.didaktikapp.gernikapp.databinding.ActivityMapaBinding
-import es.didaktikapp.gernikapp.utils.Constants
 import com.google.android.material.bottomsheet.BottomSheetBehavior
-import android.widget.TextView
-import android.widget.ImageView
-import android.widget.Button
-import android.view.View
+import es.didaktikapp.gernikapp.utils.Constants
 import es.didaktikapp.gernikapp.arbol.MainActivity as ArbolMainActivity
 import es.didaktikapp.gernikapp.bunkers.MainActivity as BunkersMainActivity
 import es.didaktikapp.gernikapp.fronton.MainActivity as FrontonMainActivity
 import es.didaktikapp.gernikapp.picasso.MainActivity as PicassoMainActivity
 import es.didaktikapp.gernikapp.plaza.MainActivity as PlazaMainActivity
 
-class MapaActivity : AppCompatActivity(), OnMapReadyCallback {
+class MapaActivity : BaseMenuActivity(), OnMapReadyCallback {
 
-    private lateinit var binding: ActivityMapaBinding
     private lateinit var nMap: GoogleMap
     private lateinit var bottomSheetBehavior: BottomSheetBehavior<*>
     private lateinit var ivBottomSheetIcon: ImageView
@@ -35,20 +32,17 @@ class MapaActivity : AppCompatActivity(), OnMapReadyCallback {
     private lateinit var tvBottomSheetDescription: TextView
     private lateinit var btnGoToActivity: Button
     private var selectedLocation: String? = null
+    private var selectedTag: String? = null
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+    override fun getContentLayoutId(): Int = R.layout.activity_mapa
 
-        binding = ActivityMapaBinding.inflate(layoutInflater)
-        setContentView(binding.root)
-
-        // Inicializar BottomSheet
-        val bottomSheet = binding.root.findViewById<androidx.core.widget.NestedScrollView>(R.id.bottomSheet)
+    override fun onContentInflated() {
+        val bottomSheet = contentContainer.findViewById<NestedScrollView>(R.id.bottomSheet)
         bottomSheetBehavior = BottomSheetBehavior.from(bottomSheet)
-        ivBottomSheetIcon = binding.root.findViewById(R.id.ivBottomSheetIcon)
-        tvBottomSheetTitle = binding.root.findViewById(R.id.tvBottomSheetTitle)
-        tvBottomSheetDescription = binding.root.findViewById(R.id.tvBottomSheetDescription)
-        btnGoToActivity = binding.root.findViewById(R.id.btnGoToActivity)
+        ivBottomSheetIcon = contentContainer.findViewById(R.id.ivBottomSheetIcon)
+        tvBottomSheetTitle = contentContainer.findViewById(R.id.tvBottomSheetTitle)
+        tvBottomSheetDescription = contentContainer.findViewById(R.id.tvBottomSheetDescription)
+        btnGoToActivity = contentContainer.findViewById(R.id.btnGoToActivity)
 
         btnGoToActivity.setOnClickListener {
             selectedTag?.let { tag ->
@@ -76,7 +70,6 @@ class MapaActivity : AppCompatActivity(), OnMapReadyCallback {
 
         nMap.uiSettings.isZoomControlsEnabled = true
 
-        // Configurar padding del mapa para que los controles no queden tapados por el bottom sheet
         val bottomPadding = (120 * resources.displayMetrics.density).toInt()
         nMap.setPadding(0, 0, 0, bottomPadding)
 
@@ -134,8 +127,6 @@ class MapaActivity : AppCompatActivity(), OnMapReadyCallback {
         }
     }
 
-    private var selectedTag: String? = null
-
     private fun actualizarBottomSheet(titulo: String, tag: String?) {
         tvBottomSheetTitle.text = titulo
         selectedLocation = titulo
@@ -185,5 +176,4 @@ class MapaActivity : AppCompatActivity(), OnMapReadyCallback {
         selectedTag = null
         bottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
     }
-
 }
