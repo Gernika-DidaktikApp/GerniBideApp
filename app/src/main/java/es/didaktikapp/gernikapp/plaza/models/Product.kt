@@ -1,4 +1,4 @@
-package es.didaktikapp.gernikapp.plazagernika.models
+package es.didaktikapp.gernikapp.plaza.models
 
 data class Product(
     val id: Int,

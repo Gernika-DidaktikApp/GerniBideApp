@@ -1,4 +1,4 @@
-package es.didaktikapp.gernikapp.plazagernika
+package es.didaktikapp.gernikapp.plaza
 
 import android.content.Intent
 import android.graphics.drawable.TransitionDrawable

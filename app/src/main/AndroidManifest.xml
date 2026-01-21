@@ -31,9 +31,6 @@
             android:name=".LoginActivity"
             android:exported="false" />
         <activity
-            android:name=".MainActivity"
-            android:exported="false" />
-        <activity
             android:name=".MapaActivity"
             android:exported="true">
             <intent-filter>
@@ -68,19 +65,19 @@
 
         <!-- Actividades de la Plaza Gernika -->
         <activity
-            android:name=".plazagernika.DragProductsActivity"
+            android:name=".plaza.DragProductsActivity"
             android:exported="false" />
         <activity
-            android:name=".plazagernika.PhotoMissionActivity"
+            android:name=".plaza.PhotoMissionActivity"
             android:exported="false" />
         <activity
-            android:name=".plazagernika.MainActivity"
+            android:name=".plaza.MainActivity"
             android:exported="false" />
         <activity
-            android:name=".plazagernika.VideoActivity"
+            android:name=".plaza.VideoActivity"
             android:exported="false" />
         <activity
-            android:name=".plazagernika.VerseGameActivity"
+            android:name=".plaza.VerseGameActivity"
             android:exported="false" />
 
         <!-- Actividades de picasso -->

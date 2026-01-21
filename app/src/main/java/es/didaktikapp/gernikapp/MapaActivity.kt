@@ -11,7 +11,6 @@ import com.google.android.gms.maps.CameraUpdateFactory
 import androidx.core.app.ActivityCompat
 import android.Manifest
 import android.content.pm.PackageManager
-import android.widget.Toast
 import com.google.android.gms.maps.model.MarkerOptions
 import androidx.appcompat.app.AlertDialog
 import es.didaktikapp.gernikapp.databinding.ActivityMapaBinding
@@ -20,7 +19,7 @@ import es.didaktikapp.gernikapp.arbol.MainActivity as ArbolMainActivity
 import es.didaktikapp.gernikapp.bunkers.MainActivity as BunkersMainActivity
 import es.didaktikapp.gernikapp.fronton.MainActivity as FrontonMainActivity
 import es.didaktikapp.gernikapp.picasso.MainActivity as PicassoMainActivity
-import es.didaktikapp.gernikapp.plazagernika.MainActivity as PlazaMainActivity
+import es.didaktikapp.gernikapp.plaza.MainActivity as PlazaMainActivity
 
 class MapaActivity : AppCompatActivity(), OnMapReadyCallback {
 

@@ -1,4 +1,4 @@
-package es.didaktikapp.gernikapp.plazagernika
+package es.didaktikapp.gernikapp.plaza
 
 import android.content.ClipData
 import android.content.Intent
@@ -17,8 +17,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.core.content.ContextCompat
 import es.didaktikapp.gernikapp.R
-import es.didaktikapp.gernikapp.plazagernika.models.ProductCategory
-import es.didaktikapp.gernikapp.plazagernika.models.Product
+import es.didaktikapp.gernikapp.plaza.models.ProductCategory
+import es.didaktikapp.gernikapp.plaza.models.Product
 
 class DragProductsActivity : AppCompatActivity() {
 

@@ -1,4 +1,4 @@
-package es.didaktikapp.gernikapp.plazagernika
+package es.didaktikapp.gernikapp.plaza
 
 import android.Manifest
 import android.content.pm.PackageManager
@@ -18,9 +18,9 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import es.didaktikapp.gernikapp.R
-import es.didaktikapp.gernikapp.plazagernika.adapters.PhotoMissionAdapter
-import es.didaktikapp.gernikapp.plazagernika.models.EtiquetaFoto
-import es.didaktikapp.gernikapp.plazagernika.models.FotoGaleria
+import es.didaktikapp.gernikapp.plaza.adapters.PhotoMissionAdapter
+import es.didaktikapp.gernikapp.plaza.models.EtiquetaFoto
+import es.didaktikapp.gernikapp.plaza.models.FotoGaleria
 
 class PhotoMissionActivity : AppCompatActivity() {
 
