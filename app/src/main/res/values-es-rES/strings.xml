@@ -105,6 +105,19 @@
     <string name="map_dialog_button_cancel">No</string>
     <string name="map_entered_location">Has entrado en: %s</string>
 
+    <!-- Bottom Sheet -->
+    <string name="map_bottom_sheet_default_title">Selecciona un punto</string>
+    <string name="map_bottom_sheet_default_description">Toca un marcador en el mapa para ver la información</string>
+    <string name="map_location_icon">Icono de ubicación</string>
+    <string name="map_button_go_to_activity">Visitar actividad</string>
+
+    <!-- Descripciones de ubicaciones -->
+    <string name="map_description_arbola">El Árbol de Gernika es uno de los principales símbolos del pueblo vasco. Bajo él solían reunirse las asambleas legislativas y es símbolo de libertad.</string>
+    <string name="map_description_bunker">Los búnkeres de Astrak son testigos de la Guerra Civil. Durante el bombardeo de 1937, los ciudadanos los usaron como refugio.</string>
+    <string name="map_description_guernica">El Guernica pintado por Pablo Picasso es una protesta artística contra la guerra civil, conocida en todo el mundo.</string>
+    <string name="map_description_plaza">La plaza del mercado de Gernika es el corazón del pueblo. Cada lunes, los agricultores venden aquí sus productos.</string>
+    <string name="map_description_frontoi">El frontón Jai-Alai es uno de los más grandes del mundo, donde se juega a cesta punta, deporte vasco.</string>
+
     <!-- Menu FAB -->
     <string name="fab_menu">Menu</string>
     <string name="fab_home">Principio</string>
@@ -285,4 +298,19 @@
     <string name="gauez_jolasteko_plano_ilunak">Fondos oscuros para jugar de noche</string>
     <string name="hizkuntza">🗣️ Idioma</string>
     <string name="euskara_edo_gaztelania">Euskera o Castellano</string>
+    <string name="itzuli">Volver</string>
+    <string name="play">Play</string>
+    <string name="pause">Pause</string>
+    <string name="stop">Stop</string>
+    <string name="ulermen_galderak">PREGUNTAS DE COMPRENSIÓN</string>
+    <string name="_1_zertarako_elkartzen_ziren_arbolaren_azpian">1. ¿Para qué se reunían bajo el Árbol?</string>
+    <string name="legeak_adosteko_eta_foruak_zin_egiteko">Para acordar leyes y jurar los fueros</string>
+    <string name="bazkaltzeko">Para comer</string>
+    <string name="_2_zer_adierazten_du_batzar_etxeak">2. ¿Qué representa la Casa de Juntas?</string>
+    <string name="euskal_herriko_demokrazia_eta_askatasuna">La democracia y libertad del País Vasco</string>
+    <string name="museo_soil_bat">Un simple museo</string>
+    <string name="_3_zertarako_erabiltzen_da_batzar_etxea">3. ¿Para qué se utiliza la Casa de Juntas?</string>
+    <string name="batzar_nagusiak_egiteko">Para celebrar las Juntas Generales</string>
+    <string name="kontzertuak_emateko">Para dar conciertos</string>
+    <string name="ondo_egin_duzu_orain_zure_arbola_sortzera_goaz">¡Lo has hecho bien! Ahora vamos a crear tu árbol.</string>
 </resources>
