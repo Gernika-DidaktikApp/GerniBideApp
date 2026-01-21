@@ -2,38 +2,36 @@ package es.didaktikapp.gernikapp.plazagernika
 
 import android.content.Intent
 import android.os.Bundle
-import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
-import es.didaktikapp.gernikapp.R
+import es.didaktikapp.gernikapp.databinding.PlazaMainBinding
 
 class MainActivity : AppCompatActivity() {
 
+    private lateinit var binding: PlazaMainBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.plaza_main)
+        binding = PlazaMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
-        val btnVideo = findViewById<Button>(R.id.btnVideo)
-        btnVideo.setOnClickListener {
-            val intent = Intent(this, VideoActivity::class.java)
-            startActivity(intent)
+        setupClickListeners()
+    }
+
+    private fun setupClickListeners() {
+        binding.btnVideo.setOnClickListener {
+            startActivity(Intent(this, VideoActivity::class.java))
         }
 
-        val btnMercado = findViewById<Button>(R.id.btnMercado)
-        btnMercado.setOnClickListener {
-            val intent = Intent(this, DragProductsActivity::class.java)
-            startActivity(intent)
+        binding.btnMercado.setOnClickListener {
+            startActivity(Intent(this, DragProductsActivity::class.java))
         }
 
-        val btnVersos = findViewById<Button>(R.id.btnVersos)
-        btnVersos.setOnClickListener {
-            val intent = Intent(this, VerseGameActivity::class.java)
-            startActivity(intent)
+        binding.btnVersos.setOnClickListener {
+            startActivity(Intent(this, VerseGameActivity::class.java))
         }
 
-        val btnFotos = findViewById<Button>(R.id.btnFotos)
-        btnFotos.setOnClickListener {
-            val intent = Intent(this, PhotoMissionActivity::class.java)
-            startActivity(intent)
+        binding.btnFotos.setOnClickListener {
+            startActivity(Intent(this, PhotoMissionActivity::class.java))
         }
     }
 }
