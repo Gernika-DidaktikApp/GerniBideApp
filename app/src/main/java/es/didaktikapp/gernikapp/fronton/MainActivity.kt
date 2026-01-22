@@ -1,8 +1,11 @@
 package es.didaktikapp.gernikapp.fronton
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
+import es.didaktikapp.gernikapp.R
 import es.didaktikapp.gernikapp.databinding.FrontonMainBinding
 
 class MainActivity : AppCompatActivity() {
@@ -15,6 +18,20 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         setupClickListeners()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        updateCompletedActivities()
+    }
+
+    private fun updateCompletedActivities() {
+        val prefs = getSharedPreferences("fronton_progress", Context.MODE_PRIVATE)
+
+        if (prefs.getBoolean("cesta_tip_completed", false)) {
+            binding.btnVideoValores.background =
+                ContextCompat.getDrawable(this, R.drawable.bg_boton_completado)
+        }
     }
 
     private fun setupClickListeners() {
