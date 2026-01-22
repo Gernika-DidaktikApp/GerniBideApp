@@ -42,6 +42,11 @@ class MainActivity : AppCompatActivity() {
             binding.btnVideoValores.background =
                 ContextCompat.getDrawable(this, R.drawable.bg_boton_completado)
         }
+
+        if (prefs.getBoolean("values_group_completed", false)) {
+            binding.btnBalioak.background =
+                ContextCompat.getDrawable(this, R.drawable.bg_boton_completado)
+        }
     }
 
     private fun setupClickListeners() {
