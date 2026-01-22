@@ -39,6 +39,11 @@ class MainActivity : AppCompatActivity() {
     private fun updateCompletedActivities() {
         val prefs = getSharedPreferences("picasso_progress", Context.MODE_PRIVATE)
 
+        if (prefs.getBoolean("view_interpret_completed", false)) {
+            binding.btnIkusiEtaAsmatu.background =
+                ContextCompat.getDrawable(this, R.drawable.bg_boton_completado)
+        }
+
         if (prefs.getBoolean("my_message_completed", false)) {
             binding.btnNireMezua.background =
                 ContextCompat.getDrawable(this, R.drawable.bg_boton_completado)
