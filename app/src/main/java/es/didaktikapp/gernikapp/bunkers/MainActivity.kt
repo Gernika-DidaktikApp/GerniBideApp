@@ -32,6 +32,11 @@ class MainActivity : AppCompatActivity() {
             binding.btnPeaceMural.background =
                 ContextCompat.getDrawable(this, R.drawable.bg_boton_completado)
         }
+
+        if (prefs.getBoolean("reflection_completed", false)) {
+            binding.btnReflection.background =
+                ContextCompat.getDrawable(this, R.drawable.bg_boton_completado)
+        }
     }
 
     private fun setupClickListeners() {

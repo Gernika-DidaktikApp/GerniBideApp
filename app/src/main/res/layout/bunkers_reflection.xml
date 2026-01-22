@@ -5,14 +5,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/fondo6"
-    tools:context=".ReflectionActivity">
+    tools:context=".bunkers.ReflectionActivity">
 
     <TextView
         android:id="@+id/tvQuestion"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_margin="32dp"
-        android:text="Zer sentituko zenuke babesleku batean egon beharko bazenu?"
+        android:text="@string/reflection_question"
         android:textAlignment="center"
         android:textColor="@color/black"
         android:textSize="24sp"
@@ -55,7 +55,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
-                android:text="Beldurra"
+                android:text="@string/reflection_fear"
                 android:textColor="@color/black"
                 android:textStyle="bold" />
         </LinearLayout>
@@ -81,7 +81,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
-                android:text="Tristura"
+                android:text="@string/reflection_sadness"
                 android:textColor="@color/black"
                 android:textStyle="bold" />
         </LinearLayout>
@@ -107,7 +107,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
-                android:text="Lasaitasuna"
+                android:text="@string/reflection_calm"
                 android:textColor="@color/black"
                 android:textStyle="bold" />
         </LinearLayout>
@@ -133,7 +133,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
-                android:text="Itxaropena"
+                android:text="@string/reflection_hope"
                 android:textColor="@color/black"
                 android:textStyle="bold" />
         </LinearLayout>
@@ -144,26 +144,24 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:padding="24dp"
-        android:text="Eskerrik asko zure sentimendua partekatzeagatik."
+        android:text="@string/reflection_feedback"
         android:textAlignment="center"
         android:textColor="@color/black"
         android:textSize="20sp"
         android:textStyle="italic"
         android:visibility="gone"
-        app:layout_constraintBottom_toTopOf="@+id/btnJarraitu"
+        app:layout_constraintBottom_toTopOf="@+id/btnBack"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button
-        android:id="@+id/btnJarraitu"
+        android:id="@+id/btnBack"
+        style="@style/EstiloBotonPrimario"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="48dp"
-        android:background="@drawable/bg_boton_primario"
-        app:backgroundTint="@null"
-        android:text="JARRAITU"
-        android:textColor="@color/white"
-        android:visibility="gone"
+        android:layout_marginBottom="24dp"
+        android:text="@string/itzuli"
+        android:enabled="false"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

@@ -2,7 +2,7 @@ package es.didaktikapp.gernikapp.bunkers
 
 import es.didaktikapp.gernikapp.R
 
-import android.content.Intent
+import android.content.Context
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
@@ -16,7 +16,13 @@ class ReflectionActivity : AppCompatActivity() {
         setContentView(R.layout.bunkers_reflection)
 
         val tvFeedback: TextView = findViewById(R.id.tvFeedback)
-        val btnJarraitu: Button = findViewById(R.id.btnJarraitu)
+        val btnBack: Button = findViewById(R.id.btnBack)
+        val prefs = getSharedPreferences("bunkers_progress", Context.MODE_PRIVATE)
+
+        // Si ya estaba completada, habilitar botón
+        if (prefs.getBoolean("reflection_completed", false)) {
+            btnBack.isEnabled = true
+        }
 
         val emojiButtons = listOf(
             findViewById<View>(R.id.btnBeldurra),
@@ -28,11 +34,14 @@ class ReflectionActivity : AppCompatActivity() {
         emojiButtons.forEach { button ->
             button.setOnClickListener {
                 tvFeedback.visibility = View.VISIBLE
-                btnJarraitu.visibility = View.VISIBLE
-                
+
+                // Marcar como completada y habilitar botón
+                btnBack.isEnabled = true
+                prefs.edit().putBoolean("reflection_completed", true).apply()
+
                 // Visual feedback for selection
-                emojiButtons.forEach { 
-                    it.alpha = 0.5f 
+                emojiButtons.forEach {
+                    it.alpha = 0.5f
                     it.scaleX = 0.9f
                     it.scaleY = 0.9f
                 }
@@ -42,8 +51,7 @@ class ReflectionActivity : AppCompatActivity() {
             }
         }
 
-        btnJarraitu.setOnClickListener {
-            startActivity(Intent(this, PeaceMuralActivity::class.java))
+        btnBack.setOnClickListener {
             finish()
         }
     }

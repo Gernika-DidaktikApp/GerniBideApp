@@ -332,4 +332,12 @@
     <string name="peace_mural_word_help">Ayuda</string>
     <string name="peace_mural_word_friendship">Amistad</string>
     <string name="peace_mural_congrats">Enhorabuena, has difundido el mensaje de paz.</string>
+
+    <!-- Reflection -->
+    <string name="reflection_question">¿Qué sentirías si tuvieras que estar en un refugio?</string>
+    <string name="reflection_fear">Miedo</string>
+    <string name="reflection_sadness">Tristeza</string>
+    <string name="reflection_calm">Calma</string>
+    <string name="reflection_hope">Esperanza</string>
+    <string name="reflection_feedback">Gracias por compartir tu sentimiento.</string>
 </resources>

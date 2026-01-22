@@ -331,4 +331,12 @@
     <string name="peace_mural_word_help">Laguntza</string>
     <string name="peace_mural_word_friendship">Adiskidetasuna</string>
     <string name="peace_mural_congrats">Zorionak, bakearen mezua zabaldu duzu.</string>
+
+    <!-- Reflection -->
+    <string name="reflection_question">Zer sentituko zenuke babesleku batean egon beharko bazenu?</string>
+    <string name="reflection_fear">Beldurra</string>
+    <string name="reflection_sadness">Tristura</string>
+    <string name="reflection_calm">Lasaitasuna</string>
+    <string name="reflection_hope">Itxaropena</string>
+    <string name="reflection_feedback">Eskerrik asko zure sentimendua partekatzeagatik.</string>
 </resources>
