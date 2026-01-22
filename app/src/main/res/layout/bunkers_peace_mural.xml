@@ -5,14 +5,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#F5F5F5"
-    tools:context=".PeaceMuralActivity">
+    tools:context=".bunkers.PeaceMuralActivity">
 
     <TextView
         android:id="@+id/tvMuralTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
-        android:text="Zein hitzek adierazten dute zuretzat bakea?"
+        android:text="@string/peace_mural_title"
         android:textAlignment="center"
         android:textColor="@color/black"
         android:textSize="22sp"
@@ -41,7 +41,7 @@
                 android:layout_margin="4dp"
                 android:background="@drawable/bg_boton_secundario"
                 app:backgroundTint="@null"
-                android:text="Itxaropena"
+                android:text="@string/peace_mural_word_hope"
                 android:textColor="@color/white" />
 
             <Button
@@ -51,7 +51,7 @@
                 android:layout_margin="4dp"
                 android:background="@drawable/bg_boton_secundario"
                 app:backgroundTint="@null"
-                android:text="Elkarbizitza"
+                android:text="@string/peace_mural_word_coexistence"
                 android:textColor="@color/white" />
 
             <Button
@@ -61,7 +61,7 @@
                 android:layout_margin="4dp"
                 android:background="@drawable/bg_boton_secundario"
                 app:backgroundTint="@null"
-                android:text="Laguntza"
+                android:text="@string/peace_mural_word_help"
                 android:textColor="@color/white" />
 
             <Button
@@ -71,7 +71,7 @@
                 android:layout_margin="4dp"
                 android:background="@drawable/bg_boton_secundario"
                 app:backgroundTint="@null"
-                android:text="Adiskidetasuna"
+                android:text="@string/peace_mural_word_friendship"
                 android:textColor="@color/white" />
         </LinearLayout>
     </HorizontalScrollView>
@@ -82,7 +82,7 @@
         android:layout_height="0dp"
         android:layout_margin="16dp"
         android:background="#FFFFFFFF"
-        app:layout_constraintBottom_toTopOf="@+id/btnFinishMural"
+        app:layout_constraintBottom_toTopOf="@+id/btnBack"
         app:layout_constraintTop_toBottomOf="@+id/wordSelectionScroll" />
 
     <ImageButton
@@ -102,21 +102,22 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
-        android:text="Zorionak, bakearen mezua zabaldu duzu."
+        android:text="@string/peace_mural_congrats"
         android:textColor="@color/black"
         android:textStyle="bold"
         android:visibility="gone"
-        app:layout_constraintBottom_toTopOf="@+id/btnFinishMural"
+        app:layout_constraintBottom_toTopOf="@+id/btnBack"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button
-        android:id="@+id/btnFinishMural"
+        android:id="@+id/btnBack"
+        style="@style/EstiloBotonPrimario"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="24dp"
-        android:backgroundTint="@color/btnPrincipal"
-        android:text="AMAITU"
+        android:text="@string/itzuli"
+        android:enabled="false"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

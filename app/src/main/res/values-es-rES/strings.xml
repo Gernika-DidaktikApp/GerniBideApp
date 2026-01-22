@@ -324,4 +324,12 @@
 
     <!-- Puzzle -->
     <string name="puzzle_victory">¡Has reconstruido el corazón de Gernika!</string>
+
+    <!-- Peace Mural -->
+    <string name="peace_mural_title">¿Qué palabras representan la paz para ti?</string>
+    <string name="peace_mural_word_hope">Esperanza</string>
+    <string name="peace_mural_word_coexistence">Convivencia</string>
+    <string name="peace_mural_word_help">Ayuda</string>
+    <string name="peace_mural_word_friendship">Amistad</string>
+    <string name="peace_mural_congrats">Enhorabuena, has difundido el mensaje de paz.</string>
 </resources>

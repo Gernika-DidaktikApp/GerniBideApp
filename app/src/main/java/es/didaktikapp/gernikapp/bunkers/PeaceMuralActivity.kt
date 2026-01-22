@@ -20,7 +20,9 @@ class PeaceMuralActivity : AppCompatActivity() {
 
     private lateinit var muralContainer: FrameLayout
     private lateinit var tvFinalCongrats: TextView
+    private lateinit var btnBack: Button
     private val sharedPrefs by lazy { getSharedPreferences("PeaceMuralPrefs", MODE_PRIVATE) }
+    private val progressPrefs by lazy { getSharedPreferences("bunkers_progress", MODE_PRIVATE) }
     private var mediaPlayer: MediaPlayer? = null
     private var isMuted = false
 
@@ -30,12 +32,18 @@ class PeaceMuralActivity : AppCompatActivity() {
 
         muralContainer = findViewById(R.id.muralContainer)
         tvFinalCongrats = findViewById(R.id.tvFinalCongrats)
+        btnBack = findViewById(R.id.btnBack)
+
+        // Si ya estaba completada, habilitar botón
+        if (progressPrefs.getBoolean("peace_mural_completed", false)) {
+            btnBack.isEnabled = true
+        }
 
         loadMural()
         setupWordButtons()
         setupMusic()
 
-        findViewById<Button>(R.id.btnFinishMural).setOnClickListener {
+        btnBack.setOnClickListener {
             mediaPlayer?.stop()
             mediaPlayer?.release()
             finish()
@@ -73,6 +81,10 @@ class PeaceMuralActivity : AppCompatActivity() {
                 val text = (it as Button).text.toString()
                 addWordToMural(text, isNew = true)
                 tvFinalCongrats.visibility = View.VISIBLE
+
+                // Marcar como completada y habilitar botón
+                btnBack.isEnabled = true
+                progressPrefs.edit().putBoolean("peace_mural_completed", true).apply()
             }
         }
     }

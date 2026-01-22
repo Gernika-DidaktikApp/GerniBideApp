@@ -323,4 +323,12 @@
 
     <!-- Puzzle -->
     <string name="puzzle_victory">Gernikako bihotza berreraiki duzu!</string>
+
+    <!-- Peace Mural -->
+    <string name="peace_mural_title">Zein hitzek adierazten dute zuretzat bakea?</string>
+    <string name="peace_mural_word_hope">Itxaropena</string>
+    <string name="peace_mural_word_coexistence">Elkarbizitza</string>
+    <string name="peace_mural_word_help">Laguntza</string>
+    <string name="peace_mural_word_friendship">Adiskidetasuna</string>
+    <string name="peace_mural_congrats">Zorionak, bakearen mezua zabaldu duzu.</string>
 </resources>
