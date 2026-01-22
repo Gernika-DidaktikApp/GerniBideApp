@@ -32,6 +32,11 @@ class MainActivity : AppCompatActivity() {
             binding.btnVideoValores.background =
                 ContextCompat.getDrawable(this, R.drawable.bg_boton_completado)
         }
+
+        if (prefs.getBoolean("dancing_ball_completed", false)) {
+            binding.btnPelota.background =
+                ContextCompat.getDrawable(this, R.drawable.bg_boton_completado)
+        }
     }
 
     private fun setupClickListeners() {
