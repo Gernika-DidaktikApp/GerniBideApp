@@ -20,28 +20,17 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/btnAudioQuiz"
-        app:layout_constraintVertical_chainStyle="packed" />
-
-    <Button
-        android:id="@+id/btnAudioQuiz"
-        style="@style/EstiloBotonPrimario"
-        android:layout_width="0dp"
-        android:text="1. Audio Quiz"
-        android:layout_marginTop="32dp"
-        android:layout_marginBottom="12dp"
-        app:layout_constraintTop_toBottomOf="@id/tvTitulo"
         app:layout_constraintBottom_toTopOf="@id/btnSoundGame"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintVertical_chainStyle="packed" />
 
     <Button
         android:id="@+id/btnSoundGame"
         style="@style/EstiloBotonPrimario"
         android:layout_width="0dp"
-        android:text="2. Soinu Jokoa"
+        android:text="1. Soinu Jokoa"
+        android:layout_marginTop="32dp"
         android:layout_marginBottom="12dp"
-        app:layout_constraintTop_toBottomOf="@id/btnAudioQuiz"
+        app:layout_constraintTop_toBottomOf="@id/tvTitulo"
         app:layout_constraintBottom_toTopOf="@id/btnPeaceMural"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
@@ -50,7 +39,7 @@
         android:id="@+id/btnPeaceMural"
         style="@style/EstiloBotonPrimario"
         android:layout_width="0dp"
-        android:text="3. Bake Murala"
+        android:text="2. Bake Murala"
         android:layout_marginBottom="12dp"
         app:layout_constraintTop_toBottomOf="@id/btnSoundGame"
         app:layout_constraintBottom_toTopOf="@id/btnReflection"
@@ -61,7 +50,7 @@
         android:id="@+id/btnReflection"
         style="@style/EstiloBotonPrimario"
         android:layout_width="0dp"
-        android:text="4. Hausnarketa"
+        android:text="3. Hausnarketa"
         app:layout_constraintTop_toBottomOf="@id/btnPeaceMural"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
