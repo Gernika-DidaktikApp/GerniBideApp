@@ -1,5 +1,6 @@
 package es.didaktikapp.gernikapp.fronton
 
+import android.content.Context
 import android.os.Bundle
 import android.widget.Button
 import android.widget.VideoView
@@ -32,6 +33,14 @@ class InfoActivity : AppCompatActivity() {
 
         val videoView = findViewById<VideoView>(R.id.videoFronton)
         val btnPlayPause = findViewById<Button>(R.id.btnPlayVideo)
+        val btnBack = findViewById<Button>(R.id.btnBack)
+
+        val prefs = getSharedPreferences("fronton_progress", Context.MODE_PRIVATE)
+
+        // Si ya estaba completada, habilitar botón
+        if (prefs.getBoolean("info_completed", false)) {
+            btnBack.isEnabled = true
+        }
 
         val uri = "android.resource://${packageName}/${R.raw.frontoia}".toUri()
         videoView.setVideoURI(uri)
@@ -43,11 +52,14 @@ class InfoActivity : AppCompatActivity() {
             } else {
                 videoView.start()
                 btnPlayPause.text = getString(R.string.videoa_gelditu)
+
+                // Habilitar botón y guardar progreso al reproducir el vídeo
+                btnBack.isEnabled = true
+                prefs.edit().putBoolean("info_completed", true).apply()
             }
         }
 
-        val btnVolver = findViewById<Button>(R.id.btnVolver)
-        btnVolver.setOnClickListener {
+        btnBack.setOnClickListener {
             finish()
         }
 

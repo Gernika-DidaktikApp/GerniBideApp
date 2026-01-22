@@ -28,13 +28,18 @@ class MainActivity : AppCompatActivity() {
     private fun updateCompletedActivities() {
         val prefs = getSharedPreferences("fronton_progress", Context.MODE_PRIVATE)
 
-        if (prefs.getBoolean("cesta_tip_completed", false)) {
-            binding.btnVideoValores.background =
+        if (prefs.getBoolean("info_completed", false)) {
+            binding.btnFrontonInfo.background =
                 ContextCompat.getDrawable(this, R.drawable.bg_boton_completado)
         }
 
         if (prefs.getBoolean("dancing_ball_completed", false)) {
             binding.btnPelota.background =
+                ContextCompat.getDrawable(this, R.drawable.bg_boton_completado)
+        }
+
+        if (prefs.getBoolean("cesta_tip_completed", false)) {
+            binding.btnVideoValores.background =
                 ContextCompat.getDrawable(this, R.drawable.bg_boton_completado)
         }
     }
