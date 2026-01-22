@@ -339,4 +339,13 @@
     <string name="reflection_calm">Lasaitasuna</string>
     <string name="reflection_hope">Itxaropena</string>
     <string name="reflection_feedback">Eskerrik asko zure sentimendua partekatzeagatik.</string>
+
+    <!-- Sound Game -->
+    <string name="sound_game_title">SOINU JOLASA</string>
+    <string name="sound_game_stars">⭐ %1$d / %2$d</string>
+    <string name="_0_5">⭐ 0 / 5</string>
+    <string name="sound_game_question">Soinu honek beldurra edo babesa adierazten du?</string>
+    <string name="sound_game_fear">BELDURRA</string>
+    <string name="sound_game_shelter">BABESA</string>
+    <string name="sound_game_history">Soinuek historia kontatzen dute.</string>
 </resources>

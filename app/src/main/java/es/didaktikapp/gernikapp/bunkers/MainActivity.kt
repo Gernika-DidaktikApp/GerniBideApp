@@ -37,6 +37,11 @@ class MainActivity : AppCompatActivity() {
             binding.btnReflection.background =
                 ContextCompat.getDrawable(this, R.drawable.bg_boton_completado)
         }
+
+        if (prefs.getBoolean("sound_game_completed", false)) {
+            binding.btnSoundGame.background =
+                ContextCompat.getDrawable(this, R.drawable.bg_boton_completado)
+        }
     }
 
     private fun setupClickListeners() {

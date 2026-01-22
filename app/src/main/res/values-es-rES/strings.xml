@@ -340,4 +340,13 @@
     <string name="reflection_calm">Calma</string>
     <string name="reflection_hope">Esperanza</string>
     <string name="reflection_feedback">Gracias por compartir tu sentimiento.</string>
+
+    <!-- Sound Game -->
+    <string name="sound_game_title">JUEGO DE SONIDOS</string>
+    <string name="sound_game_stars">⭐ %1$d / %2$d</string>ç
+    <string name="_0_5">⭐ 0 / 5</string>
+    <string name="sound_game_question">¿Este sonido representa miedo o refugio?</string>
+    <string name="sound_game_fear">MIEDO</string>
+    <string name="sound_game_shelter">REFUGIO</string>
+    <string name="sound_game_history">Los sonidos cuentan una historia.</string>
 </resources>
