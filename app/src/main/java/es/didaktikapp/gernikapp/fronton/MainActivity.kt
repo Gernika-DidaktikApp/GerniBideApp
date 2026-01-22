@@ -1,33 +1,43 @@
 package es.didaktikapp.gernikapp.fronton
 
 import android.content.Intent
-import android.widget.Button
-import es.didaktikapp.gernikapp.BaseMenuActivity
-import es.didaktikapp.gernikapp.R
+import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
+import es.didaktikapp.gernikapp.MapaActivity
+import es.didaktikapp.gernikapp.databinding.FrontonMainBinding
 
-class MainActivity : BaseMenuActivity() {
+class MainActivity : AppCompatActivity() {
 
-    override fun getContentLayoutId(): Int = R.layout.fronton_main
+    private lateinit var binding: FrontonMainBinding
 
-    override fun onContentInflated() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        binding = FrontonMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+
         setupClickListeners()
     }
 
     private fun setupClickListeners() {
-        contentContainer.findViewById<Button>(R.id.btnFrontonInfo).setOnClickListener {
+        binding.btnFrontonInfo.setOnClickListener {
             startActivity(Intent(this, InfoActivity::class.java))
         }
 
-        contentContainer.findViewById<Button>(R.id.btnPelota).setOnClickListener {
+        binding.btnPelota.setOnClickListener {
             startActivity(Intent(this, DancingBallActivity::class.java))
         }
 
-        contentContainer.findViewById<Button>(R.id.btnVideoValores).setOnClickListener {
+        binding.btnVideoValores.setOnClickListener {
             startActivity(Intent(this, CestaTipActivity::class.java))
         }
 
-        contentContainer.findViewById<Button>(R.id.btnBalioak).setOnClickListener {
+        binding.btnBalioak.setOnClickListener {
             startActivity(Intent(this, ValuesGroupActivity::class.java))
+        }
+
+        binding.btnVolverMapa.setOnClickListener {
+            startActivity(Intent(this, MapaActivity::class.java))
+            finish()
         }
     }
 }

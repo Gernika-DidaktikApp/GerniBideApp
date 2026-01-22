@@ -1,33 +1,43 @@
 package es.didaktikapp.gernikapp.arbol
 
 import android.content.Intent
-import android.widget.Button
-import es.didaktikapp.gernikapp.BaseMenuActivity
-import es.didaktikapp.gernikapp.R
+import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
+import es.didaktikapp.gernikapp.MapaActivity
+import es.didaktikapp.gernikapp.databinding.ArbolMainBinding
 
-class MainActivity : BaseMenuActivity() {
+class MainActivity : AppCompatActivity() {
 
-    override fun getContentLayoutId(): Int = R.layout.arbol_main
+    private lateinit var binding: ArbolMainBinding
 
-    override fun onContentInflated() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        binding = ArbolMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+
         setupClickListeners()
     }
 
     private fun setupClickListeners() {
-        contentContainer.findViewById<Button>(R.id.btnInteractive).setOnClickListener {
+        binding.btnInteractive.setOnClickListener {
             startActivity(Intent(this, InteractiveActivity::class.java))
         }
 
-        contentContainer.findViewById<Button>(R.id.btnAudioQuiz).setOnClickListener {
+        binding.btnAudioQuiz.setOnClickListener {
             startActivity(Intent(this, AudioQuizActivity::class.java))
         }
 
-        contentContainer.findViewById<Button>(R.id.btnPuzzle).setOnClickListener {
+        binding.btnPuzzle.setOnClickListener {
             startActivity(Intent(this, PuzzleActivity::class.java))
         }
 
-        contentContainer.findViewById<Button>(R.id.btnMyTree).setOnClickListener {
+        binding.btnMyTree.setOnClickListener {
             startActivity(Intent(this, MyTreeActivity::class.java))
+        }
+
+        binding.btnVolverMapa.setOnClickListener {
+            startActivity(Intent(this, MapaActivity::class.java))
+            finish()
         }
     }
 }

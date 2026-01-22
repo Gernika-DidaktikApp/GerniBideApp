@@ -1,40 +1,52 @@
 package es.didaktikapp.gernikapp.picasso
 
 import android.graphics.BitmapFactory
-import android.widget.Button
-import android.widget.ImageView
-import es.didaktikapp.gernikapp.BaseMenuActivity
+import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import es.didaktikapp.gernikapp.R
+import es.didaktikapp.gernikapp.databinding.PicassoResultBinding
 import es.didaktikapp.gernikapp.utils.BitmapUtils
 
-class ResultActivity : BaseMenuActivity() {
+class ResultActivity : AppCompatActivity() {
 
-    override fun getContentLayoutId(): Int = R.layout.picasso_result
+    private lateinit var binding: PicassoResultBinding
 
-    override fun onContentInflated() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        binding = PicassoResultBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+
         loadAndDisplayResult()
         setupClickListeners()
     }
 
     private fun loadAndDisplayResult() {
-        val resultImage = contentContainer.findViewById<ImageView>(R.id.resultImage)
+        // Cargar la imagen guardada
         val savedBitmap = PaintCanvasView.loadFromInternalStorage(this)
 
         if (savedBitmap != null) {
+            // Cargar la imagen del Guernica original
             val guernicaBitmap = BitmapFactory.decodeResource(resources, R.drawable.gernika_outlines)
+
+            // Combinar las dos imágenes
             val combinedBitmap = BitmapUtils.combineBitmapsWithScaling(guernicaBitmap, savedBitmap)
-            resultImage.setImageBitmap(combinedBitmap)
+
+            // Mostrar la imagen combinada
+            binding.resultImage.setImageBitmap(combinedBitmap)
         } else {
-            resultImage.setImageResource(R.drawable.gernika_outlines)
+            // Si no hay imagen guardada, mostrar solo el Guernica
+            binding.resultImage.setImageResource(R.drawable.gernika_outlines)
         }
     }
 
+
     private fun setupClickListeners() {
-        contentContainer.findViewById<Button>(R.id.btnClose).setOnClickListener {
+        binding.btnClose.setOnClickListener {
             finish()
         }
 
-        contentContainer.findViewById<Button>(R.id.btnShare).setOnClickListener {
+        binding.btnShare.setOnClickListener {
             // TODO: Implementar compartir imagen
         }
     }

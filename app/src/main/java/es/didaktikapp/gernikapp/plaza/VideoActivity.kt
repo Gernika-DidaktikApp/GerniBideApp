@@ -2,6 +2,7 @@ package es.didaktikapp.gernikapp.plaza
 
 import android.content.Intent
 import android.graphics.drawable.TransitionDrawable
+import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.widget.Button
@@ -10,14 +11,14 @@ import android.widget.ProgressBar
 import android.widget.SeekBar
 import android.widget.TextView
 import android.widget.VideoView
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import androidx.core.net.toUri
 import androidx.core.view.isVisible
-import es.didaktikapp.gernikapp.BaseMenuActivity
 import es.didaktikapp.gernikapp.R
 import java.util.Locale
+import androidx.core.net.toUri
 
-class VideoActivity : BaseMenuActivity() {
+class VideoActivity : AppCompatActivity() {
 
     private lateinit var videoView: VideoView
     private lateinit var btnPlayPause: ImageButton
@@ -29,15 +30,16 @@ class VideoActivity : BaseMenuActivity() {
     private val handler = Handler(Looper.getMainLooper())
     private var isTracking = false
 
-    override fun getContentLayoutId(): Int = R.layout.plaza_video
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.plaza_video)
 
-    override fun onContentInflated() {
-        videoView = contentContainer.findViewById(R.id.videoView)
-        btnPlayPause = contentContainer.findViewById(R.id.btnPlayPause)
-        seekBar = contentContainer.findViewById(R.id.seekBar)
-        tvTime = contentContainer.findViewById(R.id.tvTime)
-        btnSiguiente = contentContainer.findViewById(R.id.btnSiguiente)
-        progressBar = contentContainer.findViewById(R.id.progressBar)
+        videoView = findViewById(R.id.videoView)
+        btnPlayPause = findViewById(R.id.btnPlayPause)
+        seekBar = findViewById(R.id.seekBar)
+        tvTime = findViewById(R.id.tvTime)
+        btnSiguiente = findViewById(R.id.btnSiguiente)
+        progressBar = findViewById(R.id.progressBar)
 
         setupVideoPlayer()
         setupVideoControls()
@@ -45,9 +47,11 @@ class VideoActivity : BaseMenuActivity() {
     }
 
     private fun setupVideoPlayer() {
+        // Cargar el video desde raw resources
         val videoUri = "android.resource://${packageName}/${R.raw.plaza}".toUri()
         videoView.setVideoURI(videoUri)
 
+        // Mostrar loading mientras se prepara el video
         progressBar.isVisible = true
 
         videoView.setOnPreparedListener {
@@ -59,6 +63,7 @@ class VideoActivity : BaseMenuActivity() {
             updateSeekBar()
         }
 
+        // Habilitar botón cuando el video termine
         videoView.setOnCompletionListener {
             enableButtonWithTransition()
             updatePlayPauseButton()
@@ -72,6 +77,7 @@ class VideoActivity : BaseMenuActivity() {
     }
 
     private fun setupVideoControls() {
+        // Botón Play/Pause
         btnPlayPause.setOnClickListener {
             if (videoView.isPlaying) {
                 videoView.pause()
@@ -82,6 +88,7 @@ class VideoActivity : BaseMenuActivity() {
             updatePlayPauseButton()
         }
 
+        // SeekBar
         seekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
                 if (fromUser) {
@@ -127,7 +134,8 @@ class VideoActivity : BaseMenuActivity() {
 
     private fun setupButtons() {
         btnSiguiente.setOnClickListener {
-            startActivity(Intent(this, DragProductsActivity::class.java))
+            val intent = Intent(this, DragProductsActivity::class.java)
+            startActivity(intent)
         }
     }
 

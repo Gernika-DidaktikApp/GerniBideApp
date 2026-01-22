@@ -1,34 +1,38 @@
 package es.didaktikapp.gernikapp.bunkers
 
+import es.didaktikapp.gernikapp.R
+
 import android.content.Intent
+import android.os.Bundle
 import android.view.View
 import android.widget.Button
 import android.widget.TextView
-import es.didaktikapp.gernikapp.BaseMenuActivity
-import es.didaktikapp.gernikapp.R
+import androidx.appcompat.app.AppCompatActivity
 
-class ReflectionActivity : BaseMenuActivity() {
+class ReflectionActivity : AppCompatActivity() {
 
-    override fun getContentLayoutId(): Int = R.layout.bunkers_reflection
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.bunkers_reflection)
 
-    override fun onContentInflated() {
-        val tvFeedback: TextView = contentContainer.findViewById(R.id.tvFeedback)
-        val btnJarraitu: Button = contentContainer.findViewById(R.id.btnJarraitu)
+        val tvFeedback: TextView = findViewById(R.id.tvFeedback)
+        val btnJarraitu: Button = findViewById(R.id.btnJarraitu)
 
         val emojiButtons = listOf(
-            contentContainer.findViewById<View>(R.id.btnBeldurra),
-            contentContainer.findViewById<View>(R.id.btnTristura),
-            contentContainer.findViewById<View>(R.id.btnLasaitasuna),
-            contentContainer.findViewById<View>(R.id.btnItxaropena)
+            findViewById<View>(R.id.btnBeldurra),
+            findViewById<View>(R.id.btnTristura),
+            findViewById<View>(R.id.btnLasaitasuna),
+            findViewById<View>(R.id.btnItxaropena)
         )
 
         emojiButtons.forEach { button ->
             button.setOnClickListener {
                 tvFeedback.visibility = View.VISIBLE
                 btnJarraitu.visibility = View.VISIBLE
-
-                emojiButtons.forEach {
-                    it.alpha = 0.5f
+                
+                // Visual feedback for selection
+                emojiButtons.forEach { 
+                    it.alpha = 0.5f 
                     it.scaleX = 0.9f
                     it.scaleY = 0.9f
                 }

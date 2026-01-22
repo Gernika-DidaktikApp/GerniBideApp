@@ -1,32 +1,36 @@
 package es.didaktikapp.gernikapp.plaza
 
 import android.content.Intent
-import android.widget.Button
-import es.didaktikapp.gernikapp.BaseMenuActivity
-import es.didaktikapp.gernikapp.R
+import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
+import es.didaktikapp.gernikapp.databinding.PlazaMainBinding
 
-class MainActivity : BaseMenuActivity() {
+class MainActivity : AppCompatActivity() {
 
-    override fun getContentLayoutId(): Int = R.layout.plaza_main
+    private lateinit var binding: PlazaMainBinding
 
-    override fun onContentInflated() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        binding = PlazaMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+
         setupClickListeners()
     }
 
     private fun setupClickListeners() {
-        contentContainer.findViewById<Button>(R.id.btnVideo).setOnClickListener {
+        binding.btnVideo.setOnClickListener {
             startActivity(Intent(this, VideoActivity::class.java))
         }
 
-        contentContainer.findViewById<Button>(R.id.btnMercado).setOnClickListener {
+        binding.btnMercado.setOnClickListener {
             startActivity(Intent(this, DragProductsActivity::class.java))
         }
 
-        contentContainer.findViewById<Button>(R.id.btnVersos).setOnClickListener {
+        binding.btnVersos.setOnClickListener {
             startActivity(Intent(this, VerseGameActivity::class.java))
         }
 
-        contentContainer.findViewById<Button>(R.id.btnFotos).setOnClickListener {
+        binding.btnFotos.setOnClickListener {
             startActivity(Intent(this, PhotoMissionActivity::class.java))
         }
     }
