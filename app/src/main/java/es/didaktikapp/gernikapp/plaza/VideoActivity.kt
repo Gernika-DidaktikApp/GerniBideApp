@@ -1,6 +1,6 @@
 package es.didaktikapp.gernikapp.plaza
 
-import android.content.Intent
+import android.content.Context
 import android.graphics.drawable.TransitionDrawable
 import android.os.Bundle
 import android.os.Handler
@@ -24,7 +24,7 @@ class VideoActivity : AppCompatActivity() {
     private lateinit var btnPlayPause: ImageButton
     private lateinit var seekBar: SeekBar
     private lateinit var tvTime: TextView
-    private lateinit var btnSiguiente: Button
+    private lateinit var btnBack: Button
     private lateinit var progressBar: ProgressBar
 
     private val handler = Handler(Looper.getMainLooper())
@@ -38,8 +38,14 @@ class VideoActivity : AppCompatActivity() {
         btnPlayPause = findViewById(R.id.btnPlayPause)
         seekBar = findViewById(R.id.seekBar)
         tvTime = findViewById(R.id.tvTime)
-        btnSiguiente = findViewById(R.id.btnSiguiente)
+        btnBack = findViewById(R.id.btnBack)
         progressBar = findViewById(R.id.progressBar)
+
+        // Check if activity was previously completed
+        val prefs = getSharedPreferences("plaza_progress", Context.MODE_PRIVATE)
+        if (prefs.getBoolean("video_completed", false)) {
+            btnBack.isEnabled = true
+        }
 
         setupVideoPlayer()
         setupVideoControls()
@@ -67,11 +73,15 @@ class VideoActivity : AppCompatActivity() {
         videoView.setOnCompletionListener {
             enableButtonWithTransition()
             updatePlayPauseButton()
+
+            // Save progress
+            val prefs = getSharedPreferences("plaza_progress", Context.MODE_PRIVATE)
+            prefs.edit().putBoolean("video_completed", true).apply()
         }
 
         videoView.setOnErrorListener { _, _, _ ->
             progressBar.isVisible = false
-            btnSiguiente.isEnabled = true
+            btnBack.isEnabled = true
             true
         }
     }
@@ -133,20 +143,19 @@ class VideoActivity : AppCompatActivity() {
     }
 
     private fun setupButtons() {
-        btnSiguiente.setOnClickListener {
-            val intent = Intent(this, DragProductsActivity::class.java)
-            startActivity(intent)
+        btnBack.setOnClickListener {
+            finish()
         }
     }
 
     private fun enableButtonWithTransition() {
         val transition = ContextCompat.getDrawable(this, R.drawable.bg_boton_primario_transition) as? TransitionDrawable
         if (transition != null) {
-            btnSiguiente.background = transition
-            btnSiguiente.isEnabled = true
+            btnBack.background = transition
+            btnBack.isEnabled = true
             transition.startTransition(600)
         } else {
-            btnSiguiente.isEnabled = true
+            btnBack.isEnabled = true
         }
     }
 

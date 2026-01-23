@@ -1,6 +1,7 @@
 package es.didaktikapp.gernikapp.plaza
 
 import android.Manifest
+import android.content.Context
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.os.Bundle
@@ -26,7 +27,7 @@ class PhotoMissionActivity : AppCompatActivity() {
 
     private lateinit var btnTomarFoto: Button
     private lateinit var btnIgo: Button
-    private lateinit var btnFinalizar: Button
+    private lateinit var btnBack: Button
     private lateinit var ivFotoPreview: ImageView
     private lateinit var tvSeleccionarEtiqueta: TextView
     private lateinit var rgEtiquetas: RadioGroup
@@ -46,7 +47,7 @@ class PhotoMissionActivity : AppCompatActivity() {
         if (isGranted) {
             abrirCamara()
         } else {
-            Toast.makeText(this, "Kameraren baimena ukatuta", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, getString(R.string.photo_mission_permiso_denegado), Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -74,7 +75,7 @@ class PhotoMissionActivity : AppCompatActivity() {
     private fun inicializarVistas() {
         btnTomarFoto = findViewById(R.id.btnTomarFoto)
         btnIgo = findViewById(R.id.btnIgo)
-        btnFinalizar = findViewById(R.id.btnFinalizar)
+        btnBack = findViewById(R.id.btnBack)
         ivFotoPreview = findViewById(R.id.ivFotoPreview)
         tvSeleccionarEtiqueta = findViewById(R.id.tvSeleccionarEtiqueta)
         rgEtiquetas = findViewById(R.id.rgEtiquetas)
@@ -82,6 +83,12 @@ class PhotoMissionActivity : AppCompatActivity() {
         rbKomunitatea = findViewById(R.id.rbKomunitatea)
         rbBizikidetza = findViewById(R.id.rbBizikidetza)
         rvGaleria = findViewById(R.id.rvGaleria)
+
+        // Check if activity was previously completed
+        val prefs = getSharedPreferences("plaza_progress", Context.MODE_PRIVATE)
+        if (prefs.getBoolean("photo_mission_completed", false)) {
+            btnBack.isEnabled = true
+        }
     }
 
     private fun setupRecyclerView() {
@@ -99,12 +106,7 @@ class PhotoMissionActivity : AppCompatActivity() {
             subirFoto()
         }
 
-        btnFinalizar.setOnClickListener {
-            Toast.makeText(
-                this,
-                "Zorionak! Jarduera osatu duzu",
-                Toast.LENGTH_LONG
-            ).show()
+        btnBack.setOnClickListener {
             finish()
         }
     }
@@ -122,12 +124,12 @@ class PhotoMissionActivity : AppCompatActivity() {
         val selectedId = rgEtiquetas.checkedRadioButtonId
 
         if (selectedId == -1) {
-            Toast.makeText(this, "Mesedez, aukeratu etiketa bat", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, getString(R.string.photo_mission_seleccionar_etiqueta_error), Toast.LENGTH_SHORT).show()
             return
         }
 
         if (fotoActual == null) {
-            Toast.makeText(this, "Ez dago argazkirik", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, getString(R.string.photo_mission_no_foto), Toast.LENGTH_SHORT).show()
             return
         }
 
@@ -149,10 +151,15 @@ class PhotoMissionActivity : AppCompatActivity() {
         adapter.notifyItemInserted(0)
         rvGaleria.scrollToPosition(0)
 
+        // Enable back button and save progress
+        btnBack.isEnabled = true
+        val prefs = getSharedPreferences("plaza_progress", Context.MODE_PRIVATE)
+        prefs.edit().putBoolean("photo_mission_completed", true).apply()
+
         // Resetear vista
         resetearVista()
 
-        Toast.makeText(this, "Argazkia igo da galerira!", Toast.LENGTH_SHORT).show()
+        Toast.makeText(this, getString(R.string.photo_mission_subida_exito), Toast.LENGTH_SHORT).show()
     }
 
     private fun resetearVista() {

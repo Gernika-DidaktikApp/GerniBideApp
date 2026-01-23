@@ -19,7 +19,7 @@
             android:layout_width="match_parent"
             android:layout_height="200dp"
             android:scaleType="centerCrop"
-            android:contentDescription="Argazkia" />
+            android:contentDescription="@string/photo_mission_item_descripcion" />
 
         <!-- Etiqueta -->
         <TextView
@@ -27,7 +27,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:text="Tradizioa"
+            android:text="@string/tradizioa"
             android:textSize="16sp"
             android:textStyle="bold"
             android:textColor="@color/btnPrincipal"

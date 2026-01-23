@@ -349,4 +349,31 @@
     <string name="sound_game_fear">MIEDO</string>
     <string name="sound_game_shelter">REFUGIO</string>
     <string name="sound_game_history">Los sonidos cuentan una historia.</string>
+
+    <!-- Misión de Foto -->
+    <string name="photo_mission_titulo">Misión Fotográfica</string>
+    <string name="photo_mission_descripcion">Haz una foto a un elemento de la plaza y elige una etiqueta para representar la convivencia.</string>
+    <string name="photo_mission_preview_description">Vista previa de la foto</string>
+    <string name="photo_mission_tomar_foto">Tomar foto</string>
+    <string name="photo_mission_seleccionar_etiqueta">Selecciona una etiqueta:</string>
+    <string name="photo_mission_tradizioa">Tradición</string>
+    <string name="photo_mission_komunitatea">Comunidad</string>
+    <string name="photo_mission_bizikidetza">Convivencia</string>
+    <string name="photo_mission_igo">Subir foto</string>
+    <string name="photo_mission_permiso_denegado">Permiso de cámara denegado</string>
+    <string name="photo_mission_seleccionar_etiqueta_error">Por favor, selecciona una etiqueta</string>
+    <string name="photo_mission_no_foto">No hay ninguna foto</string>
+    <string name="photo_mission_subida_exito">¡La foto se ha subido a la galería!</string>
+    <string name="photo_mission_completado">¡Enhorabuena! Has completado la actividad</string>
+    <string name="photo_mission_item_descripcion">Foto</string>
+    <string name="gernikako_plazara_nastelehen_goizean">A la plaza de Gernika\nun lunes por la mañana…</string>
+    <string name="tradizioa">Tradición</string>
+    <string name="_1_3">1/3</string>
+
+    <!-- Verse Game -->
+    <string name="verse_game_progress">%1$d/%2$d</string>
+    <string name="verse_game_aciertos">Aciertos: %1$d/%2$d</string>
+    <string name="verse_game_oso_ondo">¡Muy bien!</string>
+
+
 </resources>

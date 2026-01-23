@@ -28,8 +28,23 @@ class MainActivity : AppCompatActivity() {
     private fun updateCompletedActivities() {
         val prefs = getSharedPreferences("plaza_progress", Context.MODE_PRIVATE)
 
+        if (prefs.getBoolean("video_completed", false)) {
+            binding.btnVideo.background =
+                ContextCompat.getDrawable(this, R.drawable.bg_boton_completado)
+        }
+
         if (prefs.getBoolean("drag_products_completed", false)) {
             binding.btnMercado.background =
+                ContextCompat.getDrawable(this, R.drawable.bg_boton_completado)
+        }
+
+        if (prefs.getBoolean("verse_game_completed", false)) {
+            binding.btnVersos.background =
+                ContextCompat.getDrawable(this, R.drawable.bg_boton_completado)
+        }
+
+        if (prefs.getBoolean("photo_mission_completed", false)) {
+            binding.btnFotos.background =
                 ContextCompat.getDrawable(this, R.drawable.bg_boton_completado)
         }
     }
