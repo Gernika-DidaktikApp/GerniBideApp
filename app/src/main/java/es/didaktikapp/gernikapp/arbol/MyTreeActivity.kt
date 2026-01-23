@@ -1,22 +1,20 @@
 package es.didaktikapp.gernikapp.arbol
 
 import es.didaktikapp.gernikapp.R
+import es.didaktikapp.gernikapp.BaseMenuActivity
 
 import android.content.Context
 import android.content.Intent
-import android.os.Bundle
 import android.widget.Button
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 
-class MyTreeActivity : AppCompatActivity() {
+class MyTreeActivity : BaseMenuActivity() {
 
     private lateinit var btnBack: Button
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.arbol_my_tree)
+    override fun getContentLayoutId() = R.layout.arbol_my_tree
 
+    override fun onContentInflated() {
         btnBack = findViewById(R.id.btnBack)
 
         // Si ya estaba completada, habilitar botón

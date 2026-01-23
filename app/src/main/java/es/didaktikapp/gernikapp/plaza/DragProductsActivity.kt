@@ -4,7 +4,6 @@ import android.content.ClipData
 import android.content.Context
 import android.graphics.Outline
 import android.media.MediaPlayer
-import android.os.Bundle
 import android.view.DragEvent
 import android.view.View
 import android.widget.Button
@@ -13,14 +12,14 @@ import android.widget.GridLayout
 import android.widget.ImageView
 import android.widget.LinearLayout
 import androidx.appcompat.app.AlertDialog
-import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.core.content.ContextCompat
+import es.didaktikapp.gernikapp.BaseMenuActivity
 import es.didaktikapp.gernikapp.R
 import es.didaktikapp.gernikapp.plaza.models.Product
 import es.didaktikapp.gernikapp.plaza.models.ProductCategory
 
-class DragProductsActivity : AppCompatActivity() {
+class DragProductsActivity : BaseMenuActivity() {
 
     private lateinit var gridProductos: GridLayout
     private lateinit var btnBack: Button
@@ -29,10 +28,9 @@ class DragProductsActivity : AppCompatActivity() {
     private var mediaPlayer: MediaPlayer? = null
     private var sonidoAcierto: MediaPlayer? = null
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.plaza_drag_products)
+    override fun getContentLayoutId() = R.layout.plaza_drag_products
 
+    override fun onContentInflated() {
         gridProductos = findViewById(R.id.gridProductos)
         btnBack = findViewById(R.id.btnBack)
 

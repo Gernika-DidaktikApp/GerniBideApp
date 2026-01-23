@@ -1,7 +1,6 @@
 package es.didaktikapp.gernikapp.picasso
 
 import android.graphics.Color
-import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.Gravity
@@ -10,14 +9,14 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
-import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
+import es.didaktikapp.gernikapp.BaseMenuActivity
 import es.didaktikapp.gernikapp.R
 import es.didaktikapp.gernikapp.databinding.PicassoMyMessageBinding
 import es.didaktikapp.gernikapp.utils.Constants
 import java.io.File
 
-class MyMessageActivity : AppCompatActivity() {
+class MyMessageActivity : BaseMenuActivity() {
 
     private lateinit var binding: PicassoMyMessageBinding
 
@@ -33,12 +32,8 @@ class MyMessageActivity : AppCompatActivity() {
         private const val KEY_MY_MESSAGE_COMPLETED = "my_message_completed"
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-        binding = PicassoMyMessageBinding.inflate(layoutInflater)
-        setContentView(binding.root)
-
+    override fun onContentInflated() {
+        binding = PicassoMyMessageBinding.inflate(layoutInflater, contentContainer, true)
         setupCharacterCounter()
         setupSendButton()
         setupBackButton()

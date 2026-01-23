@@ -35,9 +35,10 @@ abstract class BaseMenuActivity : AppCompatActivity() {
     private val angleProfile = 270f
 
     /**
-     * Las activities hijas deben devolver el ID del layout que quieren usar.
+     * Las activities hijas pueden devolver el ID del layout que quieren usar.
+     * Si devuelve 0, la activity hija debe inflar su propio contenido en onContentInflated().
      */
-    abstract fun getContentLayoutId(): Int
+    protected open fun getContentLayoutId(): Int = 0
 
     /**
      * Contenedor donde las activities hijas pueden acceder a su contenido.
@@ -58,8 +59,11 @@ abstract class BaseMenuActivity : AppCompatActivity() {
         fabSettings = findViewById(R.id.fabSettings)
         fabProfile = findViewById(R.id.fabProfile)
 
-        // Inflar el layout de la activity hija en el contenedor
-        LayoutInflater.from(this).inflate(getContentLayoutId(), contentContainer, true)
+        // Inflar el layout de la activity hija en el contenedor (si se especificó)
+        val layoutId = getContentLayoutId()
+        if (layoutId != 0) {
+            LayoutInflater.from(this).inflate(layoutId, contentContainer, true)
+        }
 
         // Inicializar mini FABs
         listOf(fabHome, fabSettings, fabProfile).forEach { fab ->

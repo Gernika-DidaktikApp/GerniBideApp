@@ -1,20 +1,18 @@
 package es.didaktikapp.gernikapp.bunkers
 
 import es.didaktikapp.gernikapp.R
+import es.didaktikapp.gernikapp.BaseMenuActivity
 
 import android.content.Context
-import android.os.Bundle
 import android.view.View
 import android.widget.Button
 import android.widget.TextView
-import androidx.appcompat.app.AppCompatActivity
 
-class ReflectionActivity : AppCompatActivity() {
+class ReflectionActivity : BaseMenuActivity() {
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.bunkers_reflection)
+    override fun getContentLayoutId() = R.layout.bunkers_reflection
 
+    override fun onContentInflated() {
         val tvFeedback: TextView = findViewById(R.id.tvFeedback)
         val btnBack: Button = findViewById(R.id.btnBack)
         val prefs = getSharedPreferences("bunkers_progress", Context.MODE_PRIVATE)

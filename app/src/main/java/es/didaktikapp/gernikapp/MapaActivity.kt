@@ -1,8 +1,6 @@
 package es.didaktikapp.gernikapp
 
 import android.content.Intent
-import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
@@ -25,7 +23,7 @@ import es.didaktikapp.gernikapp.fronton.MainActivity as FrontonMainActivity
 import es.didaktikapp.gernikapp.picasso.MainActivity as PicassoMainActivity
 import es.didaktikapp.gernikapp.plaza.MainActivity as PlazaMainActivity
 
-class MapaActivity : AppCompatActivity(), OnMapReadyCallback {
+class MapaActivity : BaseMenuActivity(), OnMapReadyCallback {
 
     private lateinit var binding: ActivityMapaBinding
     private lateinit var nMap: GoogleMap
@@ -36,11 +34,8 @@ class MapaActivity : AppCompatActivity(), OnMapReadyCallback {
     private lateinit var btnGoToActivity: Button
     private var selectedLocation: String? = null
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-        binding = ActivityMapaBinding.inflate(layoutInflater)
-        setContentView(binding.root)
+    override fun onContentInflated() {
+        binding = ActivityMapaBinding.inflate(layoutInflater, contentContainer, true)
 
         // Inicializar BottomSheet
         val bottomSheet = binding.root.findViewById<androidx.core.widget.NestedScrollView>(R.id.bottomSheet)

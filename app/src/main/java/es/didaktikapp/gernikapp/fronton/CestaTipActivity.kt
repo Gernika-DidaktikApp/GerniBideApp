@@ -1,38 +1,22 @@
 package es.didaktikapp.gernikapp.fronton
 
 import android.content.Context
-import android.os.Bundle
 import android.widget.Button
 import android.widget.RadioGroup
 import android.widget.Toast
 import android.widget.VideoView
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.net.toUri
+import es.didaktikapp.gernikapp.BaseMenuActivity
 import es.didaktikapp.gernikapp.R
 
 /**
  * Activity del quiz de valores de Cesta Punta.
- * Muestra vídeo introductorio del frontón  quiz interactivo sobre
- * los valores que representa el deporte (Lankidetza, Errespetua...)
- *
- * @author Erlantz
- * @version 1.0
- * @see AppCompatActivity
- * @see R.layout.fronton_cesta_tip
  */
-class CestaTipActivity : AppCompatActivity() {
+class CestaTipActivity : BaseMenuActivity() {
 
-    /**
-     * Metodo principal del ciclo de vida.
-     * Configura vídeo del frontón, reproductor, quiz interactivo
-     * y lógica de validación de respuestas.
-     *
-     * @param savedInstanceState Estado previo de la Activity
-     */
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.fronton_cesta_tip)
+    override fun getContentLayoutId() = R.layout.fronton_cesta_tip
 
+    override fun onContentInflated() {
         val videoView = findViewById<VideoView>(R.id.videoFronton)
         val btnPlayPause = findViewById<Button>(R.id.btnPlayVideo)
 

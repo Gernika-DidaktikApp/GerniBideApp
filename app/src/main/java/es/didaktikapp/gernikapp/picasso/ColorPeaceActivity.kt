@@ -4,18 +4,17 @@ import android.content.Intent
 import android.content.res.ColorStateList
 import android.graphics.BitmapFactory
 import android.graphics.Color
-import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
-import androidx.appcompat.app.AppCompatActivity
+import es.didaktikapp.gernikapp.BaseMenuActivity
 import es.didaktikapp.gernikapp.R
 import es.didaktikapp.gernikapp.databinding.PicassoColorPeaceBinding
 import es.didaktikapp.gernikapp.utils.BitmapUtils
 import es.didaktikapp.gernikapp.utils.Constants
 import java.io.File
 
-class ColorPeaceActivity : AppCompatActivity() {
+class ColorPeaceActivity : BaseMenuActivity() {
 
     private lateinit var binding: PicassoColorPeaceBinding
 
@@ -26,12 +25,8 @@ class ColorPeaceActivity : AppCompatActivity() {
     private val colorPink = Color.parseColor("#F48FB1")
     private val colorWhite = Color.parseColor("#FFFFFF")
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-        binding = PicassoColorPeaceBinding.inflate(layoutInflater)
-        setContentView(binding.root)
-
+    override fun onContentInflated() {
+        binding = PicassoColorPeaceBinding.inflate(layoutInflater, contentContainer, true)
         setupColorListeners()
         setupPaintableBounds()
         checkForSavedPainting()

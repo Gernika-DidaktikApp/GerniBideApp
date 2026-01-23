@@ -1,10 +1,8 @@
 package es.didaktikapp.gernikapp
 
-import android.os.Bundle
 import android.text.InputFilter
 import android.view.View
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
 import es.didaktikapp.gernikapp.data.local.TokenManager
 import es.didaktikapp.gernikapp.databinding.ActivityUserEditBinding
 
@@ -12,16 +10,13 @@ import es.didaktikapp.gernikapp.databinding.ActivityUserEditBinding
  * Activity para la edición de datos de usuario.
  * @author Erlantz
  */
-class UserEditActivity : AppCompatActivity() {
+class UserEditActivity : BaseMenuActivity() {
 
     private lateinit var binding: ActivityUserEditBinding
     private lateinit var tokenManager: TokenManager
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        binding = ActivityUserEditBinding.inflate(layoutInflater)
-        setContentView(binding.root)
-        
+    override fun onContentInflated() {
+        binding = ActivityUserEditBinding.inflate(layoutInflater, contentContainer, true)
         tokenManager = TokenManager(this)
 
         setupInputFilters()

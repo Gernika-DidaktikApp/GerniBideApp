@@ -1,29 +1,27 @@
 package es.didaktikapp.gernikapp.arbol
 
 import es.didaktikapp.gernikapp.R
+import es.didaktikapp.gernikapp.BaseMenuActivity
 
 import android.content.Context
-import android.os.Bundle
 import android.view.MotionEvent
 import android.view.View
 import android.widget.Button
 import android.widget.FrameLayout
 import android.widget.TextView
-import androidx.appcompat.app.AppCompatActivity
 import org.json.JSONArray
 import org.json.JSONObject
 
-class InteractiveActivity : AppCompatActivity() {
+class InteractiveActivity : BaseMenuActivity() {
 
     private lateinit var treeContainer: FrameLayout
     private lateinit var btnBack: Button
     private val PREFS_NAME = "CollectiveTreePrefs"
     private val KEY_ENTRIES = "treeEntries"
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.arbol_interactive)
+    override fun getContentLayoutId() = R.layout.arbol_interactive
 
+    override fun onContentInflated() {
         treeContainer = findViewById(R.id.treeContainer)
         btnBack = findViewById(R.id.btnBack)
 

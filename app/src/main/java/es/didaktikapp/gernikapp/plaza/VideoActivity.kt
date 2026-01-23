@@ -2,7 +2,6 @@ package es.didaktikapp.gernikapp.plaza
 
 import android.content.Context
 import android.graphics.drawable.TransitionDrawable
-import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.widget.Button
@@ -11,14 +10,14 @@ import android.widget.ProgressBar
 import android.widget.SeekBar
 import android.widget.TextView
 import android.widget.VideoView
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
+import es.didaktikapp.gernikapp.BaseMenuActivity
 import es.didaktikapp.gernikapp.R
 import java.util.Locale
 import androidx.core.net.toUri
 
-class VideoActivity : AppCompatActivity() {
+class VideoActivity : BaseMenuActivity() {
 
     private lateinit var videoView: VideoView
     private lateinit var btnPlayPause: ImageButton
@@ -30,10 +29,9 @@ class VideoActivity : AppCompatActivity() {
     private val handler = Handler(Looper.getMainLooper())
     private var isTracking = false
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.plaza_video)
+    override fun getContentLayoutId() = R.layout.plaza_video
 
+    override fun onContentInflated() {
         videoView = findViewById(R.id.videoView)
         btnPlayPause = findViewById(R.id.btnPlayPause)
         seekBar = findViewById(R.id.seekBar)

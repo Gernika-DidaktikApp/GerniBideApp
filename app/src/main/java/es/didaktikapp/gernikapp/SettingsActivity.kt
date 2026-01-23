@@ -1,55 +1,26 @@
 package es.didaktikapp.gernikapp
 
 import android.content.SharedPreferences
-import android.os.Bundle
 import android.widget.Button
 import android.widget.Spinner
 import android.widget.Switch
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
 
 /**
  * Activity para la configuración de la aplicación.
- * Permite al usuario configurar:
- * - Sonido (activado/desactivado)
- * - Tamaño de la letra
- * - Modo oscuro
- * - Idioma (Euskera/Castellano)
- *
- * @author Erlantz
- * @version 1.0
- * @see AppCompatActivity
  */
-class SettingsActivity : AppCompatActivity() {
+class SettingsActivity : BaseMenuActivity() {
 
-    /** Switch para activar/desactivar sonido */
     private lateinit var switchMute: Switch
-
-    /** Switch para modo oscuro */
     private lateinit var switchDarkMode: Switch
-
-    /** Spinner para seleccionar tamaño de la letra */
     private lateinit var spinnerTextSize: Spinner
-
-    /** Spinner para seleccionar idioma */
     private lateinit var spinnerLanguage: Spinner
-
-    /** Botón para guardar configuración */
     private lateinit var btnSaveSettings: Button
-
-    /** SharedPreferences para almacenar configuración de la app */
     private lateinit var prefs: SharedPreferences
 
-    /**
-     * Metodo principal del ciclo de vida de la Activity.
-     * Inicializa las vistas, carga la configuración previa y configura los listeners.
-     *
-     * @param savedInstanceState Bundle con el estado previo de la Activity
-     */
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_settings)
+    override fun getContentLayoutId() = R.layout.activity_settings
 
+    override fun onContentInflated() {
         initViews()
         loadSettings()
         setupListeners()

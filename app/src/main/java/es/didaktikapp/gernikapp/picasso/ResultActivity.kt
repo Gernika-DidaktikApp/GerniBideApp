@@ -1,22 +1,17 @@
 package es.didaktikapp.gernikapp.picasso
 
 import android.graphics.BitmapFactory
-import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
+import es.didaktikapp.gernikapp.BaseMenuActivity
 import es.didaktikapp.gernikapp.R
 import es.didaktikapp.gernikapp.databinding.PicassoResultBinding
 import es.didaktikapp.gernikapp.utils.BitmapUtils
 
-class ResultActivity : AppCompatActivity() {
+class ResultActivity : BaseMenuActivity() {
 
     private lateinit var binding: PicassoResultBinding
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-        binding = PicassoResultBinding.inflate(layoutInflater)
-        setContentView(binding.root)
-
+    override fun onContentInflated() {
+        binding = PicassoResultBinding.inflate(layoutInflater, contentContainer, true)
         loadAndDisplayResult()
         setupClickListeners()
     }

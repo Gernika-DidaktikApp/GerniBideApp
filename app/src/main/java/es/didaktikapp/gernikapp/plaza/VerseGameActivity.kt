@@ -1,20 +1,19 @@
 package es.didaktikapp.gernikapp.plaza
 
 import android.content.Context
-import android.os.Bundle
 import android.widget.Button
 import android.widget.RadioButton
 import android.widget.RadioGroup
 import android.widget.TextView
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.content.edit
 import androidx.core.view.isVisible
+import es.didaktikapp.gernikapp.BaseMenuActivity
 import es.didaktikapp.gernikapp.R
 import es.didaktikapp.gernikapp.plaza.models.VerseQuestion
 
-class VerseGameActivity : AppCompatActivity() {
+class VerseGameActivity : BaseMenuActivity() {
 
     private lateinit var tvVersoInicial: TextView
     private lateinit var tvProgreso: TextView
@@ -30,10 +29,9 @@ class VerseGameActivity : AppCompatActivity() {
     private var preguntaActual = 0
     private var aciertos = 0
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.plaza_verse_game)
+    override fun getContentLayoutId() = R.layout.plaza_verse_game
 
+    override fun onContentInflated() {
         inicializarVistas()
         inicializarPreguntas()
         mostrarPregunta()

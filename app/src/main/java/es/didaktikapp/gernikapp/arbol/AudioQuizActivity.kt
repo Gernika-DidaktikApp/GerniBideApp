@@ -1,10 +1,10 @@
 package es.didaktikapp.gernikapp.arbol
 
 import es.didaktikapp.gernikapp.R
+import es.didaktikapp.gernikapp.BaseMenuActivity
 
 import android.content.Context
 import android.media.MediaPlayer
-import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.view.View
@@ -12,10 +12,9 @@ import android.widget.Button
 import android.widget.ImageButton
 import android.widget.SeekBar
 import android.widget.TextView
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 
-class AudioQuizActivity : AppCompatActivity() {
+class AudioQuizActivity : BaseMenuActivity() {
 
     private lateinit var mediaPlayer: MediaPlayer
     private lateinit var seekBar: SeekBar
@@ -30,10 +29,9 @@ class AudioQuizActivity : AppCompatActivity() {
     private var answeredCount = 0
     private val totalQuestions = 3
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.arbol_audio_quiz)
+    override fun getContentLayoutId() = R.layout.arbol_audio_quiz
 
+    override fun onContentInflated() {
         voiceContainer = findViewById(R.id.voiceContainer)
         quizContainer = findViewById(R.id.quizContainer)
         btnVolver = findViewById(R.id.btnVolver)

@@ -1,9 +1,9 @@
 package es.didaktikapp.gernikapp.bunkers
 
 import es.didaktikapp.gernikapp.R
+import es.didaktikapp.gernikapp.BaseMenuActivity
 
 import android.media.MediaPlayer
-import android.os.Bundle
 import android.view.View
 import android.view.animation.AlphaAnimation
 import android.view.animation.AnimationSet
@@ -12,11 +12,9 @@ import android.widget.Button
 import android.widget.FrameLayout
 import android.widget.ImageButton
 import android.widget.TextView
-import androidx.appcompat.app.AppCompatActivity
-import java.util.*
 import kotlin.random.Random
 
-class PeaceMuralActivity : AppCompatActivity() {
+class PeaceMuralActivity : BaseMenuActivity() {
 
     private lateinit var muralContainer: FrameLayout
     private lateinit var tvFinalCongrats: TextView
@@ -26,10 +24,9 @@ class PeaceMuralActivity : AppCompatActivity() {
     private var mediaPlayer: MediaPlayer? = null
     private var isMuted = false
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.bunkers_peace_mural)
+    override fun getContentLayoutId() = R.layout.bunkers_peace_mural
 
+    override fun onContentInflated() {
         muralContainer = findViewById(R.id.muralContainer)
         tvFinalCongrats = findViewById(R.id.tvFinalCongrats)
         btnBack = findViewById(R.id.btnBack)

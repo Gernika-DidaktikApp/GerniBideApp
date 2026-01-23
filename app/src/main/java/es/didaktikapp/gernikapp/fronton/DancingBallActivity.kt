@@ -3,7 +3,6 @@ package es.didaktikapp.gernikapp.fronton
 import android.content.Context
 import android.media.AudioManager
 import android.media.ToneGenerator
-import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.view.MotionEvent
@@ -13,85 +12,39 @@ import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
-import androidx.appcompat.app.AppCompatActivity
 import kotlin.math.abs
 import kotlin.random.Random
 import es.didaktikapp.gernikapp.R
+import es.didaktikapp.gernikapp.BaseMenuActivity
 import androidx.activity.OnBackPressedCallback
 import androidx.core.view.isVisible
 
 /**
  * Activity del juego Dancing Ball.
- * Juego donde la pelota rebota por la pantalla cayendo gradualmente
- * y el jugador debe golpearla con la zesta punta moviéndola con el dedo.
- *
- * @author Erlantz
- * @version 1.0
- * @see AppCompatActivity
- * @see R.layout.fronton_dancing_ball
  */
-class DancingBallActivity : AppCompatActivity() {
+class DancingBallActivity : BaseMenuActivity() {
 
-    /** Imagen de la pelota que rebota */
     private lateinit var ball: ImageView
-
-    /** Imagen de la zesta punta (control del jugador) */
     private lateinit var zesta: ImageView
-
-    /** Área del juego principal */
     private lateinit var gameArea: FrameLayout
-
-    /** Contador de puntos en tiempo real */
     private lateinit var tvPuntos: TextView
-
-    /** Diálogo de Game Over */
     private lateinit var gameOverDialog: LinearLayout
-
-    /** Puntuación final en la pantalla de Game Over */
     private lateinit var tvFinalScore: TextView
-
-    /** Botón para reiniciar la partida desde cero */
     private lateinit var btnReiniciar: Button
-
-    /** Botón para volver al menú principal */
     private lateinit var btnBack: Button
 
-    /** Handler para game loop a 60 FPS */
     private val handler = Handler(Looper.getMainLooper())
-
-    /** Velocidad horizontal de la pelota */
     private var dx = 8f
-
-    /** Velocidad vertical de la pelota */
     private var dy = 12f
-
-    /** Puntuación actual del jugador */
     private var puntos = 0
-
-    /** Estado del juego */
     private var gameRunning = true
-
-    /** Ancho real del área del juego */
     private var gameWidth = 0f
-
-    /** Alto real del área del juego */
     private var gameHeight = 0f
-
-    /** Callback personalizado para el botón de atrás */
     private lateinit var backCallback: OnBackPressedCallback
 
-    /**
-     * Inicialización completa del juego.
-     * Configura vistas, sonido introductorio, área del juego,
-     * controles táctiles, diálogo de Game Over y manejo del botón
-     * de hacia atrás.
-     *
-     * @param savedInstanceState Estado previo de la Activity, si existe
-     */
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.fronton_dancing_ball)
+    override fun getContentLayoutId() = R.layout.fronton_dancing_ball
 
+    override fun onContentInflated() {
         initViews()
         playBoingSound()
         setupGameArea()

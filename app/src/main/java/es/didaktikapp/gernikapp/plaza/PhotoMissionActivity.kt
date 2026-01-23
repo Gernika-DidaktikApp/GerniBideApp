@@ -4,7 +4,6 @@ import android.Manifest
 import android.content.Context
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
-import android.os.Bundle
 import android.provider.MediaStore
 import android.view.View
 import android.widget.Button
@@ -14,16 +13,16 @@ import android.widget.RadioGroup
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import es.didaktikapp.gernikapp.BaseMenuActivity
 import es.didaktikapp.gernikapp.R
 import es.didaktikapp.gernikapp.plaza.adapters.PhotoMissionAdapter
 import es.didaktikapp.gernikapp.plaza.models.EtiquetaFoto
 import es.didaktikapp.gernikapp.plaza.models.FotoGaleria
 
-class PhotoMissionActivity : AppCompatActivity() {
+class PhotoMissionActivity : BaseMenuActivity() {
 
     private lateinit var btnTomarFoto: Button
     private lateinit var btnIgo: Button
@@ -63,10 +62,9 @@ class PhotoMissionActivity : AppCompatActivity() {
         }
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.plaza_photo_mission)
+    override fun getContentLayoutId() = R.layout.plaza_photo_mission
 
+    override fun onContentInflated() {
         inicializarVistas()
         setupRecyclerView()
         setupButtons()

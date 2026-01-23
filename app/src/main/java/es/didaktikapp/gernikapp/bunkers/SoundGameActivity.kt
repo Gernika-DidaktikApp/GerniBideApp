@@ -1,19 +1,18 @@
 package es.didaktikapp.gernikapp.bunkers
 
 import es.didaktikapp.gernikapp.R
+import es.didaktikapp.gernikapp.BaseMenuActivity
 
 import android.content.Context
 import android.content.res.ColorStateList
 import android.media.MediaPlayer
-import android.os.Bundle
 import android.view.View
 import android.widget.Button
 import android.widget.ImageButton
 import android.widget.TextView
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 
-class SoundGameActivity : AppCompatActivity() {
+class SoundGameActivity : BaseMenuActivity() {
 
     private lateinit var tvStars: TextView
     private lateinit var tvQuestion: TextView
@@ -45,10 +44,9 @@ class SoundGameActivity : AppCompatActivity() {
         R.id.btnSound5 to -1 // Special case for silence
     )
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.bunkers_sound_game)
+    override fun getContentLayoutId() = R.layout.bunkers_sound_game
 
+    override fun onContentInflated() {
         tvStars = findViewById(R.id.tvStars)
         tvQuestion = findViewById(R.id.tvQuestion)
         categoryControls = findViewById(R.id.categoryControls)

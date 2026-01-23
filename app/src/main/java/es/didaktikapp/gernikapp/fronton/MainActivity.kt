@@ -2,21 +2,17 @@ package es.didaktikapp.gernikapp.fronton
 
 import android.content.Context
 import android.content.Intent
-import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import es.didaktikapp.gernikapp.BaseMenuActivity
 import es.didaktikapp.gernikapp.R
 import es.didaktikapp.gernikapp.databinding.FrontonMainBinding
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : BaseMenuActivity() {
 
     private lateinit var binding: FrontonMainBinding
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        binding = FrontonMainBinding.inflate(layoutInflater)
-        setContentView(binding.root)
-
+    override fun onContentInflated() {
+        binding = FrontonMainBinding.inflate(layoutInflater, contentContainer, true)
         setupClickListeners()
     }
 

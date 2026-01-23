@@ -6,11 +6,11 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Button
 import androidx.appcompat.app.AlertDialog
-import androidx.appcompat.app.AppCompatActivity
+import es.didaktikapp.gernikapp.BaseMenuActivity
 import es.didaktikapp.gernikapp.R
 import es.didaktikapp.gernikapp.databinding.PicassoViewInterpretBinding
 
-class ViewInterpretActivity : AppCompatActivity() {
+class ViewInterpretActivity : BaseMenuActivity() {
 
     private lateinit var binding: PicassoViewInterpretBinding
     private var currentQuestionIndex = 0
@@ -23,25 +23,16 @@ class ViewInterpretActivity : AppCompatActivity() {
         private const val KEY_HAS_SAVED_PROGRESS = "has_saved_progress"
         private const val KEY_TEST_COMPLETED = "test_completed"
 
-        /**
-         * Verifica si existe progreso guardado
-         */
         fun hasSavedProgress(context: Context): Boolean {
             val prefs = context.getSharedPreferences(PREFS_NAME, MODE_PRIVATE)
             return prefs.getBoolean(KEY_HAS_SAVED_PROGRESS, false)
         }
 
-        /**
-         * Verifica si el test fue completado anteriormente
-         */
         fun isTestCompleted(context: Context): Boolean {
             val prefs = context.getSharedPreferences(PREFS_NAME, MODE_PRIVATE)
             return prefs.getBoolean(KEY_TEST_COMPLETED, false)
         }
 
-        /**
-         * Carga el progreso guardado
-         */
         fun loadProgress(context: Context): Pair<Int, Int>? {
             val prefs = context.getSharedPreferences(PREFS_NAME, MODE_PRIVATE)
             if (!prefs.getBoolean(KEY_HAS_SAVED_PROGRESS, false)) {
@@ -52,16 +43,12 @@ class ViewInterpretActivity : AppCompatActivity() {
             return Pair(questionIndex, correctAnswers)
         }
 
-        /**
-         * Borra el progreso guardado
-         */
         fun clearProgress(context: Context) {
             val prefs = context.getSharedPreferences(PREFS_NAME, MODE_PRIVATE)
             prefs.edit().clear().apply()
         }
     }
 
-    // Datos de las preguntas
     private data class Question(
         val imageName: String,
         val questionKey: String,
@@ -71,69 +58,34 @@ class ViewInterpretActivity : AppCompatActivity() {
     )
 
     private val questions = listOf(
-        Question(
-            "picasso_zaldia",
-            "view_interpret_q1",
-            listOf("view_interpret_q1_opt1", "view_interpret_q1_opt2", "view_interpret_q1_opt3", "view_interpret_q1_opt4"),
-            1,
-            "view_interpret_q1_feedback"
-        ),
-        Question(
-            "picasso_ama_haurrarekin",
-            "view_interpret_q2",
-            listOf("view_interpret_q2_opt1", "view_interpret_q2_opt2", "view_interpret_q2_opt3", "view_interpret_q2_opt4"),
-            1,
-            "view_interpret_q2_feedback"
-        ),
-        Question(
-            "picasso_argia",
-            "view_interpret_q3",
-            listOf("view_interpret_q3_opt1", "view_interpret_q3_opt2", "view_interpret_q3_opt3", "view_interpret_q3_opt4"),
-            1,
-            "view_interpret_q3_feedback"
-        ),
-        Question(
-            "picasso_zezena",
-            "view_interpret_q4",
-            listOf("view_interpret_q4_opt1", "view_interpret_q4_opt2", "view_interpret_q4_opt3", "view_interpret_q4_opt4"),
-            2,
-            "view_interpret_q4_feedback"
-        ),
-        Question(
-            "picasso_oihua",
-            "view_interpret_q5",
-            listOf("view_interpret_q5_opt1", "view_interpret_q5_opt2", "view_interpret_q5_opt3", "view_interpret_q5_opt4"),
-            2,
-            "view_interpret_q5_feedback"
-        ),
-        Question(
-            "picasso_gerlaria",
-            "view_interpret_q6",
-            listOf("view_interpret_q6_opt1", "view_interpret_q6_opt2", "view_interpret_q6_opt3", "view_interpret_q6_opt4"),
-            1,
-            "view_interpret_q6_feedback"
-        )
+        Question("picasso_zaldia", "view_interpret_q1", listOf("view_interpret_q1_opt1", "view_interpret_q1_opt2", "view_interpret_q1_opt3", "view_interpret_q1_opt4"), 1, "view_interpret_q1_feedback"),
+        Question("picasso_ama_haurrarekin", "view_interpret_q2", listOf("view_interpret_q2_opt1", "view_interpret_q2_opt2", "view_interpret_q2_opt3", "view_interpret_q2_opt4"), 1, "view_interpret_q2_feedback"),
+        Question("picasso_argia", "view_interpret_q3", listOf("view_interpret_q3_opt1", "view_interpret_q3_opt2", "view_interpret_q3_opt3", "view_interpret_q3_opt4"), 1, "view_interpret_q3_feedback"),
+        Question("picasso_zezena", "view_interpret_q4", listOf("view_interpret_q4_opt1", "view_interpret_q4_opt2", "view_interpret_q4_opt3", "view_interpret_q4_opt4"), 2, "view_interpret_q4_feedback"),
+        Question("picasso_oihua", "view_interpret_q5", listOf("view_interpret_q5_opt1", "view_interpret_q5_opt2", "view_interpret_q5_opt3", "view_interpret_q5_opt4"), 2, "view_interpret_q5_feedback"),
+        Question("picasso_gerlaria", "view_interpret_q6", listOf("view_interpret_q6_opt1", "view_interpret_q6_opt2", "view_interpret_q6_opt3", "view_interpret_q6_opt4"), 1, "view_interpret_q6_feedback")
     )
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-        binding = PicassoViewInterpretBinding.inflate(layoutInflater)
-        setContentView(binding.root)
-
-        // Restaurar estado si existe
-        if (savedInstanceState != null) {
-            currentQuestionIndex = savedInstanceState.getInt(KEY_QUESTION_INDEX, 0)
-            correctAnswers = savedInstanceState.getInt(KEY_CORRECT_ANSWERS, 0)
-        }
-
+    override fun onContentInflated() {
+        binding = PicassoViewInterpretBinding.inflate(layoutInflater, contentContainer, true)
         setupOptionListeners()
         binding.nextButton.setOnClickListener {
             loadNextQuestion()
         }
-
         setupBackButton()
         checkForSavedProgress()
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putInt(KEY_QUESTION_INDEX, currentQuestionIndex)
+        outState.putInt(KEY_CORRECT_ANSWERS, correctAnswers)
+    }
+
+    override fun onRestoreInstanceState(savedInstanceState: Bundle) {
+        super.onRestoreInstanceState(savedInstanceState)
+        currentQuestionIndex = savedInstanceState.getInt(KEY_QUESTION_INDEX, 0)
+        correctAnswers = savedInstanceState.getInt(KEY_CORRECT_ANSWERS, 0)
     }
 
     private fun setupBackButton() {
@@ -221,12 +173,6 @@ class ViewInterpretActivity : AppCompatActivity() {
             putInt(KEY_CORRECT_ANSWERS, correctAnswers)
             apply()
         }
-    }
-
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
-        outState.putInt(KEY_QUESTION_INDEX, currentQuestionIndex)
-        outState.putInt(KEY_CORRECT_ANSWERS, correctAnswers)
     }
 
     private fun setupOptionListeners() {

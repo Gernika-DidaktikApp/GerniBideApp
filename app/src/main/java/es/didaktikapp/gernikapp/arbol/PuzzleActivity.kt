@@ -1,6 +1,7 @@
 package es.didaktikapp.gernikapp.arbol
 
 import es.didaktikapp.gernikapp.R
+import es.didaktikapp.gernikapp.BaseMenuActivity
 
 import android.content.Context
 import android.graphics.Bitmap
@@ -8,17 +9,15 @@ import android.graphics.BitmapFactory
 import android.graphics.Rect
 import android.media.AudioManager
 import android.media.ToneGenerator
-import android.os.Bundle
 import android.view.MotionEvent
 import android.view.View
 import android.widget.Button
 import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.appcompat.app.AppCompatActivity
 import kotlin.random.Random
 
-class PuzzleActivity : AppCompatActivity() {
+class PuzzleActivity : BaseMenuActivity() {
 
     private lateinit var puzzleContainer: FrameLayout
     private lateinit var tvVictory: TextView
@@ -38,10 +37,9 @@ class PuzzleActivity : AppCompatActivity() {
 
     private val piecesList = mutableListOf<PuzzlePiece>()
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.arbol_puzzle)
+    override fun getContentLayoutId() = R.layout.arbol_puzzle
 
+    override fun onContentInflated() {
         puzzleContainer = findViewById(R.id.puzzleContainer)
         tvVictory = findViewById(R.id.tvVictory)
         btnBack = findViewById(R.id.btnBack)

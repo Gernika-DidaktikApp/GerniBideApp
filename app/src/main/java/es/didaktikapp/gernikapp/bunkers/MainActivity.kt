@@ -2,21 +2,17 @@ package es.didaktikapp.gernikapp.bunkers
 
 import android.content.Context
 import android.content.Intent
-import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import es.didaktikapp.gernikapp.BaseMenuActivity
 import es.didaktikapp.gernikapp.R
 import es.didaktikapp.gernikapp.databinding.BunkersMainBinding
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : BaseMenuActivity() {
 
     private lateinit var binding: BunkersMainBinding
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        binding = BunkersMainBinding.inflate(layoutInflater)
-        setContentView(binding.root)
-
+    override fun onContentInflated() {
+        binding = BunkersMainBinding.inflate(layoutInflater, contentContainer, true)
         setupClickListeners()
     }
 
