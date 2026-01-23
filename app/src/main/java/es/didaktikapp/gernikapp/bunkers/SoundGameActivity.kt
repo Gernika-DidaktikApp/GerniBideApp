@@ -2,7 +2,8 @@ package es.didaktikapp.gernikapp.bunkers
 
 import es.didaktikapp.gernikapp.R
 
-import android.content.Intent
+import android.content.Context
+import android.content.res.ColorStateList
 import android.media.MediaPlayer
 import android.os.Bundle
 import android.view.View
@@ -10,6 +11,7 @@ import android.widget.Button
 import android.widget.ImageButton
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 
 class SoundGameActivity : AppCompatActivity() {
 
@@ -17,12 +19,13 @@ class SoundGameActivity : AppCompatActivity() {
     private lateinit var tvQuestion: TextView
     private lateinit var categoryControls: View
     private lateinit var tvHistoryMessage: TextView
-    private lateinit var btnNext: Button
+    private lateinit var btnBack: Button
     private lateinit var rootLayout: View
 
     private var stars = 0
     private var currentSoundId = -1
     private val totalSounds = 5
+    private var answeredSounds = 0
     private var mediaPlayer: MediaPlayer? = null
 
     // Mapping of sound buttons to "correct" category (0 for Beldurra, 1 for Babesa)
@@ -50,14 +53,20 @@ class SoundGameActivity : AppCompatActivity() {
         tvQuestion = findViewById(R.id.tvQuestion)
         categoryControls = findViewById(R.id.categoryControls)
         tvHistoryMessage = findViewById(R.id.tvHistoryMessage)
-        btnNext = findViewById(R.id.btnNextActivity)
+        btnBack = findViewById(R.id.btnBack)
         rootLayout = findViewById(R.id.soundGameRoot)
+
+        val prefs = getSharedPreferences("bunkers_progress", Context.MODE_PRIVATE)
+
+        // Si ya estaba completada, habilitar botón
+        if (prefs.getBoolean("sound_game_completed", false)) {
+            btnBack.isEnabled = true
+        }
 
         setupSoundButtons()
         setupCategoryButtons()
 
-        btnNext.setOnClickListener {
-            startActivity(Intent(this, ReflectionActivity::class.java))
+        btnBack.setOnClickListener {
             finish()
         }
     }
@@ -73,8 +82,10 @@ class SoundGameActivity : AppCompatActivity() {
                 playSound(id)
                 // Highlight selected sound
                 resetSoundButtonColors()
-                it.setBackgroundColor(getColor(R.color.btnPrincipal))
-                
+                (it as ImageButton).backgroundTintList = ColorStateList.valueOf(
+                    ContextCompat.getColor(this, R.color.btnPrincipal)
+                )
+
                 // Show question and category selection
                 tvQuestion.visibility = View.VISIBLE
                 categoryControls.visibility = View.VISIBLE
@@ -98,7 +109,11 @@ class SoundGameActivity : AppCompatActivity() {
 
     private fun resetSoundButtonColors() {
         listOf(R.id.btnSound1, R.id.btnSound2, R.id.btnSound3, R.id.btnSound4, R.id.btnSound5).forEach {
-            findViewById<ImageButton>(it).setBackgroundResource(R.drawable.bg_boton_secundario)
+            val btn = findViewById<ImageButton>(it)
+            // Only reset color for enabled buttons (not answered yet)
+            if (btn.isEnabled) {
+                btn.backgroundTintList = null
+            }
         }
     }
 
@@ -115,34 +130,48 @@ class SoundGameActivity : AppCompatActivity() {
         if (currentSoundId == -1) return
 
         val correctCategory = soundCategories[currentSoundId]
-        if (category == correctCategory) {
+        val isCorrect = category == correctCategory
+
+        if (isCorrect) {
             stars++
             tvStars.text = "⭐ $stars / $totalSounds"
-            
-            // Change background color based on selection with a smooth transition
-            val targetColor = if (category == 0) 
-                android.graphics.Color.parseColor("#80F44336") // Soft Red
-            else 
-                android.graphics.Color.parseColor("#802196F3") // Soft Blue
+        }
 
-            rootLayout.setBackgroundColor(targetColor)
-            
-            // Fade back to previous state after a delay
-            rootLayout.postDelayed({
-                rootLayout.setBackgroundResource(R.drawable.fondo6)
-            }, 1000)
+        // Disable the answered sound button and make it gray
+        val answeredButton = findViewById<ImageButton>(currentSoundId)
+        answeredButton.isEnabled = false
+        answeredButton.backgroundTintList = ColorStateList.valueOf(
+            android.graphics.Color.parseColor("#808080") // Gray
+        )
+        answeredSounds++
 
-            currentSoundId = -1
-            resetSoundButtonColors()
-            
-            // Hide question until next sound
-            tvQuestion.visibility = View.INVISIBLE
-            categoryControls.visibility = View.INVISIBLE
+        // Change background color based on correct/incorrect answer
+        val targetColor = if (isCorrect)
+            android.graphics.Color.parseColor("#8032CD32") // Soft Green for correct
+        else
+            android.graphics.Color.parseColor("#80FF0000") // Soft Red for incorrect
 
-            if (stars >= totalSounds) {
-                tvHistoryMessage.visibility = View.VISIBLE
-                btnNext.visibility = View.VISIBLE
-            }
+        rootLayout.setBackgroundColor(targetColor)
+
+        // Fade back to previous state after a delay
+        rootLayout.postDelayed({
+            rootLayout.setBackgroundResource(R.drawable.fondo6)
+        }, 1000)
+
+        currentSoundId = -1
+        resetSoundButtonColors()
+
+        // Hide question until next sound
+        tvQuestion.visibility = View.INVISIBLE
+        categoryControls.visibility = View.INVISIBLE
+
+        if (answeredSounds >= totalSounds) {
+            tvHistoryMessage.visibility = View.VISIBLE
+            btnBack.isEnabled = true
+
+            // Guardar progreso
+            val prefs = getSharedPreferences("bunkers_progress", Context.MODE_PRIVATE)
+            prefs.edit().putBoolean("sound_game_completed", true).apply()
         }
     }
 

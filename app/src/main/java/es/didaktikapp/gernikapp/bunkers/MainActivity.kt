@@ -1,9 +1,11 @@
 package es.didaktikapp.gernikapp.bunkers
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import es.didaktikapp.gernikapp.MapaActivity
+import androidx.core.content.ContextCompat
+import es.didaktikapp.gernikapp.R
 import es.didaktikapp.gernikapp.databinding.BunkersMainBinding
 
 class MainActivity : AppCompatActivity() {
@@ -18,6 +20,30 @@ class MainActivity : AppCompatActivity() {
         setupClickListeners()
     }
 
+    override fun onResume() {
+        super.onResume()
+        updateCompletedActivities()
+    }
+
+    private fun updateCompletedActivities() {
+        val prefs = getSharedPreferences("bunkers_progress", Context.MODE_PRIVATE)
+
+        if (prefs.getBoolean("peace_mural_completed", false)) {
+            binding.btnPeaceMural.background =
+                ContextCompat.getDrawable(this, R.drawable.bg_boton_completado)
+        }
+
+        if (prefs.getBoolean("reflection_completed", false)) {
+            binding.btnReflection.background =
+                ContextCompat.getDrawable(this, R.drawable.bg_boton_completado)
+        }
+
+        if (prefs.getBoolean("sound_game_completed", false)) {
+            binding.btnSoundGame.background =
+                ContextCompat.getDrawable(this, R.drawable.bg_boton_completado)
+        }
+    }
+
     private fun setupClickListeners() {
         binding.btnSoundGame.setOnClickListener {
             startActivity(Intent(this, SoundGameActivity::class.java))
@@ -30,11 +56,6 @@ class MainActivity : AppCompatActivity() {
 
         binding.btnReflection.setOnClickListener {
             startActivity(Intent(this, ReflectionActivity::class.java))
-        }
-
-        binding.btnVolverMapa.setOnClickListener {
-            startActivity(Intent(this, MapaActivity::class.java))
-            finish()
         }
     }
 }

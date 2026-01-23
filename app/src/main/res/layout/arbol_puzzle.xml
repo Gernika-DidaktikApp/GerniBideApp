@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/fondo5"
-    tools:context=".PuzzleActivity">
+    tools:context=".arbol.PuzzleActivity">
 
     <FrameLayout
         android:id="@+id/puzzleContainer"
@@ -19,6 +19,7 @@
             android:layout_height="match_parent"
             android:alpha="0.2"
             android:scaleType="fitCenter"
+            android:contentDescription="@string/puzzle_victory"
             android:src="@drawable/arbola_eta_batzar_etxea" />
 
     </FrameLayout>
@@ -27,30 +28,29 @@
         android:id="@+id/tvVictory"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Gernikako bihotza berreraiki duzu!"
+        android:text="@string/puzzle_victory"
         android:textColor="@color/black"
         android:textSize="32sp"
         android:textStyle="bold"
         android:visibility="gone"
         android:textAlignment="center"
         android:elevation="10dp"
-        app:layout_constraintBottom_toTopOf="@+id/btnNext"
+        app:layout_constraintBottom_toTopOf="@+id/btnBack"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/btnNext"
+        android:id="@+id/btnBack"
+        style="@style/EstiloBotonPrimario"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:backgroundTint="@color/btnPrincipal"
-        android:text="HURRENGOA"
-        android:textColor="@color/white"
-        android:visibility="gone"
+        android:layout_marginBottom="24dp"
+        android:text="@string/itzuli"
+        android:enabled="false"
         android:elevation="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginBottom="32dp" />
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

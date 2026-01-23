@@ -29,6 +29,8 @@ class MyMessageActivity : AppCompatActivity() {
         private const val PREFS_NAME = "my_message_prefs"
         private const val KEY_USER_MESSAGE = "user_message"
         private const val KEY_HAS_MESSAGE = "has_message"
+        private const val PROGRESS_PREFS = "picasso_progress"
+        private const val KEY_MY_MESSAGE_COMPLETED = "my_message_completed"
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -87,7 +89,14 @@ class MyMessageActivity : AppCompatActivity() {
     }
 
     private fun setupBackButton() {
-        binding.backButton.setOnClickListener {
+        val progressPrefs = getSharedPreferences(PROGRESS_PREFS, MODE_PRIVATE)
+
+        // Si ya estaba completada, habilitar botón
+        if (progressPrefs.getBoolean(KEY_MY_MESSAGE_COMPLETED, false)) {
+            binding.btnBack.isEnabled = true
+        }
+
+        binding.btnBack.setOnClickListener {
             finish()
         }
     }
@@ -107,6 +116,11 @@ class MyMessageActivity : AppCompatActivity() {
 
         // Guardar mensaje
         saveMessage(message)
+
+        // Habilitar botón y guardar progreso
+        binding.btnBack.isEnabled = true
+        val progressPrefs = getSharedPreferences(PROGRESS_PREFS, MODE_PRIVATE)
+        progressPrefs.edit().putBoolean(KEY_MY_MESSAGE_COMPLETED, true).apply()
 
         // Limpiar input
         binding.messageInput.text.clear()

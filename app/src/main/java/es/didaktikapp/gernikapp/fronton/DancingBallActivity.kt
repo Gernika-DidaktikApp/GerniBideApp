@@ -1,5 +1,6 @@
 package es.didaktikapp.gernikapp.fronton
 
+import android.content.Context
 import android.media.AudioManager
 import android.media.ToneGenerator
 import android.os.Bundle
@@ -52,8 +53,8 @@ class DancingBallActivity : AppCompatActivity() {
     /** Botón para reiniciar la partida desde cero */
     private lateinit var btnReiniciar: Button
 
-    /** Botón para salir al menú principal */
-    private lateinit var btnSalir: Button
+    /** Botón para volver al menú principal */
+    private lateinit var btnBack: Button
 
     /** Handler para game loop a 60 FPS */
     private val handler = Handler(Looper.getMainLooper())
@@ -126,7 +127,7 @@ class DancingBallActivity : AppCompatActivity() {
         gameOverDialog = findViewById(R.id.gameOverDialog)
         tvFinalScore = findViewById(R.id.tvFinalScore)
         btnReiniciar = findViewById(R.id.btnReiniciar)
-        btnSalir = findViewById(R.id.btnSalir)
+        btnBack = findViewById(R.id.btnBack)
     }
 
     /**
@@ -166,7 +167,7 @@ class DancingBallActivity : AppCompatActivity() {
         btnReiniciar.setOnClickListener {
             reiniciarJuego()
         }
-        btnSalir.setOnClickListener {
+        btnBack.setOnClickListener {
             finish()
         }
     }
@@ -259,6 +260,10 @@ class DancingBallActivity : AppCompatActivity() {
 
         tvFinalScore.text = getString(R.string.puntuak_d, puntos)
         gameOverDialog.visibility = View.VISIBLE
+
+        // Guardar progreso
+        val prefs = getSharedPreferences("fronton_progress", Context.MODE_PRIVATE)
+        prefs.edit().putBoolean("dancing_ball_completed", true).apply()
     }
 
     /**

@@ -1,11 +1,14 @@
 package es.didaktikapp.gernikapp.picasso
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import es.didaktikapp.gernikapp.R
 import es.didaktikapp.gernikapp.databinding.PicassoMainBinding
 
 class MainActivity : AppCompatActivity() {
@@ -26,6 +29,25 @@ class MainActivity : AppCompatActivity() {
         }
 
         setupClickListeners()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        updateCompletedActivities()
+    }
+
+    private fun updateCompletedActivities() {
+        val prefs = getSharedPreferences("picasso_progress", Context.MODE_PRIVATE)
+
+        if (prefs.getBoolean("view_interpret_completed", false)) {
+            binding.btnIkusiEtaAsmatu.background =
+                ContextCompat.getDrawable(this, R.drawable.bg_boton_completado)
+        }
+
+        if (prefs.getBoolean("my_message_completed", false)) {
+            binding.btnNireMezua.background =
+                ContextCompat.getDrawable(this, R.drawable.bg_boton_completado)
+        }
     }
 
     private fun setupClickListeners() {

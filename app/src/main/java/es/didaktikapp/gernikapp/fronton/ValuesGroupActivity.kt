@@ -1,5 +1,6 @@
 package es.didaktikapp.gernikapp.fronton
 
+import android.content.Context
 import android.graphics.Color
 import android.os.Bundle
 import android.view.Gravity
@@ -44,7 +45,14 @@ class ValuesGroupActivity : AppCompatActivity() {
         val btnFinalizar = findViewById<Button>(R.id.btnFinalizar)
         val container = findViewById<FlexboxLayout>(R.id.valoresContainer)
         val mensajeFinal = findViewById<TextView>(R.id.mensajeFinal)
-        val btnVolver = findViewById<Button>(R.id.btnVolver)
+        val btnBack = findViewById<Button>(R.id.btnBack)
+
+        val prefs = getSharedPreferences("fronton_progress", Context.MODE_PRIVATE)
+
+        // Si ya estaba completada, habilitar botón
+        if (prefs.getBoolean("values_group_completed", false)) {
+            btnBack.isEnabled = true
+        }
 
         btnAnadir.setOnClickListener {
             val texto = input.text.toString().trim()
@@ -84,13 +92,14 @@ class ValuesGroupActivity : AppCompatActivity() {
             input.text.clear()
         }
 
-        btnVolver.setOnClickListener {
+        btnBack.setOnClickListener {
             finish()
         }
 
         btnFinalizar.setOnClickListener {
             mensajeFinal.visibility = View.VISIBLE
-            btnVolver.visibility = View.VISIBLE
+            btnBack.isEnabled = true
+            prefs.edit().putBoolean("values_group_completed", true).apply()
         }
     }
 }

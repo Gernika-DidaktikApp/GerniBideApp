@@ -297,4 +297,80 @@
     <string name="gauez_jolasteko_plano_ilunak">Gauez jolasteko azteko plano ilunak</string>
     <string name="hizkuntza">🗣️ Hizkuntza</string>
     <string name="euskara_edo_gaztelania">Euskara edo Gaztelania</string>
+    <string name="itzuli">Itzuli</string>
+    <string name="play">Play</string>
+    <string name="pause">Pause</string>
+    <string name="stop">Stop</string>
+    <string name="ulermen_galderak">ULERMEN GALDERAK</string>
+    <string name="_1_zertarako_elkartzen_ziren_arbolaren_azpian">1. Zertarako elkartzen ziren Arbolaren azpian?</string>
+    <string name="legeak_adosteko_eta_foruak_zin_egiteko">Legeak adosteko eta foruak zin egiteko</string>
+    <string name="bazkaltzeko">Bazkaltzeko</string>
+    <string name="_2_zer_adierazten_du_batzar_etxeak">2. Zer adierazten du Batzar Etxeak?</string>
+    <string name="euskal_herriko_demokrazia_eta_askatasuna">Euskal Herriko demokrazia eta askatasuna</string>
+    <string name="museo_soil_bat">Museo soil bat</string>
+    <string name="_3_zertarako_erabiltzen_da_batzar_etxea">3. Zertarako erabiltzen da Batzar Etxea?</string>
+    <string name="batzar_nagusiak_egiteko">Batzar Nagusiak egiteko</string>
+    <string name="kontzertuak_emateko">Kontzertuak emateko</string>
+    <string name="ondo_egin_duzu_orain_zure_arbola_sortzera_goaz">Ondo egin duzu! Orain zure arbola sortzera goaz.</string>
+
+    <!-- My Tree -->
+    <string name="my_tree_question">Zer balio adieraziko luke zure zuhaitzak?</string>
+    <string name="value_friendship">Adiskidetasuna</string>
+    <string name="value_freedom">Askatasuna</string>
+    <string name="value_solidarity">Elkartasuna</string>
+    <string name="value_respect">Errespetua</string>
+    <string name="value_peace">Bakea</string>
+
+    <!-- Puzzle -->
+    <string name="puzzle_victory">Gernikako bihotza berreraiki duzu!</string>
+
+    <!-- Peace Mural -->
+    <string name="peace_mural_title">Zein hitzek adierazten dute zuretzat bakea?</string>
+    <string name="peace_mural_word_hope">Itxaropena</string>
+    <string name="peace_mural_word_coexistence">Elkarbizitza</string>
+    <string name="peace_mural_word_help">Laguntza</string>
+    <string name="peace_mural_word_friendship">Adiskidetasuna</string>
+    <string name="peace_mural_congrats">Zorionak, bakearen mezua zabaldu duzu.</string>
+
+    <!-- Reflection -->
+    <string name="reflection_question">Zer sentituko zenuke babesleku batean egon beharko bazenu?</string>
+    <string name="reflection_fear">Beldurra</string>
+    <string name="reflection_sadness">Tristura</string>
+    <string name="reflection_calm">Lasaitasuna</string>
+    <string name="reflection_hope">Itxaropena</string>
+    <string name="reflection_feedback">Eskerrik asko zure sentimendua partekatzeagatik.</string>
+
+    <!-- Sound Game -->
+    <string name="sound_game_title">SOINU JOLASA</string>
+    <string name="sound_game_stars">⭐ %1$d / %2$d</string>
+    <string name="_0_5">⭐ 0 / 5</string>
+    <string name="sound_game_question">Soinu honek beldurra edo babesa adierazten du?</string>
+    <string name="sound_game_fear">BELDURRA</string>
+    <string name="sound_game_shelter">BABESA</string>
+    <string name="sound_game_history">Soinuek historia kontatzen dute.</string>
+
+    <!-- Photo Mission -->
+    <string name="photo_mission_titulo">Eginkizun Fotografikoa</string>
+    <string name="photo_mission_descripcion">Atera argazki bat plazako elementu bati eta aukeratu etiketa bat bizikidetza adierazteko.</string>
+    <string name="photo_mission_preview_description">Argazkiaren aurrebista</string>
+    <string name="photo_mission_tomar_foto">Atera Argazkia</string>
+    <string name="photo_mission_seleccionar_etiqueta">Aukeratu etiketa bat:</string>
+    <string name="photo_mission_tradizioa">Tradizioa</string>
+    <string name="photo_mission_komunitatea">Komunitatea</string>
+    <string name="photo_mission_bizikidetza">Bizikidetza</string>
+    <string name="photo_mission_igo">Igo Argazkia</string>
+    <string name="photo_mission_permiso_denegado">Kameraren baimena ukatuta</string>
+    <string name="photo_mission_seleccionar_etiqueta_error">Mesedez, aukeratu etiketa bat</string>
+    <string name="photo_mission_no_foto">Ez dago argazkirik</string>
+    <string name="photo_mission_subida_exito">Argazkia igo da galerira!</string>
+    <string name="photo_mission_completado">Zorionak! Jarduera osatu duzu</string>
+    <string name="photo_mission_item_descripcion">Argazkia</string>
+    <string name="gernikako_plazara_nastelehen_goizean">Gernikako plazara\nastelehen goizean…</string>
+    <string name="tradizioa">Tradizioa</string>
+    <string name="_1_3">1/3</string>
+
+    <!-- Verse Game -->
+    <string name="verse_game_progress">%1$d/%2$d</string>
+    <string name="verse_game_aciertos">Asmatuak: %1$d/%2$d</string>
+    <string name="verse_game_oso_ondo">Oso ondo!</string>
 </resources>

@@ -42,7 +42,7 @@ class ResultActivity : AppCompatActivity() {
 
 
     private fun setupClickListeners() {
-        binding.btnClose.setOnClickListener {
+        binding.btnBack.setOnClickListener {
             finish()
         }
 

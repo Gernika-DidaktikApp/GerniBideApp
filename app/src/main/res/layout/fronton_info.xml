@@ -34,13 +34,14 @@
             android:text="@string/videoa_erreproduzitu"
             android:layout_marginTop="16dp"/>
 
-        <!-- Botón para volver a atras -->
+        <!-- Botón para volver (deshabilitado hasta ver el vídeo) -->
         <Button
-            android:id="@+id/btnVolver"
-            style="@style/EstiloBotonSecundario"
+            android:id="@+id/btnBack"
+            style="@style/EstiloBotonPrimario"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/atzera"
+            android:text="@string/itzuli"
+            android:enabled="false"
             android:layout_marginTop="16dp" />
 
     </LinearLayout>

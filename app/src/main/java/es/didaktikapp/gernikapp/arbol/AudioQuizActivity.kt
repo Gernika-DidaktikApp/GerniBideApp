@@ -2,7 +2,7 @@ package es.didaktikapp.gernikapp.arbol
 
 import es.didaktikapp.gernikapp.R
 
-import android.content.Intent
+import android.content.Context
 import android.media.MediaPlayer
 import android.os.Bundle
 import android.os.Handler
@@ -24,7 +24,7 @@ class AudioQuizActivity : AppCompatActivity() {
 
     private lateinit var voiceContainer: View
     private lateinit var quizContainer: View
-    private lateinit var btnStartPuzzle: Button
+    private lateinit var btnVolver: Button
     private lateinit var tvCongrats: TextView
 
     private var answeredCount = 0
@@ -36,20 +36,17 @@ class AudioQuizActivity : AppCompatActivity() {
 
         voiceContainer = findViewById(R.id.voiceContainer)
         quizContainer = findViewById(R.id.quizContainer)
-        btnStartPuzzle = findViewById(R.id.btnStartPuzzle)
+        btnVolver = findViewById(R.id.btnVolver)
         tvCongrats = findViewById(R.id.tvCongrats)
 
         // Reproducir audio
-        /* mediaPlayer = MediaPlayer.create(this, R.raw.genikako_arbola)
+        mediaPlayer = MediaPlayer.create(this, R.raw.plaza) // cambiar este audio
         mediaPlayer.isLooping = false
         mediaPlayer.start()
 
         mediaPlayer.setOnCompletionListener {
             showQuiz()
-        } */
-        
-        // Temporarily show quiz immediately since audio is missing
-        showQuiz()
+        }
 
         // Setup SeekBar
         seekBar = findViewById(R.id.seekBarAudio)
@@ -89,9 +86,8 @@ class AudioQuizActivity : AppCompatActivity() {
             seekBar.progress = 0
         }
 
-        btnStartPuzzle.setOnClickListener {
-            val intent = Intent(this, PuzzleActivity::class.java)
-            startActivity(intent)
+        btnVolver.setOnClickListener {
+            finish()
         }
 
         setupQuiz()
@@ -100,6 +96,7 @@ class AudioQuizActivity : AppCompatActivity() {
     private fun showQuiz() {
         voiceContainer.visibility = View.GONE
         quizContainer.visibility = View.VISIBLE
+        btnVolver.visibility = View.VISIBLE
     }
 
     private fun setupQuiz() {
@@ -116,14 +113,18 @@ class AudioQuizActivity : AppCompatActivity() {
         buttonIds.forEach { id ->
             findViewById<Button>(id).setOnClickListener { button ->
                 if (questionAnswered) return@setOnClickListener
-                
+
+                questionAnswered = true
                 if (id == correctId) {
                     button.setBackgroundColor(ContextCompat.getColor(this, R.color.correcto))
-                    questionAnswered = true
-                    checkCompletion()
                 } else {
                     button.setBackgroundColor(ContextCompat.getColor(this, R.color.error))
+                    // Mostrar la respuesta correcta
+                    findViewById<Button>(correctId).setBackgroundColor(
+                        ContextCompat.getColor(this, R.color.correcto)
+                    )
                 }
+                checkCompletion()
             }
         }
     }
@@ -132,7 +133,11 @@ class AudioQuizActivity : AppCompatActivity() {
         answeredCount++
         if (answeredCount == totalQuestions) {
             tvCongrats.visibility = View.VISIBLE
-            btnStartPuzzle.visibility = View.VISIBLE
+            btnVolver.isEnabled = true
+
+            // Guardar progreso en SharedPreferences
+            val prefs = getSharedPreferences("arbol_progress", Context.MODE_PRIVATE)
+            prefs.edit().putBoolean("audio_quiz_completed", true).apply()
         }
     }
 

@@ -1,7 +1,7 @@
 package es.didaktikapp.gernikapp.plaza
 
 import android.content.ClipData
-import android.content.Intent
+import android.content.Context
 import android.graphics.Outline
 import android.media.MediaPlayer
 import android.os.Bundle
@@ -17,13 +17,13 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.core.content.ContextCompat
 import es.didaktikapp.gernikapp.R
-import es.didaktikapp.gernikapp.plaza.models.ProductCategory
 import es.didaktikapp.gernikapp.plaza.models.Product
+import es.didaktikapp.gernikapp.plaza.models.ProductCategory
 
 class DragProductsActivity : AppCompatActivity() {
 
     private lateinit var gridProductos: GridLayout
-    private lateinit var btnSiguiente: Button
+    private lateinit var btnBack: Button
     private val products = mutableListOf<Product>()
     private var productosColocados = 0
     private var mediaPlayer: MediaPlayer? = null
@@ -34,7 +34,12 @@ class DragProductsActivity : AppCompatActivity() {
         setContentView(R.layout.plaza_drag_products)
 
         gridProductos = findViewById(R.id.gridProductos)
-        btnSiguiente = findViewById(R.id.btnSiguiente)
+        btnBack = findViewById(R.id.btnBack)
+
+        val prefs = getSharedPreferences("plaza_progress", Context.MODE_PRIVATE)
+        if (prefs.getBoolean("drag_products_completed", false)) {
+            btnBack.isEnabled = true
+        }
 
         inicializarProductos()
         crearVistaProductos()
@@ -288,7 +293,10 @@ class DragProductsActivity : AppCompatActivity() {
                     productosColocados++
 
                     if (productosColocados >= products.size) {
-                        btnSiguiente.isEnabled = true
+                        btnBack.isEnabled = true
+                        // Guardar progreso
+                        val prefs = getSharedPreferences("plaza_progress", Context.MODE_PRIVATE)
+                        prefs.edit().putBoolean("drag_products_completed", true).apply()
                         mostrarMensajeCompletado()
                     }
                 } else {
@@ -350,9 +358,8 @@ class DragProductsActivity : AppCompatActivity() {
     }
 
     private fun setupButtons() {
-        btnSiguiente.setOnClickListener {
-            val intent = Intent(this, VerseGameActivity::class.java)
-            startActivity(intent)
+        btnBack.setOnClickListener {
+            finish()
         }
     }
 }

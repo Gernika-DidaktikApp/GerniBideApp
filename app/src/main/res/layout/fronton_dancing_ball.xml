@@ -47,7 +47,9 @@
         android:gravity="center"
         android:orientation="vertical"
         android:visibility="gone"
-        android:padding="32dp">
+        android:padding="32dp"
+        android:clipChildren="false"
+        android:clipToPadding="false">
 
         <!-- Titulo de Game Over -->
         <TextView
@@ -71,28 +73,36 @@
 
         <!-- Botones del Game Over -->
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:clipChildren="false"
+            android:clipToPadding="false">
 
             <!-- Reiniciar partida -->
             <Button
                 android:id="@+id/btnReiniciar"
                 style="@style/EstiloBotonPrimario"
-                android:layout_width="wrap_content"
-                android:layout_height="60dp"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:minHeight="48dp"
                 android:text="@string/saiatu_berriro"
-                android:textSize="20sp"
-                android:layout_marginEnd="24dp"/>
+                android:textSize="18sp"
+                android:layout_marginEnd="12dp"/>
 
-            <!-- Salir al menú principal -->
+            <!-- Volver al menú principal -->
             <Button
-                android:id="@+id/btnSalir"
-                style="@style/EstiloBotonSecundario"
-                android:layout_width="wrap_content"
-                android:layout_height="60dp"
-                android:text="@string/atzera"
-                android:textSize="20sp" />
+                android:id="@+id/btnBack"
+                style="@style/EstiloBotonPrimario"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:minHeight="48dp"
+                android:text="@string/itzuli"
+                android:textSize="18sp"
+                android:layout_marginStart="12dp" />
 
         </LinearLayout>
     </LinearLayout>

@@ -1,9 +1,8 @@
 package es.didaktikapp.gernikapp.fronton
 
+import android.content.Context
 import android.os.Bundle
-import android.view.View
 import android.widget.Button
-import android.widget.RadioButton
 import android.widget.RadioGroup
 import android.widget.Toast
 import android.widget.VideoView
@@ -52,29 +51,41 @@ class CestaTipActivity : AppCompatActivity() {
 
         val radioGroup = findViewById<RadioGroup>(R.id.opcionesGroup)
         val btnConfirmar = findViewById<Button>(R.id.btnConfirmar)
-        val btnAtzera = findViewById<Button>(R.id.btnAtzera)
+        val btnBack = findViewById<Button>(R.id.btnBack)
+
+        val prefs = getSharedPreferences("fronton_progress", Context.MODE_PRIVATE)
+
+        // Si ya estaba completada, habilitar botón
+        if (prefs.getBoolean("cesta_tip_completed", false)) {
+            btnBack.isEnabled = true
+        }
 
         btnConfirmar.setOnClickListener {
             val selectedId = radioGroup.checkedRadioButtonId
             if (selectedId != -1) {
-                val selectedRadio = findViewById<RadioButton>(selectedId)
-                val seleccion = selectedRadio.text.toString()
-
-                val correcta = listOf("Lankidetza", "Errespetua")
-                if (seleccion in correcta) {
+                // Comparar por ID en vez de texto para que funcione en cualquier idioma
+                val correctIds = listOf(R.id.op1, R.id.op2) // Lankidetza y Errespetua
+                if (selectedId in correctIds) {
                     Toast.makeText(this, getString(R.string.erantzun_zuzena), Toast.LENGTH_SHORT).show()
                 } else {
                     Toast.makeText(this, getString(R.string.erantzun_okerra), Toast.LENGTH_SHORT).show()
                 }
 
-                btnAtzera.visibility = View.VISIBLE
+                // Deshabilitar para que solo se pueda contestar una vez
+                btnConfirmar.isEnabled = false
+                for (i in 0 until radioGroup.childCount) {
+                    radioGroup.getChildAt(i).isEnabled = false
+                }
+
+                btnBack.isEnabled = true
+                prefs.edit().putBoolean("cesta_tip_completed", true).apply()
 
             } else {
                 Toast.makeText(this, getString(R.string.hautatu_aukera_bat), Toast.LENGTH_SHORT).show()
             }
         }
 
-        btnAtzera.setOnClickListener {
+        btnBack.setOnClickListener {
             finish()
         }
     }

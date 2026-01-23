@@ -132,7 +132,21 @@ class ViewInterpretActivity : AppCompatActivity() {
             loadNextQuestion()
         }
 
+        setupBackButton()
         checkForSavedProgress()
+    }
+
+    private fun setupBackButton() {
+        val progressPrefs = getSharedPreferences("picasso_progress", MODE_PRIVATE)
+
+        // Si ya estaba completada, mostrar botón
+        if (progressPrefs.getBoolean("view_interpret_completed", false)) {
+            binding.btnBack.visibility = View.VISIBLE
+        }
+
+        binding.btnBack.setOnClickListener {
+            finish()
+        }
     }
 
     private fun checkForSavedProgress() {
@@ -283,8 +297,6 @@ class ViewInterpretActivity : AppCompatActivity() {
             // Respuesta correcta
             selectedButton.setBackgroundResource(R.drawable.bg_opcion_correcta)
             selectedButton.setTextColor(Color.parseColor("#2E7D32"))
-            binding.feedbackText.text = getStringByKey(question.feedbackKey)
-            binding.feedbackText.setTextColor(Color.parseColor("#2E7D32"))
             correctAnswers++
         } else {
             // Respuesta incorrecta
@@ -294,15 +306,9 @@ class ViewInterpretActivity : AppCompatActivity() {
             // Mostrar la respuesta correcta
             options[question.correctAnswerIndex].setBackgroundResource(R.drawable.bg_opcion_correcta)
             options[question.correctAnswerIndex].setTextColor(Color.parseColor("#2E7D32"))
-
-            val correctOption = getStringByKey(question.optionsKeys[question.correctAnswerIndex])
-            val feedback = getStringByKey(question.feedbackKey)
-            binding.feedbackText.text = getString(R.string.view_interpret_wrong_answer, correctOption, feedback)
-            binding.feedbackText.setTextColor(Color.parseColor("#C62828"))
         }
 
-        // Mostrar feedback y botón siguiente
-        binding.feedbackText.visibility = View.VISIBLE
+        // Mostrar botón siguiente
         binding.nextButton.visibility = View.VISIBLE
     }
 
@@ -328,6 +334,11 @@ class ViewInterpretActivity : AppCompatActivity() {
     private fun showFinalResults() {
         // Guardar resultado final en lugar de limpiar
         saveProgress(testCompleted = true)
+
+        // Mostrar botón y guardar progreso de actividad completada
+        binding.btnBack.visibility = View.VISIBLE
+        val progressPrefs = getSharedPreferences("picasso_progress", MODE_PRIVATE)
+        progressPrefs.edit().putBoolean("view_interpret_completed", true).apply()
 
         val stars = when (correctAnswers) {
             6 -> "⭐⭐⭐⭐⭐"

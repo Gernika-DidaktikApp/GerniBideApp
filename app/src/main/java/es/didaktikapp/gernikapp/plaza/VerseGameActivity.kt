@@ -1,6 +1,6 @@
 package es.didaktikapp.gernikapp.plaza
 
-import android.content.Intent
+import android.content.Context
 import android.os.Bundle
 import android.widget.Button
 import android.widget.RadioButton
@@ -9,6 +9,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.core.content.edit
 import androidx.core.view.isVisible
 import es.didaktikapp.gernikapp.R
 import es.didaktikapp.gernikapp.plaza.models.VerseQuestion
@@ -23,7 +24,7 @@ class VerseGameActivity : AppCompatActivity() {
     private lateinit var rbOpcion2: RadioButton
     private lateinit var rbOpcion3: RadioButton
     private lateinit var btnComprobar: Button
-    private lateinit var btnSiguiente: Button
+    private lateinit var btnBack: Button
 
     private val preguntas = mutableListOf<VerseQuestion>()
     private var preguntaActual = 0
@@ -48,7 +49,13 @@ class VerseGameActivity : AppCompatActivity() {
         rbOpcion2 = findViewById(R.id.rbOpcion2)
         rbOpcion3 = findViewById(R.id.rbOpcion3)
         btnComprobar = findViewById(R.id.btnComprobar)
-        btnSiguiente = findViewById(R.id.btnSiguiente)
+        btnBack = findViewById(R.id.btnBack)
+
+        // Check if activity was previously completed
+        val prefs = getSharedPreferences("plaza_progress", Context.MODE_PRIVATE)
+        if (prefs.getBoolean("verse_game_completed", false)) {
+            btnBack.isEnabled = true
+        }
     }
 
     private fun inicializarPreguntas() {
@@ -97,7 +104,7 @@ class VerseGameActivity : AppCompatActivity() {
             rbOpcion1.text = pregunta.opciones[0]
             rbOpcion2.text = pregunta.opciones[1]
             rbOpcion3.text = pregunta.opciones[2]
-            tvProgreso.text = "${preguntaActual + 1}/${preguntas.size}"
+            tvProgreso.text = getString(R.string.verse_game_progress, preguntaActual + 1, preguntas.size)
 
             radioGroup.clearCheck()
             habilitarOpciones(true)
@@ -110,9 +117,8 @@ class VerseGameActivity : AppCompatActivity() {
             comprobarRespuesta()
         }
 
-        btnSiguiente.setOnClickListener {
-            val intent = Intent(this, PhotoMissionActivity::class.java)
-            startActivity(intent)
+        btnBack.setOnClickListener {
+            finish()
         }
     }
 
@@ -132,7 +138,7 @@ class VerseGameActivity : AppCompatActivity() {
 
         if (selectedIndex == pregunta.respuestaCorrecta) {
             aciertos++
-            tvAciertos.text = "Aciertos: $aciertos/${preguntas.size}"
+            tvAciertos.text = getString(R.string.verse_game_aciertos, aciertos, preguntas.size)
             mostrarFeedbackCorrecto(selectedId)
         } else {
             mostrarFeedbackIncorrecto(selectedId)
@@ -157,7 +163,7 @@ class VerseGameActivity : AppCompatActivity() {
     private fun mostrarFeedbackCorrecto(selectedId: Int) {
         val radioButton = findViewById<RadioButton>(selectedId)
         radioButton.setBackgroundResource(R.drawable.plaza_bg_correct)
-        Toast.makeText(this, "Oso ondo!", Toast.LENGTH_SHORT).show()
+        Toast.makeText(this, getString(R.string.verse_game_oso_ondo), Toast.LENGTH_SHORT).show()
     }
 
     private fun mostrarFeedbackIncorrecto(selectedId: Int) {
@@ -190,7 +196,11 @@ class VerseGameActivity : AppCompatActivity() {
     }
 
     private fun mostrarResultadoFinal() {
-        tvAciertos.text = "Aciertos: $aciertos/${preguntas.size}"
-        btnSiguiente.isVisible = true
+        tvAciertos.text = getString(R.string.verse_game_aciertos, aciertos, preguntas.size)
+        btnBack.isEnabled = true
+
+        // Save progress
+        val prefs = getSharedPreferences("plaza_progress", Context.MODE_PRIVATE)
+        prefs.edit { putBoolean("verse_game_completed", true) }
     }
 }
