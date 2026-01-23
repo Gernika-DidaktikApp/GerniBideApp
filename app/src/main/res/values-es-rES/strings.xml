@@ -11,6 +11,11 @@
     <string name="login_welcome">¡Bienvenido %s!</string>
     <string name="ez_duzu_konturik_izena_eman">¿No tienes cuenta? Regístrate</string>
 
+    <!-- Edit Profile -->
+    <string name="edit_profile_title">Editar perfil</string>
+    <string name="save_changes">Guardar cambios</string>
+    <string name="update_success">¡Cambios guardados!</string>
+
     <!-- Registro -->
     <string name="sortu_kontua">Crear cuenta</string>
     <string name="erabiltzaile_izena">Nombre de usuario</string>

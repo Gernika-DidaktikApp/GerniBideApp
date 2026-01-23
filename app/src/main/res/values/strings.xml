@@ -10,6 +10,11 @@
     <string name="login_welcome">Ongi etorri %s</string>
     <string name="ez_duzu_konturik_izena_eman">Ez duzu konturik? Izena eman</string>
 
+    <!-- Edit Profile -->
+    <string name="edit_profile_title">Profila editatu</string>
+    <string name="save_changes">Aldaketak gorde</string>
+    <string name="update_success">Aldaketak gordeta!</string>
+
     <!-- Registro -->
     <string name="sortu_kontua">Sortu kontua</string>
     <string name="erabiltzaile_izena">Erabiltzaile izena</string>
