@@ -24,9 +24,7 @@
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="@string/google_maps_key" />
-
-        <!-- Actividades principales -->
+            android:value="@string/google_maps_key" /> <!-- Actividades principales -->
         <activity
             android:name=".LoginActivity"
             android:exported="false" />
@@ -44,6 +42,9 @@
             android:exported="false" />
         <activity
             android:name=".SettingsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".AboutActivity"
             android:exported="false" />
 
         <!-- Actividades del fronton -->
@@ -127,7 +128,6 @@
         <activity
             android:name=".bunkers.SoundGameActivity"
             android:exported="false" />
-
     </application>
 
 </manifest>

@@ -303,6 +303,23 @@
     <string name="gauez_jolasteko_plano_ilunak">Fondos oscuros para jugar de noche</string>
     <string name="hizkuntza">🗣️ Idioma</string>
     <string name="euskara_edo_gaztelania">Euskera o Castellano</string>
+    <string name="daltonismo_modua">Modo daltonismo</string>
+    <string name="daltonismo_azalpena">Activa una paleta de colores más accesible para personas con daltonismo</string>
+    <string name="honi_buruz">Acerca de</string>
+    <string name="app_informazioa">Información de la aplicación</string>
+
+    <!-- AboutActivity -->
+    <string name="about_description">Aplicación educativa interactiva sobre la historia y cultura de Gernika.</string>
+    <string name="desarrollado_por">Desarrollado por</string>
+    <string name="didaktikapp">DidaktikApp</string>
+    <string name="autores">Wara, Arantza, Telmo y Erlantz</string>
+    <string name="logo_descripcion">Logo de la aplicación de GerniBide</string>
+    <string name="version_app">v1.0.0</string>
+    <string name="copyright">© 2026 DidaktikApp</string>
+    <string name="itxi">Cerrar</string>
+    <string name="cifp_ciudad_jardin">CIFP Ciudad Jardín LHII</string>
+    <string name="ehu">Universidad del País Vasco (UPV/EHU)</string>
+
     <string name="itzuli">Volver</string>
     <string name="play">Play</string>
     <string name="pause">Pause</string>

@@ -56,7 +56,7 @@
             </LinearLayout>
 
             <!-- Interruptor para activar/desactivar sonido -->
-            <Switch
+            <androidx.appcompat.widget.SwitchCompat
                 android:id="@+id/switchMute"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -140,7 +140,7 @@
             </LinearLayout>
 
             <!-- Interruptor para activar/desactivar el modo oscuro -->
-            <Switch
+            <androidx.appcompat.widget.SwitchCompat
                 android:id="@+id/switchDarkMode"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
@@ -152,7 +152,7 @@
             android:layout_height="80dp"
             android:orientation="horizontal"
             android:gravity="center_vertical"
-            android:layout_marginBottom="40dp"
+            android:layout_marginBottom="20dp"
             android:padding="16dp"
             android:background="@drawable/border_only">
 
@@ -188,6 +188,47 @@
                 android:entries="@array/languages" />
         </LinearLayout>
 
+        <!-- Tarjeta: modo daltonismo / colores accesibles -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginBottom="20dp"
+            android:padding="16dp"
+            android:background="@drawable/border_only">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <!-- Título de la opción de daltonismo -->
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/daltonismo_modua"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    android:layout_marginBottom="4dp"/>
+
+                <!-- Descripción corta de lo que hace el ajuste -->
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/daltonismo_azalpena"
+                    android:textSize="14sp"
+                    android:textColor="@android:color/darker_gray"/>
+            </LinearLayout>
+
+            <!-- Interruptor para activar/desactivar paleta accesible -->
+            <androidx.appcompat.widget.SwitchCompat
+                android:id="@+id/switchColorBlindMode"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+        </LinearLayout>
+
         <!-- Botón para guardar los ajustes seleccionados -->
         <Button
             android:id="@+id/btnSaveSettings"
@@ -195,7 +236,51 @@
             android:layout_width="match_parent"
             android:layout_height="72dp"
             android:text="@string/ezarpenak_gorde"
-            android:textSize="18sp"/>
+            android:textSize="18sp"
+            android:layout_marginBottom="20dp"/>
+
+        <!-- TARJETA: Acerca de -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:padding="16dp"
+            android:background="@drawable/border_only">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <!-- Título de la opción Acerca de -->
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/honi_buruz"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    android:layout_marginBottom="4dp"/>
+
+                <!-- Descripción corta -->
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/app_informazioa"
+                    android:textSize="14sp"
+                    android:textColor="@android:color/darker_gray"/>
+            </LinearLayout>
+
+            <!-- Icono botón Acerca de -->
+            <ImageButton
+                android:id="@+id/btnAbout"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:src="@android:drawable/ic_dialog_info"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:contentDescription="@string/honi_buruz"/>
+        </LinearLayout>
 
     </LinearLayout>
 </ScrollView>

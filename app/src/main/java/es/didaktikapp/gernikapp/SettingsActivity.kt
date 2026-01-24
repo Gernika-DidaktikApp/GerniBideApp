@@ -1,26 +1,34 @@
 package es.didaktikapp.gernikapp
 
+import android.content.Intent
 import android.content.SharedPreferences
-import android.widget.Button
-import android.widget.Spinner
-import android.widget.Switch
 import android.widget.Toast
+import es.didaktikapp.gernikapp.databinding.ActivitySettingsBinding
 
 /**
  * Activity para la configuración de la aplicación.
+ *
+ * @author Erlantz
+ * @version 1.0
  */
 class SettingsActivity : BaseMenuActivity() {
 
-    private lateinit var switchMute: Switch
-    private lateinit var switchDarkMode: Switch
-    private lateinit var spinnerTextSize: Spinner
-    private lateinit var spinnerLanguage: Spinner
-    private lateinit var btnSaveSettings: Button
+    /** Binding generado para el layout activity_settings.xml */
+    private lateinit var binding: ActivitySettingsBinding
+
+    /** SharedPreferences para almacenar configuración persistente */
     private lateinit var prefs: SharedPreferences
 
+    /**
+     * Retorna el ID del layout a cargar en BaseMenuActivity.
+     */
     override fun getContentLayoutId() = R.layout.activity_settings
 
+    /**
+     * Se ejecuta después de inflar el layout. Inicializa binding y configura la UI.
+     */
     override fun onContentInflated() {
+        binding = ActivitySettingsBinding.bind(contentContainer.getChildAt(0))
         initViews()
         loadSettings()
         setupListeners()
@@ -28,37 +36,37 @@ class SettingsActivity : BaseMenuActivity() {
 
     /**
      * Inicializa todas las vistas del layout y SharedPreferences.
-     * Vincula las variables con los elementos del layout activity_settings.xml
      */
     private fun initViews() {
-        switchMute = findViewById(R.id.switchMute)
-        switchDarkMode = findViewById(R.id.switchDarkMode)
-        spinnerTextSize = findViewById(R.id.spinnerTextSize)
-        spinnerLanguage = findViewById(R.id.spinnerLanguage)
-        btnSaveSettings = findViewById(R.id.btnSaveSettings)
-
         prefs = getSharedPreferences("GernikAppSettings", MODE_PRIVATE)
     }
 
     /**
      * Carga la configuración previamente guardada desde SharedPreferences.
-     * Establece los valores por defecto si no existen ajustes previos.
+     * Rellena todos los controles con los valores guardados.
      */
     private fun loadSettings() {
-        switchMute.isChecked = prefs.getBoolean("mute", false)
-        switchDarkMode.isChecked = prefs.getBoolean("dark_mode", false)
-        spinnerTextSize.setSelection(prefs.getInt("text_size", 1))
-        spinnerLanguage.setSelection(prefs.getInt("language", 0))
+        binding.switchMute.isChecked = prefs.getBoolean("mute", false)
+        binding.switchDarkMode.isChecked = prefs.getBoolean("dark_mode", false)
+        binding.switchColorBlindMode.isChecked = prefs.getBoolean("color_blind_mode", false)
+        binding.spinnerTextSize.setSelection(prefs.getInt("text_size", 1))
+        binding.spinnerLanguage.setSelection(prefs.getInt("language", 0))
     }
 
     /**
      * Configura los event listeners de la interfaz.
+     * Maneja cambios en switches y acciones de botones.
      */
     private fun setupListeners() {
-        btnSaveSettings.setOnClickListener {
+        binding.btnSaveSettings.setOnClickListener {
             saveSettings()
+            SettingsManager.applyAll(this)
             Toast.makeText(this, getString(R.string.ezarpenak_gordeta), Toast.LENGTH_SHORT).show()
-            finish()
+            recreate()
+        }
+
+        binding.btnAbout.setOnClickListener {
+            startActivity(Intent(this, AboutActivity::class.java))
         }
     }
 
@@ -67,10 +75,11 @@ class SettingsActivity : BaseMenuActivity() {
      */
     private fun saveSettings() {
         prefs.edit().apply {
-            putBoolean("mute", switchMute.isChecked)
-            putBoolean("dark_mode", switchDarkMode.isChecked)
-            putInt("text_size", spinnerTextSize.selectedItemPosition)
-            putInt("language", spinnerLanguage.selectedItemPosition)
+            putBoolean("mute", binding.switchMute.isChecked)
+            putBoolean("dark_mode", binding.switchDarkMode.isChecked)
+            putBoolean("color_blind_mode", binding.switchColorBlindMode.isChecked)
+            putInt("text_size", binding.spinnerTextSize.selectedItemPosition)
+            putInt("language", binding.spinnerLanguage.selectedItemPosition)
             apply()
         }
     }
