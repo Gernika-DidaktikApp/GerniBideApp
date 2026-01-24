@@ -1,7 +1,7 @@
 package es.didaktikapp.gernikapp.fronton
 
+import android.content.Context
 import android.graphics.Color
-import android.os.Bundle
 import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
@@ -9,30 +9,39 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.graphics.toColorInt
 import com.google.android.flexbox.FlexboxLayout
 import androidx.appcompat.content.res.AppCompatResources
+import es.didaktikapp.gernikapp.BaseMenuActivity
 import es.didaktikapp.gernikapp.R
 
-class ValuesGroupActivity : AppCompatActivity() {
+/**
+ * Activity para crear valores del grupo mediante tags/bubbles dinámicos.
+ */
+class ValuesGroupActivity : BaseMenuActivity() {
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.fronton_values_group)
+    override fun getContentLayoutId() = R.layout.fronton_values_group
 
+    override fun onContentInflated() {
         val input = findViewById<EditText>(R.id.inputValor)
         val btnAnadir = findViewById<Button>(R.id.btnAnadir)
         val btnFinalizar = findViewById<Button>(R.id.btnFinalizar)
         val container = findViewById<FlexboxLayout>(R.id.valoresContainer)
         val mensajeFinal = findViewById<TextView>(R.id.mensajeFinal)
-        val btnVolver = findViewById<Button>(R.id.btnVolver)
+        val btnBack = findViewById<Button>(R.id.btnBack)
+
+        val prefs = getSharedPreferences("fronton_progress", Context.MODE_PRIVATE)
+
+        // Si ya estaba completada, habilitar botón
+        if (prefs.getBoolean("values_group_completed", false)) {
+            btnBack.isEnabled = true
+        }
 
         btnAnadir.setOnClickListener {
             val texto = input.text.toString().trim()
 
             if (texto.isEmpty()) {
-                Toast.makeText(this, "Gehitu aurretik, sartu balio bat", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, getString(R.string.gehitu_aurretik_sartu_balioa), Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
 
@@ -66,13 +75,14 @@ class ValuesGroupActivity : AppCompatActivity() {
             input.text.clear()
         }
 
-        btnVolver.setOnClickListener {
+        btnBack.setOnClickListener {
             finish()
         }
 
         btnFinalizar.setOnClickListener {
             mensajeFinal.visibility = View.VISIBLE
-            btnVolver.visibility = View.VISIBLE
+            btnBack.isEnabled = true
+            prefs.edit().putBoolean("values_group_completed", true).apply()
         }
     }
 }

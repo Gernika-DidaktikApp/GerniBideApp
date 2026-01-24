@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/fondo2"
+    tools:context=".arbol.MainActivity">
+
+    <!-- Voice Info Screen -->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/voiceContainer"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="visible">
+
+        <ImageView
+            android:id="@+id/ivIntro"
+            android:layout_width="359dp"
+            android:layout_height="447dp"
+            android:layout_marginTop="24dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/gernikako_arbola"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <SeekBar
+            android:id="@+id/seekBarAudio"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="32dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/ivIntro" />
+
+        <LinearLayout
+            android:id="@+id/mediaControls"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/seekBarAudio">
+
+            <ImageButton
+                android:id="@+id/btnPlay"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_marginEnd="8dp"
+                android:background="@drawable/bg_boton_primario"
+                android:contentDescription="@string/play"
+                android:src="@drawable/ic_play"
+                app:tint="@color/white" />
+
+            <ImageButton
+                android:id="@+id/btnPause"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_marginEnd="8dp"
+                android:background="@drawable/bg_boton_primario"
+                android:contentDescription="@string/pause"
+                android:src="@drawable/ic_pause"
+                app:tint="@color/white" />
+
+            <ImageButton
+                android:id="@+id/btnStop"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:background="@drawable/bg_boton_primario"
+                android:contentDescription="@string/stop"
+                android:src="@drawable/ic_stop"
+                app:tint="@color/white" />
+        </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <!-- Quiz Screen -->
+    <ScrollView
+        android:id="@+id/quizContainer"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toTopOf="@+id/btnVolver"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginBottom="16dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="24dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/ulermen_galderak"
+                android:textAlignment="center"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                android:textColor="@color/black"
+                android:layout_marginBottom="24dp"/>
+
+            <!-- Question 1 -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/_1_zertarako_elkartzen_ziren_arbolaren_azpian"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:layout_marginBottom="8dp"/>
+            <Button
+                android:id="@+id/q1a1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/legeak_adosteko_eta_foruak_zin_egiteko"
+                android:layout_marginBottom="4dp"/>
+            <Button
+                android:id="@+id/q1a2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/bazkaltzeko"
+                android:layout_marginBottom="16dp"/>
+
+            <!-- Question 2 -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/_2_zer_adierazten_du_batzar_etxeak"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:layout_marginBottom="8dp"/>
+            <Button
+                android:id="@+id/q2a1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/euskal_herriko_demokrazia_eta_askatasuna"
+                android:layout_marginBottom="4dp"/>
+            <Button
+                android:id="@+id/q2a2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/museo_soil_bat"
+                android:layout_marginBottom="16dp"/>
+
+            <!-- Question 3 -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/_3_zertarako_erabiltzen_da_batzar_etxea"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:layout_marginBottom="8dp"/>
+            <Button
+                android:id="@+id/q3a1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/batzar_nagusiak_egiteko"
+                android:layout_marginBottom="4dp"/>
+            <Button
+                android:id="@+id/q3a2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/kontzertuak_emateko"
+                android:layout_marginBottom="16dp"/>
+
+            <TextView
+                android:id="@+id/tvCongrats"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/ondo_egin_duzu_orain_zure_arbola_sortzera_goaz"
+                android:textAlignment="center"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:textColor="@color/correcto"
+                android:visibility="gone"
+                android:layout_marginTop="16dp"/>
+
+        </LinearLayout>
+    </ScrollView>
+
+    <Button
+        android:id="@+id/btnVolver"
+        style="@style/EstiloBotonPrimario"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="24dp"
+        android:text="@string/itzuli"
+        android:enabled="false"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

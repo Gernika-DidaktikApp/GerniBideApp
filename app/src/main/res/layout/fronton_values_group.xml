@@ -7,15 +7,18 @@
     android:layout_height="match_parent"
     android:background="@drawable/fondo1">
 
+    <!-- Input texto para introducir un nuevo valor -->
     <EditText
         android:id="@+id/inputValor"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:minHeight="48dp"
         android:layout_marginTop="150dp"
         android:autofillHints="username"
         android:hint="@string/idatzi_zure_taldearen_balioa"
         android:inputType="text" />
 
+    <!-- Botón para añadir el nuevo valor -->
     <Button
         android:id="@+id/btnAnadir"
         style="@style/EstiloBotonPrimario"
@@ -24,6 +27,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="12dp"/>
 
+    <!-- Botón para finalizar -->
     <Button
         android:id="@+id/btnFinalizar"
         style="@style/EstiloBotonPrimario"
@@ -32,6 +36,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="12dp"/>
 
+    <!-- Contenedor tags flexbox (donde se irán añadiendo los valores) -->
     <com.google.android.flexbox.FlexboxLayout
         android:id="@+id/valoresContainer"
         android:layout_width="match_parent"
@@ -42,6 +47,7 @@
         android:layout_marginTop="16dp"
         android:padding="8dp" />
 
+    <!-- Mensaje final (visible tras pulsar el botón de finalizar) -->
     <TextView
         android:id="@+id/mensajeFinal"
         android:layout_width="match_parent"
@@ -52,13 +58,14 @@
         android:visibility="gone"
         android:layout_marginTop="16dp"/>
 
+    <!-- Botón para volver (deshabilitado hasta finalizar) -->
     <Button
-        android:id="@+id/btnVolver"
-        style="@style/EstiloBotonSecundario"
+        android:id="@+id/btnBack"
+        style="@style/EstiloBotonPrimario"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/atzera"
-        android:visibility="gone"
+        android:text="@string/itzuli"
+        android:enabled="false"
         android:layout_gravity="center"
         android:layout_marginTop="16dp"/>
 

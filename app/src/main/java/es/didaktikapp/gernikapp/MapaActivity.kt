@@ -1,7 +1,6 @@
 package es.didaktikapp.gernikapp
 
-import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
+import android.content.Intent
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
@@ -10,17 +9,55 @@ import com.google.android.gms.maps.CameraUpdateFactory
 import androidx.core.app.ActivityCompat
 import android.Manifest
 import android.content.pm.PackageManager
-import android.widget.Toast
 import com.google.android.gms.maps.model.MarkerOptions
-import androidx.appcompat.app.AlertDialog
+import es.didaktikapp.gernikapp.databinding.ActivityMapaBinding
+import es.didaktikapp.gernikapp.utils.Constants
+import com.google.android.material.bottomsheet.BottomSheetBehavior
+import android.widget.TextView
+import android.widget.ImageView
+import android.widget.Button
+import android.view.View
+import es.didaktikapp.gernikapp.arbol.MainActivity as ArbolMainActivity
+import es.didaktikapp.gernikapp.bunkers.MainActivity as BunkersMainActivity
+import es.didaktikapp.gernikapp.fronton.MainActivity as FrontonMainActivity
+import es.didaktikapp.gernikapp.picasso.MainActivity as PicassoMainActivity
+import es.didaktikapp.gernikapp.plaza.MainActivity as PlazaMainActivity
 
-class MapaActivity : AppCompatActivity(), OnMapReadyCallback {
+class MapaActivity : BaseMenuActivity(), OnMapReadyCallback {
 
+    private lateinit var binding: ActivityMapaBinding
     private lateinit var nMap: GoogleMap
+    private lateinit var bottomSheetBehavior: BottomSheetBehavior<*>
+    private lateinit var ivBottomSheetIcon: ImageView
+    private lateinit var tvBottomSheetTitle: TextView
+    private lateinit var tvBottomSheetDescription: TextView
+    private lateinit var btnGoToActivity: Button
+    private var selectedLocation: String? = null
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_mapa)
+    override fun onContentInflated() {
+        binding = ActivityMapaBinding.inflate(layoutInflater, contentContainer, true)
+
+        // Inicializar BottomSheet
+        val bottomSheet = binding.root.findViewById<androidx.core.widget.NestedScrollView>(R.id.bottomSheet)
+        bottomSheetBehavior = BottomSheetBehavior.from(bottomSheet)
+        ivBottomSheetIcon = binding.root.findViewById(R.id.ivBottomSheetIcon)
+        tvBottomSheetTitle = binding.root.findViewById(R.id.tvBottomSheetTitle)
+        tvBottomSheetDescription = binding.root.findViewById(R.id.tvBottomSheetDescription)
+        btnGoToActivity = binding.root.findViewById(R.id.btnGoToActivity)
+
+        btnGoToActivity.setOnClickListener {
+            selectedTag?.let { tag ->
+                val intent = when (tag) {
+                    "arbola" -> Intent(this, ArbolMainActivity::class.java)
+                    "bunkers" -> Intent(this, BunkersMainActivity::class.java)
+                    "picasso" -> Intent(this, PicassoMainActivity::class.java)
+                    "plaza" -> Intent(this, PlazaMainActivity::class.java)
+                    "fronton" -> Intent(this, FrontonMainActivity::class.java)
+                    else -> null
+                }
+                intent?.let { startActivity(it) }
+            }
+        }
 
         val mapFragment = supportFragmentManager.findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)
@@ -29,82 +66,56 @@ class MapaActivity : AppCompatActivity(), OnMapReadyCallback {
     override fun onMapReady(googleMap: GoogleMap) {
         nMap = googleMap
 
-        val gernika = LatLng(43.3170, -2.6789)
-        nMap.moveCamera(CameraUpdateFactory.newLatLngZoom(gernika, 16f))
+        val gernika = LatLng(Constants.Map.GERNIKA_CENTER_LAT, Constants.Map.GERNIKA_CENTER_LNG)
+        nMap.moveCamera(CameraUpdateFactory.newLatLngZoom(gernika, Constants.Map.DEFAULT_ZOOM_LEVEL))
 
         nMap.uiSettings.isZoomControlsEnabled = true
 
-        nMap.addMarker(
-            MarkerOptions()
-                .position(LatLng(43.313287, -2.679579))
-                .title("Gernikako Arbola eta Juntetxea")
-        )
+        // Configurar padding del mapa para que los controles no queden tapados por el bottom sheet
+        val bottomPadding = (120 * resources.displayMetrics.density).toInt()
+        nMap.setPadding(0, 0, 0, bottomPadding)
 
         nMap.addMarker(
             MarkerOptions()
-                .position(LatLng(43.312137, -2.676608))
-                .title("Astrako bunkerrak")
-        )
+                .position(LatLng(Constants.Map.ARBOLA_LAT, Constants.Map.ARBOLA_LNG))
+                .title(getString(R.string.map_marker_title_arbola))
+        )?.tag = "arbola"
 
         nMap.addMarker(
             MarkerOptions()
-                .position(LatLng(43.315513, -2.680047))
-                .title("Picasso-ren “Guernica”")
-        )
+                .position(LatLng(Constants.Map.BUNKER_LAT, Constants.Map.BUNKER_LNG))
+                .title(getString(R.string.map_marker_title_bunker))
+        )?.tag = "bunkers"
 
         nMap.addMarker(
             MarkerOptions()
-                .position(LatLng(43.316139, -2.676672))
-                .title("Gernikako azoka plaza")
-        )
+                .position(LatLng(Constants.Map.GUERNICA_LAT, Constants.Map.GUERNICA_LNG))
+                .title(getString(R.string.map_marker_title_guernica))
+        )?.tag = "picasso"
 
         nMap.addMarker(
             MarkerOptions()
-                .position(LatLng(43.317399, -2.678783))
-                .title("Jai-Alai frontoia")
-        )
+                .position(LatLng(Constants.Map.PLAZA_LAT, Constants.Map.PLAZA_LNG))
+                .title(getString(R.string.map_marker_title_plaza))
+        )?.tag = "plaza"
+
+        nMap.addMarker(
+            MarkerOptions()
+                .position(LatLng(Constants.Map.FRONTOI_LAT, Constants.Map.FRONTOI_LNG))
+                .title(getString(R.string.map_marker_title_frontoi))
+        )?.tag = "fronton"
 
         nMap.setOnMarkerClickListener { marker ->
-            when (marker.title) {
-                "Astrako bunkerrak" -> {
-                    mostrarDialogo(
-                        titulo = "Astrako bunkerrak",
-                        mensaje = "Astrako bunkerraren aurrean zaude.\nSartu nahi duzu?"
-                    )
-                }
-
-                "Jai-Alai frontoia" -> {
-                    mostrarDialogo(
-                        titulo = "Jai-Alai frontoia",
-                        mensaje = "Jai-Alai frontoira iritsi zara.\nSartu nahi duzu?"
-                    )
-                }
-
-                "Gernikako Arbola eta Juntetxea" -> {
-                    mostrarDialogo(
-                        titulo = "Gernikako Arbola eta Juntetxea",
-                        mensaje = "Gernikako arbolara iritsi zara.\nSartu nahi duzu?"
-                    )
-                }
-
-                "Gernikako azoka plaza" -> {
-                    mostrarDialogo(
-                        titulo = "Gernikako azoka plaza",
-                        mensaje = "Gernikako azoka plazara iritsi zara.\nSartu nahi duzu?"
-                    )
-                }
-
-                "Picasso-ren “Guernica”" -> {
-                    mostrarDialogo(
-                        titulo = "Picasso-ren “Guernica”",
-                        mensaje = "Picasso-ren 'Guernica-ra' iritsi zara.\nSartu nahi duzu?"
-                    )
-                }
+            marker.title?.let { titulo ->
+                actualizarBottomSheet(titulo, marker.tag as? String)
+                bottomSheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
             }
-
             true
         }
 
+        nMap.setOnMapClickListener {
+            resetBottomSheet()
+        }
 
         if (ActivityCompat.checkSelfPermission(
                 this,
@@ -114,23 +125,60 @@ class MapaActivity : AppCompatActivity(), OnMapReadyCallback {
             ActivityCompat.requestPermissions(
                 this,
                 arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
-                1001)
+                Constants.Permissions.LOCATION_PERMISSION_REQUEST_CODE)
         }
     }
 
-    private fun mostrarDialogo(titulo: String, mensaje: String) {
-        AlertDialog.Builder(this)
-            .setTitle(titulo)
-            .setMessage(mensaje)
-            .setPositiveButton("Sartu") { _, _ ->
-                Toast.makeText(this, "Sartu zara: $titulo", Toast.LENGTH_SHORT).show()
+    private var selectedTag: String? = null
 
-                // Aquí luego abriremos la Activity correspondiente
+    private fun actualizarBottomSheet(titulo: String, tag: String?) {
+        tvBottomSheetTitle.text = titulo
+        selectedLocation = titulo
+        selectedTag = tag
+
+        val descripcion: String
+        val iconResId: Int
+
+        when (titulo) {
+            getString(R.string.map_marker_title_arbola) -> {
+                descripcion = getString(R.string.map_description_arbola)
+                iconResId = R.drawable.ic_tree
             }
-            .setNegativeButton("Ez") { dialog, _ ->
-                dialog.dismiss()
+            getString(R.string.map_marker_title_bunker) -> {
+                descripcion = getString(R.string.map_description_bunker)
+                iconResId = R.drawable.ic_bunker
             }
-            .show()
+            getString(R.string.map_marker_title_guernica) -> {
+                descripcion = getString(R.string.map_description_guernica)
+                iconResId = R.drawable.ic_art
+            }
+            getString(R.string.map_marker_title_plaza) -> {
+                descripcion = getString(R.string.map_description_plaza)
+                iconResId = R.drawable.ic_market
+            }
+            getString(R.string.map_marker_title_frontoi) -> {
+                descripcion = getString(R.string.map_description_frontoi)
+                iconResId = R.drawable.ic_sports
+            }
+            else -> {
+                descripcion = getString(R.string.map_bottom_sheet_default_description)
+                iconResId = R.drawable.ic_map_pin
+            }
+        }
+
+        tvBottomSheetDescription.text = descripcion
+        ivBottomSheetIcon.setImageResource(iconResId)
+        btnGoToActivity.visibility = View.VISIBLE
+    }
+
+    private fun resetBottomSheet() {
+        tvBottomSheetTitle.text = getString(R.string.map_bottom_sheet_default_title)
+        tvBottomSheetDescription.text = getString(R.string.map_bottom_sheet_default_description)
+        ivBottomSheetIcon.setImageResource(R.drawable.ic_map_pin)
+        btnGoToActivity.visibility = View.GONE
+        selectedLocation = null
+        selectedTag = null
+        bottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
     }
 
 }

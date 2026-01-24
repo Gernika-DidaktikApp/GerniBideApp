@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="top|center_horizontal"
+    android:padding="32dp"
+    android:background="@drawable/fondo2">
+
+    <!-- Título de Registro -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/sortu_kontua"
+        android:textSize="28sp"
+        android:textStyle="bold"
+        android:textColor="@color/btnSecundario"
+        android:layout_marginBottom="16dp" />
+
+    <!-- Campo para introducir el username (solo números + letras) -->
+    <EditText
+        android:id="@+id/editTextUsername"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/erabiltzaile_izena"
+        android:inputType="textNoSuggestions"
+        android:maxLines="1"
+        android:autofillHints="username"
+        android:padding="16dp"
+        android:layout_marginBottom="16dp"
+        android:background="@drawable/edit_text_background" />
+
+    <!-- Campo para introducir el nombre (solo letras) -->
+    <EditText
+        android:id="@+id/editTextNombre"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:autofillHints="name"
+        android:hint="@string/izena"
+        android:inputType="textCapWords|textNoSuggestions"
+        android:maxLines="1"
+        android:padding="16dp"
+        android:layout_marginBottom="16dp"
+        android:background="@drawable/edit_text_background" />
+
+    <!-- Campo para introducir el apellido/s (solo letras) -->
+    <EditText
+        android:id="@+id/editTextApellido"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:autofillHints="last name"
+        android:hint="@string/abizena_k"
+        android:inputType="textCapWords|textNoSuggestions"
+        android:maxLines="1"
+        android:padding="16dp"
+        android:layout_marginBottom="24dp"
+        android:background="@drawable/edit_text_background" />
+
+    <!-- Checkbox + ID Clase -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginBottom="24dp">
+
+        <!-- Checkbox para marcar si pertenece a alguna clase -->
+        <CheckBox
+            android:id="@+id/checkBoxClase"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/klase_batekoa_zara"
+            android:textSize="16sp"
+            android:textColor="@color/btnSecundario"
+            android:buttonTint="@color/btnSecundario"
+            android:layout_marginBottom="12dp" />
+
+        <!-- Campo para introducir el ID Clase (deshabilitado por defecto) -->
+        <EditText
+            android:id="@+id/editTextIdClase"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:autofillHints="class id"
+            android:hint="@string/klase_id"
+            android:inputType="textNoSuggestions"
+            android:maxLength="10"
+            android:padding="16dp"
+            android:visibility="gone" />
+    </LinearLayout>
+
+    <!-- Campo para introducir la contraseña -->
+    <EditText
+        android:id="@+id/editTextPassword"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/pasahitza"
+        android:inputType="textPassword"
+        android:maxLines="1"
+        android:autofillHints="password"
+        android:padding="16dp"
+        android:layout_marginBottom="16dp"
+        android:background="@drawable/edit_text_background" />
+
+    <!-- Botón de Registro -->
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnRegistro"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/izena_eman"
+        android:textSize="18sp"
+        android:padding="16dp"
+        android:background="@drawable/bg_boton_primario"
+        android:layout_marginBottom="16dp" />
+
+    <!-- Botón de enlace a Login -->
+    <TextView
+        android:id="@+id/tvLoginLink"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/baduzu_kontu_bat_saioa_hasi"
+        android:textSize="14sp"
+        android:textColor="@color/btnSecundario"
+        android:clickable="true"
+        android:focusable="true"
+        android:background="?attr/selectableItemBackgroundBorderless" />
+
+</LinearLayout>

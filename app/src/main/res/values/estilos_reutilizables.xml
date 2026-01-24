@@ -20,4 +20,8 @@
     <style name="EstiloBotonSecundario" parent="EstiloBotonBase">
         <item name="android:background">@drawable/bg_boton_secundario</item>
     </style>
+
+    <style name="EstiloBotonCompletado" parent="EstiloBotonBase">
+        <item name="android:background">@drawable/bg_boton_completado</item>
+    </style>
 </resources>

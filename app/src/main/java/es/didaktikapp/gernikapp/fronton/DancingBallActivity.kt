@@ -1,8 +1,8 @@
 package es.didaktikapp.gernikapp.fronton
 
+import android.content.Context
 import android.media.AudioManager
 import android.media.ToneGenerator
-import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.view.MotionEvent
@@ -12,14 +12,17 @@ import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
-import androidx.appcompat.app.AppCompatActivity
 import kotlin.math.abs
 import kotlin.random.Random
 import es.didaktikapp.gernikapp.R
+import es.didaktikapp.gernikapp.BaseMenuActivity
 import androidx.activity.OnBackPressedCallback
 import androidx.core.view.isVisible
 
-class DancingBallActivity : AppCompatActivity() {
+/**
+ * Activity del juego Dancing Ball.
+ */
+class DancingBallActivity : BaseMenuActivity() {
 
     private lateinit var ball: ImageView
     private lateinit var zesta: ImageView
@@ -28,7 +31,8 @@ class DancingBallActivity : AppCompatActivity() {
     private lateinit var gameOverDialog: LinearLayout
     private lateinit var tvFinalScore: TextView
     private lateinit var btnReiniciar: Button
-    private lateinit var btnSalir: Button
+    private lateinit var btnBack: Button
+
     private val handler = Handler(Looper.getMainLooper())
     private var dx = 8f
     private var dy = 12f
@@ -38,11 +42,9 @@ class DancingBallActivity : AppCompatActivity() {
     private var gameHeight = 0f
     private lateinit var backCallback: OnBackPressedCallback
 
+    override fun getContentLayoutId() = R.layout.fronton_dancing_ball
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.fronton_dancing_ball)
-
+    override fun onContentInflated() {
         initViews()
         playBoingSound()
         setupGameArea()
@@ -51,6 +53,9 @@ class DancingBallActivity : AppCompatActivity() {
         setupBackHandler()
     }
 
+    /**
+     * Configura el comportamiento especial del botón de hacia atrás.
+     */
     private fun setupBackHandler() {
         backCallback = object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
@@ -64,7 +69,9 @@ class DancingBallActivity : AppCompatActivity() {
         onBackPressedDispatcher.addCallback(this, backCallback)
     }
 
-
+    /**
+     * Vincula variables con elementos del layout.
+     */
     private fun initViews() {
         ball = findViewById(R.id.ball)
         zesta = findViewById(R.id.zesta)
@@ -73,9 +80,14 @@ class DancingBallActivity : AppCompatActivity() {
         gameOverDialog = findViewById(R.id.gameOverDialog)
         tvFinalScore = findViewById(R.id.tvFinalScore)
         btnReiniciar = findViewById(R.id.btnReiniciar)
-        btnSalir = findViewById(R.id.btnSalir)
+        btnBack = findViewById(R.id.btnBack)
     }
 
+    /**
+     * Configura las dimensiones reales del área de juego y
+     * las posiciones iniciales de la pelota y la zesta.
+     * Inicia el bucle principal del juego.
+     */
     private fun setupGameArea() {
         gameArea.post {
             gameWidth = gameArea.width.toFloat()
@@ -88,6 +100,9 @@ class DancingBallActivity : AppCompatActivity() {
         }
     }
 
+    /**
+     * Configura los controles táctiles para mover la zesta punta
+     */
     private fun setupTouchControls() {
         gameArea.setOnTouchListener { _, event ->
             if (event.action == MotionEvent.ACTION_MOVE && gameRunning) {
@@ -98,26 +113,40 @@ class DancingBallActivity : AppCompatActivity() {
         }
     }
 
+    /**
+     * Configura los listeners de los botones del diálogo de Game Over
+     */
     private fun setupGameOverDialog() {
         btnReiniciar.setOnClickListener {
             reiniciarJuego()
         }
-        btnSalir.setOnClickListener {
+        btnBack.setOnClickListener {
             finish()
         }
     }
 
+    /**
+     * Inicia el bucle principal del juego a 60 FPS (16ms).
+     * Llama continuamente a moveBall() hasta que muestre el Game Over.
+     */
     private fun startGameLoop() {
         handler.post(object : Runnable {
             override fun run() {
                 if (gameRunning) {
                     moveBall()
-                    handler.postDelayed(this, 16) // 60 FPS
+                    handler.postDelayed(this, 16)
                 }
             }
         })
     }
 
+    /**
+     * Lógica física del movimiento de la pelota:
+     * - Rebote en las paredes laterales con aceleración
+     * - Rebote en el techo con aceleración
+     * - Colisión con la zesta -> hitZesta()
+     * - Toca el suelo -> gameOver()
+     */
     private fun moveBall() {
         ball.x += dx
         ball.y += dy
@@ -138,9 +167,14 @@ class DancingBallActivity : AppCompatActivity() {
             gameOver()
         }
 
-        tvPuntos.text = "Puntuak: $puntos"
+        tvPuntos.text = getString(R.string.puntuak_d, puntos)
     }
 
+    /**
+     * Detecta la colisión rectangular precisa entre la pelota y la zesta.
+     *
+     * @return true si hay colisión
+     */
     private fun isCollisionWithZesta(): Boolean {
         return (ball.y + ball.height >= zesta.y &&
                 ball.y <= zesta.y + zesta.height &&
@@ -148,6 +182,14 @@ class DancingBallActivity : AppCompatActivity() {
                 ball.x <= zesta.x + zesta.width)
     }
 
+    /**
+     * Efecto de colisión con la zesta:
+     * - Reto vertical con aceleración
+     * - Variación aleatoria horizontal
+     * - Incremento de puntos
+     * - Sonido boing sintetizado
+     * - Animación de escala visual
+     */
     private fun hitZesta() {
         dy = -abs(dy) * 1.1f
         dx += Random.nextFloat() * 4f - 2f
@@ -161,14 +203,29 @@ class DancingBallActivity : AppCompatActivity() {
         ball.animate().scaleX(1f).scaleY(1f).setDuration(100).start()
     }
 
+    /**
+     * Finaliza el juego mostrando el diálogo de Game Over.
+     * Detiene el game loop y actualiza la puntuación final.
+     */
     private fun gameOver() {
         gameRunning = false
         handler.removeCallbacksAndMessages(null)
 
-        tvFinalScore.text = "Puntuak: $puntos"
+        tvFinalScore.text = getString(R.string.puntuak_d, puntos)
         gameOverDialog.visibility = View.VISIBLE
+
+        // Guardar progreso
+        val prefs = getSharedPreferences("fronton_progress", Context.MODE_PRIVATE)
+        prefs.edit().putBoolean("dancing_ball_completed", true).apply()
     }
 
+    /**
+     * Reinicia el juego desde cero:
+     * - Resetea las variables de estado
+     * - Reposiciona los elementos
+     * - Ocualta el diálogo de Game Over
+     * - Renicia el game loop
+     */
     private fun reiniciarJuego() {
         gameRunning = true
         puntos = 0
@@ -184,12 +241,20 @@ class DancingBallActivity : AppCompatActivity() {
         startGameLoop()
     }
 
+    /**
+     * Limpieza de recursos al destruir Activity.
+     * Desactiva el callback del botón de hacia atrás y limpia el handler.
+     */
     override fun onDestroy() {
         super.onDestroy()
         backCallback.isEnabled = false
         handler.removeCallbacksAndMessages(null)
     }
 
+    /**
+     * Genera sonido "boing" sintetizado al golpear la pelota.
+     * Usa ToneGenerator con tono beep de 100ms.
+     */
     private fun playBoingSound() {
         try {
             val toneGenerator = ToneGenerator(
@@ -201,4 +266,5 @@ class DancingBallActivity : AppCompatActivity() {
             }, 100)
         } catch (e: Exception) { }
     }
+
 }

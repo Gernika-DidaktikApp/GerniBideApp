@@ -4,6 +4,7 @@
     android:layout_height="match_parent"
     android:background="@drawable/fronton_frontoia">
 
+    <!-- Pelota (rebota automáticamente) -->
     <ImageView
         android:id="@+id/ball"
         android:layout_width="50dp"
@@ -12,6 +13,7 @@
         android:src="@drawable/fronton_pilota"
         android:layout_gravity="top|center_horizontal" />
 
+    <!-- Zesta punta (mover con dedo táctil) -->
     <ImageView
         android:id="@+id/zesta"
         android:layout_width="100dp"
@@ -21,6 +23,7 @@
         android:layout_gravity="bottom|center_horizontal"
         android:layout_marginBottom="80dp" />
 
+    <!-- Contador de puntos -->
     <TextView
         android:id="@+id/tvPuntos"
         android:layout_width="wrap_content"
@@ -35,6 +38,7 @@
         android:layout_gravity="top|center_horizontal"
         android:layout_marginTop="50dp"/>
 
+    <!-- Dialogo de Game Over -->
     <LinearLayout
         android:id="@+id/gameOverDialog"
         android:layout_width="match_parent"
@@ -43,8 +47,11 @@
         android:gravity="center"
         android:orientation="vertical"
         android:visibility="gone"
-        android:padding="32dp">
+        android:padding="32dp"
+        android:clipChildren="false"
+        android:clipToPadding="false">
 
+        <!-- Titulo de Game Over -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -54,36 +61,48 @@
             android:textStyle="bold"
             android:layout_marginBottom="24dp"/>
 
+        <!-- Puntuación final -->
         <TextView
             android:id="@+id/tvFinalScore"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/puntuak_0"
             android:textSize="36sp"
-            android:textColor="#FFFFFF"
+            android:textColor="@color/white"
             android:layout_marginBottom="48dp"/>
 
+        <!-- Botones del Game Over -->
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:clipChildren="false"
+            android:clipToPadding="false">
 
+            <!-- Reiniciar partida -->
             <Button
                 android:id="@+id/btnReiniciar"
                 style="@style/EstiloBotonPrimario"
-                android:layout_width="wrap_content"
-                android:layout_height="60dp"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:minHeight="48dp"
                 android:text="@string/saiatu_berriro"
-                android:textSize="20sp"
-                android:layout_marginEnd="24dp"/>
+                android:textSize="18sp"
+                android:layout_marginEnd="12dp"/>
 
+            <!-- Volver al menú principal -->
             <Button
-                android:id="@+id/btnSalir"
-                style="@style/EstiloBotonSecundario"
-                android:layout_width="wrap_content"
-                android:layout_height="60dp"
-                android:text="@string/atzera"
-                android:textSize="20sp" />
+                android:id="@+id/btnBack"
+                style="@style/EstiloBotonPrimario"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:minHeight="48dp"
+                android:text="@string/itzuli"
+                android:textSize="18sp"
+                android:layout_marginStart="12dp" />
 
         </LinearLayout>
     </LinearLayout>
