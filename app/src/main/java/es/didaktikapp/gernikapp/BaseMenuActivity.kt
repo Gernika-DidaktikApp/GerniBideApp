@@ -8,7 +8,6 @@ import android.view.animation.AccelerateInterpolator
 import android.view.animation.OvershootInterpolator
 import android.widget.FrameLayout
 import android.widget.ImageButton
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 
@@ -100,7 +99,7 @@ abstract class BaseMenuActivity : AppCompatActivity() {
 
         fabProfile.setOnClickListener {
             closeMenu()
-            Toast.makeText(this, getString(R.string.fab_profile), Toast.LENGTH_SHORT).show()
+            startActivity(Intent(this, ProfileActivity::class.java))
         }
     }
 
