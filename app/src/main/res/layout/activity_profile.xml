@@ -1,0 +1,400 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/base"
+    android:fillViewport="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="24dp">
+
+        <!-- Header con Avatar -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:layout_marginBottom="24dp">
+
+            <!-- Avatar circular con iniciales -->
+            <FrameLayout
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:layout_marginBottom="16dp">
+
+                <View
+                    android:id="@+id/avatarBackground"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/bg_avatar_circle" />
+
+                <TextView
+                    android:id="@+id/tvAvatarInitials"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:text="AB"
+                    android:textSize="48sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/white" />
+            </FrameLayout>
+
+            <!-- Nombre completo -->
+            <TextView
+                android:id="@+id/tvFullName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Nombre Apellido"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                android:textColor="@color/txtPrincipal" />
+
+            <!-- Username -->
+            <TextView
+                android:id="@+id/tvUsername"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@erabiltzailea"
+                android:textSize="16sp"
+                android:textColor="@color/txtSecundario"
+                android:layout_marginTop="4dp" />
+
+            <!-- Fecha de registro -->
+            <TextView
+                android:id="@+id/tvMemberSince"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="2024tik kidea"
+                android:textSize="14sp"
+                android:textColor="@color/txtSecundario"
+                android:layout_marginTop="4dp" />
+
+        </LinearLayout>
+
+        <!-- Card de Estadísticas -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="@drawable/bg_stats_card"
+            android:padding="20dp"
+            android:layout_marginBottom="16dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/profile_stats_title"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:textColor="@color/txtPrincipal"
+                android:layout_marginBottom="16dp" />
+
+            <!-- Grid de estadísticas -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <!-- Puntuación máxima -->
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:gravity="center"
+                    android:padding="12dp"
+                    android:background="@drawable/bg_stat_item">
+
+                    <ImageView
+                        android:layout_width="36dp"
+                        android:layout_height="36dp"
+                        android:src="@drawable/ic_trophy"
+                        android:contentDescription="@string/profile_top_score" />
+
+                    <TextView
+                        android:id="@+id/tvTopScore"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="0"
+                        android:textSize="24sp"
+                        android:textStyle="bold"
+                        android:textColor="@color/btnPrincipal"
+                        android:layout_marginTop="4dp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/profile_top_score"
+                        android:textSize="12sp"
+                        android:textColor="@color/txtSecundario" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="12dp"
+                    android:layout_height="0dp" />
+
+                <!-- Actividades completadas -->
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:gravity="center"
+                    android:padding="12dp"
+                    android:background="@drawable/bg_stat_item">
+
+                    <ImageView
+                        android:layout_width="36dp"
+                        android:layout_height="36dp"
+                        android:src="@drawable/ic_star"
+                        android:contentDescription="@string/profile_activities" />
+
+                    <TextView
+                        android:id="@+id/tvActivitiesCompleted"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="0"
+                        android:textSize="24sp"
+                        android:textStyle="bold"
+                        android:textColor="@color/btnSecundario"
+                        android:layout_marginTop="4dp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/profile_activities"
+                        android:textSize="12sp"
+                        android:textColor="@color/txtSecundario" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="12dp"
+                    android:layout_height="0dp" />
+
+                <!-- Racha -->
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:gravity="center"
+                    android:padding="12dp"
+                    android:background="@drawable/bg_stat_item">
+
+                    <ImageView
+                        android:layout_width="36dp"
+                        android:layout_height="36dp"
+                        android:src="@drawable/ic_fire"
+                        android:contentDescription="@string/profile_streak" />
+
+                    <TextView
+                        android:id="@+id/tvStreak"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="1"
+                        android:textSize="24sp"
+                        android:textStyle="bold"
+                        android:textColor="@color/error"
+                        android:layout_marginTop="4dp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/profile_streak"
+                        android:textSize="12sp"
+                        android:textColor="@color/txtSecundario" />
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <!-- Card de Logros -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="@drawable/bg_stats_card"
+            android:padding="20dp"
+            android:layout_marginBottom="24dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/profile_achievements_title"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:textColor="@color/txtPrincipal"
+                android:layout_marginBottom="16dp" />
+
+            <!-- Logros en horizontal scroll -->
+            <HorizontalScrollView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:scrollbars="none">
+
+                <LinearLayout
+                    android:id="@+id/achievementsContainer"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <!-- Logro 1: Árbol -->
+                    <LinearLayout
+                        android:id="@+id/achievementArbol"
+                        android:layout_width="80dp"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:gravity="center"
+                        android:padding="8dp"
+                        android:alpha="0.4">
+
+                        <ImageView
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:src="@drawable/ic_tree"
+                            android:contentDescription="@string/profile_achievement_arbol" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/profile_achievement_arbol"
+                            android:textSize="11sp"
+                            android:textColor="@color/txtSecundario"
+                            android:gravity="center"
+                            android:layout_marginTop="4dp" />
+                    </LinearLayout>
+
+                    <!-- Logro 2: Bunkers -->
+                    <LinearLayout
+                        android:id="@+id/achievementBunkers"
+                        android:layout_width="80dp"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:gravity="center"
+                        android:padding="8dp"
+                        android:alpha="0.4">
+
+                        <ImageView
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:src="@drawable/ic_bunker"
+                            android:contentDescription="@string/profile_achievement_bunkers" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/profile_achievement_bunkers"
+                            android:textSize="11sp"
+                            android:textColor="@color/txtSecundario"
+                            android:gravity="center"
+                            android:layout_marginTop="4dp" />
+                    </LinearLayout>
+
+                    <!-- Logro 3: Picasso -->
+                    <LinearLayout
+                        android:id="@+id/achievementPicasso"
+                        android:layout_width="80dp"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:gravity="center"
+                        android:padding="8dp"
+                        android:alpha="0.4">
+
+                        <ImageView
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:src="@drawable/ic_art"
+                            android:contentDescription="@string/profile_achievement_picasso" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/profile_achievement_picasso"
+                            android:textSize="11sp"
+                            android:textColor="@color/txtSecundario"
+                            android:gravity="center"
+                            android:layout_marginTop="4dp" />
+                    </LinearLayout>
+
+                    <!-- Logro 4: Plaza -->
+                    <LinearLayout
+                        android:id="@+id/achievementPlaza"
+                        android:layout_width="80dp"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:gravity="center"
+                        android:padding="8dp"
+                        android:alpha="0.4">
+
+                        <ImageView
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:src="@drawable/ic_market"
+                            android:contentDescription="@string/profile_achievement_plaza" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/profile_achievement_plaza"
+                            android:textSize="11sp"
+                            android:textColor="@color/txtSecundario"
+                            android:gravity="center"
+                            android:layout_marginTop="4dp" />
+                    </LinearLayout>
+
+                    <!-- Logro 5: Frontón -->
+                    <LinearLayout
+                        android:id="@+id/achievementFronton"
+                        android:layout_width="80dp"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:gravity="center"
+                        android:padding="8dp"
+                        android:alpha="0.4">
+
+                        <ImageView
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:src="@drawable/ic_sports"
+                            android:contentDescription="@string/profile_achievement_fronton" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/profile_achievement_fronton"
+                            android:textSize="11sp"
+                            android:textColor="@color/txtSecundario"
+                            android:gravity="center"
+                            android:layout_marginTop="4dp" />
+                    </LinearLayout>
+
+                </LinearLayout>
+            </HorizontalScrollView>
+
+        </LinearLayout>
+
+        <!-- Botón Editar Perfil -->
+        <Button
+            android:id="@+id/btnEditProfile"
+            style="@style/EstiloBotonPrimario"
+            android:layout_width="match_parent"
+            android:layout_height="72dp"
+            android:text="@string/profile_edit_button"
+            android:layout_marginBottom="12dp" />
+
+        <!-- Botón Cerrar Sesión -->
+        <Button
+            android:id="@+id/btnLogout"
+            style="@style/EstiloBotonSecundario"
+            android:layout_width="match_parent"
+            android:layout_height="72dp"
+            android:text="@string/profile_logout_button"
+            android:layout_marginBottom="24dp" />
+
+    </LinearLayout>
+
+</ScrollView>
