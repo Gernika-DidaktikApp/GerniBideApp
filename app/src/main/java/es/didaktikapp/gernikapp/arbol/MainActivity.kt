@@ -29,11 +29,6 @@ class MainActivity : BaseMenuActivity() {
                 ContextCompat.getDrawable(this, R.drawable.bg_boton_completado)
         }
 
-        if (prefs.getBoolean("interactive_completed", false)) {
-            binding.btnInteractive.background =
-                ContextCompat.getDrawable(this, R.drawable.bg_boton_completado)
-        }
-
         if (prefs.getBoolean("my_tree_completed", false)) {
             binding.btnMyTree.background =
                 ContextCompat.getDrawable(this, R.drawable.bg_boton_completado)
@@ -46,9 +41,6 @@ class MainActivity : BaseMenuActivity() {
     }
 
     private fun setupClickListeners() {
-        binding.btnInteractive.setOnClickListener {
-            startActivity(Intent(this, InteractiveActivity::class.java))
-        }
 
         binding.btnAudioQuiz.setOnClickListener {
             startActivity(Intent(this, AudioQuizActivity::class.java))

@@ -4,19 +4,29 @@ import android.content.Intent
 import android.content.res.ColorStateList
 import android.graphics.BitmapFactory
 import android.graphics.Color
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import androidx.lifecycle.lifecycleScope
 import es.didaktikapp.gernikapp.BaseMenuActivity
 import es.didaktikapp.gernikapp.R
+import es.didaktikapp.gernikapp.data.local.TokenManager
+import es.didaktikapp.gernikapp.data.repository.GameRepository
 import es.didaktikapp.gernikapp.databinding.PicassoColorPeaceBinding
 import es.didaktikapp.gernikapp.utils.BitmapUtils
 import es.didaktikapp.gernikapp.utils.Constants
+import es.didaktikapp.gernikapp.utils.Constants.Actividades
+import es.didaktikapp.gernikapp.utils.Resource
+import kotlinx.coroutines.launch
 import java.io.File
 
 class ColorPeaceActivity : BaseMenuActivity() {
 
     private lateinit var binding: PicassoColorPeaceBinding
+    private lateinit var gameRepository: GameRepository
+    private lateinit var tokenManager: TokenManager
+    private var eventoEstadoId: String? = null
 
     // Colores disponibles
     private val colorBlue = Color.parseColor("#4FC3F7")
@@ -26,7 +36,10 @@ class ColorPeaceActivity : BaseMenuActivity() {
     private val colorWhite = Color.parseColor("#FFFFFF")
 
     override fun onContentInflated() {
+        gameRepository = GameRepository(this)
+        tokenManager = TokenManager(this)
         binding = PicassoColorPeaceBinding.inflate(layoutInflater, contentContainer, true)
+        iniciarEvento()
         setupColorListeners()
         setupPaintableBounds()
         checkForSavedPainting()
@@ -204,6 +217,7 @@ class ColorPeaceActivity : BaseMenuActivity() {
         val saved = binding.paintCanvas.saveToInternalStorage(this)
 
         if (saved) {
+            completarEvento()
             showCompletionDialog()
         } else {
             Toast.makeText(
@@ -225,5 +239,27 @@ class ColorPeaceActivity : BaseMenuActivity() {
                 finish()
             }
             .show()
+    }
+
+    private fun iniciarEvento() {
+        val juegoId = tokenManager.getJuegoId() ?: return
+        lifecycleScope.launch {
+            when (val result = gameRepository.iniciarEvento(juegoId, Actividades.Picasso.ID, Actividades.Picasso.COLOR_PEACE)) {
+                is Resource.Success -> eventoEstadoId = result.data.id
+                is Resource.Error -> Log.e("ColorPeace", "Error: ${result.message}")
+                is Resource.Loading -> { }
+            }
+        }
+    }
+
+    private fun completarEvento() {
+        val estadoId = eventoEstadoId ?: return
+        lifecycleScope.launch {
+            when (val result = gameRepository.completarEvento(estadoId, 100.0)) {
+                is Resource.Success -> Log.d("ColorPeace", "Completado")
+                is Resource.Error -> Log.e("ColorPeace", "Error: ${result.message}")
+                is Resource.Loading -> { }
+            }
+        }
     }
 }

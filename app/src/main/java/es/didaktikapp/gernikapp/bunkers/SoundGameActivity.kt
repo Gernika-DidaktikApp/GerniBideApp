@@ -6,11 +6,18 @@ import es.didaktikapp.gernikapp.BaseMenuActivity
 import android.content.Context
 import android.content.res.ColorStateList
 import android.media.MediaPlayer
+import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.ImageButton
 import android.widget.TextView
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.lifecycleScope
+import es.didaktikapp.gernikapp.data.local.TokenManager
+import es.didaktikapp.gernikapp.data.repository.GameRepository
+import es.didaktikapp.gernikapp.utils.Constants.Actividades
+import es.didaktikapp.gernikapp.utils.Resource
+import kotlinx.coroutines.launch
 
 class SoundGameActivity : BaseMenuActivity() {
 
@@ -20,6 +27,11 @@ class SoundGameActivity : BaseMenuActivity() {
     private lateinit var tvHistoryMessage: TextView
     private lateinit var btnBack: Button
     private lateinit var rootLayout: View
+
+    // Repositorios para API
+    private lateinit var gameRepository: GameRepository
+    private lateinit var tokenManager: TokenManager
+    private var eventoEstadoId: String? = null
 
     private var stars = 0
     private var currentSoundId = -1
@@ -47,12 +59,17 @@ class SoundGameActivity : BaseMenuActivity() {
     override fun getContentLayoutId() = R.layout.bunkers_sound_game
 
     override fun onContentInflated() {
+        gameRepository = GameRepository(this)
+        tokenManager = TokenManager(this)
+
         tvStars = findViewById(R.id.tvStars)
         tvQuestion = findViewById(R.id.tvQuestion)
         categoryControls = findViewById(R.id.categoryControls)
         tvHistoryMessage = findViewById(R.id.tvHistoryMessage)
         btnBack = findViewById(R.id.btnBack)
         rootLayout = findViewById(R.id.soundGameRoot)
+
+        iniciarEvento()
 
         val prefs = getSharedPreferences("bunkers_progress", Context.MODE_PRIVATE)
 
@@ -170,6 +187,8 @@ class SoundGameActivity : BaseMenuActivity() {
             // Guardar progreso
             val prefs = getSharedPreferences("bunkers_progress", Context.MODE_PRIVATE)
             prefs.edit().putBoolean("sound_game_completed", true).apply()
+
+            completarEvento()
         }
     }
 
@@ -177,5 +196,27 @@ class SoundGameActivity : BaseMenuActivity() {
         super.onDestroy()
         mediaPlayer?.release()
         mediaPlayer = null
+    }
+
+    private fun iniciarEvento() {
+        val juegoId = tokenManager.getJuegoId() ?: return
+        lifecycleScope.launch {
+            when (val result = gameRepository.iniciarEvento(juegoId, Actividades.Bunkers.ID, Actividades.Bunkers.SOUND_GAME)) {
+                is Resource.Success -> eventoEstadoId = result.data.id
+                is Resource.Error -> Log.e("SoundGame", "Error: ${result.message}")
+                is Resource.Loading -> { }
+            }
+        }
+    }
+
+    private fun completarEvento() {
+        val estadoId = eventoEstadoId ?: return
+        lifecycleScope.launch {
+            when (val result = gameRepository.completarEvento(estadoId, stars * 100.0)) {
+                is Resource.Success -> Log.d("SoundGame", "Completado: ${stars * 100}")
+                is Resource.Error -> Log.e("SoundGame", "Error: ${result.message}")
+                is Resource.Loading -> { }
+            }
+        }
     }
 }

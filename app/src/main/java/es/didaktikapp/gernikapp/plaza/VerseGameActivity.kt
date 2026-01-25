@@ -1,6 +1,7 @@
 package es.didaktikapp.gernikapp.plaza
 
 import android.content.Context
+import android.util.Log
 import android.widget.Button
 import android.widget.RadioButton
 import android.widget.RadioGroup
@@ -9,9 +10,15 @@ import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.core.content.edit
 import androidx.core.view.isVisible
+import androidx.lifecycle.lifecycleScope
 import es.didaktikapp.gernikapp.BaseMenuActivity
 import es.didaktikapp.gernikapp.R
+import es.didaktikapp.gernikapp.data.local.TokenManager
+import es.didaktikapp.gernikapp.data.repository.GameRepository
 import es.didaktikapp.gernikapp.plaza.models.VerseQuestion
+import es.didaktikapp.gernikapp.utils.Constants.Actividades
+import es.didaktikapp.gernikapp.utils.Resource
+import kotlinx.coroutines.launch
 
 class VerseGameActivity : BaseMenuActivity() {
 
@@ -24,6 +31,9 @@ class VerseGameActivity : BaseMenuActivity() {
     private lateinit var rbOpcion3: RadioButton
     private lateinit var btnComprobar: Button
     private lateinit var btnBack: Button
+    private lateinit var gameRepository: GameRepository
+    private lateinit var tokenManager: TokenManager
+    private var eventoEstadoId: String? = null
 
     private val preguntas = mutableListOf<VerseQuestion>()
     private var preguntaActual = 0
@@ -32,8 +42,12 @@ class VerseGameActivity : BaseMenuActivity() {
     override fun getContentLayoutId() = R.layout.plaza_verse_game
 
     override fun onContentInflated() {
+        gameRepository = GameRepository(this)
+        tokenManager = TokenManager(this)
+
         inicializarVistas()
         inicializarPreguntas()
+        iniciarEvento()
         mostrarPregunta()
         setupButtons()
     }
@@ -196,9 +210,32 @@ class VerseGameActivity : BaseMenuActivity() {
     private fun mostrarResultadoFinal() {
         tvAciertos.text = getString(R.string.verse_game_aciertos, aciertos, preguntas.size)
         btnBack.isEnabled = true
+        completarEvento()
 
         // Save progress
         val prefs = getSharedPreferences("plaza_progress", Context.MODE_PRIVATE)
         prefs.edit { putBoolean("verse_game_completed", true) }
+    }
+
+    private fun iniciarEvento() {
+        val juegoId = tokenManager.getJuegoId() ?: return
+        lifecycleScope.launch {
+            when (val result = gameRepository.iniciarEvento(juegoId, Actividades.Plaza.ID, Actividades.Plaza.VERSE_GAME)) {
+                is Resource.Success -> eventoEstadoId = result.data.id
+                is Resource.Error -> Log.e("VerseGame", "Error: ${result.message}")
+                is Resource.Loading -> { }
+            }
+        }
+    }
+
+    private fun completarEvento() {
+        val estadoId = eventoEstadoId ?: return
+        lifecycleScope.launch {
+            when (val result = gameRepository.completarEvento(estadoId, (aciertos * 100).toDouble())) {
+                is Resource.Success -> Log.d("VerseGame", "Completado")
+                is Resource.Error -> Log.e("VerseGame", "Error: ${result.message}")
+                is Resource.Loading -> { }
+            }
+        }
     }
 }

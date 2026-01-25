@@ -4,6 +4,7 @@ import android.content.Context
 import android.graphics.drawable.TransitionDrawable
 import android.os.Handler
 import android.os.Looper
+import android.util.Log
 import android.widget.Button
 import android.widget.ImageButton
 import android.widget.ProgressBar
@@ -12,8 +13,14 @@ import android.widget.TextView
 import android.widget.VideoView
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
+import androidx.lifecycle.lifecycleScope
 import es.didaktikapp.gernikapp.BaseMenuActivity
 import es.didaktikapp.gernikapp.R
+import es.didaktikapp.gernikapp.data.local.TokenManager
+import es.didaktikapp.gernikapp.data.repository.GameRepository
+import es.didaktikapp.gernikapp.utils.Constants.Actividades
+import es.didaktikapp.gernikapp.utils.Resource
+import kotlinx.coroutines.launch
 import java.util.Locale
 import androidx.core.net.toUri
 
@@ -25,6 +32,9 @@ class VideoActivity : BaseMenuActivity() {
     private lateinit var tvTime: TextView
     private lateinit var btnBack: Button
     private lateinit var progressBar: ProgressBar
+    private lateinit var gameRepository: GameRepository
+    private lateinit var tokenManager: TokenManager
+    private var eventoEstadoId: String? = null
 
     private val handler = Handler(Looper.getMainLooper())
     private var isTracking = false
@@ -32,6 +42,9 @@ class VideoActivity : BaseMenuActivity() {
     override fun getContentLayoutId() = R.layout.plaza_video
 
     override fun onContentInflated() {
+        gameRepository = GameRepository(this)
+        tokenManager = TokenManager(this)
+
         videoView = findViewById(R.id.videoView)
         btnPlayPause = findViewById(R.id.btnPlayPause)
         seekBar = findViewById(R.id.seekBar)
@@ -45,6 +58,7 @@ class VideoActivity : BaseMenuActivity() {
             btnBack.isEnabled = true
         }
 
+        iniciarEvento()
         setupVideoPlayer()
         setupVideoControls()
         setupButtons()
@@ -71,6 +85,7 @@ class VideoActivity : BaseMenuActivity() {
         videoView.setOnCompletionListener {
             enableButtonWithTransition()
             updatePlayPauseButton()
+            completarEvento()
 
             // Save progress
             val prefs = getSharedPreferences("plaza_progress", Context.MODE_PRIVATE)
@@ -168,5 +183,27 @@ class VideoActivity : BaseMenuActivity() {
     override fun onDestroy() {
         super.onDestroy()
         handler.removeCallbacksAndMessages(null)
+    }
+
+    private fun iniciarEvento() {
+        val juegoId = tokenManager.getJuegoId() ?: return
+        lifecycleScope.launch {
+            when (val result = gameRepository.iniciarEvento(juegoId, Actividades.Plaza.ID, Actividades.Plaza.VIDEO)) {
+                is Resource.Success -> eventoEstadoId = result.data.id
+                is Resource.Error -> Log.e("Video", "Error: ${result.message}")
+                is Resource.Loading -> { }
+            }
+        }
+    }
+
+    private fun completarEvento() {
+        val estadoId = eventoEstadoId ?: return
+        lifecycleScope.launch {
+            when (val result = gameRepository.completarEvento(estadoId, 100.0)) {
+                is Resource.Success -> Log.d("Video", "Completado")
+                is Resource.Error -> Log.e("Video", "Error: ${result.message}")
+                is Resource.Loading -> { }
+            }
+        }
     }
 }

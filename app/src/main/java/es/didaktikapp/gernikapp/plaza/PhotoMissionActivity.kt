@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.provider.MediaStore
+import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.ImageView
@@ -14,13 +15,19 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import es.didaktikapp.gernikapp.BaseMenuActivity
 import es.didaktikapp.gernikapp.R
+import es.didaktikapp.gernikapp.data.local.TokenManager
+import es.didaktikapp.gernikapp.data.repository.GameRepository
 import es.didaktikapp.gernikapp.plaza.adapters.PhotoMissionAdapter
 import es.didaktikapp.gernikapp.plaza.models.EtiquetaFoto
 import es.didaktikapp.gernikapp.plaza.models.FotoGaleria
+import es.didaktikapp.gernikapp.utils.Constants.Actividades
+import es.didaktikapp.gernikapp.utils.Resource
+import kotlinx.coroutines.launch
 
 class PhotoMissionActivity : BaseMenuActivity() {
 
@@ -35,6 +42,9 @@ class PhotoMissionActivity : BaseMenuActivity() {
     private lateinit var rbBizikidetza: RadioButton
     private lateinit var rvGaleria: RecyclerView
     private lateinit var adapter: PhotoMissionAdapter
+    private lateinit var gameRepository: GameRepository
+    private lateinit var tokenManager: TokenManager
+    private var eventoEstadoId: String? = null
 
     private val galeriaFotos = mutableListOf<FotoGaleria>()
     private var fotoActual: Bitmap? = null
@@ -65,7 +75,11 @@ class PhotoMissionActivity : BaseMenuActivity() {
     override fun getContentLayoutId() = R.layout.plaza_photo_mission
 
     override fun onContentInflated() {
+        gameRepository = GameRepository(this)
+        tokenManager = TokenManager(this)
+
         inicializarVistas()
+        iniciarEvento()
         setupRecyclerView()
         setupButtons()
     }
@@ -153,6 +167,7 @@ class PhotoMissionActivity : BaseMenuActivity() {
         btnBack.isEnabled = true
         val prefs = getSharedPreferences("plaza_progress", Context.MODE_PRIVATE)
         prefs.edit().putBoolean("photo_mission_completed", true).apply()
+        completarEvento()
 
         // Resetear vista
         resetearVista()
@@ -187,5 +202,27 @@ class PhotoMissionActivity : BaseMenuActivity() {
     private fun abrirCamara() {
         val takePictureIntent = android.content.Intent(MediaStore.ACTION_IMAGE_CAPTURE)
         takePictureLauncher.launch(takePictureIntent)
+    }
+
+    private fun iniciarEvento() {
+        val juegoId = tokenManager.getJuegoId() ?: return
+        lifecycleScope.launch {
+            when (val result = gameRepository.iniciarEvento(juegoId, Actividades.Plaza.ID, Actividades.Plaza.PHOTO_MISSION)) {
+                is Resource.Success -> eventoEstadoId = result.data.id
+                is Resource.Error -> Log.e("PhotoMission", "Error: ${result.message}")
+                is Resource.Loading -> { }
+            }
+        }
+    }
+
+    private fun completarEvento() {
+        val estadoId = eventoEstadoId ?: return
+        lifecycleScope.launch {
+            when (val result = gameRepository.completarEvento(estadoId, 100.0)) {
+                is Resource.Success -> Log.d("PhotoMission", "Completado")
+                is Resource.Error -> Log.e("PhotoMission", "Error: ${result.message}")
+                is Resource.Loading -> { }
+            }
+        }
     }
 }

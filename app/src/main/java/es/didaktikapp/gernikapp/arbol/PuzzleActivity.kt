@@ -9,12 +9,19 @@ import android.graphics.BitmapFactory
 import android.graphics.Rect
 import android.media.AudioManager
 import android.media.ToneGenerator
+import android.util.Log
 import android.view.MotionEvent
 import android.view.View
 import android.widget.Button
 import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.lifecycle.lifecycleScope
+import es.didaktikapp.gernikapp.data.local.TokenManager
+import es.didaktikapp.gernikapp.data.repository.GameRepository
+import es.didaktikapp.gernikapp.utils.Constants.Actividades
+import es.didaktikapp.gernikapp.utils.Resource
+import kotlinx.coroutines.launch
 import kotlin.random.Random
 
 class PuzzleActivity : BaseMenuActivity() {
@@ -23,6 +30,13 @@ class PuzzleActivity : BaseMenuActivity() {
     private lateinit var tvVictory: TextView
     private lateinit var btnBack: Button
     private lateinit var guideImage: ImageView
+
+    // Repositorios para API
+    private lateinit var gameRepository: GameRepository
+    private lateinit var tokenManager: TokenManager
+
+    // Estado del evento
+    private var eventoEstadoId: String? = null
 
     private val rows = 2
     private val cols = 3
@@ -40,10 +54,17 @@ class PuzzleActivity : BaseMenuActivity() {
     override fun getContentLayoutId() = R.layout.arbol_puzzle
 
     override fun onContentInflated() {
+        // Inicializar repositorios
+        gameRepository = GameRepository(this)
+        tokenManager = TokenManager(this)
+
         puzzleContainer = findViewById(R.id.puzzleContainer)
         tvVictory = findViewById(R.id.tvVictory)
         btnBack = findViewById(R.id.btnBack)
         guideImage = findViewById(R.id.guideImage)
+
+        // Iniciar evento en la API
+        iniciarEvento()
 
         btnBack.setOnClickListener {
             finish()
@@ -170,6 +191,9 @@ class PuzzleActivity : BaseMenuActivity() {
             // Guardar progreso
             val prefs = getSharedPreferences("arbol_progress", Context.MODE_PRIVATE)
             prefs.edit().putBoolean("puzzle_completed", true).apply()
+
+            // Completar evento en la API
+            completarEvento()
         }
     }
 
@@ -201,5 +225,55 @@ class PuzzleActivity : BaseMenuActivity() {
         rect.bottom = (yOffset + imageHeight * scale).toInt()
 
         return rect
+    }
+
+    private fun iniciarEvento() {
+        val juegoId = tokenManager.getJuegoId()
+
+        if (juegoId == null) {
+            Log.e("Puzzle", "No hay juegoId guardado")
+            return
+        }
+
+        lifecycleScope.launch {
+            when (val result = gameRepository.iniciarEvento(
+                idJuego = juegoId,
+                idActividad = Actividades.Arbol.ID,
+                idEvento = Actividades.Arbol.PUZZLE
+            )) {
+                is Resource.Success -> {
+                    eventoEstadoId = result.data.id
+                    Log.d("Puzzle", "Evento iniciado: $eventoEstadoId")
+                }
+                is Resource.Error -> {
+                    Log.e("Puzzle", "Error al iniciar evento: ${result.message}")
+                }
+                is Resource.Loading -> { }
+            }
+        }
+    }
+
+    private fun completarEvento() {
+        val estadoId = eventoEstadoId
+
+        if (estadoId == null) {
+            Log.e("Puzzle", "No hay eventoEstadoId guardado")
+            return
+        }
+
+        lifecycleScope.launch {
+            when (val result = gameRepository.completarEvento(
+                estadoId = estadoId,
+                puntuacion = 100.0 // Puzzle completado = 100%
+            )) {
+                is Resource.Success -> {
+                    Log.d("Puzzle", "Evento completado con puntuación: 100")
+                }
+                is Resource.Error -> {
+                    Log.e("Puzzle", "Error al completar evento: ${result.message}")
+                }
+                is Resource.Loading -> { }
+            }
+        }
     }
 }

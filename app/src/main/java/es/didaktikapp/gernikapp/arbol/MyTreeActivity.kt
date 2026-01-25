@@ -5,17 +5,38 @@ import es.didaktikapp.gernikapp.BaseMenuActivity
 
 import android.content.Context
 import android.content.Intent
+import android.util.Log
 import android.widget.Button
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.lifecycleScope
+import es.didaktikapp.gernikapp.data.local.TokenManager
+import es.didaktikapp.gernikapp.data.repository.GameRepository
+import es.didaktikapp.gernikapp.utils.Constants.Actividades
+import es.didaktikapp.gernikapp.utils.Resource
+import kotlinx.coroutines.launch
 
 class MyTreeActivity : BaseMenuActivity() {
 
     private lateinit var btnBack: Button
 
+    // Repositorios para API
+    private lateinit var gameRepository: GameRepository
+    private lateinit var tokenManager: TokenManager
+
+    // Estado del evento
+    private var eventoEstadoId: String? = null
+
     override fun getContentLayoutId() = R.layout.arbol_my_tree
 
     override fun onContentInflated() {
+        // Inicializar repositorios
+        gameRepository = GameRepository(this)
+        tokenManager = TokenManager(this)
+
         btnBack = findViewById(R.id.btnBack)
+
+        // Iniciar evento en la API
+        iniciarEvento()
 
         // Si ya estaba completada, habilitar botón
         val prefs = getSharedPreferences("arbol_progress", Context.MODE_PRIVATE)
@@ -40,11 +61,64 @@ class MyTreeActivity : BaseMenuActivity() {
             btnBack.isEnabled = true
             prefs.edit().putBoolean("my_tree_completed", true).apply()
 
+            // Completar evento en la API
+            completarEvento()
+
             val intent = Intent(this, InteractiveActivity::class.java).apply {
                 putExtra("EXTRA_VALUE_TEXT", (button as Button).text.toString())
                 putExtra("EXTRA_VALUE_COLOR", ContextCompat.getColor(this@MyTreeActivity, colorId))
             }
             startActivity(intent)
+        }
+    }
+
+    private fun iniciarEvento() {
+        val juegoId = tokenManager.getJuegoId()
+
+        if (juegoId == null) {
+            Log.e("MyTree", "No hay juegoId guardado")
+            return
+        }
+
+        lifecycleScope.launch {
+            when (val result = gameRepository.iniciarEvento(
+                idJuego = juegoId,
+                idActividad = Actividades.Arbol.ID,
+                idEvento = Actividades.Arbol.MY_TREE
+            )) {
+                is Resource.Success -> {
+                    eventoEstadoId = result.data.id
+                    Log.d("MyTree", "Evento iniciado: $eventoEstadoId")
+                }
+                is Resource.Error -> {
+                    Log.e("MyTree", "Error al iniciar evento: ${result.message}")
+                }
+                is Resource.Loading -> { }
+            }
+        }
+    }
+
+    private fun completarEvento() {
+        val estadoId = eventoEstadoId
+
+        if (estadoId == null) {
+            Log.e("MyTree", "No hay eventoEstadoId guardado")
+            return
+        }
+
+        lifecycleScope.launch {
+            when (val result = gameRepository.completarEvento(
+                estadoId = estadoId,
+                puntuacion = 100.0
+            )) {
+                is Resource.Success -> {
+                    Log.d("MyTree", "Evento completado con puntuación: 100")
+                }
+                is Resource.Error -> {
+                    Log.e("MyTree", "Error al completar evento: ${result.message}")
+                }
+                is Resource.Loading -> { }
+            }
         }
     }
 }

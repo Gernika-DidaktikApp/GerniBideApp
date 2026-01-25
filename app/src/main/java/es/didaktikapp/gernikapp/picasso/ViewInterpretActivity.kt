@@ -3,16 +3,26 @@ package es.didaktikapp.gernikapp.picasso
 import android.content.Context
 import android.graphics.Color
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Button
 import androidx.appcompat.app.AlertDialog
+import androidx.lifecycle.lifecycleScope
 import es.didaktikapp.gernikapp.BaseMenuActivity
 import es.didaktikapp.gernikapp.R
+import es.didaktikapp.gernikapp.data.local.TokenManager
+import es.didaktikapp.gernikapp.data.repository.GameRepository
 import es.didaktikapp.gernikapp.databinding.PicassoViewInterpretBinding
+import es.didaktikapp.gernikapp.utils.Constants.Actividades
+import es.didaktikapp.gernikapp.utils.Resource
+import kotlinx.coroutines.launch
 
 class ViewInterpretActivity : BaseMenuActivity() {
 
     private lateinit var binding: PicassoViewInterpretBinding
+    private lateinit var gameRepository: GameRepository
+    private lateinit var tokenManager: TokenManager
+    private var eventoEstadoId: String? = null
     private var currentQuestionIndex = 0
     private var correctAnswers = 0
 
@@ -67,7 +77,10 @@ class ViewInterpretActivity : BaseMenuActivity() {
     )
 
     override fun onContentInflated() {
+        gameRepository = GameRepository(this)
+        tokenManager = TokenManager(this)
         binding = PicassoViewInterpretBinding.inflate(layoutInflater, contentContainer, true)
+        iniciarEvento()
         setupOptionListeners()
         binding.nextButton.setOnClickListener {
             loadNextQuestion()
@@ -286,6 +299,8 @@ class ViewInterpretActivity : BaseMenuActivity() {
         val progressPrefs = getSharedPreferences("picasso_progress", MODE_PRIVATE)
         progressPrefs.edit().putBoolean("view_interpret_completed", true).apply()
 
+        completarEvento()
+
         val stars = when (correctAnswers) {
             6 -> "⭐⭐⭐⭐⭐"
             5 -> "⭐⭐⭐⭐"
@@ -303,5 +318,27 @@ class ViewInterpretActivity : BaseMenuActivity() {
             }
             .setCancelable(false)
             .show()
+    }
+
+    private fun iniciarEvento() {
+        val juegoId = tokenManager.getJuegoId() ?: return
+        lifecycleScope.launch {
+            when (val result = gameRepository.iniciarEvento(juegoId, Actividades.Picasso.ID, Actividades.Picasso.VIEW_INTERPRET)) {
+                is Resource.Success -> eventoEstadoId = result.data.id
+                is Resource.Error -> Log.e("ViewInterpret", "Error: ${result.message}")
+                is Resource.Loading -> { }
+            }
+        }
+    }
+
+    private fun completarEvento() {
+        val estadoId = eventoEstadoId ?: return
+        lifecycleScope.launch {
+            when (val result = gameRepository.completarEvento(estadoId, correctAnswers * 100.0)) {
+                is Resource.Success -> Log.d("ViewInterpret", "Completado: ${correctAnswers * 100}")
+                is Resource.Error -> Log.e("ViewInterpret", "Error: ${result.message}")
+                is Resource.Loading -> { }
+            }
+        }
     }
 }

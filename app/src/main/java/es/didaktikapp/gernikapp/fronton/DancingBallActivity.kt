@@ -5,6 +5,7 @@ import android.media.AudioManager
 import android.media.ToneGenerator
 import android.os.Handler
 import android.os.Looper
+import android.util.Log
 import android.view.MotionEvent
 import android.view.View
 import android.widget.Button
@@ -16,8 +17,14 @@ import kotlin.math.abs
 import kotlin.random.Random
 import es.didaktikapp.gernikapp.R
 import es.didaktikapp.gernikapp.BaseMenuActivity
+import es.didaktikapp.gernikapp.data.local.TokenManager
+import es.didaktikapp.gernikapp.data.repository.GameRepository
+import es.didaktikapp.gernikapp.utils.Constants.Actividades
+import es.didaktikapp.gernikapp.utils.Resource
 import androidx.activity.OnBackPressedCallback
 import androidx.core.view.isVisible
+import androidx.lifecycle.lifecycleScope
+import kotlinx.coroutines.launch
 
 /**
  * Activity del juego Dancing Ball.
@@ -32,6 +39,9 @@ class DancingBallActivity : BaseMenuActivity() {
     private lateinit var tvFinalScore: TextView
     private lateinit var btnReiniciar: Button
     private lateinit var btnBack: Button
+    private lateinit var gameRepository: GameRepository
+    private lateinit var tokenManager: TokenManager
+    private var eventoEstadoId: String? = null
 
     private val handler = Handler(Looper.getMainLooper())
     private var dx = 8f
@@ -45,7 +55,11 @@ class DancingBallActivity : BaseMenuActivity() {
     override fun getContentLayoutId() = R.layout.fronton_dancing_ball
 
     override fun onContentInflated() {
+        gameRepository = GameRepository(this)
+        tokenManager = TokenManager(this)
+
         initViews()
+        iniciarEvento()
         playBoingSound()
         setupGameArea()
         setupTouchControls()
@@ -217,6 +231,7 @@ class DancingBallActivity : BaseMenuActivity() {
         // Guardar progreso
         val prefs = getSharedPreferences("fronton_progress", Context.MODE_PRIVATE)
         prefs.edit().putBoolean("dancing_ball_completed", true).apply()
+        completarEvento()
     }
 
     /**
@@ -265,6 +280,28 @@ class DancingBallActivity : BaseMenuActivity() {
                 toneGenerator.release()
             }, 100)
         } catch (e: Exception) { }
+    }
+
+    private fun iniciarEvento() {
+        val juegoId = tokenManager.getJuegoId() ?: return
+        lifecycleScope.launch {
+            when (val result = gameRepository.iniciarEvento(juegoId, Actividades.Fronton.ID, Actividades.Fronton.DANCING_BALL)) {
+                is Resource.Success -> eventoEstadoId = result.data.id
+                is Resource.Error -> Log.e("DancingBall", "Error: ${result.message}")
+                is Resource.Loading -> { }
+            }
+        }
+    }
+
+    private fun completarEvento() {
+        val estadoId = eventoEstadoId ?: return
+        lifecycleScope.launch {
+            when (val result = gameRepository.completarEvento(estadoId, (puntos * 100).toDouble())) {
+                is Resource.Success -> Log.d("DancingBall", "Completado")
+                is Resource.Error -> Log.e("DancingBall", "Error: ${result.message}")
+                is Resource.Loading -> { }
+            }
+        }
     }
 
 }

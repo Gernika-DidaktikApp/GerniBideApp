@@ -4,6 +4,7 @@ import android.content.ClipData
 import android.content.Context
 import android.graphics.Outline
 import android.media.MediaPlayer
+import android.util.Log
 import android.view.DragEvent
 import android.view.View
 import android.widget.Button
@@ -14,15 +15,24 @@ import android.widget.LinearLayout
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.lifecycleScope
 import es.didaktikapp.gernikapp.BaseMenuActivity
 import es.didaktikapp.gernikapp.R
+import es.didaktikapp.gernikapp.data.local.TokenManager
+import es.didaktikapp.gernikapp.data.repository.GameRepository
 import es.didaktikapp.gernikapp.plaza.models.Product
 import es.didaktikapp.gernikapp.plaza.models.ProductCategory
+import es.didaktikapp.gernikapp.utils.Constants.Actividades
+import es.didaktikapp.gernikapp.utils.Resource
+import kotlinx.coroutines.launch
 
 class DragProductsActivity : BaseMenuActivity() {
 
     private lateinit var gridProductos: GridLayout
     private lateinit var btnBack: Button
+    private lateinit var gameRepository: GameRepository
+    private lateinit var tokenManager: TokenManager
+    private var eventoEstadoId: String? = null
     private val products = mutableListOf<Product>()
     private var productosColocados = 0
     private var mediaPlayer: MediaPlayer? = null
@@ -31,6 +41,9 @@ class DragProductsActivity : BaseMenuActivity() {
     override fun getContentLayoutId() = R.layout.plaza_drag_products
 
     override fun onContentInflated() {
+        gameRepository = GameRepository(this)
+        tokenManager = TokenManager(this)
+
         gridProductos = findViewById(R.id.gridProductos)
         btnBack = findViewById(R.id.btnBack)
 
@@ -39,6 +52,7 @@ class DragProductsActivity : BaseMenuActivity() {
             btnBack.isEnabled = true
         }
 
+        iniciarEvento()
         inicializarProductos()
         crearVistaProductos()
         configurarPuestos()
@@ -295,6 +309,7 @@ class DragProductsActivity : BaseMenuActivity() {
                         // Guardar progreso
                         val prefs = getSharedPreferences("plaza_progress", Context.MODE_PRIVATE)
                         prefs.edit().putBoolean("drag_products_completed", true).apply()
+                        completarEvento()
                         mostrarMensajeCompletado()
                     }
                 } else {
@@ -358,6 +373,28 @@ class DragProductsActivity : BaseMenuActivity() {
     private fun setupButtons() {
         btnBack.setOnClickListener {
             finish()
+        }
+    }
+
+    private fun iniciarEvento() {
+        val juegoId = tokenManager.getJuegoId() ?: return
+        lifecycleScope.launch {
+            when (val result = gameRepository.iniciarEvento(juegoId, Actividades.Plaza.ID, Actividades.Plaza.DRAG_PRODUCTS)) {
+                is Resource.Success -> eventoEstadoId = result.data.id
+                is Resource.Error -> Log.e("DragProducts", "Error: ${result.message}")
+                is Resource.Loading -> { }
+            }
+        }
+    }
+
+    private fun completarEvento() {
+        val estadoId = eventoEstadoId ?: return
+        lifecycleScope.launch {
+            when (val result = gameRepository.completarEvento(estadoId, 100.0)) {
+                is Resource.Success -> Log.d("DragProducts", "Completado")
+                is Resource.Error -> Log.e("DragProducts", "Error: ${result.message}")
+                is Resource.Loading -> { }
+            }
         }
     }
 }

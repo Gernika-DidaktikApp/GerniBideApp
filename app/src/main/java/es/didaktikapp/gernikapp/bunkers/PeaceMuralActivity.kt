@@ -4,6 +4,7 @@ import es.didaktikapp.gernikapp.R
 import es.didaktikapp.gernikapp.BaseMenuActivity
 
 import android.media.MediaPlayer
+import android.util.Log
 import android.view.View
 import android.view.animation.AlphaAnimation
 import android.view.animation.AnimationSet
@@ -12,6 +13,12 @@ import android.widget.Button
 import android.widget.FrameLayout
 import android.widget.ImageButton
 import android.widget.TextView
+import androidx.lifecycle.lifecycleScope
+import es.didaktikapp.gernikapp.data.local.TokenManager
+import es.didaktikapp.gernikapp.data.repository.GameRepository
+import es.didaktikapp.gernikapp.utils.Constants.Actividades
+import es.didaktikapp.gernikapp.utils.Resource
+import kotlinx.coroutines.launch
 import kotlin.random.Random
 
 class PeaceMuralActivity : BaseMenuActivity() {
@@ -24,12 +31,22 @@ class PeaceMuralActivity : BaseMenuActivity() {
     private var mediaPlayer: MediaPlayer? = null
     private var isMuted = false
 
+    // Repositorios para API
+    private lateinit var gameRepository: GameRepository
+    private lateinit var tokenManager: TokenManager
+    private var eventoEstadoId: String? = null
+
     override fun getContentLayoutId() = R.layout.bunkers_peace_mural
 
     override fun onContentInflated() {
+        gameRepository = GameRepository(this)
+        tokenManager = TokenManager(this)
+
         muralContainer = findViewById(R.id.muralContainer)
         tvFinalCongrats = findViewById(R.id.tvFinalCongrats)
         btnBack = findViewById(R.id.btnBack)
+
+        iniciarEvento()
 
         // Si ya estaba completada, habilitar botón
         if (progressPrefs.getBoolean("peace_mural_completed", false)) {
@@ -82,6 +99,7 @@ class PeaceMuralActivity : BaseMenuActivity() {
                 // Marcar como completada y habilitar botón
                 btnBack.isEnabled = true
                 progressPrefs.edit().putBoolean("peace_mural_completed", true).apply()
+                completarEvento()
             }
         }
     }
@@ -146,5 +164,27 @@ class PeaceMuralActivity : BaseMenuActivity() {
         super.onDestroy()
         mediaPlayer?.release()
         mediaPlayer = null
+    }
+
+    private fun iniciarEvento() {
+        val juegoId = tokenManager.getJuegoId() ?: return
+        lifecycleScope.launch {
+            when (val result = gameRepository.iniciarEvento(juegoId, Actividades.Bunkers.ID, Actividades.Bunkers.PEACE_MURAL)) {
+                is Resource.Success -> eventoEstadoId = result.data.id
+                is Resource.Error -> Log.e("PeaceMural", "Error: ${result.message}")
+                is Resource.Loading -> { }
+            }
+        }
+    }
+
+    private fun completarEvento() {
+        val estadoId = eventoEstadoId ?: return
+        lifecycleScope.launch {
+            when (val result = gameRepository.completarEvento(estadoId, 100.0)) {
+                is Resource.Success -> Log.d("PeaceMural", "Completado")
+                is Resource.Error -> Log.e("PeaceMural", "Error: ${result.message}")
+                is Resource.Loading -> { }
+            }
+        }
     }
 }

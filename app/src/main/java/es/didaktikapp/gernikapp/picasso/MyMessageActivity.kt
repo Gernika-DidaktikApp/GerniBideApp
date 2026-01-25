@@ -3,6 +3,7 @@ package es.didaktikapp.gernikapp.picasso
 import android.graphics.Color
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.Gravity
 import android.view.inputmethod.InputMethodManager
 import android.widget.LinearLayout
@@ -10,15 +11,24 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.cardview.widget.CardView
+import androidx.lifecycle.lifecycleScope
 import es.didaktikapp.gernikapp.BaseMenuActivity
 import es.didaktikapp.gernikapp.R
+import es.didaktikapp.gernikapp.data.local.TokenManager
+import es.didaktikapp.gernikapp.data.repository.GameRepository
 import es.didaktikapp.gernikapp.databinding.PicassoMyMessageBinding
 import es.didaktikapp.gernikapp.utils.Constants
+import es.didaktikapp.gernikapp.utils.Constants.Actividades
+import es.didaktikapp.gernikapp.utils.Resource
+import kotlinx.coroutines.launch
 import java.io.File
 
 class MyMessageActivity : BaseMenuActivity() {
 
     private lateinit var binding: PicassoMyMessageBinding
+    private lateinit var gameRepository: GameRepository
+    private lateinit var tokenManager: TokenManager
+    private var eventoEstadoId: String? = null
 
     private val messagesFile by lazy {
         File(getExternalFilesDir(null), Constants.Files.PEACE_MESSAGES_FILENAME)
@@ -33,7 +43,10 @@ class MyMessageActivity : BaseMenuActivity() {
     }
 
     override fun onContentInflated() {
+        gameRepository = GameRepository(this)
+        tokenManager = TokenManager(this)
         binding = PicassoMyMessageBinding.inflate(layoutInflater, contentContainer, true)
+        iniciarEvento()
         setupCharacterCounter()
         setupSendButton()
         setupBackButton()
@@ -116,6 +129,7 @@ class MyMessageActivity : BaseMenuActivity() {
         binding.btnBack.isEnabled = true
         val progressPrefs = getSharedPreferences(PROGRESS_PREFS, MODE_PRIVATE)
         progressPrefs.edit().putBoolean(KEY_MY_MESSAGE_COMPLETED, true).apply()
+        completarEvento()
 
         // Limpiar input
         binding.messageInput.text.clear()
@@ -256,5 +270,27 @@ class MyMessageActivity : BaseMenuActivity() {
 
     private fun dpToPx(dp: Int): Int {
         return (dp * resources.displayMetrics.density).toInt()
+    }
+
+    private fun iniciarEvento() {
+        val juegoId = tokenManager.getJuegoId() ?: return
+        lifecycleScope.launch {
+            when (val result = gameRepository.iniciarEvento(juegoId, Actividades.Picasso.ID, Actividades.Picasso.MY_MESSAGE)) {
+                is Resource.Success -> eventoEstadoId = result.data.id
+                is Resource.Error -> Log.e("MyMessage", "Error: ${result.message}")
+                is Resource.Loading -> { }
+            }
+        }
+    }
+
+    private fun completarEvento() {
+        val estadoId = eventoEstadoId ?: return
+        lifecycleScope.launch {
+            when (val result = gameRepository.completarEvento(estadoId, 100.0)) {
+                is Resource.Success -> Log.d("MyMessage", "Completado")
+                is Resource.Error -> Log.e("MyMessage", "Error: ${result.message}")
+                is Resource.Loading -> { }
+            }
+        }
     }
 }

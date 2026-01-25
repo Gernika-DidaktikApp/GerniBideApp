@@ -181,4 +181,25 @@ class MapaActivity : BaseMenuActivity(), OnMapReadyCallback {
         bottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
     }
 
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        if (requestCode == Constants.Permissions.LOCATION_PERMISSION_REQUEST_CODE) {
+            if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                // Permiso concedido, habilitar ubicación en el mapa
+                if (ActivityCompat.checkSelfPermission(
+                        this,
+                        Manifest.permission.ACCESS_FINE_LOCATION
+                    ) == PackageManager.PERMISSION_GRANTED
+                ) {
+                    nMap.isMyLocationEnabled = true
+                }
+            }
+            // Si el usuario rechaza el permiso, el mapa funciona sin mostrar la ubicación actual
+        }
+    }
+
 }
