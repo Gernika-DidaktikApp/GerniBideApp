@@ -348,7 +348,7 @@
 
     <!-- Sound Game -->
     <string name="sound_game_title">JUEGO DE SONIDOS</string>
-    <string name="sound_game_stars">⭐ %1$d / %2$d</string>ç
+    <string name="sound_game_stars">⭐ %1$d / %2$d</string>
     <string name="_0_5">⭐ 0 / 5</string>
     <string name="sound_game_question">¿Este sonido representa miedo o refugio?</string>
     <string name="sound_game_fear">MIEDO</string>
@@ -380,5 +380,25 @@
     <string name="verse_game_aciertos">Aciertos: %1$d/%2$d</string>
     <string name="verse_game_oso_ondo">¡Muy bien!</string>
 
+    <!-- Profile -->
+    <string name="profile_title">Perfil</string>
+    <string name="profile_member_since">Miembro desde %s</string>
+    <string name="profile_stats_title">Estadísticas</string>
+    <string name="profile_top_score">Puntuación máxima</string>
+    <string name="profile_activities">Actividades</string>
+    <string name="profile_streak">Racha</string>
+    <string name="profile_achievements_title">Logros</string>
+    <string name="profile_achievement_arbol">Árbol</string>
+    <string name="profile_achievement_bunkers">Búnkeres</string>
+    <string name="profile_achievement_picasso">Picasso</string>
+    <string name="profile_achievement_plaza">Plaza</string>
+    <string name="profile_achievement_fronton">Frontón</string>
+    <string name="profile_edit_button">Editar perfil</string>
+    <string name="profile_logout_button">Cerrar sesión</string>
+    <string name="profile_logout_title">Cerrar sesión</string>
+    <string name="profile_logout_message">¿Estás seguro de que quieres cerrar sesión?</string>
+    <string name="profile_logout_confirm">Sí, cerrar</string>
+    <string name="profile_logout_cancel">Cancelar</string>
+    <string name="profile_logout_success">Sesión cerrada correctamente</string>
 
 </resources>

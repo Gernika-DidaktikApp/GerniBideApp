@@ -379,5 +379,26 @@
     <string name="verse_game_progress">%1$d/%2$d</string>
     <string name="verse_game_aciertos">Asmatuak: %1$d/%2$d</string>
     <string name="verse_game_oso_ondo">Oso ondo!</string>
+
+    <!-- Profile -->
+    <string name="profile_title">Profila</string>
+    <string name="profile_member_since">%stik kidea</string>
+    <string name="profile_stats_title">Estatistikak</string>
+    <string name="profile_top_score">Puntuazio maximoa</string>
+    <string name="profile_activities">Jarduerak</string>
+    <string name="profile_streak">Sega</string>
+    <string name="profile_achievements_title">Lorpenak</string>
+    <string name="profile_achievement_arbol">Arbola</string>
+    <string name="profile_achievement_bunkers">Bunkerrak</string>
+    <string name="profile_achievement_picasso">Picasso</string>
+    <string name="profile_achievement_plaza">Plaza</string>
+    <string name="profile_achievement_fronton">Frontoia</string>
+    <string name="profile_edit_button">Profila editatu</string>
+    <string name="profile_logout_button">Saioa itxi</string>
+    <string name="profile_logout_title">Saioa itxi</string>
+    <string name="profile_logout_message">Ziur zaude saioa itxi nahi duzula?</string>
+    <string name="profile_logout_confirm">Bai, itxi</string>
+    <string name="profile_logout_cancel">Utzi</string>
+    <string name="profile_logout_success">Saioa ondo itxi da</string>
 </resources>
 
