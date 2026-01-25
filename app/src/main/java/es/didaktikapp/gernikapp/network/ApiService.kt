@@ -1,8 +1,6 @@
 package es.didaktikapp.gernikapp.network
 
 import es.didaktikapp.gernikapp.ApiConfig
-import es.didaktikapp.gernikapp.data.models.ActividadEstadoRequest
-import es.didaktikapp.gernikapp.data.models.ActividadEstadoResponse
 import es.didaktikapp.gernikapp.data.models.CompletarEventoRequest
 import es.didaktikapp.gernikapp.data.models.EventoEstadoRequest
 import es.didaktikapp.gernikapp.data.models.EventoEstadoResponse
@@ -91,25 +89,6 @@ interface ApiService {
     suspend fun getPartida(
         @Path("id") partidaId: String
     ): Response<PartidaResponse>
-
-    // ============ ESTADOS DE ACTIVIDAD ============
-
-    /**
-     * Inicia una actividad para un jugador.
-     * Registra automáticamente la fecha de inicio.
-     */
-    @POST(ApiConfig.ACTIVIDAD_ESTADO_INICIAR)
-    suspend fun iniciarActividad(
-        @Body request: ActividadEstadoRequest
-    ): Response<ActividadEstadoResponse>
-
-    /**
-     * Obtiene el estado de una actividad por su ID.
-     */
-    @GET(ApiConfig.ACTIVIDAD_ESTADO_GET)
-    suspend fun getActividadEstado(
-        @Path("id") estadoId: String
-    ): Response<ActividadEstadoResponse>
 
     // ============ ESTADOS DE EVENTO ============
 

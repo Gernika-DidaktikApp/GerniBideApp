@@ -44,13 +44,6 @@ object ApiConfig {
     /** GET - Obtener partida por ID */
     const val PARTIDAS_GET = "/api/v1/partidas/{id}"
 
-    // ============ ESTADOS DE ACTIVIDAD ============
-    /** POST - Iniciar una actividad para un jugador */
-    const val ACTIVIDAD_ESTADO_INICIAR = "/api/v1/actividad-estados/iniciar"
-
-    /** GET - Obtener estado de actividad por ID */
-    const val ACTIVIDAD_ESTADO_GET = "/api/v1/actividad-estados/{id}"
-
     // ============ ESTADOS DE EVENTO ============
     /** POST - Iniciar un evento dentro de una actividad */
     const val EVENTO_ESTADO_INICIAR = "/api/v1/evento-estados/iniciar"

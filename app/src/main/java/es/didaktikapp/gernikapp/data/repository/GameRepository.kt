@@ -1,8 +1,8 @@
 package es.didaktikapp.gernikapp.data.repository
 
 import android.content.Context
-import es.didaktikapp.gernikapp.data.models.ActividadEstadoRequest
-import es.didaktikapp.gernikapp.data.models.ActividadEstadoResponse
+import android.util.Log
+import es.didaktikapp.gernikapp.BuildConfig
 import es.didaktikapp.gernikapp.data.models.CompletarEventoRequest
 import es.didaktikapp.gernikapp.data.models.EventoEstadoRequest
 import es.didaktikapp.gernikapp.data.models.EventoEstadoResponse
@@ -14,19 +14,21 @@ import es.didaktikapp.gernikapp.utils.Resource
 
 /**
  * Repository para operaciones del juego.
- * Maneja partidas, estados de actividad y estados de evento.
+ * Maneja partidas y estados de evento.
  *
  * Flujo típico:
  * 1. Crear partida (crearPartida)
- * 2. Iniciar actividad (iniciarActividad)
- * 3. Para cada evento de la actividad:
+ * 2. Para cada evento:
  *    - Iniciar evento (iniciarEvento)
  *    - Completar evento (completarEvento)
- * 4. Al completar el último evento, la actividad se completa automáticamente
  */
 class GameRepository(context: Context) : BaseRepository(context) {
 
     private val apiService: ApiService = RetrofitClient.getApiService(context)
+
+    companion object {
+        private const val TAG = "GameRepository"
+    }
 
     // ============ PARTIDAS ============
 
@@ -35,12 +37,30 @@ class GameRepository(context: Context) : BaseRepository(context) {
      * @param idUsuario ID del usuario que inicia la partida
      */
     suspend fun crearPartida(idUsuario: String): Resource<PartidaResponse> {
-        return safeApiCall(
+        if (BuildConfig.DEBUG) {
+            Log.d(TAG, "🎮 CREAR PARTIDA - userId: $idUsuario")
+        }
+
+        val result = safeApiCall(
             apiCall = {
                 val request = PartidaRequest(idUsuario = idUsuario)
                 apiService.crearPartida(request)
             }
         )
+
+        if (BuildConfig.DEBUG) {
+            when (result) {
+                is Resource.Success -> {
+                    Log.d(TAG, "✅ CREAR PARTIDA - Éxito, juegoId: ${result.data.id}")
+                }
+                is Resource.Error -> {
+                    Log.e(TAG, "❌ CREAR PARTIDA - Error: ${result.message} (code: ${result.code})")
+                }
+                is Resource.Loading -> {}
+            }
+        }
+
+        return result
     }
 
     /**
@@ -50,43 +70,6 @@ class GameRepository(context: Context) : BaseRepository(context) {
     suspend fun getPartida(partidaId: String): Resource<PartidaResponse> {
         return safeApiCall(
             apiCall = { apiService.getPartida(partidaId) }
-        )
-    }
-
-    // ============ ESTADOS DE ACTIVIDAD ============
-
-    /**
-     * Inicia una actividad para un jugador.
-     * El servidor registra automáticamente la fecha de inicio.
-     *
-     * @param idJuego ID de la partida (juego)
-     * @param idActividad ID de la actividad a iniciar
-     * @return Estado de la actividad iniciada
-     */
-    suspend fun iniciarActividad(
-        idJuego: String,
-        idActividad: String
-    ): Resource<ActividadEstadoResponse> {
-        return safeApiCall(
-            apiCall = {
-                val request = ActividadEstadoRequest(
-                    idJuego = idJuego,
-                    idActividad = idActividad
-                )
-                apiService.iniciarActividad(request)
-            }
-        )
-    }
-
-    /**
-     * Obtiene el estado actual de una actividad.
-     * Útil para verificar si la actividad se ha completado automáticamente.
-     *
-     * @param estadoId ID del estado de la actividad
-     */
-    suspend fun getActividadEstado(estadoId: String): Resource<ActividadEstadoResponse> {
-        return safeApiCall(
-            apiCall = { apiService.getActividadEstado(estadoId) }
         )
     }
 
@@ -106,7 +89,11 @@ class GameRepository(context: Context) : BaseRepository(context) {
         idActividad: String,
         idEvento: String
     ): Resource<EventoEstadoResponse> {
-        return safeApiCall(
+        if (BuildConfig.DEBUG) {
+            Log.d(TAG, "🎯 INICIAR EVENTO - juegoId: $idJuego, actividadId: $idActividad, eventoId: $idEvento")
+        }
+
+        val result = safeApiCall(
             apiCall = {
                 val request = EventoEstadoRequest(
                     idJuego = idJuego,
@@ -116,6 +103,20 @@ class GameRepository(context: Context) : BaseRepository(context) {
                 apiService.iniciarEvento(request)
             }
         )
+
+        if (BuildConfig.DEBUG) {
+            when (result) {
+                is Resource.Success -> {
+                    Log.d(TAG, "✅ INICIAR EVENTO - Éxito, estadoEventoId: ${result.data.id}")
+                }
+                is Resource.Error -> {
+                    Log.e(TAG, "❌ INICIAR EVENTO - Error: ${result.message} (code: ${result.code})")
+                }
+                is Resource.Loading -> {}
+            }
+        }
+
+        return result
     }
 
     /**
@@ -131,11 +132,29 @@ class GameRepository(context: Context) : BaseRepository(context) {
         estadoId: String,
         puntuacion: Double
     ): Resource<EventoEstadoResponse> {
-        return safeApiCall(
+        if (BuildConfig.DEBUG) {
+            Log.d(TAG, "🏁 COMPLETAR EVENTO - estadoId: $estadoId, puntuacion: $puntuacion")
+        }
+
+        val result = safeApiCall(
             apiCall = {
                 val request = CompletarEventoRequest(puntuacion = puntuacion)
                 apiService.completarEvento(estadoId, request)
             }
         )
+
+        if (BuildConfig.DEBUG) {
+            when (result) {
+                is Resource.Success -> {
+                    Log.d(TAG, "✅ COMPLETAR EVENTO - Éxito")
+                }
+                is Resource.Error -> {
+                    Log.e(TAG, "❌ COMPLETAR EVENTO - Error: ${result.message} (code: ${result.code})")
+                }
+                is Resource.Loading -> {}
+            }
+        }
+
+        return result
     }
 }
