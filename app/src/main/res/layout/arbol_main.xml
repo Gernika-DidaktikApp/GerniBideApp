@@ -20,28 +20,17 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/btnInteractive"
-        app:layout_constraintVertical_chainStyle="packed" />
-
-    <Button
-        android:id="@+id/btnInteractive"
-        style="@style/EstiloBotonPrimario"
-        android:layout_width="0dp"
-        android:text="1. Arbola Interaktiboa"
-        android:layout_marginTop="32dp"
-        android:layout_marginBottom="12dp"
-        app:layout_constraintTop_toBottomOf="@id/tvTitulo"
         app:layout_constraintBottom_toTopOf="@id/btnAudioQuiz"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintVertical_chainStyle="packed" />
 
     <Button
         android:id="@+id/btnAudioQuiz"
         style="@style/EstiloBotonPrimario"
         android:layout_width="0dp"
-        android:text="2. Audio Quiz"
+        android:text="1. Audio Quiz"
+        android:layout_marginTop="32dp"
         android:layout_marginBottom="12dp"
-        app:layout_constraintTop_toBottomOf="@id/btnInteractive"
+        app:layout_constraintTop_toBottomOf="@id/tvTitulo"
         app:layout_constraintBottom_toTopOf="@id/btnPuzzle"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
@@ -50,7 +39,7 @@
         android:id="@+id/btnPuzzle"
         style="@style/EstiloBotonPrimario"
         android:layout_width="0dp"
-        android:text="3. Puzzle"
+        android:text="2. Puzzle"
         android:layout_marginBottom="12dp"
         app:layout_constraintTop_toBottomOf="@id/btnAudioQuiz"
         app:layout_constraintBottom_toTopOf="@id/btnMyTree"
@@ -61,7 +50,7 @@
         android:id="@+id/btnMyTree"
         style="@style/EstiloBotonPrimario"
         android:layout_width="0dp"
-        android:text="4. Nire Arbola"
+        android:text="3. Nire Arbola"
         app:layout_constraintTop_toBottomOf="@id/btnPuzzle"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
