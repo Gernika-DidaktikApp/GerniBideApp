@@ -17,6 +17,14 @@ object RetrofitClient {
     private var retrofit: Retrofit? = null
 
     /**
+     * Resetea el cliente Retrofit para forzar recreación.
+     * Útil después del login para asegurar que el token se use.
+     */
+    fun reset() {
+        retrofit = null
+    }
+
+    /**
      * Instancia única de Moshi para toda la aplicación
      * (reutilizable para parsing de JSON en diferentes partes del código)
      */
