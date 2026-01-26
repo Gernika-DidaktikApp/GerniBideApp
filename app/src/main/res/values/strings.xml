@@ -295,14 +295,17 @@
     <string name="ezarpenak_gordeta">Ezarpenerak gordeta!</string>
     <string name="ezarpenak">EZARPENAK</string>
     <string name="ezarpenak_gorde">EZARPENAK GORDE</string>
-    <string name="soinuarekin">🔊 Soinuarekin</string>
+    <string name="soinuarekin">Soinua</string>
     <string name="desaktibatu_soinua">Desaktibatu jokoaren soinu guztiak</string>
-    <string name="letren_tamaina">📖 Letren tamaina</string>
+    <string name="letren_tamaina">Letren tamaina</string>
     <string name="aukeratu_tamaina">Aukeratu irakurtzeko tamaina egokia</string>
-    <string name="gaueko_modua">🌙 Gaueko modua</string>
-    <string name="gauez_jolasteko_plano_ilunak">Gauez jolasteko azteko plano ilunak</string>
-    <string name="hizkuntza">🗣️ Hizkuntza</string>
+    <string name="cambiar_contraste">Kontrastea aldatu</string>
+    <string name="cambiar_contraste_mensaje">Koloreen arteko aldea handitu dezakezu</string>
+    <string name="hizkuntza">Hizkuntza</string>
     <string name="euskara_edo_gaztelania">Euskara edo Gaztelania</string>
+    <string name="honi_buruz">Honi buruz</string>
+    <string name="app_informazioa">Aplikazioaren informazioa</string>
+
     <string name="itzuli">Itzuli</string>
     <string name="play">Play</string>
     <string name="pause">Pause</string>
@@ -401,16 +404,11 @@
     <string name="profile_logout_cancel">Utzi</string>
     <string name="profile_logout_success">Saioa ondo itxi da</string>
 
-    <string name="daltonismo_modua">Modu daltonismoa</string>
-    <string name="daltonismo_azalpena">Kolore-paleta eskuragarriagoa aktibatu daltonismoa dutenentzako</string>
-    <string name="honi_buruz">Honi buruz</string>
-    <string name="app_informazioa">Aplikazioaren informazioa</string>
-
     <!-- AboutActivity -->
     <string name="about_description">Gernikaren historia eta kultura interaktiboki ikasteko aplikazioa.</string>
     <string name="desarrollado_por">Garatzaileak</string>
     <string name="didaktikapp">DidaktikApp</string>
-    <string name="autores">Wara, Arantza, Telmo eta Erlantz</string>
+    <string name="autores">Arantxa, Erlantz, Telmo eta Wara</string>
     <string name="logo_descripcion">GerniBide aplikazioaren logotipoa</string>
     <string name="version_app">b1.0.0</string>
     <string name="copyright">© 2026 DidaktikApp</string>

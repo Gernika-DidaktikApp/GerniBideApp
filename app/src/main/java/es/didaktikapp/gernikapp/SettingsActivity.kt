@@ -48,7 +48,6 @@ class SettingsActivity : BaseMenuActivity() {
     private fun loadSettings() {
         binding.switchMute.isChecked = prefs.getBoolean("mute", false)
         binding.switchDarkMode.isChecked = prefs.getBoolean("dark_mode", false)
-        binding.switchColorBlindMode.isChecked = prefs.getBoolean("color_blind_mode", false)
         binding.spinnerTextSize.setSelection(prefs.getInt("text_size", 1))
         binding.spinnerLanguage.setSelection(prefs.getInt("language", 0))
     }
@@ -77,7 +76,6 @@ class SettingsActivity : BaseMenuActivity() {
         prefs.edit().apply {
             putBoolean("mute", binding.switchMute.isChecked)
             putBoolean("dark_mode", binding.switchDarkMode.isChecked)
-            putBoolean("color_blind_mode", binding.switchColorBlindMode.isChecked)
             putInt("text_size", binding.spinnerTextSize.selectedItemPosition)
             putInt("language", binding.spinnerLanguage.selectedItemPosition)
             apply()

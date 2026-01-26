@@ -295,16 +295,14 @@
     <string name="ezarpenak_gordeta">¡Ajustes guardados!</string>
     <string name="ezarpenak">AJUSTES</string>
     <string name="ezarpenak_gorde">GUARDAR AJUSTES</string>
-    <string name="soinuarekin">🔊 Sonido</string>
+    <string name="soinuarekin">Sonido</string>
     <string name="desaktibatu_soinua">Desactivar todos los sonidos del juego</string>
-    <string name="letren_tamaina">📖 Tamaño de letra</string>
+    <string name="letren_tamaina">Tamaño de letra</string>
     <string name="aukeratu_tamaina">Elige el tamaño adecuado para leer</string>
-    <string name="gaueko_modua">🌙 Modo nocturno</string>
-    <string name="gauez_jolasteko_plano_ilunak">Fondos oscuros para jugar de noche</string>
-    <string name="hizkuntza">🗣️ Idioma</string>
+    <string name="gaueko_modua">Cambiar contraste</string>
+    <string name="cambiar_contraste_mensaje">Puedes aumentar la diferencia entre colores</string>
+    <string name="hizkuntza">Idioma</string>
     <string name="euskara_edo_gaztelania">Euskera o Castellano</string>
-    <string name="daltonismo_modua">Modo daltonismo</string>
-    <string name="daltonismo_azalpena">Activa una paleta de colores más accesible para personas con daltonismo</string>
     <string name="honi_buruz">Acerca de</string>
     <string name="app_informazioa">Información de la aplicación</string>
 
@@ -312,7 +310,7 @@
     <string name="about_description">Aplicación educativa interactiva sobre la historia y cultura de Gernika.</string>
     <string name="desarrollado_por">Desarrollado por</string>
     <string name="didaktikapp">DidaktikApp</string>
-    <string name="autores">Wara, Arantza, Telmo y Erlantz</string>
+    <string name="autores">Arantxa, Erlantz, Telmo y Wara</string>
     <string name="logo_descripcion">Logo de la aplicación de GerniBide</string>
     <string name="version_app">v1.0.0</string>
     <string name="copyright">© 2026 DidaktikApp</string>

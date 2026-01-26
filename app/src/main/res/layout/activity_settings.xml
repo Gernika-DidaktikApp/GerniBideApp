@@ -8,7 +8,8 @@
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_marginTop="70dp">
 
         <!-- Título principal de la pantalla de ajustes -->
         <TextView
@@ -24,12 +25,19 @@
         <!-- Tarjeta: activar/desactivar sonido del juego -->
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="80dp"
+            android:layout_height="72dp"
             android:orientation="horizontal"
             android:gravity="center_vertical"
-            android:layout_marginBottom="20dp"
+            android:layout_marginBottom="16dp"
             android:padding="16dp"
             android:background="@drawable/border_only">
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@android:drawable/ic_lock_silent_mode_off"
+                android:tint="?attr/colorOnSurface"
+                android:layout_marginEnd="16dp"/>
 
             <LinearLayout
                 android:layout_width="0dp"
@@ -37,16 +45,14 @@
                 android:layout_weight="1"
                 android:orientation="vertical">
 
-                <!-- Título de la opción de sonido -->
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/soinuarekin"
-                    android:textSize="20sp"
+                    android:textSize="18sp"
                     android:textStyle="bold"
-                    android:layout_marginBottom="4dp"/>
+                    android:layout_marginBottom="2dp"/>
 
-                <!-- Descripción corta de lo que hace el ajuste -->
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -55,7 +61,6 @@
                     android:textColor="@android:color/darker_gray"/>
             </LinearLayout>
 
-            <!-- Interruptor para activar/desactivar sonido -->
             <androidx.appcompat.widget.SwitchCompat
                 android:id="@+id/switchMute"
                 android:layout_width="wrap_content"
@@ -66,12 +71,19 @@
         <!-- Tarjeta: selección del tamaño de la letra de la app -->
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="80dp"
+            android:layout_height="72dp"
             android:orientation="horizontal"
             android:gravity="center_vertical"
-            android:layout_marginBottom="20dp"
+            android:layout_marginBottom="16dp"
             android:padding="16dp"
             android:background="@drawable/border_only">
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@android:drawable/ic_menu_sort_by_size"
+                android:tint="?attr/colorOnSurface"
+                android:layout_marginEnd="16dp"/>
 
             <LinearLayout
                 android:layout_width="0dp"
@@ -79,16 +91,14 @@
                 android:layout_weight="1"
                 android:orientation="vertical">
 
-                <!-- Título de la opción de tamaño -->
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/letren_tamaina"
-                    android:textSize="20sp"
+                    android:textSize="18sp"
                     android:textStyle="bold"
-                    android:layout_marginBottom="4dp"/>
+                    android:layout_marginBottom="2dp"/>
 
-                <!-- Descripción corta de lo que hace el ajuste -->
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -97,23 +107,29 @@
                     android:textColor="@android:color/darker_gray"/>
             </LinearLayout>
 
-            <!-- Selector de tamaño de letra -->
             <Spinner
                 android:id="@+id/spinnerTextSize"
                 android:layout_width="wrap_content"
-                android:layout_height="48dp"
+                android:layout_height="44dp"
                 android:entries="@array/text_sizes" />
         </LinearLayout>
 
-        <!-- Tarjeta: activar/desactivar modo oscuro de la app -->
+        <!-- Tarjeta: activar/desactivar el contraste de la app -->
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="80dp"
+            android:layout_height="72dp"
             android:orientation="horizontal"
             android:gravity="center_vertical"
-            android:layout_marginBottom="20dp"
+            android:layout_marginBottom="16dp"
             android:padding="16dp"
             android:background="@drawable/border_only">
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@android:drawable/ic_menu_edit"
+                android:tint="?attr/colorOnSurface"
+                android:layout_marginEnd="16dp"/>
 
             <LinearLayout
                 android:layout_width="0dp"
@@ -121,25 +137,22 @@
                 android:layout_weight="1"
                 android:orientation="vertical">
 
-                <!-- Título de la opción de modo noche -->
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/gaueko_modua"
-                    android:textSize="20sp"
+                    android:text="@string/cambiar_contraste"
+                    android:textSize="18sp"
                     android:textStyle="bold"
-                    android:layout_marginBottom="4dp"/>
+                    android:layout_marginBottom="2dp"/>
 
-                <!-- Descripción corta de lo que hace el ajuste -->
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/gauez_jolasteko_plano_ilunak"
+                    android:text="@string/cambiar_contraste_mensaje"
                     android:textSize="14sp"
                     android:textColor="@android:color/darker_gray"/>
             </LinearLayout>
 
-            <!-- Interruptor para activar/desactivar el modo oscuro -->
             <androidx.appcompat.widget.SwitchCompat
                 android:id="@+id/switchDarkMode"
                 android:layout_width="wrap_content"
@@ -149,12 +162,19 @@
         <!-- Tarjeta: selección de idioma de la aplicación -->
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="80dp"
+            android:layout_height="72dp"
             android:orientation="horizontal"
             android:gravity="center_vertical"
-            android:layout_marginBottom="20dp"
+            android:layout_marginBottom="16dp"
             android:padding="16dp"
             android:background="@drawable/border_only">
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@android:drawable/ic_menu_mapmode"
+                android:tint="?attr/colorOnSurface"
+                android:layout_marginEnd="16dp"/>
 
             <LinearLayout
                 android:layout_width="0dp"
@@ -162,16 +182,14 @@
                 android:layout_weight="1"
                 android:orientation="vertical">
 
-                <!-- Título de la opción de idioma -->
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/hizkuntza"
-                    android:textSize="20sp"
+                    android:textSize="18sp"
                     android:textStyle="bold"
-                    android:layout_marginBottom="4dp"/>
+                    android:layout_marginBottom="2dp"/>
 
-                <!-- Descripción corta de lo que hace el ajuste -->
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -180,53 +198,11 @@
                     android:textColor="@android:color/darker_gray"/>
             </LinearLayout>
 
-            <!-- Selector de idioma -->
             <Spinner
                 android:id="@+id/spinnerLanguage"
                 android:layout_width="wrap_content"
-                android:layout_height="48dp"
+                android:layout_height="44dp"
                 android:entries="@array/languages" />
-        </LinearLayout>
-
-        <!-- Tarjeta: modo daltonismo / colores accesibles -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="80dp"
-            android:orientation="horizontal"
-            android:gravity="center_vertical"
-            android:layout_marginBottom="20dp"
-            android:padding="16dp"
-            android:background="@drawable/border_only">
-
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:orientation="vertical">
-
-                <!-- Título de la opción de daltonismo -->
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/daltonismo_modua"
-                    android:textSize="20sp"
-                    android:textStyle="bold"
-                    android:layout_marginBottom="4dp"/>
-
-                <!-- Descripción corta de lo que hace el ajuste -->
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/daltonismo_azalpena"
-                    android:textSize="14sp"
-                    android:textColor="@android:color/darker_gray"/>
-            </LinearLayout>
-
-            <!-- Interruptor para activar/desactivar paleta accesible -->
-            <androidx.appcompat.widget.SwitchCompat
-                android:id="@+id/switchColorBlindMode"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
         </LinearLayout>
 
         <!-- Botón para guardar los ajustes seleccionados -->
@@ -246,7 +222,7 @@
             android:orientation="horizontal"
             android:gravity="center_vertical"
             android:padding="16dp"
-            android:background="@drawable/border_only">
+            android:background="@drawable/card_filled">
 
             <LinearLayout
                 android:layout_width="0dp"
@@ -263,7 +239,6 @@
                     android:textStyle="bold"
                     android:layout_marginBottom="4dp"/>
 
-                <!-- Descripción corta -->
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -278,6 +253,7 @@
                 android:layout_width="48dp"
                 android:layout_height="48dp"
                 android:src="@android:drawable/ic_dialog_info"
+                android:tint="#FF666666"
                 android:background="?attr/selectableItemBackgroundBorderless"
                 android:contentDescription="@string/honi_buruz"/>
         </LinearLayout>
