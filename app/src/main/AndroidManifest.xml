@@ -51,6 +51,9 @@
         <activity
             android:name=".UserEditActivity"
             android:exported="false" />
+        <activity
+            android:name=".AboutActivity"
+            android:exported="false" />
 
         <!-- Actividades del fronton -->
         <activity
