@@ -93,6 +93,8 @@ class ProfileActivity : BaseMenuActivity() {
                 is Resource.Success -> {
                     result.data?.let { user ->
                         updateUI(user.nombre, user.apellido, user.username, user.topScore, user.creation)
+                        // Cargar estadísticas del usuario
+                        loadUserStats(user.id)
                     }
                 }
                 is Resource.Error -> {
@@ -103,6 +105,53 @@ class ProfileActivity : BaseMenuActivity() {
                 }
                 is Resource.Loading -> { /* No-op */ }
             }
+        }
+    }
+
+    private fun loadUserStats(userId: String) {
+        lifecycleScope.launch {
+            when (val result = userRepository.getUserStats(userId)) {
+                is Resource.Success -> {
+                    result.data?.let { stats ->
+                        updateStats(stats.actividadesCompletadas, stats.rachaDias)
+                        unlockCompletedModules(stats.modulosCompletados)
+                    }
+                }
+                is Resource.Error -> {
+                    // Si falla la API, mostrar valores por defecto
+                    updateStats(0, 0)
+                }
+                is Resource.Loading -> { /* No-op */ }
+            }
+        }
+    }
+
+    private fun updateStats(activitiesCompleted: Int, streak: Int) {
+        tvActivitiesCompleted.text = activitiesCompleted.toString()
+        tvStreak.text = streak.toString()
+    }
+
+    private fun unlockCompletedModules(modulosCompletados: List<String>) {
+        // Mapeo de nombres de módulos de la API a IDs de achievements
+        val moduleMap = mapOf(
+            "Árbol del Gernika" to "arbol",
+            "Árbol de Gernika" to "arbol",
+            "Arbol" to "arbol",
+            "Museo de la Paz" to "bunkers",
+            "Bunkers" to "bunkers",
+            "Refugios" to "bunkers",
+            "Picasso" to "picasso",
+            "Guernica" to "picasso",
+            "Plaza" to "plaza",
+            "Plaza Gernika" to "plaza",
+            "Frontón" to "fronton",
+            "Fronton" to "fronton",
+            "Pelota Vasca" to "fronton"
+        )
+
+        modulosCompletados.forEach { moduloNombre ->
+            val achievementId = moduleMap[moduloNombre] ?: moduloNombre.lowercase()
+            unlockAchievement(achievementId)
         }
     }
 
@@ -119,11 +168,6 @@ class ProfileActivity : BaseMenuActivity() {
 
         updateAvatarInitials(nombre, apellido)
         updateMemberSince(creationDate)
-
-        // TODO: Cargar actividades completadas y racha desde la API cuando esté disponible
-        // Por ahora mostramos valores placeholder
-        tvActivitiesCompleted.text = "0"
-        tvStreak.text = "1"
     }
 
     private fun updateAvatarInitials(nombre: String, apellido: String) {

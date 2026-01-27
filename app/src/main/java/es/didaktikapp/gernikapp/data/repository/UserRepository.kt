@@ -1,7 +1,9 @@
 package es.didaktikapp.gernikapp.data.repository
 
 import android.content.Context
+import es.didaktikapp.gernikapp.data.models.UpdateUserRequest
 import es.didaktikapp.gernikapp.data.models.UserResponse
+import es.didaktikapp.gernikapp.data.models.UserStatsResponse
 import es.didaktikapp.gernikapp.network.ApiService
 import es.didaktikapp.gernikapp.network.RetrofitClient
 import es.didaktikapp.gernikapp.utils.Resource
@@ -25,10 +27,20 @@ class UserRepository(context: Context) : BaseRepository(context) {
 
     /**
      * Actualiza el perfil del usuario actual.
+     * Solo envía los campos que se desean actualizar.
      */
-    suspend fun updateUserProfile(user: UserResponse): Resource<UserResponse> {
+    suspend fun updateUserProfile(userUpdate: UpdateUserRequest): Resource<UserResponse> {
         return safeApiCall(
-            apiCall = { apiService.updateUserProfile(user) }
+            apiCall = { apiService.updateUserProfile(userUpdate) }
+        )
+    }
+
+    /**
+     * Obtiene las estadísticas de un usuario.
+     */
+    suspend fun getUserStats(usuarioId: String): Resource<UserStatsResponse> {
+        return safeApiCall(
+            apiCall = { apiService.getUserStats(usuarioId) }
         )
     }
 }
