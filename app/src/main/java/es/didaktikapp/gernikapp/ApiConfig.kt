@@ -21,11 +21,11 @@ object ApiConfig {
     const val HEALTH = "/health"
 
     // ============ USUARIO ============
-    /** GET - Obtener perfil del usuario actual (requiere auth) */
-    const val USER_PROFILE = "/api/v1/users/me"
+    /** GET - Obtener perfil del usuario (requiere auth) */
+    const val USER_PROFILE = "/api/v1/usuarios/{usuario_id}"
 
     /** PUT - Actualizar perfil del usuario (requiere auth) */
-    const val USER_UPDATE = "/api/v1/users/me"
+    const val USER_UPDATE = "/api/v1/usuarios/{usuario_id}"
 
     /** GET - Obtener estadísticas del usuario (requiere auth) */
     const val USER_STATS = "/api/v1/usuarios/{usuario_id}/estadisticas"

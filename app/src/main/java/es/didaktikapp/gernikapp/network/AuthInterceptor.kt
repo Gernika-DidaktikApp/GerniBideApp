@@ -29,16 +29,22 @@ class AuthInterceptor(
     override fun intercept(chain: Interceptor.Chain): Response {
         val originalRequest = chain.request()
         val path = originalRequest.url.encodedPath
+        val method = originalRequest.method
 
-        Log.d(TAG, "🌐 Interceptando: $path")
+        Log.d(TAG, "🌐 Interceptando: $method $path")
 
         // Verificar si es un endpoint público
-        val isPublicEndpoint = PUBLIC_ENDPOINTS.any { endpoint ->
-            path.contains(endpoint)
+        // Usar coincidencia exacta o inicio de path para evitar falsos positivos
+        val isPublicEndpoint = when {
+            // Login y Health - coincidencia exacta
+            path == ApiConfig.AUTH_LOGIN || path == ApiConfig.HEALTH -> true
+            // Registro - solo POST a /api/v1/usuarios (sin ID)
+            path == ApiConfig.AUTH_REGISTER && method == "POST" -> true
+            else -> false
         }
 
         if (isPublicEndpoint) {
-            Log.d(TAG, "🔓 Endpoint público: $path")
+            Log.d(TAG, "🔓 Endpoint público: $method $path")
             return chain.proceed(originalRequest)
         }
 
@@ -46,12 +52,12 @@ class AuthInterceptor(
         val token = tokenManager.getToken()
         val hasToken = token != null
 
-        Log.d(TAG, "🔐 Endpoint protegido: $path | Token presente: $hasToken")
+        Log.d(TAG, "🔐 Endpoint protegido: $method $path | Token presente: $hasToken")
         if (!hasToken) {
             Log.e(TAG, "⚠️ NO HAY TOKEN - La petición fallará con 401")
         } else {
-            val tokenPreview = "${token.take(20)}..."
-            Log.d(TAG, "🔑 Token: $tokenPreview")
+            val tokenPreview = "${token?.take(20)}..."
+            Log.d(TAG, "🔑 Añadiendo Authorization header con token: $tokenPreview")
         }
 
         val newRequest = if (token != null) {

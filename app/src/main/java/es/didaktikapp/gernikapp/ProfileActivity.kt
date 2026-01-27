@@ -1,6 +1,7 @@
 package es.didaktikapp.gernikapp
 
 import android.content.Intent
+import android.util.Log
 import android.widget.Button
 import android.widget.LinearLayout
 import android.widget.TextView
@@ -18,6 +19,10 @@ import java.util.Locale
  * Muestra estadísticas, logros y opciones de cuenta.
  */
 class ProfileActivity : BaseMenuActivity() {
+
+    companion object {
+        private const val TAG = "ProfileActivity"
+    }
 
     private lateinit var tokenManager: TokenManager
     private lateinit var userRepository: UserRepository
@@ -45,6 +50,12 @@ class ProfileActivity : BaseMenuActivity() {
     override fun onContentInflated() {
         tokenManager = TokenManager(this)
         userRepository = UserRepository(this)
+
+        // Log del estado de la sesión
+        if (BuildConfig.DEBUG) {
+            Log.d(TAG, "🚀 ProfileActivity iniciada")
+            tokenManager.logSessionState(TAG)
+        }
 
         initViews()
         setupListeners()
@@ -81,6 +92,8 @@ class ProfileActivity : BaseMenuActivity() {
     }
 
     private fun loadUserProfile() {
+        Log.d(TAG, "📱 Cargando perfil de usuario...")
+
         // Mostrar datos locales primero (username guardado)
         tokenManager.getUsername()?.let { username ->
             tvUsername.text = "@$username"
@@ -92,12 +105,14 @@ class ProfileActivity : BaseMenuActivity() {
             when (val result = userRepository.getUserProfile()) {
                 is Resource.Success -> {
                     result.data?.let { user ->
+                        Log.d(TAG, "✅ Perfil cargado: ${user.username} (ID: ${user.id})")
                         updateUI(user.nombre, user.apellido, user.username, user.topScore, user.creation)
                         // Cargar estadísticas del usuario
                         loadUserStats(user.id)
                     }
                 }
                 is Resource.Error -> {
+                    Log.e(TAG, "❌ Error cargando perfil: ${result.message}")
                     // Si falla la API, mostrar datos locales
                     tokenManager.getUsername()?.let { username ->
                         tvFullName.text = username
@@ -109,15 +124,19 @@ class ProfileActivity : BaseMenuActivity() {
     }
 
     private fun loadUserStats(userId: String) {
+        Log.d(TAG, "📊 Cargando estadísticas para usuario: $userId")
+
         lifecycleScope.launch {
             when (val result = userRepository.getUserStats(userId)) {
                 is Resource.Success -> {
                     result.data?.let { stats ->
+                        Log.d(TAG, "✅ Estadísticas cargadas: ${stats.actividadesCompletadas} actividades, ${stats.rachaDias} días racha")
                         updateStats(stats.actividadesCompletadas, stats.rachaDias)
                         unlockCompletedModules(stats.modulosCompletados)
                     }
                 }
                 is Resource.Error -> {
+                    Log.e(TAG, "❌ Error cargando estadísticas: ${result.message}")
                     // Si falla la API, mostrar valores por defecto
                     updateStats(0, 0)
                 }

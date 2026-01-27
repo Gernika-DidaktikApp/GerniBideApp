@@ -59,19 +59,22 @@ interface ApiService {
     // ============ USUARIO ============
 
     /**
-     * Obtiene el perfil del usuario actual.
+     * Obtiene el perfil de un usuario.
      * Requiere autenticación (token JWT).
      */
     @GET(ApiConfig.USER_PROFILE)
-    suspend fun getUserProfile(): Response<UserResponse>
+    suspend fun getUserProfile(
+        @Path("usuario_id") usuarioId: String
+    ): Response<UserResponse>
 
     /**
-     * Actualiza el perfil del usuario actual.
+     * Actualiza el perfil de un usuario.
      * Requiere autenticación (token JWT).
      * Solo envía los campos que se desean actualizar.
      */
     @PUT(ApiConfig.USER_UPDATE)
     suspend fun updateUserProfile(
+        @Path("usuario_id") usuarioId: String,
         @Body userUpdate: UpdateUserRequest
     ): Response<UserResponse>
 
