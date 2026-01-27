@@ -401,6 +401,11 @@
     <string name="profile_logout_cancel">Utzi</string>
     <string name="profile_logout_success">Saioa ondo itxi da</string>
 
+    <!-- User Edit -->
+    <string name="error_cargar_datos">Errorea datuak kargatzean</string>
+    <string name="error_actualizar">Errorea eguneratzerakoan</string>
+    <string name="clase_id_requerido">Klase ID-a beharrezkoa da</string>
+
     <string name="daltonismo_modua">Modu daltonismoa</string>
     <string name="daltonismo_azalpena">Kolore-paleta eskuragarriagoa aktibatu daltonismoa dutenentzako</string>
     <string name="honi_buruz">Honi buruz</string>

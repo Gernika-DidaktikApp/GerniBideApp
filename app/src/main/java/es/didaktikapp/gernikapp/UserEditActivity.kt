@@ -1,32 +1,16 @@
 package es.didaktikapp.gernikapp
 
 import android.text.InputFilter
+import android.view.View
 import android.widget.Toast
 import androidx.lifecycle.lifecycleScope
 import es.didaktikapp.gernikapp.data.local.TokenManager
+import es.didaktikapp.gernikapp.data.models.UpdateUserRequest
 import es.didaktikapp.gernikapp.data.models.UserResponse
+import es.didaktikapp.gernikapp.data.repository.UserRepository
 import es.didaktikapp.gernikapp.databinding.ActivityUserEditBinding
-import kotlinx.coroutines.Dispatchers
+import es.didaktikapp.gernikapp.utils.Resource
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
-import okhttp3.Interceptor
-import okhttp3.OkHttpClient
-import okhttp3.logging.HttpLoggingInterceptor
-import retrofit2.Response
-import retrofit2.Retrofit
-import retrofit2.converter.moshi.MoshiConverterFactory
-import retrofit2.http.Body
-import retrofit2.http.GET
-import retrofit2.http.PUT
-
-// Interfaz para la API
-interface ApiService {
-    @GET("api/v1/users/me")
-    suspend fun getCurrentUser(): Response<UserResponse>
-
-    @PUT("api/v1/users/me")
-    suspend fun updateCurrentUser(@Body updates: Map<String, String?>): Response<UserResponse>
-}
 
 /**
  * Activity para la edición de datos de usuario.
@@ -35,59 +19,59 @@ class UserEditActivity : BaseMenuActivity() {
 
     private lateinit var binding: ActivityUserEditBinding
     private lateinit var tokenManager: TokenManager
-    private lateinit var apiService: ApiService
+    private lateinit var userRepository: UserRepository
 
     override fun onContentInflated() {
         binding = ActivityUserEditBinding.inflate(layoutInflater, contentContainer, true)
 
         tokenManager = TokenManager(this)
-        initRetrofit()
+        userRepository = UserRepository(this)
 
         setupInputFilters()
+        setupClaseToggle()
         setupSaveButton()
 
         loadUserDataFromApi()
     }
 
-    private fun initRetrofit() {
-        val authInterceptor = Interceptor { chain ->
-            val request = chain.request().newBuilder()
-            val token = tokenManager.getToken()
-            if (!token.isNullOrEmpty()) {
-                request.addHeader("Authorization", "Bearer $token")
-            }
-            chain.proceed(request.build())
-        }
-
-        val logging = HttpLoggingInterceptor().apply {
-            level = HttpLoggingInterceptor.Level.BODY
-        }
-
-        val client = OkHttpClient.Builder()
-            .addInterceptor(authInterceptor)
-            .addInterceptor(logging)
-            .build()
-
-        apiService = Retrofit.Builder()
-            .baseUrl("https://gernibide.up.railway.app/")
-            .client(client)
-            .addConverterFactory(MoshiConverterFactory.create())
-            .build()
-            .create(ApiService::class.java)
-    }
-
     private fun loadUserDataFromApi() {
         lifecycleScope.launch {
-            try {
-                val response = withContext(Dispatchers.IO) { apiService.getCurrentUser() }
-                if (response.isSuccessful && response.body() != null) {
-                    val user = response.body()!!
-                    binding.editTextUsername.setText(user.username)
-                    binding.editTextNombre.setText(user.nombre)
-                    binding.editTextApellido.setText(user.apellido)
+            when (val result = userRepository.getUserProfile()) {
+                is Resource.Success -> {
+                    result.data?.let { user ->
+                        populateFields(user)
+                    }
                 }
-            } catch (e: Exception) {
-                Toast.makeText(this@UserEditActivity, "Error de red", Toast.LENGTH_SHORT).show()
+                is Resource.Error -> {
+                    Toast.makeText(
+                        this@UserEditActivity,
+                        result.message ?: getString(R.string.error_cargar_datos),
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+                is Resource.Loading -> { /* No-op */ }
+            }
+        }
+    }
+
+    private fun populateFields(user: UserResponse) {
+        binding.editTextUsername.setText(user.username)
+        binding.editTextNombre.setText(user.nombre)
+        binding.editTextApellido.setText(user.apellido)
+
+        // Cargar clase_id si existe
+        if (!user.claseId.isNullOrEmpty()) {
+            binding.checkBoxClase.isChecked = true
+            binding.editTextIdClase.setText(user.claseId)
+            binding.editTextIdClase.visibility = View.VISIBLE
+        }
+    }
+
+    private fun setupClaseToggle() {
+        binding.checkBoxClase.setOnCheckedChangeListener { _, isChecked ->
+            binding.editTextIdClase.visibility = if (isChecked) View.VISIBLE else View.GONE
+            if (!isChecked) {
+                binding.editTextIdClase.text.clear()
             }
         }
     }
@@ -101,38 +85,62 @@ class UserEditActivity : BaseMenuActivity() {
     }
 
     private fun saveUserData() {
-        val updateData = mutableMapOf<String, String?>(
-            "username" to binding.editTextUsername.text.toString().trim(),
-            "nombre" to binding.editTextNombre.text.toString().trim(),
-            "apellido" to binding.editTextApellido.text.toString().trim()
-        )
-
-        val pass = binding.editTextPassword.text.toString()
-        if (pass.isNotEmpty()) {
-            updateData["password"] = pass
+        // Obtener valores actualizados
+        val username = binding.editTextUsername.text.toString().trim()
+        val nombre = binding.editTextNombre.text.toString().trim()
+        val apellido = binding.editTextApellido.text.toString().trim()
+        val password = binding.editTextPassword.text.toString().trim().ifEmpty { null }
+        val claseId = if (binding.checkBoxClase.isChecked) {
+            binding.editTextIdClase.text.toString().trim().ifEmpty { null }
+        } else {
+            null
         }
 
+        // Crear request solo con los campos a actualizar
+        val updateRequest = UpdateUserRequest(
+            username = username,
+            nombre = nombre,
+            apellido = apellido,
+            password = password,
+            idClase = claseId
+        )
+
         lifecycleScope.launch {
-            try {
-                val response = withContext(Dispatchers.IO) { apiService.updateCurrentUser(updateData) }
-                if (response.isSuccessful) {
-                    tokenManager.saveUsername(updateData["username"] ?: "")
-                    Toast.makeText(this@UserEditActivity, getString(R.string.update_success), Toast.LENGTH_SHORT).show()
+            when (val result = userRepository.updateUserProfile(updateRequest)) {
+                is Resource.Success -> {
+                    // Actualizar username en TokenManager
+                    tokenManager.saveUsername(username)
+
+                    Toast.makeText(
+                        this@UserEditActivity,
+                        getString(R.string.update_success),
+                        Toast.LENGTH_SHORT
+                    ).show()
+
+                    // Limpiar campo de password por seguridad
+                    binding.editTextPassword.text.clear()
+
                     finish()
-                } else {
-                    Toast.makeText(this@UserEditActivity, "Error: ${response.code()}", Toast.LENGTH_SHORT).show()
                 }
-            } catch (e: Exception) {
-                Toast.makeText(this@UserEditActivity, "Error de conexión", Toast.LENGTH_SHORT).show()
+                is Resource.Error -> {
+                    Toast.makeText(
+                        this@UserEditActivity,
+                        result.message ?: getString(R.string.error_actualizar),
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+                is Resource.Loading -> { /* No-op */ }
             }
         }
     }
 
     private fun setupInputFilters() {
+        // Username: solo letras y números
         binding.editTextUsername.filters = arrayOf(InputFilter { source, _, _, _, _, _ ->
             if (source.matches(Regex("[a-zA-Z0-9]*"))) null else ""
         })
 
+        // Nombre y Apellido: solo letras (incluyendo caracteres especiales vascos/españoles)
         val alphaFilter = InputFilter { source, _, _, _, _, _ ->
             if (source.matches(Regex("[a-zA-ZáéíóúÁÉÍÓÚñÑ\\s]*"))) null else ""
         }
@@ -157,6 +165,10 @@ class UserEditActivity : BaseMenuActivity() {
         }
         if (binding.editTextPassword.text.isNotEmpty() && binding.editTextPassword.text.length < 6) {
             binding.editTextPassword.error = getString(R.string.pasahitza_laburgia)
+            isValid = false
+        }
+        if (binding.checkBoxClase.isChecked && binding.editTextIdClase.text.isBlank()) {
+            binding.editTextIdClase.error = getString(R.string.clase_id_requerido)
             isValid = false
         }
 

@@ -11,7 +11,9 @@ import es.didaktikapp.gernikapp.data.models.PartidaRequest
 import es.didaktikapp.gernikapp.data.models.PartidaResponse
 import es.didaktikapp.gernikapp.data.models.RegisterRequest
 import es.didaktikapp.gernikapp.data.models.RegisterResponse
+import es.didaktikapp.gernikapp.data.models.UpdateUserRequest
 import es.didaktikapp.gernikapp.data.models.UserResponse
+import es.didaktikapp.gernikapp.data.models.UserStatsResponse
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET
@@ -66,11 +68,22 @@ interface ApiService {
     /**
      * Actualiza el perfil del usuario actual.
      * Requiere autenticación (token JWT).
+     * Solo envía los campos que se desean actualizar.
      */
     @PUT(ApiConfig.USER_UPDATE)
     suspend fun updateUserProfile(
-        @Body userUpdate: UserResponse
+        @Body userUpdate: UpdateUserRequest
     ): Response<UserResponse>
+
+    /**
+     * Obtiene las estadísticas de un usuario.
+     * Requiere autenticación (token JWT).
+     * Con Token: Solo puede ver sus propias estadísticas.
+     */
+    @GET(ApiConfig.USER_STATS)
+    suspend fun getUserStats(
+        @Path("usuario_id") usuarioId: String
+    ): Response<UserStatsResponse>
 
     // ============ PARTIDAS ============
 

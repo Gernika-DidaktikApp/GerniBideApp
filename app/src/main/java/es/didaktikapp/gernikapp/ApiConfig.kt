@@ -27,6 +27,9 @@ object ApiConfig {
     /** PUT - Actualizar perfil del usuario (requiere auth) */
     const val USER_UPDATE = "/api/v1/users/me"
 
+    /** GET - Obtener estadísticas del usuario (requiere auth) */
+    const val USER_STATS = "/api/v1/usuarios/{usuario_id}/estadisticas"
+
     // ============ PROGRESO ============
     /** GET - Obtener progreso del usuario (requiere auth) */
     const val PROGRESS_GET = "/api/v1/progress"
