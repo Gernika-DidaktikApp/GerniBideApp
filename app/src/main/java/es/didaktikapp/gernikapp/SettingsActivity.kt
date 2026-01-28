@@ -1,7 +1,9 @@
 package es.didaktikapp.gernikapp
 
+import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
+import android.media.AudioManager
 import android.view.View
 import android.widget.AdapterView
 import android.widget.Toast
@@ -52,6 +54,17 @@ class SettingsActivity : BaseMenuActivity() {
      */
     private fun initViews() {
         prefs = getSharedPreferences("GernikAppSettings", MODE_PRIVATE)
+        saveOriginalVolumes()
+    }
+
+    private fun saveOriginalVolumes() {
+        val audioManager = getSystemService(Context.AUDIO_SERVICE) as AudioManager
+        if (!prefs.contains("original_music_volume")) {
+            prefs.edit {
+                putInt("original_music_volume", audioManager.getStreamVolume(AudioManager.STREAM_MUSIC))
+                putInt("original_notification_volume", audioManager.getStreamVolume(AudioManager.STREAM_NOTIFICATION))
+            }
+        }
     }
 
     /**
@@ -85,6 +98,7 @@ class SettingsActivity : BaseMenuActivity() {
         // Mute
         binding.switchMute.setOnCheckedChangeListener { _, isChecked ->
             prefs.edit { putBoolean("mute", isChecked) }
+            setAppMuteState(this@SettingsActivity, isChecked)
         }
 
         // Spinner TextSize
@@ -136,4 +150,19 @@ class SettingsActivity : BaseMenuActivity() {
         }
     }
 
+    private fun setAppMuteState(context: Context, muted: Boolean) {
+        val audioManager = context.getSystemService(Context.AUDIO_SERVICE) as AudioManager
+
+        if (muted) {
+            audioManager.setStreamMute(AudioManager.STREAM_MUSIC, true)
+            audioManager.setStreamMute(AudioManager.STREAM_NOTIFICATION, true)
+            audioManager.setStreamMute(AudioManager.STREAM_SYSTEM, true)
+            audioManager.setStreamMute(AudioManager.STREAM_ALARM, true)
+        } else {
+            audioManager.setStreamMute(AudioManager.STREAM_MUSIC, false)
+            audioManager.setStreamMute(AudioManager.STREAM_NOTIFICATION, false)
+            audioManager.setStreamMute(AudioManager.STREAM_SYSTEM, false)
+            audioManager.setStreamMute(AudioManager.STREAM_ALARM, false)
+        }
+    }
 }
