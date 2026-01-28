@@ -45,8 +45,15 @@ abstract class BaseMenuActivity : AppCompatActivity() {
     protected lateinit var contentContainer: FrameLayout
         private set
 
+    /**
+     * Estado guardado que las activities hijas pueden usar para restaurar su estado.
+     */
+    protected var savedInstanceState: Bundle? = null
+        private set
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        this.savedInstanceState = savedInstanceState
         setContentView(R.layout.activity_base_menu)
 
         // Obtener referencias del layout base

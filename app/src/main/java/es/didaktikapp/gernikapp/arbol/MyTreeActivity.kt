@@ -26,6 +26,10 @@ class MyTreeActivity : BaseMenuActivity() {
     // Estado del evento
     private var eventoEstadoId: String? = null
 
+    companion object {
+        private const val KEY_EVENTO_ESTADO_ID = "evento_estado_id"
+    }
+
     override fun getContentLayoutId() = R.layout.arbol_my_tree
 
     override fun onContentInflated() {
@@ -35,8 +39,15 @@ class MyTreeActivity : BaseMenuActivity() {
 
         btnBack = findViewById(R.id.btnBack)
 
-        // Iniciar evento en la API
-        iniciarEvento()
+        // Restaurar estado si existe (después de rotación)
+        if (savedInstanceState != null) {
+            eventoEstadoId = savedInstanceState?.getString(KEY_EVENTO_ESTADO_ID)
+        }
+
+        // Iniciar evento en la API solo si no hay estado guardado
+        if (eventoEstadoId == null) {
+            iniciarEvento()
+        }
 
         // Si ya estaba completada, habilitar botón
         val prefs = getSharedPreferences("arbol_progress", Context.MODE_PRIVATE)
@@ -120,5 +131,10 @@ class MyTreeActivity : BaseMenuActivity() {
                 is Resource.Loading -> { }
             }
         }
+    }
+
+    override fun onSaveInstanceState(outState: android.os.Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putString(KEY_EVENTO_ESTADO_ID, eventoEstadoId)
     }
 }

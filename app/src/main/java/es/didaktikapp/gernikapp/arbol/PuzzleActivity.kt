@@ -46,10 +46,17 @@ class PuzzleActivity : BaseMenuActivity() {
     private data class PuzzlePiece(
         val imageView: ImageView,
         val targetX: Float,
-        val targetY: Float
+        val targetY: Float,
+        var isPlaced: Boolean = false
     )
 
     private val piecesList = mutableListOf<PuzzlePiece>()
+
+    companion object {
+        private const val KEY_EVENTO_ESTADO_ID = "evento_estado_id"
+        private const val KEY_PIECES_PLACED = "pieces_placed"
+        private const val KEY_PIECES_PLACED_STATUS = "pieces_placed_status"
+    }
 
     override fun getContentLayoutId() = R.layout.arbol_puzzle
 
@@ -63,8 +70,18 @@ class PuzzleActivity : BaseMenuActivity() {
         btnBack = findViewById(R.id.btnBack)
         guideImage = findViewById(R.id.guideImage)
 
-        // Iniciar evento en la API
-        iniciarEvento()
+        // Restaurar estado si existe (después de rotación)
+        var savedPlacedStatus: BooleanArray? = null
+        if (savedInstanceState != null) {
+            eventoEstadoId = savedInstanceState?.getString(KEY_EVENTO_ESTADO_ID)
+            piecesPlaced = savedInstanceState?.getInt(KEY_PIECES_PLACED, 0) ?: 0
+            savedPlacedStatus = savedInstanceState?.getBooleanArray(KEY_PIECES_PLACED_STATUS)
+        }
+
+        // Iniciar evento en la API solo si no hay estado guardado
+        if (eventoEstadoId == null) {
+            iniciarEvento()
+        }
 
         btnBack.setOnClickListener {
             finish()
@@ -76,15 +93,22 @@ class PuzzleActivity : BaseMenuActivity() {
             btnBack.isEnabled = true
         }
 
+        // Actualizar UI si el puzzle ya estaba completo
+        if (piecesPlaced == totalPieces) {
+            tvVictory.visibility = View.VISIBLE
+            btnBack.isEnabled = true
+            guideImage.alpha = 0.5f
+        }
+
         // Delay setup until guideImage is measured to get correct target positions
         guideImage.post {
-            setupPuzzle()
+            setupPuzzle(savedPlacedStatus)
         }
     }
 
-    private fun setupPuzzle() {
+    private fun setupPuzzle(savedPlacedStatus: BooleanArray?) {
         val originalBitmap = BitmapFactory.decodeResource(resources, R.drawable.arbola_eta_batzar_etxea)
-        
+
         // Calculate the actual displayed size of the guide image
         val imageRect = getImageViewRect(guideImage)
         val pieceWidth = imageRect.width() / cols
@@ -93,6 +117,7 @@ class PuzzleActivity : BaseMenuActivity() {
         val bitmapPieceWidth = originalBitmap.width / cols
         val bitmapPieceHeight = originalBitmap.height / rows
 
+        var pieceIndex = 0
         for (r in 0 until rows) {
             for (c in 0 until cols) {
                 // Ensure we don't skip pixels due to rounding
@@ -118,14 +143,27 @@ class PuzzleActivity : BaseMenuActivity() {
                 val targetY = imageRect.top + (r * pieceHeight)
 
                 val piece = PuzzlePiece(iv, targetX.toFloat(), targetY.toFloat())
-                
-                // Randomize initial position
-                iv.x = Random.nextInt(0, (puzzleContainer.width - pieceWidth).coerceAtLeast(1)).toFloat()
-                iv.y = Random.nextInt(0, (puzzleContainer.height - pieceHeight).coerceAtLeast(1)).toFloat()
+
+                // Verificar si esta pieza estaba colocada (restaurar estado)
+                val wasPlaced = savedPlacedStatus != null && pieceIndex < savedPlacedStatus.size && savedPlacedStatus[pieceIndex]
+
+                if (wasPlaced) {
+                    // Colocar en su posición correcta
+                    iv.x = piece.targetX
+                    iv.y = piece.targetY
+                    piece.isPlaced = true
+                    iv.background = null
+                    iv.setPadding(0, 0, 0, 0)
+                } else {
+                    // Randomize initial position
+                    iv.x = Random.nextInt(0, (puzzleContainer.width - pieceWidth).coerceAtLeast(1)).toFloat()
+                    iv.y = Random.nextInt(0, (puzzleContainer.height - pieceHeight).coerceAtLeast(1)).toFloat()
+                }
 
                 setupDragListener(piece)
                 piecesList.add(piece)
                 puzzleContainer.addView(iv)
+                pieceIndex++
             }
         }
     }
@@ -134,10 +172,9 @@ class PuzzleActivity : BaseMenuActivity() {
         piece.imageView.setOnTouchListener(object : View.OnTouchListener {
             private var dX = 0f
             private var dY = 0f
-            private var isPlaced = false
 
             override fun onTouch(v: View, event: MotionEvent): Boolean {
-                if (isPlaced) return false
+                if (piece.isPlaced) return false
 
                 when (event.action) {
                     MotionEvent.ACTION_DOWN -> {
@@ -158,7 +195,7 @@ class PuzzleActivity : BaseMenuActivity() {
                         if (distance < 150) {
                             v.x = piece.targetX
                             v.y = piece.targetY
-                            isPlaced = true
+                            piece.isPlaced = true
                             v.background = null // Remove border when placed
                             v.setPadding(0, 0, 0, 0)
                             v.setOnTouchListener(null)
@@ -225,6 +262,16 @@ class PuzzleActivity : BaseMenuActivity() {
         rect.bottom = (yOffset + imageHeight * scale).toInt()
 
         return rect
+    }
+
+    override fun onSaveInstanceState(outState: android.os.Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putString(KEY_EVENTO_ESTADO_ID, eventoEstadoId)
+        outState.putInt(KEY_PIECES_PLACED, piecesPlaced)
+
+        // Guardar el estado de cada pieza (si está colocada o no)
+        val placedStatus = BooleanArray(piecesList.size) { i -> piecesList[i].isPlaced }
+        outState.putBooleanArray(KEY_PIECES_PLACED_STATUS, placedStatus)
     }
 
     private fun iniciarEvento() {

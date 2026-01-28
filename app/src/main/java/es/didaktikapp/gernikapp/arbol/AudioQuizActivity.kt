@@ -43,6 +43,22 @@ class AudioQuizActivity : BaseMenuActivity() {
 
     private var answeredCount = 0
     private val totalQuestions = 3
+    private var mediaPlayerPosition = 0
+    private var quizVisible = false
+
+    // Mapa para guardar las respuestas seleccionadas: pregunta -> botón seleccionado
+    private val selectedAnswers = mutableMapOf<Int, Int>() // question index -> button ID
+    private val answeredQuestions = mutableSetOf<Int>() // preguntas respondidas
+
+    companion object {
+        private const val KEY_EVENTO_ESTADO_ID = "evento_estado_id"
+        private const val KEY_CORRECT_ANSWERS = "correct_answers"
+        private const val KEY_ANSWERED_COUNT = "answered_count"
+        private const val KEY_MEDIA_POSITION = "media_position"
+        private const val KEY_QUIZ_VISIBLE = "quiz_visible"
+        private const val KEY_SELECTED_ANSWERS = "selected_answers"
+        private const val KEY_ANSWERED_QUESTIONS = "answered_questions"
+    }
 
     override fun getContentLayoutId() = R.layout.arbol_audio_quiz
 
@@ -56,16 +72,60 @@ class AudioQuizActivity : BaseMenuActivity() {
         btnVolver = findViewById(R.id.btnVolver)
         tvCongrats = findViewById(R.id.tvCongrats)
 
-        // Iniciar evento en la API
-        iniciarEvento()
+        // Restaurar estado si existe (después de rotación)
+        if (savedInstanceState != null) {
+            eventoEstadoId = savedInstanceState?.getString(KEY_EVENTO_ESTADO_ID)
+            correctAnswers = savedInstanceState?.getInt(KEY_CORRECT_ANSWERS, 0) ?: 0
+            answeredCount = savedInstanceState?.getInt(KEY_ANSWERED_COUNT, 0) ?: 0
+            mediaPlayerPosition = savedInstanceState?.getInt(KEY_MEDIA_POSITION, 0) ?: 0
+            quizVisible = savedInstanceState?.getBoolean(KEY_QUIZ_VISIBLE, false) ?: false
+
+            // Restaurar respuestas seleccionadas
+            savedInstanceState?.getIntArray(KEY_SELECTED_ANSWERS)?.let { answers ->
+                for (i in answers.indices step 2) {
+                    if (i + 1 < answers.size) {
+                        selectedAnswers[answers[i]] = answers[i + 1]
+                    }
+                }
+            }
+
+            // Restaurar preguntas respondidas
+            savedInstanceState?.getIntArray(KEY_ANSWERED_QUESTIONS)?.let { questions ->
+                answeredQuestions.addAll(questions.toList())
+            }
+        }
+
+        // Iniciar evento en la API solo si no hay estado guardado
+        if (eventoEstadoId == null) {
+            iniciarEvento()
+        }
 
         // Reproducir audio
         mediaPlayer = MediaPlayer.create(this, R.raw.plaza) // cambiar este audio
         mediaPlayer.isLooping = false
-        mediaPlayer.start()
+
+        // Restaurar posición del audio si había estado guardado
+        if (mediaPlayerPosition > 0) {
+            mediaPlayer.seekTo(mediaPlayerPosition)
+        }
+
+        // Solo iniciar automáticamente si no venimos de una rotación
+        if (!quizVisible) {
+            mediaPlayer.start()
+        }
 
         mediaPlayer.setOnCompletionListener {
             showQuiz()
+        }
+
+        // Si el quiz ya estaba visible, mostrarlo
+        if (quizVisible) {
+            showQuiz()
+            // Restaurar el progreso visual
+            if (answeredCount == totalQuestions) {
+                tvCongrats.visibility = View.VISIBLE
+                btnVolver.isEnabled = true
+            }
         }
 
         // Setup SeekBar
@@ -114,6 +174,7 @@ class AudioQuizActivity : BaseMenuActivity() {
     }
 
     private fun showQuiz() {
+        quizVisible = true
         voiceContainer.visibility = View.GONE
         quizContainer.visibility = View.VISIBLE
         btnVolver.visibility = View.VISIBLE
@@ -121,31 +182,62 @@ class AudioQuizActivity : BaseMenuActivity() {
 
     private fun setupQuiz() {
         // Q1 Correct: q1a1
-        setupQuestion(listOf(R.id.q1a1, R.id.q1a2), R.id.q1a1)
+        setupQuestion(0, listOf(R.id.q1a1, R.id.q1a2), R.id.q1a1)
         // Q2 Correct: q2a1
-        setupQuestion(listOf(R.id.q2a1, R.id.q2a2), R.id.q2a1)
+        setupQuestion(1, listOf(R.id.q2a1, R.id.q2a2), R.id.q2a1)
         // Q3 Correct: q3a1
-        setupQuestion(listOf(R.id.q3a1, R.id.q3a2), R.id.q3a1)
+        setupQuestion(2, listOf(R.id.q3a1, R.id.q3a2), R.id.q3a1)
+
+        // Restaurar el estado visual de las respuestas después de configurar los listeners
+        restoreQuizState()
     }
 
-    private fun setupQuestion(buttonIds: List<Int>, correctId: Int) {
-        var questionAnswered = false
+    private fun setupQuestion(questionIndex: Int, buttonIds: List<Int>, correctId: Int) {
         buttonIds.forEach { id ->
             findViewById<Button>(id).setOnClickListener { button ->
-                if (questionAnswered) return@setOnClickListener
+                if (answeredQuestions.contains(questionIndex)) return@setOnClickListener
 
-                questionAnswered = true
+                answeredQuestions.add(questionIndex)
+                selectedAnswers[questionIndex] = id
+
                 if (id == correctId) {
                     button.setBackgroundColor(ContextCompat.getColor(this, R.color.correcto))
-                    correctAnswers++ // Contar respuesta correcta
+                    correctAnswers++
                 } else {
                     button.setBackgroundColor(ContextCompat.getColor(this, R.color.error))
-                    // Mostrar la respuesta correcta
                     findViewById<Button>(correctId).setBackgroundColor(
                         ContextCompat.getColor(this, R.color.correcto)
                     )
                 }
                 checkCompletion()
+            }
+        }
+    }
+
+    private fun restoreQuizState() {
+        // Restaurar colores de botones seleccionados
+        val questions = listOf(
+            Triple(0, listOf(R.id.q1a1, R.id.q1a2), R.id.q1a1),
+            Triple(1, listOf(R.id.q2a1, R.id.q2a2), R.id.q2a1),
+            Triple(2, listOf(R.id.q3a1, R.id.q3a2), R.id.q3a1)
+        )
+
+        questions.forEach { (questionIndex, buttonIds, correctId) ->
+            if (answeredQuestions.contains(questionIndex)) {
+                val selectedId = selectedAnswers[questionIndex]
+                if (selectedId != null) {
+                    // Aplicar color al botón seleccionado
+                    val selectedButton = findViewById<Button>(selectedId)
+                    if (selectedId == correctId) {
+                        selectedButton.setBackgroundColor(ContextCompat.getColor(this, R.color.correcto))
+                    } else {
+                        selectedButton.setBackgroundColor(ContextCompat.getColor(this, R.color.error))
+                        // Mostrar también la respuesta correcta
+                        findViewById<Button>(correctId).setBackgroundColor(
+                            ContextCompat.getColor(this, R.color.correcto)
+                        )
+                    }
+                }
             }
         }
     }
@@ -223,6 +315,32 @@ class AudioQuizActivity : BaseMenuActivity() {
                 is Resource.Loading -> { }
             }
         }
+    }
+
+    override fun onSaveInstanceState(outState: android.os.Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putString(KEY_EVENTO_ESTADO_ID, eventoEstadoId)
+        outState.putInt(KEY_CORRECT_ANSWERS, correctAnswers)
+        outState.putInt(KEY_ANSWERED_COUNT, answeredCount)
+        outState.putBoolean(KEY_QUIZ_VISIBLE, quizVisible)
+
+        // Guardar posición actual del audio
+        if (::mediaPlayer.isInitialized && mediaPlayer.isPlaying) {
+            outState.putInt(KEY_MEDIA_POSITION, mediaPlayer.currentPosition)
+        } else {
+            outState.putInt(KEY_MEDIA_POSITION, mediaPlayerPosition)
+        }
+
+        // Guardar respuestas seleccionadas (como pares: índice_pregunta, id_botón)
+        val answersArray = mutableListOf<Int>()
+        selectedAnswers.forEach { (questionIndex, buttonId) ->
+            answersArray.add(questionIndex)
+            answersArray.add(buttonId)
+        }
+        outState.putIntArray(KEY_SELECTED_ANSWERS, answersArray.toIntArray())
+
+        // Guardar preguntas respondidas
+        outState.putIntArray(KEY_ANSWERED_QUESTIONS, answeredQuestions.toIntArray())
     }
 
     override fun onDestroy() {
