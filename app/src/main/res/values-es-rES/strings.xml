@@ -299,12 +299,16 @@
     <string name="desaktibatu_soinua">Desactivar todos los sonidos del juego</string>
     <string name="letren_tamaina">Tamaño de letra</string>
     <string name="aukeratu_tamaina">Elige el tamaño adecuado para leer</string>
-    <string name="gaueko_modua">Cambiar contraste</string>
+    <string name="cambiar_contraste">Cambiar contraste</string>
     <string name="cambiar_contraste_mensaje">Puedes aumentar la diferencia entre colores</string>
     <string name="hizkuntza">Idioma</string>
     <string name="euskara_edo_gaztelania">Euskera o Castellano</string>
     <string name="honi_buruz">Acerca de</string>
     <string name="app_informazioa">Información de la aplicación</string>
+    <string name="ikono_soinua">Logo control de sonido</string>
+    <string name="ikono_letra_tamaina">Logo tamaño de letra</string>
+    <string name="ikono_daltonismo">Logo de modo daltonismo</string>
+    <string name="ikono_hizkuntza">Logo de selector de idioma</string>
 
     <!-- AboutActivity -->
     <string name="about_description">Aplicación educativa interactiva sobre la historia y cultura de Gernika.</string>

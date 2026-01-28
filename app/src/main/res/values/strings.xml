@@ -291,7 +291,7 @@
     <!-- Fronton - DancingBallActivity -->
     <string name="puntuak_d">Puntuak: %d</string>
 
-    <!-- SettingActivity -->
+    <!-- SettingsActivity -->
     <string name="ezarpenak_gordeta">Ezarpenerak gordeta!</string>
     <string name="ezarpenak">EZARPENAK</string>
     <string name="ezarpenak_gorde">EZARPENAK GORDE</string>
@@ -305,6 +305,10 @@
     <string name="euskara_edo_gaztelania">Euskara edo Gaztelania</string>
     <string name="honi_buruz">Honi buruz</string>
     <string name="app_informazioa">Aplikazioaren informazioa</string>
+    <string name="ikono_soinua">Soinu kontrol logoa</string>
+    <string name="ikono_letra_tamaina">Letra tamaina logoa</string>
+    <string name="ikono_daltonismo">Daltonismo moduko logoa</string>
+    <string name="ikono_hizkuntza">Hizkuntza hautatzaile logoa</string>
 
     <string name="itzuli">Itzuli</string>
     <string name="play">Play</string>

@@ -1,5 +1,6 @@
 package es.didaktikapp.gernikapp
 
+import android.app.Activity
 import android.content.Context
 import android.content.res.Configuration
 import androidx.appcompat.app.AppCompatDelegate
@@ -24,17 +25,17 @@ object SettingsManager {
     fun applyAll(context: Context) {
         val prefs = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
 
-        applyDarkMode(prefs.getBoolean("dark_mode", false))
+        applyDaltonismo(prefs.getBoolean("daltonismo", false))
         applyLanguage(context, prefs.getInt("language", 0))
         applyTextSize(context, prefs.getInt("text_size", 1))
     }
 
     /**
-     * Aplica modo oscuro o claro usando AppCompatDelegate.
+     * Aplica modo daltonismo/contraste alto
      *
-     * @param enabled true = modo oscuro, false = modo claro
+     * @param enabled
      */
-    private fun applyDarkMode(enabled: Boolean) {
+    fun applyDaltonismo(enabled: Boolean) {
         AppCompatDelegate.setDefaultNightMode(
             if (enabled) AppCompatDelegate.MODE_NIGHT_YES
             else AppCompatDelegate.MODE_NIGHT_NO
@@ -47,7 +48,7 @@ object SettingsManager {
      * @param context Contexto para actualizar resources
      * @param languageIndex 0=eu, 1=es, resto=Locale por defecto
      */
-    private fun applyLanguage(context: Context, languageIndex: Int) {
+    fun applyLanguage(context: Context, languageIndex: Int) {
         val locale = when (languageIndex) {
             0 -> Locale("eu")
             1 -> Locale("es")
@@ -58,6 +59,8 @@ object SettingsManager {
         val config = Configuration(context.resources.configuration)
         config.setLocale(locale)
         context.resources.updateConfiguration(config, context.resources.displayMetrics)
+
+        (context as? Activity)?.recreate()
     }
 
     /**
@@ -66,17 +69,19 @@ object SettingsManager {
      * @param context
      * @param sizeIndex
      */
-    private fun applyTextSize(context: Context, sizeIndex: Int) {
+    fun applyTextSize(context: Context, sizeIndex: Int) {
         val scale = when (sizeIndex) {
             0 -> 0.85f
             1 -> 1.0f
-            2 -> 1.25f
+            2 -> 1.06f
             else -> 1.0f
         }
 
         val config = Configuration(context.resources.configuration)
         config.fontScale = scale
         context.resources.updateConfiguration(config, context.resources.displayMetrics)
+
+        (context as? Activity)?.recreate()
     }
 
 }

@@ -2,8 +2,11 @@ package es.didaktikapp.gernikapp
 
 import android.content.Intent
 import android.content.SharedPreferences
+import android.view.View
+import android.widget.AdapterView
 import android.widget.Toast
 import es.didaktikapp.gernikapp.databinding.ActivitySettingsBinding
+import androidx.core.content.edit
 
 /**
  * Activity para la configuración de la aplicación.
@@ -19,6 +22,10 @@ class SettingsActivity : BaseMenuActivity() {
     /** SharedPreferences para almacenar configuración persistente */
     private lateinit var prefs: SharedPreferences
 
+    private var isInitialLoad = true
+
+    private var listenersSetup = false
+
     /**
      * Retorna el ID del layout a cargar en BaseMenuActivity.
      */
@@ -30,8 +37,14 @@ class SettingsActivity : BaseMenuActivity() {
     override fun onContentInflated() {
         binding = ActivitySettingsBinding.bind(contentContainer.getChildAt(0))
         initViews()
-        loadSettings()
-        setupListeners()
+
+        contentContainer.post {
+            loadSettings()
+            if (!listenersSetup) {
+                setupListeners()
+                listenersSetup = true
+            }
+        }
     }
 
     /**
@@ -47,9 +60,15 @@ class SettingsActivity : BaseMenuActivity() {
      */
     private fun loadSettings() {
         binding.switchMute.isChecked = prefs.getBoolean("mute", false)
-        binding.switchDarkMode.isChecked = prefs.getBoolean("dark_mode", false)
-        binding.spinnerTextSize.setSelection(prefs.getInt("text_size", 1))
-        binding.spinnerLanguage.setSelection(prefs.getInt("language", 0))
+        binding.switchDaltonismo.isChecked = prefs.getBoolean("daltonismo", false)
+        binding.spinnerTextSize.setSelection(
+            prefs.getInt("text_size", 1),
+            false
+        )
+        binding.spinnerLanguage.setSelection(
+            prefs.getInt("language", 0),
+            false
+        )
     }
 
     /**
@@ -57,6 +76,40 @@ class SettingsActivity : BaseMenuActivity() {
      * Maneja cambios en switches y acciones de botones.
      */
     private fun setupListeners() {
+        // Daltonismo
+        binding.switchDaltonismo.setOnCheckedChangeListener { _, isChecked ->
+            prefs.edit { putBoolean("daltonismo", isChecked) }
+            SettingsManager.applyDaltonismo(isChecked)
+        }
+
+        // Mute
+        binding.switchMute.setOnCheckedChangeListener { _, isChecked ->
+            prefs.edit { putBoolean("mute", isChecked) }
+        }
+
+        // Spinner TextSize
+        binding.spinnerTextSize.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                if (isInitialLoad || position == prefs.getInt("text_size", 1)) return
+
+                prefs.edit { putInt("text_size", position) }
+                SettingsManager.applyTextSize(this@SettingsActivity, position)
+            }
+            override fun onNothingSelected(parent: AdapterView<*>?) {}
+        }
+
+        // Spinner Language
+        binding.spinnerLanguage.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                if (isInitialLoad || position == prefs.getInt("language", 0)) return
+
+                prefs.edit { putInt("language", position) }
+                SettingsManager.applyLanguage(this@SettingsActivity, position)
+            }
+            override fun onNothingSelected(parent: AdapterView<*>?) {}
+        }
+
+        // Boton guardar
         binding.btnSaveSettings.setOnClickListener {
             saveSettings()
             SettingsManager.applyAll(this)
@@ -64,6 +117,7 @@ class SettingsActivity : BaseMenuActivity() {
             recreate()
         }
 
+        // Acerca de
         binding.btnAbout.setOnClickListener {
             startActivity(Intent(this, AboutActivity::class.java))
         }
@@ -75,7 +129,7 @@ class SettingsActivity : BaseMenuActivity() {
     private fun saveSettings() {
         prefs.edit().apply {
             putBoolean("mute", binding.switchMute.isChecked)
-            putBoolean("dark_mode", binding.switchDarkMode.isChecked)
+            putBoolean("daltonismo", binding.switchDaltonismo.isChecked)
             putInt("text_size", binding.spinnerTextSize.selectedItemPosition)
             putInt("language", binding.spinnerLanguage.selectedItemPosition)
             apply()
