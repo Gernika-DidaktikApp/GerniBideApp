@@ -7,7 +7,7 @@
     </string-array>
 
     <string-array name="languages">
-        <item>Español</item>
         <item>Euskera</item>
+        <item>Español</item>
     </string-array>
 </resources>

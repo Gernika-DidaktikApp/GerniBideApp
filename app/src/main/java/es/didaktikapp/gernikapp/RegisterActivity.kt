@@ -129,8 +129,12 @@ class RegisterActivity : AppCompatActivity() {
                             finish()
 
                         } else {
-                            val errorBody = response.errorBody()?.string()
-                            val errorMsg = ApiErrorParser.parse(errorBody, response.code(), this@RegisterActivity)
+                            val errorMsg = when (response.code()) {
+                                400 -> "Nombre de usuario ya existe"
+                                401 -> "Credenciales inválidas"
+                                422 -> "Datos inválidos"
+                                else -> "Error del servidor (${response.code()})"
+                            }
                             Toast.makeText(this@RegisterActivity, errorMsg, Toast.LENGTH_LONG).show()
                         }
 

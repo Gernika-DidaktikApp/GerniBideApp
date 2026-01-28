@@ -1,9 +1,14 @@
 package es.didaktikapp.gernikapp
 
+import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
+import android.media.AudioManager
+import android.view.View
+import android.widget.AdapterView
 import android.widget.Toast
 import es.didaktikapp.gernikapp.databinding.ActivitySettingsBinding
+import androidx.core.content.edit
 
 /**
  * Activity para la configuración de la aplicación.
@@ -19,6 +24,12 @@ class SettingsActivity : BaseMenuActivity() {
     /** SharedPreferences para almacenar configuración persistente */
     private lateinit var prefs: SharedPreferences
 
+    /** Indica si es la carga inicial para evitar disparar listeners innecesariamente. */
+    private var isInitialLoad = true
+
+    /** Controla si los event listeners ya han sido configurados. */
+    private var listenersSetup = false
+
     /**
      * Retorna el ID del layout a cargar en BaseMenuActivity.
      */
@@ -30,8 +41,14 @@ class SettingsActivity : BaseMenuActivity() {
     override fun onContentInflated() {
         binding = ActivitySettingsBinding.bind(contentContainer.getChildAt(0))
         initViews()
-        loadSettings()
-        setupListeners()
+
+        contentContainer.post {
+            loadSettings()
+            if (!listenersSetup) {
+                setupListeners()
+                listenersSetup = true
+            }
+        }
     }
 
     /**
@@ -39,6 +56,20 @@ class SettingsActivity : BaseMenuActivity() {
      */
     private fun initViews() {
         prefs = getSharedPreferences("GernikAppSettings", MODE_PRIVATE)
+        saveOriginalVolumes()
+    }
+
+    /**
+     * Guarda los volúmenes originales del sistema en SharedPreferences.
+     */
+    private fun saveOriginalVolumes() {
+        val audioManager = getSystemService(Context.AUDIO_SERVICE) as AudioManager
+        if (!prefs.contains("original_music_volume")) {
+            prefs.edit {
+                putInt("original_music_volume", audioManager.getStreamVolume(AudioManager.STREAM_MUSIC))
+                putInt("original_notification_volume", audioManager.getStreamVolume(AudioManager.STREAM_NOTIFICATION))
+            }
+        }
     }
 
     /**
@@ -47,10 +78,15 @@ class SettingsActivity : BaseMenuActivity() {
      */
     private fun loadSettings() {
         binding.switchMute.isChecked = prefs.getBoolean("mute", false)
-        binding.switchDarkMode.isChecked = prefs.getBoolean("dark_mode", false)
-        binding.switchColorBlindMode.isChecked = prefs.getBoolean("color_blind_mode", false)
-        binding.spinnerTextSize.setSelection(prefs.getInt("text_size", 1))
-        binding.spinnerLanguage.setSelection(prefs.getInt("language", 0))
+        binding.switchDaltonismo.isChecked = prefs.getBoolean("daltonismo", false)
+        binding.spinnerTextSize.setSelection(
+            prefs.getInt("text_size", 1),
+            false
+        )
+        binding.spinnerLanguage.setSelection(
+            prefs.getInt("language", 0),
+            false
+        )
     }
 
     /**
@@ -58,6 +94,41 @@ class SettingsActivity : BaseMenuActivity() {
      * Maneja cambios en switches y acciones de botones.
      */
     private fun setupListeners() {
+        // Daltonismo
+        binding.switchDaltonismo.setOnCheckedChangeListener { _, isChecked ->
+            prefs.edit { putBoolean("daltonismo", isChecked) }
+            SettingsManager.applyDaltonismo(isChecked)
+        }
+
+        // Mute
+        binding.switchMute.setOnCheckedChangeListener { _, isChecked ->
+            prefs.edit { putBoolean("mute", isChecked) }
+            setAppMuteState(this@SettingsActivity, isChecked)
+        }
+
+        // Spinner TextSize
+        binding.spinnerTextSize.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                if (isInitialLoad || position == prefs.getInt("text_size", 1)) return
+
+                prefs.edit { putInt("text_size", position) }
+                SettingsManager.applyTextSize(this@SettingsActivity, position)
+            }
+            override fun onNothingSelected(parent: AdapterView<*>?) {}
+        }
+
+        // Spinner Language
+        binding.spinnerLanguage.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                if (isInitialLoad || position == prefs.getInt("language", 0)) return
+
+                prefs.edit { putInt("language", position) }
+                SettingsManager.applyLanguage(this@SettingsActivity, position)
+            }
+            override fun onNothingSelected(parent: AdapterView<*>?) {}
+        }
+
+        // Boton guardar
         binding.btnSaveSettings.setOnClickListener {
             saveSettings()
             SettingsManager.applyAll(this)
@@ -65,6 +136,7 @@ class SettingsActivity : BaseMenuActivity() {
             recreate()
         }
 
+        // Acerca de
         binding.btnAbout.setOnClickListener {
             startActivity(Intent(this, AboutActivity::class.java))
         }
@@ -76,12 +148,32 @@ class SettingsActivity : BaseMenuActivity() {
     private fun saveSettings() {
         prefs.edit().apply {
             putBoolean("mute", binding.switchMute.isChecked)
-            putBoolean("dark_mode", binding.switchDarkMode.isChecked)
-            putBoolean("color_blind_mode", binding.switchColorBlindMode.isChecked)
+            putBoolean("daltonismo", binding.switchDaltonismo.isChecked)
             putInt("text_size", binding.spinnerTextSize.selectedItemPosition)
             putInt("language", binding.spinnerLanguage.selectedItemPosition)
             apply()
         }
     }
 
+    /**
+     * Activa o desactiva el mute global de la aplicación.
+     *
+     * @param context Contexto para acceder al AudioManager
+     * @param muted `true` para silenciar, `false` para restaurar sonido
+     */
+    private fun setAppMuteState(context: Context, muted: Boolean) {
+        val audioManager = context.getSystemService(Context.AUDIO_SERVICE) as AudioManager
+
+        if (muted) {
+            audioManager.setStreamMute(AudioManager.STREAM_MUSIC, true)
+            audioManager.setStreamMute(AudioManager.STREAM_NOTIFICATION, true)
+            audioManager.setStreamMute(AudioManager.STREAM_SYSTEM, true)
+            audioManager.setStreamMute(AudioManager.STREAM_ALARM, true)
+        } else {
+            audioManager.setStreamMute(AudioManager.STREAM_MUSIC, false)
+            audioManager.setStreamMute(AudioManager.STREAM_NOTIFICATION, false)
+            audioManager.setStreamMute(AudioManager.STREAM_SYSTEM, false)
+            audioManager.setStreamMute(AudioManager.STREAM_ALARM, false)
+        }
+    }
 }
