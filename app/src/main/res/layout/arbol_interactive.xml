@@ -130,7 +130,7 @@
         android:layout_gravity="bottom|end"
         android:layout_margin="16dp"
         android:backgroundTint="@color/btnPrincipal"
-        android:text="@string/boton_terminar"
+        android:text="@string/color_peace_finish"
         android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
