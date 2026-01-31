@@ -70,9 +70,10 @@ class PuzzleActivity : BaseMenuActivity() {
             finish()
         }
 
-        // Si ya estaba completada, habilitar botón
+        // Si ya estaba completada, mostrar botón
         val prefs = getSharedPreferences("arbol_progress", Context.MODE_PRIVATE)
         if (prefs.getBoolean("puzzle_completed", false)) {
+            btnBack.visibility = View.VISIBLE
             btnBack.isEnabled = true
         }
 
@@ -185,6 +186,7 @@ class PuzzleActivity : BaseMenuActivity() {
         piecesPlaced++
         if (piecesPlaced == totalPieces) {
             tvVictory.visibility = View.VISIBLE
+            btnBack.visibility = View.VISIBLE
             btnBack.isEnabled = true
             guideImage.alpha = 0.5f // Reveal image slightly more
 
