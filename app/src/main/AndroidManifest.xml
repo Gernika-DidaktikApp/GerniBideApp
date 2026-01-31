@@ -117,9 +117,6 @@
             android:name=".arbol.InteractiveActivity"
             android:exported="false" />
         <activity
-            android:name=".arbol.MyTreeActivity"
-            android:exported="false" />
-        <activity
             android:name=".arbol.PuzzleActivity"
             android:exported="false" />
 

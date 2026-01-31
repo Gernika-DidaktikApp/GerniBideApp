@@ -8,6 +8,7 @@ import android.graphics.PointF
 import android.graphics.Rect
 import android.media.MediaPlayer
 import android.os.Bundle
+import android.util.Log
 import android.view.MotionEvent
 import android.view.View
 import android.view.animation.AlphaAnimation
@@ -19,6 +20,12 @@ import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.lifecycleScope
+import es.didaktikapp.gernikapp.data.local.TokenManager
+import es.didaktikapp.gernikapp.data.repository.GameRepository
+import es.didaktikapp.gernikapp.utils.Constants.Actividades
+import es.didaktikapp.gernikapp.utils.Resource
+import kotlinx.coroutines.launch
 import org.json.JSONArray
 import org.json.JSONObject
 import kotlin.random.Random
@@ -29,6 +36,13 @@ class InteractiveActivity : BaseMenuActivity() {
     private lateinit var treeImage: ImageView
     private var mediaPlayer: MediaPlayer? = null
     private var isMuted = false
+
+    // Repositorios para API
+    private lateinit var gameRepository: GameRepository
+    private lateinit var tokenManager: TokenManager
+
+    // Estado del evento
+    private var eventoEstadoId: String? = null
 
     // Slots positions as percentages (X, Y) relative to the image bounds
     private val slotPercentages = listOf(
@@ -52,6 +66,10 @@ class InteractiveActivity : BaseMenuActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.arbol_interactive)
 
+        // Inicializar repositorios
+        gameRepository = GameRepository(this)
+        tokenManager = TokenManager(this)
+
         treeContainer = findViewById(R.id.treeContainer)
         treeImage = findViewById(R.id.treeImage)
 
@@ -70,14 +88,8 @@ class InteractiveActivity : BaseMenuActivity() {
         setupMusic()
         setupWordButtons()
 
-        // Handle intent entry (legacy/direct from previous screen)
-        val text = intent.getStringExtra("EXTRA_VALUE_TEXT") ?: ""
-        if (text.isNotEmpty()) {
-            val color = intent.getIntExtra("EXTRA_VALUE_COLOR", ContextCompat.getColor(this, R.color.valuePeace))
-            treeContainer.post {
-                autoPlaceWord(text, color)
-            }
-        }
+        // Iniciar evento en la API
+        iniciarEvento()
     }
 
     private fun setupMusic() {
@@ -111,6 +123,11 @@ class InteractiveActivity : BaseMenuActivity() {
                 val text = getString(textRes)
                 val color = ContextCompat.getColor(this, colorRes)
                 autoPlaceWord(text, color)
+
+                // Marcar como completada y completar evento en la API
+                val prefs = getSharedPreferences("arbol_progress", Context.MODE_PRIVATE)
+                prefs.edit().putBoolean("interactive_completed", true).apply()
+                completarEvento()
             }
         }
     }
@@ -287,6 +304,56 @@ class InteractiveActivity : BaseMenuActivity() {
         animSet.addAnimation(scale)
         animSet.addAnimation(fade)
         view.startAnimation(animSet)
+    }
+
+    private fun iniciarEvento() {
+        val juegoId = tokenManager.getJuegoId()
+
+        if (juegoId == null) {
+            Log.e("InteractiveActivity", "No hay juegoId guardado")
+            return
+        }
+
+        lifecycleScope.launch {
+            when (val result = gameRepository.iniciarEvento(
+                idJuego = juegoId,
+                idActividad = Actividades.Arbol.ID,
+                idEvento = Actividades.Arbol.MY_TREE
+            )) {
+                is Resource.Success -> {
+                    eventoEstadoId = result.data.id
+                    Log.d("InteractiveActivity", "Evento iniciado: $eventoEstadoId")
+                }
+                is Resource.Error -> {
+                    Log.e("InteractiveActivity", "Error al iniciar evento: ${result.message}")
+                }
+                is Resource.Loading -> { }
+            }
+        }
+    }
+
+    private fun completarEvento() {
+        val estadoId = eventoEstadoId
+
+        if (estadoId == null) {
+            Log.e("InteractiveActivity", "No hay eventoEstadoId guardado")
+            return
+        }
+
+        lifecycleScope.launch {
+            when (val result = gameRepository.completarEvento(
+                estadoId = estadoId,
+                puntuacion = 100.0
+            )) {
+                is Resource.Success -> {
+                    Log.d("InteractiveActivity", "Evento completado con puntuación: 100")
+                }
+                is Resource.Error -> {
+                    Log.e("InteractiveActivity", "Error al completar evento: ${result.message}")
+                }
+                is Resource.Loading -> { }
+            }
+        }
     }
 
     override fun onDestroy() {

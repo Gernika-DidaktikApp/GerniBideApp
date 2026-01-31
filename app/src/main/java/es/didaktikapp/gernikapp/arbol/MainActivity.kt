@@ -29,13 +29,13 @@ class MainActivity : BaseMenuActivity() {
                 ContextCompat.getDrawable(this, R.drawable.bg_boton_completado)
         }
 
-        if (prefs.getBoolean("my_tree_completed", false)) {
-            binding.btnMyTree.background =
+        if (prefs.getBoolean("puzzle_completed", false)) {
+            binding.btnPuzzle.background =
                 ContextCompat.getDrawable(this, R.drawable.bg_boton_completado)
         }
 
-        if (prefs.getBoolean("puzzle_completed", false)) {
-            binding.btnPuzzle.background =
+        if (prefs.getBoolean("interactive_completed", false)) {
+            binding.btnInteractive.background =
                 ContextCompat.getDrawable(this, R.drawable.bg_boton_completado)
         }
     }
@@ -50,8 +50,8 @@ class MainActivity : BaseMenuActivity() {
             startActivity(Intent(this, PuzzleActivity::class.java))
         }
 
-        binding.btnMyTree.setOnClickListener {
-            startActivity(Intent(this, MyTreeActivity::class.java))
+        binding.btnInteractive.setOnClickListener {
+            startActivity(Intent(this, InteractiveActivity::class.java))
         }
     }
 }
