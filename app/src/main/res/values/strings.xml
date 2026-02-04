@@ -42,16 +42,21 @@
     <string name="siguiente">Hurrengoa</string>
     <string name="play_pause">Erreproduzitu/Pausatu</string>
 
+    <string name="plaza_activity_1">1. Plazaren informazioa</string>
+    <string name="plaza_activity_2">2. Merkatua</string>
+    <string name="plaza_activity_3">3. Bertsoak</string>
+    <string name="plaza_activity_4">4. Argazkiak</string>
+
     <!-- Pantalla Arrastrar Productos -->
-    <string name="arrastra_productos_titulo">Produktuak beren puestuan jarri</string>
-    <string name="arrastra_instrucciones">Arrastatu produktu bakoitza dagokion puestuan</string>
-    <string name="puesto_lacteos">Lakteak</string>
-    <string name="puesto_verduras">Barazki-puesto</string>
+    <string name="arrastra_productos_titulo">Produktuak beren postuan jarri</string>
+    <string name="arrastra_instrucciones">Arrastatu produktu bakoitza dagokion postuan</string>
+    <string name="puesto_lacteos">Esnekiak</string>
+    <string name="puesto_verduras">Barazkiak</string>
     <string name="puesto_panaderia">Ogia</string>
     <string name="puesto_natural">Naturala</string>
-    <string name="puesto_artesania">Artisania</string>
-    <string name="completado_titulo">¡Perfektoa!</string>
-    <string name="completado_mensaje">¡Merkatu prest! ¡Gernika bizi dago!</string>
+    <string name="puesto_artesania">Artisautza</string>
+    <string name="completado_titulo">¡Ederto!</string>
+    <string name="completado_mensaje">¡Azoka prest! ¡Gernika bizirik dago!</string>
     <string name="jarraitu">Jarraitu</string>
 
     <!-- Productos -->
@@ -81,7 +86,7 @@
     <string name="finalizar">Amaitu</string>
     <string name="mision_icono">Eginkizunaren ikonoa</string>
     <string name="tomar_foto">Argazkia atera</string>
-    <string name="plaza_txt_video">Plaza herriko bihotza da. Astelehen bakoitzean, inguruko laborariak plazara biltzen dira beren produktuak saltzera. Horrez gain, plazara elkartzten gara jaiek, merkatatean eta egun berezietan. Urriaren azken astelehena bereziki garrantzitsua da, eta gure herria kolorez bete egiten da, puesto askokin eta musikarekin. Tradizio horien esker, gure kultura bizi dela eta guztiek elkarrekin egiten dugula ikastzen dugu.</string>
+    <string name="plaza_txt_video">Plaza da herriko bihotza. Astelehen bakoitzean, inguruko nekazariak plazan biltzen dira beraien produktuak saltzeko. Horrez gain, bertan elkartzen gara jaietan, azoketan eta egun berezietan. Urriko azken astelehena berezia izaten da, eta gure herria kolorez, postu ezberdin askoz eta musikaz betetzen da. Tradizio hauei esker, gure kultura bizirik dagoela eta guztion artean egiten dugula ikasten dugu.</string>
     <string name="_0_00_0_00">0:00 / 0:00</string>
     <string name="opcion_1">1. aukera</string>
     <string name="opcion_2">2. aukera</string>
@@ -181,7 +186,7 @@
     <!-- Pregunta 1: Zaldia (Caballo) -->
     <string name="view_interpret_q1">¿Zer adierazten du irudi hau?</string>
     <string name="view_interpret_q1_opt1">Indarra</string>
-    <string name="view_interpret_q1_opt2">Herriarenindarra</string>
+    <string name="view_interpret_q1_opt2">Herriaren indarra</string>
     <string name="view_interpret_q1_opt3">Itxaropena</string>
     <string name="view_interpret_q1_opt4">Bakea</string>
     <string name="view_interpret_q1_feedback">¡Zuzena! Zaldia herriarenindarra adierazten du</string>
@@ -189,7 +194,7 @@
     <!-- Pregunta 2: Ama haurrarekin (Madre con niño) -->
     <string name="view_interpret_q2">¿Zer adierazten du amak haurrarekin?</string>
     <string name="view_interpret_q2_opt1">Mina</string>
-    <string name="view_interpret_q2_opt2">Biktimen powerlessness</string>
+    <string name="view_interpret_q2_opt2">Biktimen inpotentzia</string>
     <string name="view_interpret_q2_opt3">Beldurra</string>
     <string name="view_interpret_q2_opt4">Itxaropena</string>
     <string name="view_interpret_q2_feedback">¡Zuzena! Ama biktimen indargabetasuna eta mina adierazten du</string>
@@ -221,7 +226,7 @@
     <!-- Pregunta 6: Gerlaria (Soldado caído) -->
     <string name="view_interpret_q6">¿Zer adierazten du erdizkaturiko soldaduak?</string>
     <string name="view_interpret_q6_opt1">Garaipena</string>
-    <string name="view_interpret_q6_opt2">Aletxo eta heriotza</string>
+    <string name="view_interpret_q6_opt2">Heriotza</string>
     <string name="view_interpret_q6_opt3">Bakea</string>
     <string name="view_interpret_q6_opt4">Itxaropena</string>
     <string name="view_interpret_q6_feedback">¡Zuzena! Soldaduak gerrako aletxo eta heriotza adierazten du</string>
@@ -428,6 +433,7 @@
     <string name="itxi">Itxi</string>
     <string name="cifp_ciudad_jardin">CIFP Ciudad Jardín LHII</string>
     <string name="ehu">Euskal Herriko Unibertsitatea (UPV/EHU)</string>
+
 
 </resources>
 

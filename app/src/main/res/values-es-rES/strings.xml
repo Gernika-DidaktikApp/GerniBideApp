@@ -43,6 +43,7 @@
     <string name="play_pause">Reproducir/Pausar</string>
 
     <!-- Pantalla Arrastrar Productos -->
+    <string name="plaza_activity_4">4. Fotos</string>
     <string name="arrastra_productos_titulo">Coloca los productos en su puesto</string>
     <string name="arrastra_instrucciones">Arrastra cada producto a su puesto correspondiente</string>
     <string name="puesto_lacteos">Lácteos</string>
@@ -417,5 +418,8 @@
     <string name="profile_logout_confirm">Sí, cerrar</string>
     <string name="profile_logout_cancel">Cancelar</string>
     <string name="profile_logout_success">Sesión cerrada correctamente</string>
+    <string name="plaza_activity_1">1. Video</string>
+    <string name="plaza_activity_2">2. Mercado</string>
+    <string name="plaza_activity_3">3. Versos</string>
 
 </resources>
