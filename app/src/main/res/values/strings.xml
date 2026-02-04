@@ -113,19 +113,19 @@
     <string name="map_dialog_message">%s-ra iritsi zara.\n¿Sartu nahi duzu?</string>
     <string name="map_dialog_button_enter">Sartu</string>
     <string name="map_dialog_button_cancel">Ez</string>
-    <string name="map_entered_location">Sartu duzu: %s</string>
+    <string name="map_entered_location">Sartu zara: %s</string>
 
     <!-- Bottom Sheet -->
     <string name="map_bottom_sheet_default_title">Puntu bat aukeratu</string>
-    <string name="map_bottom_sheet_default_description">Sakatu mapako markador bat informazioa ikusteko</string>
+    <string name="map_bottom_sheet_default_description">Sakatu mapako puntu bat informazioa ikusteko</string>
     <string name="map_location_icon">Kokalekuaren ikonoa</string>
     <string name="map_button_go_to_activity">Jarduera bisitatu</string>
 
     <!-- Descripciones de ubicaciones -->
-    <string name="map_description_arbola">Gernikaren Arbola euskal herriko ikurrik nagusienetakoa da. Bere azpian elkartzen ziren legegintzaren biltzarrak eta askatasunaren ikurra da.</string>
+    <string name="map_description_arbola">Gernikaren Arbola euskal herriko ikurrik nagusienetakoa da. Bere azpian elkartzen ziren legegintzaren biltzarrak. Horretaz gain, euskaldunen askatasunaren sinboloa da.</string>
     <string name="map_description_bunker">Astrako bunkereak Gerracivilaren lekukoak dira. 1937ko bonbardaketaren garaian, herritarrek zuhaitz gisa erabili zituzten.</string>
-    <string name="map_description_guernica">Pablo Picasso-k pintaturiko Guernika gerra zibilaren aurkako arte-protesta da, mundu osoan ezagutua.</string>
-    <string name="map_description_plaza">Gernikaren merkatu plaza herriko bihotza da. Astelehen bakoitzean laborariak hemen saltzen dute beren produktuak.</string>
+    <string name="map_description_guernica">Pablo Picasso-k margotutako Guernika gerra zibilaren aurkako arte-protesta da, mundu osoan ezaguna.</string>
+    <string name="map_description_plaza">Gernikaren merkatu plaza herriko bihotza da. Astelehen bakoitzean nekazariak hemen saltzen dute beren produktuak.</string>
     <string name="map_description_frontoi">Frontoi Jai-Alai munduko handienetakoa da, non zesta puntara jokatzen den, euskal kirola.</string>
 
     <!-- Menu FAB -->
