@@ -60,7 +60,7 @@ class AudioQuizActivity : BaseMenuActivity() {
         iniciarEvento()
 
         // Reproducir audio
-        mediaPlayer = MediaPlayer.create(this, R.raw.plaza) // cambiar este audio
+        mediaPlayer = MediaPlayer.create(this, R.raw.genikako_arbola)
         mediaPlayer.isLooping = false
         mediaPlayer.start()
 

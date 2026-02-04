@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/fondo5"
-    tools:context=".InteractiveActivity">
+    tools:context=".arbol.InteractiveActivity">
 
     <TextView
         android:id="@+id/tvTreeTitle"
@@ -99,29 +99,16 @@
         <!-- Draggable TextViews will be added here dynamically -->
     </FrameLayout>
 
-    <ImageButton
-        android:id="@+id/btnMute"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
-        android:layout_margin="16dp"
-        android:background="@drawable/bg_boton_secundario"
-        android:src="@drawable/ic_pause"
-        app:backgroundTint="@null"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:tint="@color/white" />
-
     <Button
         android:id="@+id/btnBack"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
         android:layout_marginBottom="16dp"
         android:backgroundTint="@color/btnSecundario"
         android:text="@string/itzuli"
         android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/btnMute" />
+        tools:layout_editor_absoluteX="21dp" />
 
     <Button
         android:id="@+id/btnFinish"
