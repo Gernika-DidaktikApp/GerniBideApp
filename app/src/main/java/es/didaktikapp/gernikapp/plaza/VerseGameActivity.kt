@@ -20,6 +20,9 @@ import es.didaktikapp.gernikapp.utils.Constants.Actividades
 import es.didaktikapp.gernikapp.utils.Resource
 import kotlinx.coroutines.launch
 
+/**
+ * Activity del juego de completar versos tradicionales.
+ */
 class VerseGameActivity : BaseMenuActivity() {
 
     private lateinit var tvVersoInicial: TextView

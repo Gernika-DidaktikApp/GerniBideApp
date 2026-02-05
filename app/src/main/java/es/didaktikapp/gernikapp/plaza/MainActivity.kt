@@ -7,6 +7,9 @@ import es.didaktikapp.gernikapp.BaseMenuActivity
 import es.didaktikapp.gernikapp.R
 import es.didaktikapp.gernikapp.databinding.PlazaMainBinding
 
+/**
+ * Activity principal del módulo Plaza que gestiona el menú de actividades disponibles.
+ */
 class MainActivity : BaseMenuActivity() {
 
     private lateinit var binding: PlazaMainBinding

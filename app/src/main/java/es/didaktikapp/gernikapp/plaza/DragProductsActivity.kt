@@ -26,6 +26,9 @@ import es.didaktikapp.gernikapp.utils.Constants.Actividades
 import es.didaktikapp.gernikapp.utils.Resource
 import kotlinx.coroutines.launch
 
+/**
+ * Activity del juego de arrastrar productos a sus puestos correspondientes en el mercado.
+ */
 class DragProductsActivity : BaseMenuActivity() {
 
     private lateinit var gridProductos: GridLayout

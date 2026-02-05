@@ -24,6 +24,9 @@ import kotlinx.coroutines.launch
 import java.util.Locale
 import androidx.core.net.toUri
 
+/**
+ * Activity de reproducción del video informativo sobre la plaza de Gernika.
+ */
 class VideoActivity : BaseMenuActivity() {
 
     private lateinit var videoView: VideoView

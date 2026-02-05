@@ -9,6 +9,9 @@ import androidx.recyclerview.widget.RecyclerView
 import es.didaktikapp.gernikapp.R
 import es.didaktikapp.gernikapp.plaza.models.FotoGaleria
 
+/**
+ * Adaptador para mostrar la galería de fotos en la misión fotográfica.
+ */
 class PhotoMissionAdapter(
     private val fotos: List<FotoGaleria>
 ) : RecyclerView.Adapter<PhotoMissionAdapter.FotoViewHolder>() {

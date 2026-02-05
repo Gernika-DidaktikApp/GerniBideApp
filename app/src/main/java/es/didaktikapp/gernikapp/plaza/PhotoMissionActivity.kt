@@ -29,6 +29,9 @@ import es.didaktikapp.gernikapp.utils.Constants.Actividades
 import es.didaktikapp.gernikapp.utils.Resource
 import kotlinx.coroutines.launch
 
+/**
+ * Activity de la misión fotográfica donde los usuarios toman fotos y las etiquetan.
+ */
 class PhotoMissionActivity : BaseMenuActivity() {
 
     private lateinit var btnTomarFoto: Button
