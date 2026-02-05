@@ -77,11 +77,11 @@ class VerseGameActivity : BaseMenuActivity() {
         preguntas.add(
             VerseQuestion(
                 1,
-                "Gernikako plazara\nastelehen goizean...",
+                "Jendea etorri da, Gernikako plazara",
                 listOf(
-                    "jendea biltzen da merkatua egitean",
-                    "eskola joaten naiz ikastera",
-                    "futbola jolasten dut lagunekin"
+                    "barazkiak erostera diro ta algaraz",
+                    "gerrikoa jantzi eta pilotan jolaztera",
+                    "baina ni tristuraz nago, horieri  begira"
                 ),
                 0
             )
