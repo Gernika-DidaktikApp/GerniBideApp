@@ -19,45 +19,108 @@ import es.didaktikapp.gernikapp.utils.Constants.Actividades
 import es.didaktikapp.gernikapp.utils.Resource
 import kotlinx.coroutines.launch
 
+/**
+ * **Juego de Identificación de Sonidos** de la Guerra Civil Española (5 sonidos).
+ *
+ * **Sonidos y categorías correctas:**
+ * | Botón | Sonido | Categoría Correcta |
+ * |-------|--------|-------------------|
+ * | `btnSound1` | `sirenak` (Sirenas) | **Beldurra (0)** |
+ * | `btnSound2` | `bonbak` (Bombas) | **Beldurra (0)** |
+ * | `btnSound3` | `haurren_negarrak` (Llantos niños) | **Beldurra (0)** |
+ * | `btnSound4` | `arnasa` (Respiración) | **Babesa (1)** |
+ * | `btnSound5` | **Silencio** (`-1`) | **Babesa (1)** |
+ *
+ * **Flujo del juego:**
+ * 1. **Pulsar sonido** → Reproduce + **resaltado azul** (`btnPrincipal`)
+ * 2. **Elegir categoría** → **Feedback verde/rojo** (1 segundo)
+ * 3. **Estrellas**: `⭐ aciertos/5`
+ * 4. **Puntuación API**: `aciertos × 100`
+ * 5. **Victoria**: 5 sonidos respondidos
+ *
+ * @author Telmo Castillo
+ * @since 2026
+ */
 class SoundGameActivity : BaseMenuActivity() {
 
+    /** Contador de estrellas (`⭐ X/5`). */
     private lateinit var tvStars: TextView
+
+    /** Pregunta mostrada tras seleccionar sonido. */
     private lateinit var tvQuestion: TextView
+
+    /** Contenedor de botones Beldurra/Babesa. */
     private lateinit var categoryControls: View
+
+    /** Mensaje histórico al completar el juego. */
     private lateinit var tvHistoryMessage: TextView
+
+    /** Botón de retorno (habilitado al completar). */
     private lateinit var btnBack: Button
+
+    /** Layout raíz para feedback visual (verde/rojo). */
     private lateinit var rootLayout: View
 
-    // Repositorios para API
+    /** Repositorios para comunicación con la API del juego. */
     private lateinit var gameRepository: GameRepository
     private lateinit var tokenManager: TokenManager
+
+    /** ID del estado del evento activo en la API. */
     private var eventoEstadoId: String? = null
 
+    /** Contador de aciertos (0-5). */
     private var stars = 0
+
+    /** ID del sonido actualmente seleccionado. */
     private var currentSoundId = -1
+
+    /** Total de sonidos del juego. */
     private val totalSounds = 5
+
+    /** Contador de sonidos respondidos. */
     private var answeredSounds = 0
+
+    /** Reproductor de sonidos del juego. */
     private var mediaPlayer: MediaPlayer? = null
 
-    // Mapping of sound buttons to "correct" category (0 for Beldurra, 1 for Babesa)
+    /**
+     * **Mapeo sonidos → Categoría correcta** (0=Beldurra, 1=Babesa).
+     *
+     * **Lógica educativa:**
+     * - Sonidos de **miedo/peligro** → Beldurra (0)
+     * - Sonidos de **protección/calma** → Babesa (1)
+     */
     private val soundCategories = mapOf(
-        R.id.btnSound1 to 0, // Sirens -> Beldurra
-        R.id.btnSound2 to 0, // Bombs -> Beldurra
-        R.id.btnSound3 to 0, // Crying -> Beldurra
-        R.id.btnSound4 to 1, // Breathing -> Babesa
-        R.id.btnSound5 to 1  // Silence -> Babesa
+        R.id.btnSound1 to 0, // Sirenas → Beldurra
+        R.id.btnSound2 to 0, // Bombas → Beldurra
+        R.id.btnSound3 to 0, // Llantos niños → Beldurra
+        R.id.btnSound4 to 1, // Respiración → Babesa
+        R.id.btnSound5 to 1  // Silencio → Babesa
     )
 
+    /**
+     * **Mapeo sonidos → Recursos de audio**. `-1` = **silencio especial**.
+     */
     private val soundResources = mapOf(
         R.id.btnSound1 to R.raw.sirenak,
         R.id.btnSound2 to R.raw.bonbak,
         R.id.btnSound3 to R.raw.haurren_negarrak,
         R.id.btnSound4 to R.raw.arnasa,
-        R.id.btnSound5 to -1 // Special case for silence
+        R.id.btnSound5 to -1 // Silencio (no reproduce nada)
     )
 
+    /** @return Layout principal del juego de sonidos. */
     override fun getContentLayoutId() = R.layout.bunkers_sound_game
 
+    /**
+     * Inicializa el juego completo.
+     *
+     * **Secuencia de inicialización:**
+     * 1. Repositorios + evento API
+     * 2. Verificar progreso (`sound_game_completed`)
+     * 3. **Configurar 5 botones de sonido**
+     * 4. **Configurar 2 botones de categoría**
+     */
     override fun onContentInflated() {
         gameRepository = GameRepository(this)
         tokenManager = TokenManager(this)
@@ -72,8 +135,6 @@ class SoundGameActivity : BaseMenuActivity() {
         iniciarEvento()
 
         val prefs = getSharedPreferences("bunkers_progress", Context.MODE_PRIVATE)
-
-        // Si ya estaba completada, habilitar botón
         if (prefs.getBoolean("sound_game_completed", false)) {
             btnBack.isEnabled = true
         }
@@ -86,65 +147,104 @@ class SoundGameActivity : BaseMenuActivity() {
         }
     }
 
+    /**
+     * Configura los **5 botones de sonido** (sirenas, bombas, llantos, respiración, silencio).
+     *
+     * **Al pulsar:**
+     * - Reproduce sonido (o silencio)
+     * - **Resaltado azul** (`btnPrincipal`)
+     * - Muestra pregunta + controles de categoría
+     */
     private fun setupSoundButtons() {
         val buttons = listOf(
-            R.id.btnSound1, R.id.btnSound2, R.id.btnSound3, R.id.btnSound4, R.id.btnSound5
+            R.id.btnSound1, R.id.btnSound2, R.id.btnSound3,
+            R.id.btnSound4, R.id.btnSound5
         )
 
         buttons.forEach { id ->
             findViewById<ImageButton>(id).setOnClickListener {
                 currentSoundId = id
                 playSound(id)
-                // Highlight selected sound
+
+                // Resaltar sonido activo
                 resetSoundButtonColors()
                 (it as ImageButton).backgroundTintList = ColorStateList.valueOf(
                     ContextCompat.getColor(this, R.color.btnPrincipal)
                 )
 
-                // Show question and category selection
                 tvQuestion.visibility = View.VISIBLE
                 categoryControls.visibility = View.VISIBLE
             }
         }
     }
 
+    /**
+     * Reproduce sonido seleccionado liberando reproductor anterior.
+     *
+     * **Casos especiales:**
+     * - `resId > 0` → Reproduce audio normal
+     * - `resId = -1` → **Silencio** (btnSound5)
+     *
+     * @param id ID del botón de sonido
+     */
     private fun playSound(id: Int) {
         mediaPlayer?.stop()
         mediaPlayer?.release()
-        
+
         val resId = soundResources[id] ?: return
         if (resId != -1) {
             mediaPlayer = MediaPlayer.create(this, resId)
             mediaPlayer?.start()
         } else {
-            // Silence - do nothing or play very short silence
+            // Silencio - no reproducir nada
             mediaPlayer = null
         }
     }
 
+    /**
+     * Resetea colores de botones **solo si están habilitados** (no respondidos).
+     * Botones grisados mantienen su estado.
+     */
     private fun resetSoundButtonColors() {
         listOf(R.id.btnSound1, R.id.btnSound2, R.id.btnSound3, R.id.btnSound4, R.id.btnSound5).forEach {
             val btn = findViewById<ImageButton>(it)
-            // Only reset color for enabled buttons (not answered yet)
             if (btn.isEnabled) {
                 btn.backgroundTintList = null
             }
         }
     }
 
+    /**
+     * Configura **categorías de respuesta**:
+     * - `btnBeldurra` → `checkAnswer(0)`
+     * - `btnBabesa` → `checkAnswer(1)`
+     */
     private fun setupCategoryButtons() {
         findViewById<Button>(R.id.btnBeldurra).setOnClickListener {
-            checkAnswer(0)
+            checkAnswer(0) // Beldurra = Miedo
         }
         findViewById<Button>(R.id.btnBabesa).setOnClickListener {
-            checkAnswer(1)
+            checkAnswer(1) // Babesa = Protección
         }
     }
 
+    /**
+     * **Verifica respuesta** y aplica feedback completo.
+     *
+     * **Flujo detallado:**
+     * 1. Compara con `soundCategories[currentSoundId]`
+     * 2. **+1 estrella** si correcto → `⭐ X/5`
+     * 3. **Deshabilita** botón sonido + **gris** (`#808080`)
+     * 4. **Fondo verde/rojo** 1s (`#8032CD32` / `#80FF0000`)
+     * 5. Oculta pregunta hasta siguiente sonido
+     * 6. **Victoria** al completar 5 sonidos
+     *
+     * @param category 0=Beldurra, 1=Babesa
+     */
     private fun checkAnswer(category: Int) {
         if (currentSoundId == -1) return
 
-        val correctCategory = soundCategories[currentSoundId]
+        val correctCategory = soundCategories[currentSoundId]!!
         val isCorrect = category == correctCategory
 
         if (isCorrect) {
@@ -152,39 +252,35 @@ class SoundGameActivity : BaseMenuActivity() {
             tvStars.text = "⭐ $stars / $totalSounds"
         }
 
-        // Disable the answered sound button and make it gray
+        // Deshabilitar sonido respondido
         val answeredButton = findViewById<ImageButton>(currentSoundId)
         answeredButton.isEnabled = false
         answeredButton.backgroundTintList = ColorStateList.valueOf(
-            android.graphics.Color.parseColor("#808080") // Gray
+            android.graphics.Color.parseColor("#808080") // Gris 50%
         )
         answeredSounds++
 
-        // Change background color based on correct/incorrect answer
+        // Feedback visual de fondo (1000ms)
         val targetColor = if (isCorrect)
-            android.graphics.Color.parseColor("#8032CD32") // Soft Green for correct
+            android.graphics.Color.parseColor("#8032CD32") // Verde correcto
         else
-            android.graphics.Color.parseColor("#80FF0000") // Soft Red for incorrect
+            android.graphics.Color.parseColor("#80FF0000") // Rojo incorrecto
 
         rootLayout.setBackgroundColor(targetColor)
-
-        // Fade back to previous state after a delay
         rootLayout.postDelayed({
             rootLayout.setBackgroundResource(R.drawable.fondo6)
         }, 1000)
 
         currentSoundId = -1
         resetSoundButtonColors()
-
-        // Hide question until next sound
         tvQuestion.visibility = View.INVISIBLE
         categoryControls.visibility = View.INVISIBLE
 
+        // Completar juego (5/5 sonidos)
         if (answeredSounds >= totalSounds) {
             tvHistoryMessage.visibility = View.VISIBLE
             btnBack.isEnabled = true
 
-            // Guardar progreso
             val prefs = getSharedPreferences("bunkers_progress", Context.MODE_PRIVATE)
             prefs.edit().putBoolean("sound_game_completed", true).apply()
 
@@ -192,16 +288,24 @@ class SoundGameActivity : BaseMenuActivity() {
         }
     }
 
+    /**
+     * Libera reproductor multimedia al destruir Activity.
+     */
     override fun onDestroy() {
         super.onDestroy()
         mediaPlayer?.release()
         mediaPlayer = null
     }
 
+    /**
+     * Inicia evento **"SOUND_GAME"** del módulo Bunkers en la API.
+     */
     private fun iniciarEvento() {
         val juegoId = tokenManager.getJuegoId() ?: return
         lifecycleScope.launch {
-            when (val result = gameRepository.iniciarEvento(juegoId, Actividades.Bunkers.ID, Actividades.Bunkers.SOUND_GAME)) {
+            when (val result = gameRepository.iniciarEvento(
+                juegoId, Actividades.Bunkers.ID, Actividades.Bunkers.SOUND_GAME
+            )) {
                 is Resource.Success -> eventoEstadoId = result.data.id
                 is Resource.Error -> Log.e("SoundGame", "Error: ${result.message}")
                 is Resource.Loading -> { }
@@ -209,6 +313,14 @@ class SoundGameActivity : BaseMenuActivity() {
         }
     }
 
+    /**
+     * Completa juego con **puntuación ponderada**: `aciertos × 100`.
+     *
+     * **Ejemplos:**
+     * - 5/5 → `500.0`
+     * - 3/5 → `300.0`
+     * - 1/5 → `100.0`
+     */
     private fun completarEvento() {
         val estadoId = eventoEstadoId ?: return
         lifecycleScope.launch {

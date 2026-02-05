@@ -15,15 +15,54 @@ import es.didaktikapp.gernikapp.utils.Constants.Actividades
 import es.didaktikapp.gernikapp.utils.Resource
 import kotlinx.coroutines.launch
 
+/**
+ * Activity de **Reflexión Emocional** donde el usuario selecciona **1 emoción** de 4 opciones.
+ *
+ * **Emociones disponibles:**
+ * | ID Botón | Emoción |
+ * |----------|---------|
+ * | `btnBeldurra` | Beldurra (Miedo) |
+ * | `btnTristura` | Tristura (Tristeza) |
+ * | `btnLasaitasuna` | Lasaitasuna (Calma) |
+ * | `btnItxaropena` | Itxaropena (Esperanza) |
+ *
+ * **Mecánica simple:**
+ * 1. Usuario selecciona **UNA emoción**
+ * 2. **Feedback visual**: Botón seleccionado crece (1.1x) + resto se atenúan (0.5f alpha, 0.9x)
+ * 3. Se muestra `tvFeedback`
+ * 4. Se marca como `reflection_completed = true`
+ * 5. **Progreso 100%** inmediato en API
+ *
+ * **Diseño UX:**
+ * - **No requiere completar todas** → Cualquier selección cuenta como completado
+ * - **Feedback inmediato** visual y persistente
+ * - **Estado restaurado** si ya estaba completado
+ *
+ * @author Telmo Castillo
+ * @since 2026
+ */
 class ReflectionActivity : BaseMenuActivity() {
 
-    // Repositorios para API
+    /** Repositorios para comunicación con la API del juego. */
     private lateinit var gameRepository: GameRepository
     private lateinit var tokenManager: TokenManager
+
+    /** Identificador del estado del evento activo en la API. */
     private var eventoEstadoId: String? = null
 
+    /** @return Layout principal de la actividad de reflexión. */
     override fun getContentLayoutId() = R.layout.bunkers_reflection
 
+    /**
+     * Configura la actividad de reflexión emocional completa.
+     *
+     * **Secuencia de inicialización:**
+     * 1. Inicializa repositorios y evento API
+     * 2. Verifica progreso previo (`reflection_completed`)
+     * 3. Configura los **4 botones de emociones**
+     * 4. Feedback visual al seleccionar
+     * 5. Habilita `btnBack` al completar
+     */
     override fun onContentInflated() {
         gameRepository = GameRepository(this)
         tokenManager = TokenManager(this)
@@ -34,11 +73,18 @@ class ReflectionActivity : BaseMenuActivity() {
         val btnBack: Button = findViewById(R.id.btnBack)
         val prefs = getSharedPreferences("bunkers_progress", Context.MODE_PRIVATE)
 
-        // Si ya estaba completada, habilitar botón
+        // Si ya estaba completada, habilitar botón de retorno
         if (prefs.getBoolean("reflection_completed", false)) {
             btnBack.isEnabled = true
         }
 
+        /**
+         * **4 Emociones para seleccionar:**
+         * - `btnBeldurra` → Miedo
+         * - `btnTristura` → Tristeza
+         * - `btnLasaitasuna` → Calma
+         * - `btnItxaropena` → Esperanza
+         */
         val emojiButtons = listOf(
             findViewById<View>(R.id.btnBeldurra),
             findViewById<View>(R.id.btnTristura),
@@ -48,6 +94,7 @@ class ReflectionActivity : BaseMenuActivity() {
 
         emojiButtons.forEach { button ->
             button.setOnClickListener {
+                // Mostrar feedback textual
                 tvFeedback.visibility = View.VISIBLE
 
                 // Marcar como completada y habilitar botón
@@ -55,7 +102,11 @@ class ReflectionActivity : BaseMenuActivity() {
                 prefs.edit().putBoolean("reflection_completed", true).apply()
                 completarEvento()
 
-                // Visual feedback for selection
+                /**
+                 * **Feedback visual dinámico:**
+                 * ✅ **Seleccionado**: alpha=1.0f, scale=1.1x
+                 * ❌ **Resto**: alpha=0.5f, scale=0.9x
+                 */
                 emojiButtons.forEach {
                     it.alpha = 0.5f
                     it.scaleX = 0.9f
@@ -72,10 +123,18 @@ class ReflectionActivity : BaseMenuActivity() {
         }
     }
 
+    /**
+     * Inicia el evento **"REFLECTION"** del módulo Bunkers en la API.
+     * Se ejecuta automáticamente al cargar la actividad.
+     */
     private fun iniciarEvento() {
         val juegoId = tokenManager.getJuegoId() ?: return
         lifecycleScope.launch {
-            when (val result = gameRepository.iniciarEvento(juegoId, Actividades.Bunkers.ID, Actividades.Bunkers.REFLECTION)) {
+            when (val result = gameRepository.iniciarEvento(
+                juegoId,
+                Actividades.Bunkers.ID,
+                Actividades.Bunkers.REFLECTION
+            )) {
                 is Resource.Success -> eventoEstadoId = result.data.id
                 is Resource.Error -> Log.e("Reflection", "Error: ${result.message}")
                 is Resource.Loading -> { }
@@ -83,6 +142,10 @@ class ReflectionActivity : BaseMenuActivity() {
         }
     }
 
+    /**
+     * Completa el evento con **puntuación 100%** inmediatamente al seleccionar cualquier emoción.
+     * **No requiere completar todas las opciones.**
+     */
     private fun completarEvento() {
         val estadoId = eventoEstadoId ?: return
         lifecycleScope.launch {
