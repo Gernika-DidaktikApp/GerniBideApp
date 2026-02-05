@@ -21,31 +21,72 @@ import es.didaktikapp.gernikapp.utils.Constants.Actividades
 import es.didaktikapp.gernikapp.utils.Resource
 import kotlinx.coroutines.launch
 
+/**
+ * Activity que gestiona un cuestionario de audio dentro del módulo "Árbol" del juego.
+ *
+ * Esta clase reproduce un audio educativo, monitorea su progreso con una barra de seguimiento (SeekBar)
+ * y, tras finalizar, muestra un quiz interactivo con tres preguntas de opción múltiple.
+ *
+ * Durante el flujo:
+ * - Se inicializa y controla la reproducción del audio.
+ * - Se supervisa el evento en la API a través de `GameRepository`.
+ * - Se calcula y guarda la puntuación en el servidor al finalizar.
+ *
+ * @author Telmo Castillo
+ * @since 2026
+ */
 class AudioQuizActivity : BaseMenuActivity() {
 
+    /** Manejador del audio principal del cuestionario. */
     private lateinit var mediaPlayer: MediaPlayer
+
+    /** Barra de progreso del audio. */
     private lateinit var seekBar: SeekBar
+
+    /** Runnable que actualiza la barra de reproducción periódicamente. */
     private lateinit var runnable: Runnable
+
+    /** Handler para programar actualizaciones del SeekBar en el hilo principal. */
     private var handler = Handler(Looper.getMainLooper())
 
+    /** Contenedor de la interfaz de reproducción de voz. */
     private lateinit var voiceContainer: View
+
+    /** Contenedor del cuestionario. */
     private lateinit var quizContainer: View
+
+    /** Botón de retorno al menú anterior. */
     private lateinit var btnVolver: Button
+
+    /** Texto de mensaje de felicitación tras finalizar el quiz. */
     private lateinit var tvCongrats: TextView
 
-    // Repositorios para API
+    /** Repositorio que gestiona comunicación con la API del juego. */
     private lateinit var gameRepository: GameRepository
+
+    /** Gestor para operaciones con token y datos locales. */
     private lateinit var tokenManager: TokenManager
 
-    // Estado del evento
+    /** Identificador del estado del evento activo en la API. */
     private var eventoEstadoId: String? = null
+
+    /** Número de respuestas correctas. */
     private var correctAnswers = 0
 
+    /** Número de preguntas respondidas hasta el momento. */
     private var answeredCount = 0
+
+    /** Número total de preguntas del cuestionario. */
     private val totalQuestions = 3
 
+    /** @return Layout principal del contenido de la actividad. */
     override fun getContentLayoutId() = R.layout.arbol_audio_quiz
 
+    /**
+     * Inicializa la lógica principal una vez que el contenido ha sido inflado.
+     * Configura los repositorios, la reproducción del audio, el monitoreo con la SeekBar
+     * y el comportamiento del cuestionario.
+     */
     override fun onContentInflated() {
         // Inicializar repositorios
         gameRepository = GameRepository(this)
@@ -59,16 +100,17 @@ class AudioQuizActivity : BaseMenuActivity() {
         // Iniciar evento en la API
         iniciarEvento()
 
-        // Reproducir audio
+        // Configurar y reproducir audio educativo
         mediaPlayer = MediaPlayer.create(this, R.raw.genikako_arbola)
         mediaPlayer.isLooping = false
         mediaPlayer.start()
 
+        // Mostrar quiz al terminar el audio
         mediaPlayer.setOnCompletionListener {
             showQuiz()
         }
 
-        // Setup SeekBar
+        // Configuración del SeekBar
         seekBar = findViewById(R.id.seekBarAudio)
         if (::mediaPlayer.isInitialized) {
             seekBar.max = mediaPlayer.duration
@@ -94,6 +136,7 @@ class AudioQuizActivity : BaseMenuActivity() {
             override fun onStopTrackingTouch(seekBar: SeekBar?) {}
         })
 
+        // Controles de reproducción
         findViewById<ImageButton>(R.id.btnPlay).setOnClickListener {
             if (!mediaPlayer.isPlaying) mediaPlayer.start()
         }
@@ -113,21 +156,32 @@ class AudioQuizActivity : BaseMenuActivity() {
         setupQuiz()
     }
 
+    /**
+     * Cambia la visibilidad de los contenedores para mostrar el cuestionario
+     * una vez que ha terminado el audio.
+     */
     private fun showQuiz() {
         voiceContainer.visibility = View.GONE
         quizContainer.visibility = View.VISIBLE
         btnVolver.visibility = View.VISIBLE
     }
 
+    /**
+     * Configura las preguntas y respuestas del cuestionario.
+     * Define qué botón es correcto para cada conjunto de opciones.
+     */
     private fun setupQuiz() {
-        // Q1 Correct: q1a1
         setupQuestion(listOf(R.id.q1a1, R.id.q1a2), R.id.q1a1)
-        // Q2 Correct: q2a1
         setupQuestion(listOf(R.id.q2a1, R.id.q2a2), R.id.q2a1)
-        // Q3 Correct: q3a1
         setupQuestion(listOf(R.id.q3a1, R.id.q3a2), R.id.q3a1)
     }
 
+    /**
+     * Configura el comportamiento de una pregunta del quiz.
+     *
+     * @param buttonIds Lista de IDs de los botones posibles.
+     * @param correctId ID del botón que representa la respuesta correcta.
+     */
     private fun setupQuestion(buttonIds: List<Int>, correctId: Int) {
         var questionAnswered = false
         buttonIds.forEach { id ->
@@ -137,10 +191,9 @@ class AudioQuizActivity : BaseMenuActivity() {
                 questionAnswered = true
                 if (id == correctId) {
                     button.setBackgroundColor(ContextCompat.getColor(this, R.color.correcto))
-                    correctAnswers++ // Contar respuesta correcta
+                    correctAnswers++
                 } else {
                     button.setBackgroundColor(ContextCompat.getColor(this, R.color.error))
-                    // Mostrar la respuesta correcta
                     findViewById<Button>(correctId).setBackgroundColor(
                         ContextCompat.getColor(this, R.color.correcto)
                     )
@@ -150,23 +203,27 @@ class AudioQuizActivity : BaseMenuActivity() {
         }
     }
 
+    /**
+     * Verifica si se han respondido todas las preguntas.
+     * En ese caso, muestra el mensaje de felicitación, guarda el progreso localmente,
+     * y reporta la finalización del evento a la API.
+     */
     private fun checkCompletion() {
         answeredCount++
         if (answeredCount == totalQuestions) {
             tvCongrats.visibility = View.VISIBLE
             btnVolver.isEnabled = true
 
-            // Guardar progreso en SharedPreferences
             val prefs = getSharedPreferences("arbol_progress", Context.MODE_PRIVATE)
             prefs.edit().putBoolean("audio_quiz_completed", true).apply()
 
-            // Completar evento en la API con la puntuación
             completarEvento()
         }
     }
 
     /**
-     * Inicia el evento en la API al entrar a la sub-actividad.
+     * Inicia el evento asociado a esta actividad en la API.
+     * Se ejecuta al entrar en la subactividad.
      */
     private fun iniciarEvento() {
         val juegoId = tokenManager.getJuegoId()
@@ -195,8 +252,9 @@ class AudioQuizActivity : BaseMenuActivity() {
     }
 
     /**
-     * Completa el evento en la API con la puntuación obtenida.
-     * Puntuación = (respuestas correctas / total) * 100
+     * Completa el evento en la API registrando la puntuación obtenida.
+     *
+     * La puntuación se calcula como `(respuestasCorrectas * 100)`.
      */
     private fun completarEvento() {
         val estadoId = eventoEstadoId
@@ -206,7 +264,6 @@ class AudioQuizActivity : BaseMenuActivity() {
             return
         }
 
-        // Calcular puntuación (aciertos * 100)
         val puntuacion = correctAnswers * 100.0
 
         lifecycleScope.launch {
@@ -225,6 +282,10 @@ class AudioQuizActivity : BaseMenuActivity() {
         }
     }
 
+    /**
+     * Libera los recursos del reproductor multimedia y
+     * cancela actualizaciones pendientes al destruir la actividad.
+     */
     override fun onDestroy() {
         super.onDestroy()
         if (::mediaPlayer.isInitialized) mediaPlayer.release()

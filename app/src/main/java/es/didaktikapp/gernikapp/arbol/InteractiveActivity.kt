@@ -28,17 +28,52 @@ import es.didaktikapp.gernikapp.utils.Resource
 import kotlinx.coroutines.launch
 import kotlin.math.hypot
 
+
+/**
+ * Activity interactiva donde el usuario construye su "árbol de valores" arrastrando palabras
+ * a posiciones específicas del árbol ilustrado.
+ *
+ * **Funcionalidades principales:**
+ * - **Drag & Drop**: Las palabras de valores se pueden arrastrar y "imantan" a 13 posiciones predefinidas.
+ * - **Sistema de coordenadas**: Usa porcentajes precisos para ubicar elementos en la imagen del árbol.
+ * - **Animaciones**: Efectos de escala y fade-in al colocar elementos.
+ * - **Gestión de eventos**: Integra con la API del juego para seguimiento del progreso.
+ *
+ * El usuario puede arrastrar valores como "Amistad", "Libertad", "Solidaridad", etc., y soltarlos
+ * en los óvalos blancos de la imagen del árbol. El sistema detecta automáticamente el hueco más cercano.
+ *
+ * @author Telmo Castillo
+ * @since 2026
+ */
 class InteractiveActivity : BaseMenuActivity() {
 
+    /** Contenedor principal donde se posicionan las palabras arrastrables. */
     private lateinit var treeContainer: FrameLayout
+
+    /** Imagen base del árbol que sirve de referencia visual. */
     private lateinit var treeImage: ImageView
 
+    /** Repositorio para comunicación con la API del juego. */
     private lateinit var gameRepository: GameRepository
+
+    /** Gestor de tokens y datos locales. */
     private lateinit var tokenManager: TokenManager
 
+    /** ID del estado del evento activo en la API. */
     private var eventoEstadoId: String? = null
 
-    // Coordenadas calculadas específicamente para los óvalos de arbola_image.jpg
+    /**
+     * Coordenadas porcentuales exactas de los 13 óvalos blancos en la imagen `arbola_image.jpg`.
+     *
+     * **Orden de las posiciones:**
+     * 1. Superior Central (50%, 9.5%)
+     * 2-3. Fila 2: Izquierda (27%, 19%) | Derecha (73%, 19%)
+     * 4-6. Fila 3: Izq (19%, 32%) | Centro (50%, 35%) | Der (81%, 32%)
+     * 7-9. Fila 4: Izq (20%, 46%) | Centro (50%, 48%) | Der (80%, 46%)
+     * 10-11. Fila 5: Izq (32%, 55%) | Der (68%, 55%)
+     * 12. Fila 6: Centro Bajo (50%, 60%)
+     * 13. Raíces/Césped (50%, 93%)
+     */
     private val slotPercentages = listOf(
         PointF(50f, 9.5f),  // Superior Central
         PointF(27f, 19f),   // Fila 2 - Izquierda
@@ -55,6 +90,7 @@ class InteractiveActivity : BaseMenuActivity() {
         PointF(50f, 93f)    // Óvalo Raíces (Césped)
     )
 
+    /** Mapa que rastrea qué View ocupa cada slot (null = libre). */
     private val occupiedSlots = mutableMapOf<Int, View?>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -67,9 +103,10 @@ class InteractiveActivity : BaseMenuActivity() {
         treeContainer = findViewById(R.id.treeContainer)
         treeImage = findViewById(R.id.treeImage)
 
-        // Configurar los botones de valores
+        // Configurar botones de valores arrastrables
         setupWordButtons()
 
+        // Botones de navegación
         findViewById<View>(R.id.btnBack).setOnClickListener {
             onBackPressedDispatcher.onBackPressed()
         }
@@ -79,9 +116,14 @@ class InteractiveActivity : BaseMenuActivity() {
             finish()
         }
 
+        // Iniciar seguimiento del evento
         iniciarEvento()
     }
 
+    /**
+     * Configura los 5 botones de valores arrastrables (Amistad, Libertad, Solidaridad, Respeto, Paz).
+     * Cada botón crea una TextView con diseño específico y activa su lógica de drag & drop.
+     */
     private fun setupWordButtons() {
         val wordButtons = listOf(
             Triple(R.id.btnAmistadVal, R.string.value_friendship, R.color.valueFriendship),
@@ -96,7 +138,7 @@ class InteractiveActivity : BaseMenuActivity() {
                 val text = getString(textRes)
                 val color = ContextCompat.getColor(this, colorRes)
 
-                // Buscar el primer hueco libre en los óvalos
+                // Buscar primer slot libre
                 val targetSlot = slotPercentages.indices.firstOrNull { occupiedSlots[it] == null }
 
                 if (targetSlot != null) {
@@ -106,6 +148,13 @@ class InteractiveActivity : BaseMenuActivity() {
         }
     }
 
+    /**
+     * Crea una TextView con el valor y la posiciona en el árbol.
+     *
+     * @param text Texto del valor (ej: "Amistad")
+     * @param color Color distintivo del valor
+     * @param initialSlot Índice del slot inicial donde aparecerá
+     */
     private fun addValueToTree(text: String, color: Int, initialSlot: Int) {
         val textView = TextView(this).apply {
             this.text = text
@@ -123,7 +172,7 @@ class InteractiveActivity : BaseMenuActivity() {
             }
             this.background = shape
 
-            // Ancho fijo para encajar en los óvalos de la imagen
+            // Ancho fijo optimizado para los óvalos de la imagen
             this.layoutParams = FrameLayout.LayoutParams(240, FrameLayout.LayoutParams.WRAP_CONTENT)
         }
 
@@ -137,6 +186,17 @@ class InteractiveActivity : BaseMenuActivity() {
         setupDragLogic(textView, initialSlot)
     }
 
+    /**
+     * Configura la lógica completa de drag & drop para una TextView de valor.
+     *
+     * **Comportamiento:**
+     * - `ACTION_DOWN`: Prepara arrastre y libera slot anterior
+     * - `ACTION_MOVE`: Sigue el dedo del usuario
+     * - `ACTION_UP`: Detecta slot más cercano y aplica "snap"
+     *
+     * @param view TextView arrastrable
+     * @param startSlot Slot inicial
+     */
     private fun setupDragLogic(view: View, startSlot: Int) {
         view.setOnTouchListener(object : View.OnTouchListener {
             private var dX = 0f
@@ -160,18 +220,19 @@ class InteractiveActivity : BaseMenuActivity() {
                         var nearestSlot = -1
                         var minDistance = Float.MAX_VALUE
 
+                        // Buscar slot más cercano disponible
                         for (i in slotPercentages.indices) {
                             val slotPos = getSlotCoords(slotPercentages[i], imgRect)
                             val dist = hypot((v.x + v.width / 2 - slotPos.x), (v.y + v.height / 2 - slotPos.y)).toFloat()
 
-                            // Solo imantar si el slot está libre o es el suyo propio
+                            // Solo considerar slots libres o el propio
                             if (dist < minDistance && (occupiedSlots[i] == null || occupiedSlots[i] == v)) {
                                 minDistance = dist
                                 nearestSlot = i
                             }
                         }
 
-                        // Sensibilidad del imán (Snap)
+                        // Aplicar efecto imán si está dentro del rango (250px)
                         if (nearestSlot != -1 && minDistance < 250) {
                             currentSlot = nearestSlot
                         }
@@ -184,6 +245,12 @@ class InteractiveActivity : BaseMenuActivity() {
         })
     }
 
+    /**
+     * Mueve una TextView al slot especificado con animación suave.
+     *
+     * @param view TextView a reposicionar
+     * @param slotIndex Índice del slot destino
+     */
     private fun moveWordToSlot(view: View, slotIndex: Int) {
         val imgRect = getImageViewRect(treeImage)
         val coords = getSlotCoords(slotPercentages[slotIndex], imgRect)
@@ -197,12 +264,25 @@ class InteractiveActivity : BaseMenuActivity() {
         occupiedSlots[slotIndex] = view
     }
 
+    /**
+     * Convierte coordenadas porcentuales en coordenadas absolutas de pantalla.
+     *
+     * @param percent Coordenadas en porcentaje (0-100%)
+     * @param imgRect Rectángulo de la imagen del árbol
+     * @return Coordenadas absolutas en píxeles
+     */
     private fun getSlotCoords(percent: PointF, imgRect: Rect): PointF {
         val x = imgRect.left + (percent.x / 100f) * imgRect.width()
         val y = imgRect.top + (percent.y / 100f) * imgRect.height()
         return PointF(x, y)
     }
 
+    /**
+     * Calcula el rectángulo efectivo de la imagen considerando escalado y márgenes.
+     *
+     * @param imageView ImageView del árbol
+     * @return Rectángulo con coordenadas reales de dibujo
+     */
     private fun getImageViewRect(imageView: ImageView): Rect {
         val rect = Rect()
         val drawable = imageView.drawable ?: return rect
@@ -225,6 +305,11 @@ class InteractiveActivity : BaseMenuActivity() {
         return rect
     }
 
+    /**
+     * Aplica animación de entrada: escala desde 70% + fade-in.
+     *
+     * @param view View a animar
+     */
     private fun applyAnimation(view: View) {
         val animSet = AnimationSet(true)
         val scale = ScaleAnimation(0.7f, 1.0f, 0.7f, 1.0f, view.width / 2f, view.height / 2f)
@@ -236,6 +321,9 @@ class InteractiveActivity : BaseMenuActivity() {
         view.startAnimation(animSet)
     }
 
+    /**
+     * Inicia el evento "Mi Árbol" en la API al cargar la actividad.
+     */
     private fun iniciarEvento() {
         val juegoId = tokenManager.getJuegoId() ?: return
         lifecycleScope.launch {
@@ -246,6 +334,10 @@ class InteractiveActivity : BaseMenuActivity() {
         }
     }
 
+    /**
+     * Completa el evento asignando puntuación máxima (100.0).
+     * Se ejecuta al pulsar "Finalizar".
+     */
     private fun completarEvento() {
         val estadoId = eventoEstadoId ?: return
         lifecycleScope.launch {

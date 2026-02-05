@@ -24,37 +24,83 @@ import es.didaktikapp.gernikapp.utils.Resource
 import kotlinx.coroutines.launch
 import kotlin.random.Random
 
+/**
+ * Activity de puzzle de **6 piezas** (2x3) donde el usuario arma la imagen `arbola_eta_batzar_etxea`.
+ *
+ * **Mecánica de juego:**
+ * 1. Las 6 piezas se generan cortando el bitmap original
+ * 2. **Drag & Drop** → Piezas se posicionan aleatoriamente
+ * 3. **Snap automático** → Si está cerca del target (<150px), se fija con sonido
+ * 4. **Victoria** → Todas las piezas colocadas → Guarda progreso + API
+ *
+ * **Características técnicas:**
+ * - **Bordes blancos** (`puzzle_piece_border`) durante arrastre
+ * - **Sonido de éxito** (`TONE_PROP_BEEP`) al colocar correctamente
+ * - **Guía semitransparente** que se atenúa al ganar
+ * - Progreso persistente en `SharedPreferences`
+ *
+ * @author Telmo Castillo
+ * @since 2026
+ */
 class PuzzleActivity : BaseMenuActivity() {
 
+    /** Contenedor principal donde se arrastran las piezas del puzzle. */
     private lateinit var puzzleContainer: FrameLayout
+
+    /** Mensaje de victoria mostrado al completar el puzzle. */
     private lateinit var tvVictory: TextView
+
+    /** Botón de retorno, habilitado solo al completar o si ya estaba completado. */
     private lateinit var btnBack: Button
+
+    /** Imagen guía de referencia que muestra dónde van las piezas. */
     private lateinit var guideImage: ImageView
 
-    // Repositorios para API
+    /** Repositorios para comunicación con la API del juego. */
     private lateinit var gameRepository: GameRepository
     private lateinit var tokenManager: TokenManager
 
-    // Estado del evento
+    /** Identificador del estado del evento activo en la API. */
     private var eventoEstadoId: String? = null
 
+    /** Dimensiones del puzzle: 2 filas × 3 columnas = 6 piezas. */
     private val rows = 2
     private val cols = 3
     private val totalPieces = rows * cols
+
+    /** Contador de piezas correctamente colocadas. */
     private var piecesPlaced = 0
 
+    /**
+     * Data class que representa una pieza del puzzle.
+     *
+     * @property imageView View de la pieza arrastrable
+     * @property targetX Coordenada X destino absoluta
+     * @property targetY Coordenada Y destino absoluta
+     */
     private data class PuzzlePiece(
         val imageView: ImageView,
         val targetX: Float,
         val targetY: Float
     )
 
+    /** Lista de todas las piezas del puzzle. */
     private val piecesList = mutableListOf<PuzzlePiece>()
 
+    /** @return Layout principal del puzzle. */
     override fun getContentLayoutId() = R.layout.arbol_puzzle
 
+    /**
+     * Inicializa repositorios, UI y lógica del puzzle.
+     *
+     * **Secuencia de inicialización:**
+     * 1. Configura GameRepository y TokenManager
+     * 2. Inicia evento en la API
+     * 3. Configura botón de retorno
+     * 4. Verifica progreso previo
+     * 5. **Espera a que `guideImage` se mida** → `setupPuzzle()`
+     */
     override fun onContentInflated() {
-        // Inicializar repositorios
         gameRepository = GameRepository(this)
         tokenManager = TokenManager(this)
 
@@ -63,30 +109,38 @@ class PuzzleActivity : BaseMenuActivity() {
         btnBack = findViewById(R.id.btnBack)
         guideImage = findViewById(R.id.guideImage)
 
-        // Iniciar evento en la API
         iniciarEvento()
 
         btnBack.setOnClickListener {
             finish()
         }
 
-        // Si ya estaba completada, mostrar botón
+        // Si ya estaba completado, mostrar botón activo
         val prefs = getSharedPreferences("arbol_progress", Context.MODE_PRIVATE)
         if (prefs.getBoolean("puzzle_completed", false)) {
             btnBack.visibility = View.VISIBLE
             btnBack.isEnabled = true
         }
 
-        // Delay setup until guideImage is measured to get correct target positions
+        // Esperar a que guideImage tenga dimensiones reales
         guideImage.post {
             setupPuzzle()
         }
     }
 
+    /**
+     * **Core del puzzle**: Corta el bitmap en 6 piezas y configura drag & drop.
+     *
+     * **Proceso:**
+     * 1. Carga `R.drawable.arbola_eta_batzar_etxea`
+     * 2. Calcula dimensiones reales de `guideImage` (considerando escalado)
+     * 3. **Corta bitmap** en 2x3 piezas con `Bitmap.createBitmap()`
+     * 4. Posiciona cada pieza **aleatoriamente**
+     * 5. Configura `OnTouchListener` para cada pieza
+     */
     private fun setupPuzzle() {
         val originalBitmap = BitmapFactory.decodeResource(resources, R.drawable.arbola_eta_batzar_etxea)
-        
-        // Calculate the actual displayed size of the guide image
+
         val imageRect = getImageViewRect(guideImage)
         val pieceWidth = imageRect.width() / cols
         val pieceHeight = imageRect.height() / rows
@@ -96,31 +150,31 @@ class PuzzleActivity : BaseMenuActivity() {
 
         for (r in 0 until rows) {
             for (c in 0 until cols) {
-                // Ensure we don't skip pixels due to rounding
+                // Manejo preciso de bordes para evitar pérdida de píxeles
                 val srcX = c * bitmapPieceWidth
                 val srcY = r * bitmapPieceHeight
                 val w = if (c == cols - 1) originalBitmap.width - srcX else bitmapPieceWidth
                 val h = if (r == rows - 1) originalBitmap.height - srcY else bitmapPieceHeight
 
-                // Slice bitmap
+                // Cortar pieza del bitmap original
                 val pieceBitmap = Bitmap.createBitmap(originalBitmap, srcX, srcY, w, h)
 
                 val iv = ImageView(this).apply {
                     setImageBitmap(pieceBitmap)
                     scaleType = ImageView.ScaleType.FIT_XY
                     layoutParams = FrameLayout.LayoutParams(pieceWidth, pieceHeight)
-                    // Add white border
+                    // Borde blanco durante arrastre
                     setBackgroundResource(R.drawable.puzzle_piece_border)
                     setPadding(5, 5, 5, 5)
                 }
 
-                // Calculate target position relative to parent
+                // Calcular posición destino absoluta
                 val targetX = imageRect.left + (c * pieceWidth)
                 val targetY = imageRect.top + (r * pieceHeight)
 
                 val piece = PuzzlePiece(iv, targetX.toFloat(), targetY.toFloat())
-                
-                // Randomize initial position
+
+                // Posición inicial aleatoria
                 iv.x = Random.nextInt(0, (puzzleContainer.width - pieceWidth).coerceAtLeast(1)).toFloat()
                 iv.y = Random.nextInt(0, (puzzleContainer.height - pieceHeight).coerceAtLeast(1)).toFloat()
 
@@ -131,6 +185,17 @@ class PuzzleActivity : BaseMenuActivity() {
         }
     }
 
+    /**
+     * Configura **drag & drop** para una pieza específica.
+     *
+     * **Lógica de snap:**
+     * - Distancia < **150px** → Se fija en posición destino
+     * - Remueve borde y padding al colocar
+     * - Desactiva touch listener
+     * - Reproduce sonido de éxito
+     *
+     * @param piece Pieza del puzzle
+     */
     private fun setupDragListener(piece: PuzzlePiece) {
         piece.imageView.setOnTouchListener(object : View.OnTouchListener {
             private var dX = 0f
@@ -153,14 +218,15 @@ class PuzzleActivity : BaseMenuActivity() {
                     MotionEvent.ACTION_UP -> {
                         val distance = Math.sqrt(
                             Math.pow((v.x - piece.targetX).toDouble(), 2.0) +
-                            Math.pow((v.y - piece.targetY).toDouble(), 2.0)
+                                    Math.pow((v.y - piece.targetY).toDouble(), 2.0)
                         )
 
+                        // SNAP: Si está dentro del radio de 150px
                         if (distance < 150) {
                             v.x = piece.targetX
                             v.y = piece.targetY
                             isPlaced = true
-                            v.background = null // Remove border when placed
+                            v.background = null // Quitar borde al colocar
                             v.setPadding(0, 0, 0, 0)
                             v.setOnTouchListener(null)
                             playSuccessSound()
@@ -173,6 +239,10 @@ class PuzzleActivity : BaseMenuActivity() {
         })
     }
 
+    /**
+     * Reproduce **sonido de éxito** (`TONE_PROP_BEEP` de 150ms) al colocar pieza correctamente.
+     * Usa `ToneGenerator` en canal `STREAM_ALARM`.
+     */
     private fun playSuccessSound() {
         try {
             val toneG = ToneGenerator(AudioManager.STREAM_ALARM, 100)
@@ -182,23 +252,39 @@ class PuzzleActivity : BaseMenuActivity() {
         }
     }
 
+    /**
+     * Verifica si el puzzle está completo.
+     *
+     * **Al ganar:**
+     * - Muestra `tvVictory`
+     * - Habilita `btnBack`
+     * - Atenúa `guideImage` (alpha = 0.5f)
+     * - Guarda `puzzle_completed = true`
+     * - Completa evento API (100%)
+     */
     private fun checkVictory() {
         piecesPlaced++
         if (piecesPlaced == totalPieces) {
             tvVictory.visibility = View.VISIBLE
             btnBack.visibility = View.VISIBLE
             btnBack.isEnabled = true
-            guideImage.alpha = 0.5f // Reveal image slightly more
+            guideImage.alpha = 0.5f
 
-            // Guardar progreso
+            // Persistir progreso local
             val prefs = getSharedPreferences("arbol_progress", Context.MODE_PRIVATE)
             prefs.edit().putBoolean("puzzle_completed", true).apply()
 
-            // Completar evento en la API
             completarEvento()
         }
     }
 
+    /**
+     * Calcula el **rectángulo efectivo** de `guideImage` considerando escalado y márgenes.
+     * Esencial para calcular posiciones destino precisas de las piezas.
+     *
+     * @param imageView ImageView guía
+     * @return Rect con coordenadas reales de dibujo
+     */
     private fun getImageViewRect(imageView: ImageView): Rect {
         val rect = Rect()
         val drawable = imageView.drawable ?: return rect
@@ -229,6 +315,9 @@ class PuzzleActivity : BaseMenuActivity() {
         return rect
     }
 
+    /**
+     * Inicia el evento "PUZZLE" en la API al cargar la actividad.
+     */
     private fun iniciarEvento() {
         val juegoId = tokenManager.getJuegoId()
 
@@ -255,6 +344,10 @@ class PuzzleActivity : BaseMenuActivity() {
         }
     }
 
+    /**
+     * Completa el evento en la API con **puntuación 100%**.
+     * Se ejecuta automáticamente al completar todas las piezas.
+     */
     private fun completarEvento() {
         val estadoId = eventoEstadoId
 
