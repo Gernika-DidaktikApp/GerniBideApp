@@ -17,6 +17,35 @@ import es.didaktikapp.gernikapp.utils.Constants.Actividades
 import es.didaktikapp.gernikapp.utils.Resource
 import kotlinx.coroutines.launch
 
+/**
+ * Activity de quiz de interpretación de elementos del Guernica.
+ * Presenta 6 preguntas sobre los elementos de la obra con 4 opciones cada una.
+ * Guarda el progreso y permite continuar desde donde se quedó el usuario.
+ *
+ * Características:
+ * - 6 preguntas con imágenes de elementos del Guernica
+ * - Sistema de guardado automático de progreso
+ * - Permite continuar test interrumpido o empezar de nuevo
+ * - Muestra resultados con sistema de estrellas (⭐) según aciertos
+ * - Retroalimentación visual de respuestas correctas/incorrectas
+ *
+ * @property binding ViewBinding del layout picasso_view_interpret.xml
+ * @property gameRepository Repositorio para gestionar eventos del juego
+ * @property tokenManager Gestor de tokens JWT y juegoId
+ * @property eventoEstadoId ID del estado del evento actual (puede ser null)
+ * @property currentQuestionIndex Índice de la pregunta actual (0-5)
+ * @property correctAnswers Número de respuestas correctas acumuladas
+ *
+ * Condiciones:
+ * - Requiere SharedPreferences "view_interpret_progress" para guardar progreso
+ * - Requiere SharedPreferences "picasso_progress" para marcar actividad completada
+ * - Las preguntas y opciones se obtienen de strings.xml por idioma
+ * - Las imágenes deben existir en drawable: picasso_zaldia, picasso_ama_haurrarekin, etc.
+ * - Sistema de puntuación: correctAnswers * 100.0 enviado a la API
+ *
+ * @see Question
+ * @author Wara Pacheco
+ */
 class ViewInterpretActivity : BaseMenuActivity() {
 
     private lateinit var binding: PicassoViewInterpretBinding
@@ -33,16 +62,34 @@ class ViewInterpretActivity : BaseMenuActivity() {
         private const val KEY_HAS_SAVED_PROGRESS = "has_saved_progress"
         private const val KEY_TEST_COMPLETED = "test_completed"
 
+        /**
+         * Verifica si existe progreso guardado del quiz.
+         *
+         * @param context Contexto de la aplicación
+         * @return true si hay progreso guardado, false en caso contrario
+         */
         fun hasSavedProgress(context: Context): Boolean {
             val prefs = context.getSharedPreferences(PREFS_NAME, MODE_PRIVATE)
             return prefs.getBoolean(KEY_HAS_SAVED_PROGRESS, false)
         }
 
+        /**
+         * Verifica si el test fue completado anteriormente.
+         *
+         * @param context Contexto de la aplicación
+         * @return true si el test está completado, false en caso contrario
+         */
         fun isTestCompleted(context: Context): Boolean {
             val prefs = context.getSharedPreferences(PREFS_NAME, MODE_PRIVATE)
             return prefs.getBoolean(KEY_TEST_COMPLETED, false)
         }
 
+        /**
+         * Carga el progreso guardado del quiz.
+         *
+         * @param context Contexto de la aplicación
+         * @return Pair con (índice de pregunta, respuestas correctas) o null si no hay progreso
+         */
         fun loadProgress(context: Context): Pair<Int, Int>? {
             val prefs = context.getSharedPreferences(PREFS_NAME, MODE_PRIVATE)
             if (!prefs.getBoolean(KEY_HAS_SAVED_PROGRESS, false)) {
@@ -53,12 +100,26 @@ class ViewInterpretActivity : BaseMenuActivity() {
             return Pair(questionIndex, correctAnswers)
         }
 
+        /**
+         * Limpia todo el progreso guardado del quiz.
+         *
+         * @param context Contexto de la aplicación
+         */
         fun clearProgress(context: Context) {
             val prefs = context.getSharedPreferences(PREFS_NAME, MODE_PRIVATE)
             prefs.edit().clear().apply()
         }
     }
 
+    /**
+     * Clase de datos que representa una pregunta del quiz.
+     *
+     * @property imageName Nombre del recurso drawable de la imagen del elemento (sin extensión)
+     * @property questionKey Key del string resource para la pregunta
+     * @property optionsKeys Lista de 4 keys de string resources para las opciones
+     * @property correctAnswerIndex Índice de la respuesta correcta (0-3)
+     * @property feedbackKey Key del string resource para el feedback (no usado actualmente)
+     */
     private data class Question(
         val imageName: String,
         val questionKey: String,
@@ -101,6 +162,10 @@ class ViewInterpretActivity : BaseMenuActivity() {
         correctAnswers = savedInstanceState.getInt(KEY_CORRECT_ANSWERS, 0)
     }
 
+    /**
+     * Configura el botón de retroceso.
+     * Solo se muestra si la actividad ya fue completada anteriormente.
+     */
     private fun setupBackButton() {
         val progressPrefs = getSharedPreferences("picasso_progress", MODE_PRIVATE)
 
@@ -114,6 +179,14 @@ class ViewInterpretActivity : BaseMenuActivity() {
         }
     }
 
+    /**
+     * Verifica si existe progreso guardado y muestra el diálogo correspondiente.
+     *
+     * Casos:
+     * - Test completado: Muestra resultado anterior con opción de repetir o salir
+     * - Test en progreso: Permite continuar desde donde lo dejó o empezar de nuevo
+     * - Sin progreso: Carga la primera pregunta directamente
+     */
     private fun checkForSavedProgress() {
         if (hasSavedProgress(this)) {
             if (isTestCompleted(this)) {
@@ -166,6 +239,10 @@ class ViewInterpretActivity : BaseMenuActivity() {
         }
     }
 
+    /**
+     * Carga el progreso guardado y restaura el estado del quiz.
+     * Si no hay progreso, inicia desde la primera pregunta.
+     */
     private fun loadSavedProgress() {
         val progress = loadProgress(this)
         if (progress != null) {
@@ -177,6 +254,11 @@ class ViewInterpretActivity : BaseMenuActivity() {
         }
     }
 
+    /**
+     * Guarda el progreso actual del quiz en SharedPreferences.
+     *
+     * @param testCompleted true si el test está completado, false si está en progreso
+     */
     private fun saveProgress(testCompleted: Boolean = false) {
         val prefs = getSharedPreferences(PREFS_NAME, MODE_PRIVATE)
         prefs.edit().apply {
@@ -188,6 +270,10 @@ class ViewInterpretActivity : BaseMenuActivity() {
         }
     }
 
+    /**
+     * Configura los listeners de los 4 botones de opciones.
+     * Cada botón llama a checkAnswer() con su índice correspondiente.
+     */
     private fun setupOptionListeners() {
         val options = listOf(binding.option1, binding.option2, binding.option3, binding.option4)
 
@@ -198,6 +284,16 @@ class ViewInterpretActivity : BaseMenuActivity() {
         }
     }
 
+    /**
+     * Carga la pregunta actual en la interfaz.
+     *
+     * Proceso:
+     * 1. Actualiza el indicador de progreso (ej: "3/6")
+     * 2. Carga la imagen del elemento del Guernica desde drawable
+     * 3. Carga la pregunta y las 4 opciones desde strings.xml
+     * 4. Resetea el estado visual de los botones
+     * 5. Oculta el feedback y botón "Siguiente"
+     */
     private fun loadQuestion() {
         if (currentQuestionIndex < questions.size) {
             val question = questions[currentQuestionIndex]
@@ -231,11 +327,22 @@ class ViewInterpretActivity : BaseMenuActivity() {
         }
     }
 
+    /**
+     * Obtiene un string de recursos usando su key.
+     * Si no encuentra el recurso, devuelve la key como fallback.
+     *
+     * @param key Key del string resource (ej: "view_interpret_q1")
+     * @return El string traducido o la key si no existe el recurso
+     */
     private fun getStringByKey(key: String): String {
         val resId = resources.getIdentifier(key, "string", packageName)
         return if (resId != 0) getString(resId) else key
     }
 
+    /**
+     * Resetea el estado visual de los 4 botones de opciones.
+     * Los habilita y restaura el fondo y color de texto por defecto.
+     */
     private fun resetButtons() {
         val options = listOf(binding.option1, binding.option2, binding.option3, binding.option4)
         options.forEach { button ->
@@ -245,6 +352,18 @@ class ViewInterpretActivity : BaseMenuActivity() {
         }
     }
 
+    /**
+     * Verifica si la respuesta seleccionada es correcta y aplica retroalimentación visual.
+     *
+     * Comportamiento:
+     * - Deshabilita todos los botones
+     * - Si es correcta: fondo verde (#2E7D32), incrementa correctAnswers
+     * - Si es incorrecta: fondo rojo (#D84315), resalta también la correcta en verde
+     * - Muestra el botón "Siguiente" para continuar
+     *
+     * @param selectedIndex Índice de la opción seleccionada (0-3)
+     * @param selectedButton Botón que fue presionado
+     */
     private fun checkAnswer(selectedIndex: Int, selectedButton: Button) {
         val question = questions[currentQuestionIndex]
         val options = listOf(binding.option1, binding.option2, binding.option3, binding.option4)
@@ -271,6 +390,15 @@ class ViewInterpretActivity : BaseMenuActivity() {
         binding.nextButton.visibility = View.VISIBLE
     }
 
+    /**
+     * Avanza a la siguiente pregunta o muestra los resultados finales.
+     * Guarda el progreso después de cada pregunta.
+     *
+     * Flujo:
+     * - Incrementa currentQuestionIndex
+     * - Si hay más preguntas: carga la siguiente
+     * - Si no hay más: muestra resultados finales
+     */
     private fun loadNextQuestion() {
         currentQuestionIndex++
         saveProgress() // Guardar progreso después de cada pregunta
@@ -282,6 +410,10 @@ class ViewInterpretActivity : BaseMenuActivity() {
         }
     }
 
+    /**
+     * Guarda el progreso automáticamente cuando el usuario sale de la actividad.
+     * Solo guarda si el test no está completado.
+     */
     override fun onPause() {
         super.onPause()
         // Guardar progreso cuando el usuario sale de la actividad
@@ -290,6 +422,22 @@ class ViewInterpretActivity : BaseMenuActivity() {
         }
     }
 
+    /**
+     * Muestra los resultados finales del quiz con sistema de estrellas.
+     *
+     * Sistema de puntuación:
+     * - 6 aciertos: ⭐⭐⭐⭐⭐
+     * - 5 aciertos: ⭐⭐⭐⭐
+     * - 4 aciertos: ⭐⭐⭐
+     * - 3 aciertos: ⭐⭐
+     * - 0-2 aciertos: ⭐
+     *
+     * Acciones:
+     * - Marca el test como completado
+     * - Habilita el botón de retroceso
+     * - Guarda progreso en "picasso_progress"
+     * - Completa el evento en la API con puntuación
+     */
     private fun showFinalResults() {
         // Guardar resultado final en lugar de limpiar
         saveProgress(testCompleted = true)
@@ -320,6 +468,15 @@ class ViewInterpretActivity : BaseMenuActivity() {
             .show()
     }
 
+    /**
+     * Inicia el evento en la API del juego.
+     * Requiere un juegoId válido del TokenManager.
+     * Guarda el eventoEstadoId devuelto por la API para completar el evento después.
+     *
+     * IDs utilizados:
+     * - idActividad: Actividades.Picasso.ID
+     * - idEvento: Actividades.Picasso.VIEW_INTERPRET
+     */
     private fun iniciarEvento() {
         val juegoId = tokenManager.getJuegoId() ?: return
         lifecycleScope.launch {
@@ -331,6 +488,13 @@ class ViewInterpretActivity : BaseMenuActivity() {
         }
     }
 
+    /**
+     * Completa el evento en la API del juego.
+     * Requiere un eventoEstadoId válido obtenido de iniciarEvento().
+     *
+     * @see iniciarEvento
+     * Puntuación enviada: correctAnswers * 100.0 (0-600 puntos)
+     */
     private fun completarEvento() {
         val estadoId = eventoEstadoId ?: return
         lifecycleScope.launch {

@@ -23,6 +23,34 @@ import es.didaktikapp.gernikapp.utils.Resource
 import kotlinx.coroutines.launch
 import java.io.File
 
+/**
+ * Activity para escribir mensajes de paz.
+ * Permite al usuario escribir un mensaje corto sobre paz que se guarda y se muestra
+ * junto con otros mensajes de usuarios anteriores.
+ *
+ * Características:
+ * - Editor de texto con contador de caracteres
+ * - Validación de longitud mínima (Constants.Messages.MIN_MESSAGE_LENGTH)
+ * - Guardado del mensaje personal del usuario
+ * - Visualización de mensajes recientes en tarjetas (CardView)
+ * - Mensajes de ejemplo precargados si no existen mensajes previos
+ * - Límite de mensajes mostrados (Constants.Messages.MAX_DISPLAYED_MESSAGES)
+ *
+ * @property binding ViewBinding del layout picasso_my_message.xml
+ * @property gameRepository Repositorio para gestionar eventos del juego
+ * @property tokenManager Gestor de tokens JWT y juegoId
+ * @property eventoEstadoId ID del estado del evento actual (puede ser null)
+ * @property messagesFile Archivo externo donde se almacenan todos los mensajes
+ *
+ * Condiciones:
+ * - Requiere SharedPreferences "my_message_prefs" para el mensaje del usuario
+ * - Requiere SharedPreferences "picasso_progress" para marcar actividad completada
+ * - Guarda mensajes en archivo externo: Constants.Files.PEACE_MESSAGES_FILENAME
+ * - Longitud mínima del mensaje: Constants.Messages.MIN_MESSAGE_LENGTH caracteres
+ * - Muestra máximo Constants.Messages.MAX_DISPLAYED_MESSAGES mensajes recientes
+ *
+ * @author Wara Pacheco
+ */
 class MyMessageActivity : BaseMenuActivity() {
 
     private lateinit var binding: PicassoMyMessageBinding
@@ -54,6 +82,11 @@ class MyMessageActivity : BaseMenuActivity() {
         loadMessages()
     }
 
+    /**
+     * Verifica si el usuario tiene un mensaje guardado previamente.
+     * Si existe, muestra un diálogo preguntando si quiere editar el mensaje existente
+     * o escribir uno nuevo.
+     */
     private fun checkForSavedMessage() {
         val prefs = getSharedPreferences(PREFS_NAME, MODE_PRIVATE)
         val hasMessage = prefs.getBoolean(KEY_HAS_MESSAGE, false)
@@ -78,6 +111,10 @@ class MyMessageActivity : BaseMenuActivity() {
         }
     }
 
+    /**
+     * Configura el contador de caracteres en tiempo real.
+     * Actualiza el TextView con el formato "X caracteres".
+     */
     private fun setupCharacterCounter() {
         binding.messageInput.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
@@ -96,6 +133,10 @@ class MyMessageActivity : BaseMenuActivity() {
         }
     }
 
+    /**
+     * Configura el botón de retroceso.
+     * Solo se habilita si la actividad ya fue completada anteriormente.
+     */
     private fun setupBackButton() {
         val progressPrefs = getSharedPreferences(PROGRESS_PREFS, MODE_PRIVATE)
 
@@ -109,6 +150,22 @@ class MyMessageActivity : BaseMenuActivity() {
         }
     }
 
+    /**
+     * Envía el mensaje escrito por el usuario.
+     *
+     * Validaciones:
+     * - No puede estar vacío
+     * - Debe tener al menos Constants.Messages.MIN_MESSAGE_LENGTH caracteres
+     *
+     * Proceso:
+     * 1. Valida el mensaje
+     * 2. Guarda en SharedPreferences y archivo compartido
+     * 3. Habilita botón de retroceso y marca actividad completada
+     * 4. Completa el evento en la API
+     * 5. Limpia el input y oculta el teclado
+     * 6. Recarga la lista de mensajes
+     * 7. Muestra diálogo de confirmación
+     */
     private fun sendMessage() {
         val message = binding.messageInput.text.toString().trim()
 
@@ -144,6 +201,13 @@ class MyMessageActivity : BaseMenuActivity() {
         showConfirmationDialog(message)
     }
 
+    /**
+     * Guarda el mensaje del usuario en dos lugares:
+     * 1. SharedPreferences personal del usuario (para recordar su mensaje)
+     * 2. Archivo compartido externo (para mostrar en la lista general)
+     *
+     * @param message Texto del mensaje a guardar
+     */
     private fun saveMessage(message: String) {
         // Guardar mensaje personal del usuario
         val prefs = getSharedPreferences(PREFS_NAME, MODE_PRIVATE)
@@ -161,11 +225,24 @@ class MyMessageActivity : BaseMenuActivity() {
         }
     }
 
+    /**
+     * Limpia el mensaje personal guardado del usuario en SharedPreferences.
+     * No elimina el mensaje del archivo compartido.
+     */
     private fun clearSavedMessage() {
         val prefs = getSharedPreferences(PREFS_NAME, MODE_PRIVATE)
         prefs.edit().clear().apply()
     }
 
+    /**
+     * Carga y muestra los mensajes más recientes del archivo.
+     *
+     * Proceso:
+     * 1. Si el archivo no existe, crea mensajes de ejemplo
+     * 2. Lee las últimas N líneas (Constants.Messages.MAX_DISPLAYED_MESSAGES)
+     * 3. Las muestra en orden inverso (más recientes primero)
+     * 4. Si no hay mensajes, muestra mensaje de estado vacío
+     */
     private fun loadMessages() {
         binding.messagesContainer.removeAllViews()
 
@@ -188,6 +265,12 @@ class MyMessageActivity : BaseMenuActivity() {
         }
     }
 
+    /**
+     * Crea y añade una tarjeta (CardView) con un mensaje al contenedor.
+     * Diseño: fondo azul claro (#E3F2FD), texto azul (#1976D2), bordes redondeados.
+     *
+     * @param message Texto del mensaje a mostrar
+     */
     private fun addMessageView(message: String) {
         val messageCard = CardView(this).apply {
             layoutParams = LinearLayout.LayoutParams(
@@ -217,6 +300,10 @@ class MyMessageActivity : BaseMenuActivity() {
         binding.messagesContainer.addView(messageCard)
     }
 
+    /**
+     * Añade un TextView centrado con mensaje de estado vacío cuando no hay mensajes.
+     * Texto gris (#90A4AE) indicando que aún no hay mensajes.
+     */
     private fun addEmptyStateMessage() {
         val emptyText = TextView(this).apply {
             layoutParams = LinearLayout.LayoutParams(
@@ -233,6 +320,11 @@ class MyMessageActivity : BaseMenuActivity() {
         binding.messagesContainer.addView(emptyText)
     }
 
+    /**
+     * Crea el archivo de mensajes con 4 mensajes de ejemplo predefinidos.
+     * Se ejecuta solo la primera vez que se accede a la actividad.
+     * Los mensajes de ejemplo se obtienen de strings.xml para soporte multiidioma.
+     */
     private fun addSampleMessages() {
         val sampleMessages = listOf(
             getString(R.string.my_message_sample_1),
@@ -248,6 +340,12 @@ class MyMessageActivity : BaseMenuActivity() {
         }
     }
 
+    /**
+     * Muestra un diálogo de confirmación después de enviar el mensaje.
+     * Pregunta al usuario si quiere mantener el mensaje o escribir uno nuevo.
+     *
+     * @param message El mensaje que acaba de enviar el usuario
+     */
     private fun showConfirmationDialog(message: String) {
         AlertDialog.Builder(this)
             .setTitle(getString(R.string.my_message_confirm_title))
@@ -263,15 +361,33 @@ class MyMessageActivity : BaseMenuActivity() {
             .show()
     }
 
+    /**
+     * Oculta el teclado virtual después de enviar el mensaje.
+     */
     private fun hideKeyboard() {
         val imm = getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
         imm.hideSoftInputFromWindow(binding.messageInput.windowToken, 0)
     }
 
+    /**
+     * Convierte density-independent pixels (dp) a píxeles de pantalla.
+     *
+     * @param dp Valor en dp a convertir
+     * @return Valor equivalente en píxeles
+     */
     private fun dpToPx(dp: Int): Int {
         return (dp * resources.displayMetrics.density).toInt()
     }
 
+    /**
+     * Inicia el evento en la API del juego.
+     * Requiere un juegoId válido del TokenManager.
+     * Guarda el eventoEstadoId devuelto por la API para completar el evento después.
+     *
+     * IDs utilizados:
+     * - idActividad: Actividades.Picasso.ID
+     * - idEvento: Actividades.Picasso.MY_MESSAGE
+     */
     private fun iniciarEvento() {
         val juegoId = tokenManager.getJuegoId() ?: return
         lifecycleScope.launch {
@@ -283,6 +399,13 @@ class MyMessageActivity : BaseMenuActivity() {
         }
     }
 
+    /**
+     * Completa el evento en la API del juego.
+     * Requiere un eventoEstadoId válido obtenido de iniciarEvento().
+     *
+     * @see iniciarEvento
+     * Puntuación enviada: 100.0 (actividad completada)
+     */
     private fun completarEvento() {
         val estadoId = eventoEstadoId ?: return
         lifecycleScope.launch {
