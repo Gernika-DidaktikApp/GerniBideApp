@@ -5,7 +5,10 @@ import com.squareup.moshi.JsonClass
 
 /**
  * Request para registrar un nuevo usuario.
- * POST /api/v1/auth/register
+ * POST /api/v1/usuarios
+ *
+ * @author Wara Pacheco
+ * @version 1.0
  */
 @JsonClass(generateAdapter = true)
 data class RegisterRequest(

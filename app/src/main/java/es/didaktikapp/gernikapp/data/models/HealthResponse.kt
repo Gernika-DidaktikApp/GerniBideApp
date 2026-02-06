@@ -6,6 +6,9 @@ import com.squareup.moshi.JsonClass
 /**
  * Response del health check.
  * GET /health
+ *
+ * @author Wara Pacheco
+ * @version 1.0
  */
 @JsonClass(generateAdapter = true)
 data class HealthResponse(

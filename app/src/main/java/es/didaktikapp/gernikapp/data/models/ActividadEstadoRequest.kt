@@ -5,7 +5,10 @@ import com.squareup.moshi.JsonClass
 
 /**
  * Request para iniciar una actividad.
- * Se envía a POST /api/v1/actividad-estados/iniciar
+ * POST /api/v1/actividad-estados/iniciar
+ *
+ * @author Wara Pacheco
+ * @version 1.0
  */
 @JsonClass(generateAdapter = true)
 data class ActividadEstadoRequest(

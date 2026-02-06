@@ -5,6 +5,9 @@ import com.squareup.moshi.JsonClass
 
 /**
  * Estados posibles de una actividad.
+ *
+ * @author Wara Pacheco
+ * @version 1.0
  */
 object EstadoActividad {
     const val EN_PROGRESO = "en_progreso"
@@ -16,6 +19,9 @@ object EstadoActividad {
  *
  * Cuando se completa el último evento de la actividad, el backend
  * calcula automáticamente la puntuación total y duración.
+ *
+ * @author Wara Pacheco
+ * @version 1
  */
 @JsonClass(generateAdapter = true)
 data class ActividadEstadoResponse(

@@ -15,6 +15,9 @@ import es.didaktikapp.gernikapp.utils.Resource
 /**
  * Repository para operaciones de autenticación.
  * Maneja login, registro, logout y gestión de sesión.
+ *
+ * @author Wara Pacheco
+ * @version 1.0
  */
 class AuthRepository(context: Context) : BaseRepository(context) {
 
@@ -26,6 +29,8 @@ class AuthRepository(context: Context) : BaseRepository(context) {
 
     /**
      * Verifica si la API está disponible.
+     *
+     * @return Resource con el estado de salud de la API
      */
     suspend fun healthCheck(): Resource<HealthResponse> {
         return safeApiCall(
@@ -36,6 +41,10 @@ class AuthRepository(context: Context) : BaseRepository(context) {
     /**
      * Inicia sesión con username y password.
      * Guarda el token JWT si el login es exitoso.
+     *
+     * @param username Nombre de usuario
+     * @param password Contraseña
+     * @return Resource con los datos de la sesión
      */
     suspend fun login(username: String, password: String): Resource<LoginResponse> {
         if (BuildConfig.DEBUG) {
@@ -81,6 +90,13 @@ class AuthRepository(context: Context) : BaseRepository(context) {
 
     /**
      * Registra un nuevo usuario.
+     *
+     * @param username Nombre de usuario único
+     * @param nombre Nombre del usuario
+     * @param apellido Apellido del usuario
+     * @param password Contraseña
+     * @param claseId ID de la clase (opcional)
+     * @return Resource con los datos del usuario creado
      */
     suspend fun register(
         username: String,
@@ -113,6 +129,8 @@ class AuthRepository(context: Context) : BaseRepository(context) {
 
     /**
      * Verifica si hay una sesión activa (token guardado).
+     *
+     * @return true si hay sesión activa, false en caso contrario
      */
     fun hasActiveSession(): Boolean {
         return tokenManager.hasActiveSession()
@@ -120,6 +138,8 @@ class AuthRepository(context: Context) : BaseRepository(context) {
 
     /**
      * Obtiene el nombre de usuario de la sesión actual.
+     *
+     * @return Nombre de usuario o null si no hay sesión
      */
     fun getUsername(): String? {
         return tokenManager.getUsername()
@@ -127,6 +147,8 @@ class AuthRepository(context: Context) : BaseRepository(context) {
 
     /**
      * Obtiene el token actual (para uso interno).
+     *
+     * @return Token JWT o null si no hay sesión
      */
     fun getToken(): String? {
         return tokenManager.getToken()

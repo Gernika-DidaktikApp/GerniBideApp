@@ -5,7 +5,10 @@ import com.squareup.moshi.JsonClass
 
 /**
  * Request para completar un evento con su puntuación.
- * Se envía a PUT /api/v1/evento-estados/{estado_id}/completar
+ * PUT /api/v1/evento-estados/{estado_id}/completar
+ *
+ * @author Wara Pacheco
+ * @version 1.0
  */
 @JsonClass(generateAdapter = true)
 data class CompletarEventoRequest(

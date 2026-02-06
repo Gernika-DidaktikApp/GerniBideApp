@@ -6,6 +6,9 @@ import com.squareup.moshi.JsonClass
 /**
  * Error simple de la API.
  * Formato: { "detail": "mensaje de error" }
+ *
+ * @author Wara Pacheco
+ * @version 1.0
  */
 @JsonClass(generateAdapter = true)
 data class ApiError(
@@ -19,6 +22,9 @@ data class ApiError(
 /**
  * Error de validación de la API (422 Unprocessable Entity).
  * Formato: { "detail": [{ "type": "...", "loc": [...], "msg": "..." }] }
+ *
+ * @author Wara Pacheco
+ * @version 1
  */
 @JsonClass(generateAdapter = true)
 data class ValidationError(
@@ -38,6 +44,9 @@ data class ValidationError(
 
 /**
  * Detalle de un error de validación individual.
+ *
+ * @author Wara Pacheco
+ * @version 1
  */
 @JsonClass(generateAdapter = true)
 data class ValidationErrorDetail(

@@ -5,7 +5,10 @@ import com.squareup.moshi.JsonClass
 
 /**
  * Response con datos del usuario.
- * GET /api/v1/users/me
+ * GET /api/v1/users/{id}
+ *
+ * @author Wara Pacheco
+ * @version 1.0
  */
 @JsonClass(generateAdapter = true)
 data class UserResponse(

@@ -13,6 +13,9 @@ import java.net.UnknownHostException
 /**
  * Clase base para repositories.
  * Proporciona manejo común de errores y respuestas de la API.
+ *
+ * @author Wara Pacheco
+ * @version 1.0
  */
 abstract class BaseRepository(protected val context: Context) {
 
@@ -22,6 +25,7 @@ abstract class BaseRepository(protected val context: Context) {
      *
      * @param apiCall Lambda que ejecuta la llamada a la API
      * @param onSuccess Transformación opcional del resultado exitoso
+     * @return Resource con el resultado de la operación
      */
     protected suspend fun <T> safeApiCall(
         apiCall: suspend () -> Response<T>,
@@ -45,6 +49,10 @@ abstract class BaseRepository(protected val context: Context) {
 
     /**
      * Maneja la respuesta de la API.
+     *
+     * @param response Respuesta HTTP de Retrofit
+     * @param onSuccess Transformación del body exitoso
+     * @return Resource con el resultado procesado
      */
     private fun <T> handleApiResponse(
         response: Response<T>,

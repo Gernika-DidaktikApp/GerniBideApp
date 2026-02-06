@@ -6,6 +6,9 @@ import com.squareup.moshi.JsonClass
 /**
  * Response con estadísticas del usuario.
  * GET /api/v1/usuarios/{id}/estadisticas
+ *
+ * @author Wara Pacheco
+ * @version 1.0
  */
 @JsonClass(generateAdapter = true)
 data class UserStatsResponse(

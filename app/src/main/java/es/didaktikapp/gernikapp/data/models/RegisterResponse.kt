@@ -6,6 +6,9 @@ import com.squareup.moshi.JsonClass
 /**
  * Response del registro de usuario.
  * El servidor devuelve los datos del usuario creado.
+ *
+ * @author Wara Pacheco
+ * @version 1.0
  */
 @JsonClass(generateAdapter = true)
 data class RegisterResponse(

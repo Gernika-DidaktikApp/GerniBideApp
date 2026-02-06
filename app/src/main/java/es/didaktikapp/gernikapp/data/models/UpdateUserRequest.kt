@@ -9,6 +9,9 @@ import com.squareup.moshi.JsonClass
  *
  * Todos los campos son opcionales.
  * Solo se envían los campos que se desean actualizar.
+ *
+ * @author Wara Pacheco
+ * @version 1.0
  */
 @JsonClass(generateAdapter = true)
 data class UpdateUserRequest(

@@ -21,6 +21,9 @@ import es.didaktikapp.gernikapp.utils.Resource
  * 2. Para cada evento:
  *    - Iniciar evento (iniciarEvento)
  *    - Completar evento (completarEvento)
+ *
+ * @author Wara Pacheco
+ * @version 1.0
  */
 class GameRepository(context: Context) : BaseRepository(context) {
 
@@ -34,7 +37,9 @@ class GameRepository(context: Context) : BaseRepository(context) {
 
     /**
      * Crea una nueva partida para el usuario.
+     *
      * @param idUsuario ID del usuario que inicia la partida
+     * @return Resource con la partida creada
      */
     suspend fun crearPartida(idUsuario: String): Resource<PartidaResponse> {
         if (BuildConfig.DEBUG) {
@@ -65,7 +70,9 @@ class GameRepository(context: Context) : BaseRepository(context) {
 
     /**
      * Obtiene una partida por su ID.
+     *
      * @param partidaId ID de la partida
+     * @return Resource con los datos de la partida
      */
     suspend fun getPartida(partidaId: String): Resource<PartidaResponse> {
         return safeApiCall(
@@ -82,7 +89,7 @@ class GameRepository(context: Context) : BaseRepository(context) {
      * @param idJuego ID de la partida (juego)
      * @param idActividad ID de la actividad
      * @param idEvento ID del evento a iniciar
-     * @return Estado del evento iniciado (guardar el ID para completarlo después)
+     * @return Resource con el estado del evento iniciado (guardar el ID para completarlo después)
      */
     suspend fun iniciarEvento(
         idJuego: String,
@@ -126,7 +133,7 @@ class GameRepository(context: Context) : BaseRepository(context) {
      *
      * @param estadoId ID del estado del evento (obtenido al iniciar)
      * @param puntuacion Puntuación obtenida en el evento
-     * @return Estado del evento completado
+     * @return Resource con el estado del evento completado
      */
     suspend fun completarEvento(
         estadoId: String,

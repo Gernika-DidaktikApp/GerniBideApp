@@ -9,6 +9,18 @@ import androidx.security.crypto.MasterKey
 import es.didaktikapp.gernikapp.BuildConfig
 import org.json.JSONObject
 
+/**
+ * Gestor de tokens JWT y datos de sesión del usuario.
+ * Usa EncryptedSharedPreferences para almacenamiento seguro.
+ *
+ * Datos gestionados:
+ * - Token JWT de autenticación
+ * - Username y userId
+ * - JuegoId de la partida activa
+ *
+ * @author Wara Pacheco
+ * @version 1.0
+ */
 class TokenManager(context: Context) {
 
     private val masterKey = MasterKey.Builder(context)
@@ -17,6 +29,13 @@ class TokenManager(context: Context) {
 
     private val sharedPreferences: SharedPreferences = createEncryptedPreferences(context)
 
+    /**
+     * Crea EncryptedSharedPreferences con manejo de errores.
+     * Si hay corrupción, borra y recrea.
+     *
+     * @param context Contexto de la aplicación
+     * @return SharedPreferences encriptadas
+     */
     private fun createEncryptedPreferences(context: Context): SharedPreferences {
         return try {
             EncryptedSharedPreferences.create(
@@ -58,6 +77,13 @@ class TokenManager(context: Context) {
         private const val KEY_USER_ID = "user_id"
     }
 
+    /**
+     * Guarda el token JWT y extrae el userId automáticamente.
+     * Usa commit() para guardado síncrono.
+     *
+     * @param token Token JWT recibido del servidor
+     * @param tokenType Tipo de token (por defecto "bearer")
+     */
     fun saveToken(token: String, tokenType: String = "bearer") {
         Log.d("TokenManager", "💾 Guardando token: ${token.take(20)}...")
 
@@ -83,6 +109,9 @@ class TokenManager(context: Context) {
      * Extrae el userId del payload del JWT.
      * El JWT tiene formato: header.payload.signature
      * El payload es base64 encoded y contiene el campo "sub" con el userId.
+     *
+     * @param token Token JWT
+     * @return userId extraído o null si falla
      */
     private fun extractUserIdFromToken(token: String): String? {
         return try {
@@ -95,6 +124,9 @@ class TokenManager(context: Context) {
 
     /**
      * Decodifica el payload del JWT y lo devuelve como JSONObject.
+     *
+     * @param token Token JWT
+     * @return JSONObject con el payload o null si falla
      */
     private fun decodeJwtPayload(token: String): JSONObject? {
         return try {
@@ -147,46 +179,89 @@ class TokenManager(context: Context) {
         }
     }
 
+    /**
+     * Obtiene el token JWT guardado.
+     *
+     * @return Token JWT o null si no existe
+     */
     fun getToken(): String? {
         val token = sharedPreferences.getString(KEY_TOKEN, null)
         Log.d("TokenManager", "📖 getToken() llamado - Token presente: ${token != null}")
         return token
     }
 
+    /**
+     * Guarda el nombre de usuario.
+     *
+     * @param username Nombre de usuario
+     */
     fun saveUsername(username: String) {
         sharedPreferences.edit()
             .putString(KEY_USERNAME, username)
             .apply()
     }
 
+    /**
+     * Obtiene el nombre de usuario guardado.
+     *
+     * @return Nombre de usuario o null
+     */
     fun getUsername(): String? {
         return sharedPreferences.getString(KEY_USERNAME, null)
     }
 
+    /**
+     * Guarda el ID del usuario.
+     *
+     * @param userId ID del usuario
+     */
     fun saveUserId(userId: String) {
         sharedPreferences.edit()
             .putString(KEY_USER_ID, userId)
             .apply()
     }
 
+    /**
+     * Obtiene el ID del usuario guardado.
+     *
+     * @return ID del usuario o null
+     */
     fun getUserId(): String? {
         return sharedPreferences.getString(KEY_USER_ID, null)
     }
 
+    /**
+     * Guarda el ID de la partida activa.
+     *
+     * @param juegoId ID de la partida
+     */
     fun saveJuegoId(juegoId: String) {
         sharedPreferences.edit()
             .putString(KEY_JUEGO_ID, juegoId)
             .apply()
     }
 
+    /**
+     * Obtiene el ID de la partida activa.
+     *
+     * @return ID de la partida o null
+     */
     fun getJuegoId(): String? {
         return sharedPreferences.getString(KEY_JUEGO_ID, null)
     }
 
+    /**
+     * Verifica si hay una partida activa.
+     *
+     * @return true si hay partida activa, false en caso contrario
+     */
     fun hasActiveGame(): Boolean {
         return getJuegoId() != null
     }
 
+    /**
+     * Limpia toda la sesión (token, username, userId, juegoId).
+     */
     fun clearSession() {
         sharedPreferences.edit().clear().commit()
         Log.d("TokenManager", "🗑️ Sesión limpiada")
@@ -211,6 +286,8 @@ class TokenManager(context: Context) {
     /**
      * Imprime el estado de la sesión en Logcat (solo en DEBUG).
      * Filtra en Logcat por tag: "TokenManager"
+     *
+     * @param tag Tag para los logs (por defecto "TokenManager")
      */
     fun logSessionState(tag: String = "TokenManager") {
         if (!BuildConfig.DEBUG) return

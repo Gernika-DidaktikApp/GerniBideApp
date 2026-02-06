@@ -5,6 +5,10 @@ import com.squareup.moshi.JsonClass
 
 /**
  * Response al crear o consultar una partida.
+ * GET /api/v1/partidas/{id}
+ *
+ * @author Wara Pacheco
+ * @version 1.0
  */
 @JsonClass(generateAdapter = true)
 data class PartidaResponse(

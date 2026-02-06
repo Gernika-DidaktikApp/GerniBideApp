@@ -3,6 +3,13 @@ package es.didaktikapp.gernikapp.data.models
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 
+/**
+ * Response del login exitoso.
+ * Contiene el token JWT y datos del usuario.
+ *
+ * @author Wara Pacheco
+ * @version 1.0
+ */
 @JsonClass(generateAdapter = true)
 data class LoginResponse(
     @Json(name = "access_token")

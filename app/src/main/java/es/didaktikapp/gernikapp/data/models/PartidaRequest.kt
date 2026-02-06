@@ -5,6 +5,10 @@ import com.squareup.moshi.JsonClass
 
 /**
  * Request para crear una nueva partida.
+ * POST /api/v1/partidas
+ *
+ * @author Wara Pacheco
+ * @version 1
  */
 @JsonClass(generateAdapter = true)
 data class PartidaRequest(

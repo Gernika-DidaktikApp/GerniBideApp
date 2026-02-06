@@ -12,6 +12,9 @@ import es.didaktikapp.gernikapp.utils.Resource
 /**
  * Repository para operaciones de usuario.
  * Requiere sesión activa (token JWT).
+ *
+ * @author Wara Pacheco
+ * @version 1.0
  */
 class UserRepository(context: Context) : BaseRepository(context) {
 
@@ -21,6 +24,8 @@ class UserRepository(context: Context) : BaseRepository(context) {
     /**
      * Obtiene el perfil del usuario actual.
      * Utiliza el userId guardado en TokenManager.
+     *
+     * @return Resource con los datos del usuario
      */
     suspend fun getUserProfile(): Resource<UserResponse> {
         val userId = tokenManager.getUserId()
@@ -35,6 +40,9 @@ class UserRepository(context: Context) : BaseRepository(context) {
      * Actualiza el perfil del usuario actual.
      * Solo envía los campos que se desean actualizar.
      * Utiliza el userId guardado en TokenManager.
+     *
+     * @param userUpdate Datos a actualizar (campos opcionales)
+     * @return Resource con los datos del usuario actualizado
      */
     suspend fun updateUserProfile(userUpdate: UpdateUserRequest): Resource<UserResponse> {
         val userId = tokenManager.getUserId()
@@ -47,6 +55,9 @@ class UserRepository(context: Context) : BaseRepository(context) {
 
     /**
      * Obtiene las estadísticas de un usuario.
+     *
+     * @param usuarioId ID del usuario
+     * @return Resource con las estadísticas del usuario
      */
     suspend fun getUserStats(usuarioId: String): Resource<UserStatsResponse> {
         return safeApiCall(
