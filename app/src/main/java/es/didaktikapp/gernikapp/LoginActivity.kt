@@ -13,6 +13,25 @@ import es.didaktikapp.gernikapp.databinding.ActivityLoginBinding
 import es.didaktikapp.gernikapp.utils.Resource
 import kotlinx.coroutines.launch
 
+/**
+ * Activity de inicio de sesión.
+ * Gestiona la autenticación del usuario y la creación de partida inicial.
+ *
+ * Flujo:
+ * 1. Verifica si hay sesión activa (redirige a MapaActivity)
+ * 2. Muestra formulario de login
+ * 3. Autentica con la API
+ * 4. Crea partida automáticamente
+ * 5. Navega a MapaActivity
+ *
+ * @property binding ViewBinding del layout activity_login.xml
+ * @property authRepository Repository para autenticación
+ * @property gameRepository Repository para crear partidas
+ * @property tokenManager Gestor de sesión y tokens
+ *
+ * @author Wara Pacheco
+ * @version 1.0
+ */
 class LoginActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityLoginBinding
@@ -56,6 +75,11 @@ class LoginActivity : AppCompatActivity() {
         setupClickListeners()
     }
 
+    /**
+     * Configura los listeners de los elementos interactivos.
+     * - Botón login: Valida campos y ejecuta performLogin()
+     * - Link registro: Navega a RegisterActivity
+     */
     private fun setupClickListeners() {
         binding.btnLogin.setOnClickListener {
             val usuario = binding.editTextUsuario.text.toString().trim()
@@ -81,6 +105,13 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
+    /**
+     * Ejecuta el proceso de login.
+     * Si es exitoso, crea automáticamente una partida.
+     *
+     * @param username Nombre de usuario
+     * @param password Contraseña
+     */
     private fun performLogin(username: String, password: String) {
         lifecycleScope.launch {
             setLoading(true)
@@ -114,6 +145,11 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
+    /**
+     * Crea una nueva partida para el usuario autenticado.
+     * La partida se crea automáticamente después del login exitoso.
+     * Guarda el juegoId en TokenManager y navega al mapa.
+     */
     private suspend fun crearPartida() {
         val userId = tokenManager.getUserId()
 
@@ -155,12 +191,20 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
+    /**
+     * Activa/desactiva el estado de carga de la UI.
+     *
+     * @param isLoading true para deshabilitar controles, false para habilitarlos
+     */
     private fun setLoading(isLoading: Boolean) {
         binding.btnLogin.isEnabled = !isLoading
         binding.editTextUsuario.isEnabled = !isLoading
         binding.editTextPassword.isEnabled = !isLoading
     }
 
+    /**
+     * Navega al mapa y cierra esta activity.
+     */
     private fun navigateToMap() {
         val intent = Intent(this, MapaActivity::class.java)
         startActivity(intent)

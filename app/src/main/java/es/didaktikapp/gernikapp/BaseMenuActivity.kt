@@ -12,9 +12,26 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 
 /**
- * Activity base que incluye el menú FAB flotante.
- * Las activities que necesiten el menú deben heredar de esta clase
- * e implementar getContentLayoutId() para especificar su layout.
+ * Activity base que incluye el menú FAB flotante en abanico.
+ * Las activities que necesiten el menú deben heredar de esta clase.
+ *
+ * Funcionalidades:
+ * - Menú FAB flotante con animación de abanico
+ * - Navegación a Home (MapaActivity), Settings y Profile
+ * - Overlay oscuro cuando el menú está abierto
+ * - Animaciones suaves con interpoladores
+ *
+ * Uso:
+ * 1. Heredar de BaseMenuActivity
+ * 2. Implementar getContentLayoutId() o inflar contenido en onContentInflated()
+ * 3. Acceder al contentContainer para añadir vistas
+ *
+ * @property isMenuOpen Estado del menú (abierto/cerrado)
+ * @property contentContainer Contenedor donde se infla el contenido de la activity hija
+ * @property fanRadius Radio del abanico en dp (80dp)
+ *
+ * @author Wara Pacheco
+ * @version 1.0
  */
 abstract class BaseMenuActivity : AppCompatActivity() {
 
@@ -36,6 +53,8 @@ abstract class BaseMenuActivity : AppCompatActivity() {
     /**
      * Las activities hijas pueden devolver el ID del layout que quieren usar.
      * Si devuelve 0, la activity hija debe inflar su propio contenido en onContentInflated().
+     *
+     * @return ID del layout o 0 para inflado manual
      */
     protected open fun getContentLayoutId(): Int = 0
 
@@ -81,6 +100,14 @@ abstract class BaseMenuActivity : AppCompatActivity() {
      */
     protected open fun onContentInflated() {}
 
+    /**
+     * Configura los listeners de los botones del menú FAB.
+     * - Main FAB: Toggle menu
+     * - Overlay: Cierra el menú
+     * - Home: Navega a MapaActivity
+     * - Settings: Navega a SettingsActivity
+     * - Profile: Navega a ProfileActivity
+     */
     private fun setupMenuListeners() {
         fabMain.setOnClickListener { toggleMenu() }
 
@@ -103,10 +130,17 @@ abstract class BaseMenuActivity : AppCompatActivity() {
         }
     }
 
+    /**
+     * Alterna entre abrir y cerrar el menú.
+     */
     private fun toggleMenu() {
         if (isMenuOpen) closeMenu() else openMenu()
     }
 
+    /**
+     * Abre el menú con animación de abanico.
+     * Muestra overlay, rota el FAB principal y anima los mini FABs.
+     */
     private fun openMenu() {
         isMenuOpen = true
 
@@ -130,6 +164,15 @@ abstract class BaseMenuActivity : AppCompatActivity() {
         animateFabOpen(fabProfile, angleProfile, radiusPx, interpolator, 100)
     }
 
+    /**
+     * Anima la apertura de un mini FAB individual.
+     *
+     * @param fab Botón a animar
+     * @param angle Ángulo en grados para posicionar el FAB
+     * @param radius Radio del abanico en píxeles
+     * @param interpolator Interpolador para la animación
+     * @param delay Delay en milisegundos antes de iniciar
+     */
     private fun animateFabOpen(
         fab: ImageButton,
         angle: Float,
@@ -151,6 +194,10 @@ abstract class BaseMenuActivity : AppCompatActivity() {
             .start()
     }
 
+    /**
+     * Cierra el menú con animación.
+     * Oculta overlay, restaura rotación del FAB principal y anima los mini FABs.
+     */
     private fun closeMenu() {
         isMenuOpen = false
 
@@ -172,6 +219,13 @@ abstract class BaseMenuActivity : AppCompatActivity() {
         animateFabClose(fabProfile, interpolator, 60)
     }
 
+    /**
+     * Anima el cierre de un mini FAB individual.
+     *
+     * @param fab Botón a animar
+     * @param interpolator Interpolador para la animación
+     * @param delay Delay en milisegundos antes de iniciar
+     */
     private fun animateFabClose(
         fab: ImageButton,
         interpolator: AccelerateInterpolator,
@@ -199,10 +253,23 @@ abstract class BaseMenuActivity : AppCompatActivity() {
         }
     }
 
+    /**
+     * Convierte density-independent pixels (dp) a píxeles de pantalla.
+     *
+     * @param dp Valor en dp
+     * @return Valor equivalente en píxeles
+     */
     private fun dpToPx(dp: Float): Float {
         return dp * resources.displayMetrics.density
     }
 
+    /**
+     * Calcula las coordenadas X e Y para un ángulo y radio dados.
+     *
+     * @param angleDegrees Ángulo en grados (0° = derecha, 90° = arriba, 180° = izquierda, 270° = abajo)
+     * @param radius Radio del círculo en píxeles
+     * @return Par (x, y) con las coordenadas de traslación
+     */
     private fun getTranslationForAngle(angleDegrees: Float, radius: Float): Pair<Float, Float> {
         val angleRadians = Math.toRadians(angleDegrees.toDouble())
         val x = (radius * kotlin.math.cos(angleRadians)).toFloat()

@@ -7,7 +7,16 @@ import android.graphics.Canvas
 import androidx.annotation.DrawableRes
 
 /**
- * Utilidades para operaciones con Bitmaps
+ * Utilidades para operaciones con Bitmaps.
+ * Proporciona métodos para combinar, escalar y cargar bitmaps.
+ *
+ * Casos de uso:
+ * - Combinar imágenes de fondo con overlays
+ * - Escalar y centrar imágenes manteniendo aspect ratio
+ * - Cargar recursos drawable como bitmaps
+ *
+ * @author Wara Pacheco
+ * @version 1.0
  */
 object BitmapUtils {
 

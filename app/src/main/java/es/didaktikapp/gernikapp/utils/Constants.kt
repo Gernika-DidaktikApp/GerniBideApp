@@ -1,13 +1,28 @@
 package es.didaktikapp.gernikapp.utils
 
 /**
- * Constantes de la aplicación
+ * Constantes de la aplicación GernikApp.
+ * Contiene IDs de actividades, configuraciones de red, mapa, archivos y más.
+ *
+ * Organización:
+ * - Actividades: UUIDs de módulos y eventos
+ * - Network: Configuración de timeouts
+ * - Permissions: Códigos de permisos
+ * - Map: Coordenadas y configuración del mapa
+ * - Files: Nombres de archivos
+ * - Messages: Configuración de mensajes
+ * - Paint: Configuración de pintura
+ *
+ * @author Wara Pacheco
+ * @version 1.0
  */
 object Constants {
 
     /**
-     * IDs de Actividades y Eventos (UUIDs de la API)
+     * IDs de Actividades y Eventos (UUIDs de la API).
      * Estos IDs deben coincidir con los registrados en la base de datos.
+     *
+     * IMPORTANTE: No modificar estos UUIDs sin coordinar con el backend.
      */
     object Actividades {
 

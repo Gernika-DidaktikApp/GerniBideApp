@@ -1,8 +1,17 @@
 package es.didaktikapp.gernikapp
 
 /**
- * Configuración de endpoints de la API.
- * La URL base se configura en local.properties o build.gradle.kts
+ * Configuración de endpoints de la API REST.
+ * Contiene todas las rutas de los endpoints organizadas por categoría.
+ *
+ * La URL base se configura en:
+ * - local.properties: API_BASE_URL=http://...
+ * - O usa el valor por defecto en build.gradle.kts
+ *
+ * @property BASE_URL URL base de la API (configurada en BuildConfig)
+ *
+ * @author Wara Pacheco
+ * @version 1.0
  */
 object ApiConfig {
 
