@@ -382,6 +382,9 @@
     <string name="photo_mission_subida_exito">Argazkia igo da galerira!</string>
     <string name="photo_mission_completado">Zorionak! Jarduera osatu duzu</string>
     <string name="photo_mission_item_descripcion">Argazkia</string>
+    <string name="photo_mission_upload_in_progress">Igotze bat abian da dagoeneko</string>
+    <string name="photo_mission_error_subir">Errorea argazkia igotzean: %s</string>
+    <string name="photo_mission_error_guardar">Errorea argazkia gordetzean: %s</string>
     <string name="gernikako_plazara_nastelehen_goizean">Gernikako plazara\nastelehen goizean…</string>
     <string name="tradizioa">Tradizioa</string>
     <string name="_1_3">1/3</string>

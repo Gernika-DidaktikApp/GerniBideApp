@@ -389,6 +389,9 @@
     <string name="photo_mission_subida_exito">¡La foto se ha subido a la galería!</string>
     <string name="photo_mission_completado">¡Enhorabuena! Has completado la actividad</string>
     <string name="photo_mission_item_descripcion">Foto</string>
+    <string name="photo_mission_upload_in_progress">Ya hay una subida en progreso</string>
+    <string name="photo_mission_error_subir">Error al subir la imagen: %s</string>
+    <string name="photo_mission_error_guardar">Error al guardar la foto: %s</string>
     <string name="gernikako_plazara_nastelehen_goizean">A la plaza de Gernika\nun lunes por la mañana…</string>
     <string name="tradizioa">Tradición</string>
     <string name="_1_3">1/3</string>

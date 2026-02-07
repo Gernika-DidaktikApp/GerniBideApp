@@ -26,7 +26,10 @@ import es.didaktikapp.gernikapp.data.repository.GameRepository
 import es.didaktikapp.gernikapp.plaza.adapters.PhotoMissionAdapter
 import es.didaktikapp.gernikapp.plaza.models.EtiquetaFoto
 import es.didaktikapp.gernikapp.plaza.models.FotoGaleria
+import es.didaktikapp.gernikapp.plaza.models.FotoRespuestaContenido
 import es.didaktikapp.gernikapp.utils.Constants.Puntos
+import com.squareup.moshi.Moshi
+import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import es.didaktikapp.gernikapp.utils.Resource
 import kotlinx.coroutines.launch
 
@@ -41,10 +44,7 @@ class PhotoMissionActivity : BaseMenuActivity() {
     private lateinit var ivFotoPreview: ImageView
     private lateinit var tvSeleccionarEtiqueta: TextView
     private lateinit var rgEtiquetas: RadioGroup
-    private lateinit var rbTradizioa: RadioButton
-    private lateinit var rbKomunitatea: RadioButton
-    private lateinit var rbBizikidetza: RadioButton
-    private lateinit var rvGaleria: RecyclerView
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                            private lateinit var rvGaleria: RecyclerView
     private lateinit var progressBar: ProgressBar
     private lateinit var adapter: PhotoMissionAdapter
     private lateinit var gameRepository: GameRepository
@@ -63,6 +63,11 @@ class PhotoMissionActivity : BaseMenuActivity() {
         private const val PREFS_NAME = "plaza_photo_mission"
         private const val KEY_ACTIVIDAD_PROGRESO_ID = "actividad_progreso_id"
     }
+
+    // Moshi para parsear JSON de forma segura
+    private val moshi = Moshi.Builder()
+        .add(KotlinJsonAdapterFactory())
+        .build()
 
     private val requestPermissionLauncher = registerForActivityResult(
         ActivityResultContracts.RequestPermission()
@@ -106,9 +111,6 @@ class PhotoMissionActivity : BaseMenuActivity() {
         ivFotoPreview = findViewById(R.id.ivFotoPreview)
         tvSeleccionarEtiqueta = findViewById(R.id.tvSeleccionarEtiqueta)
         rgEtiquetas = findViewById(R.id.rgEtiquetas)
-        rbTradizioa = findViewById(R.id.rbTradizioa)
-        rbKomunitatea = findViewById(R.id.rbKomunitatea)
-        rbBizikidetza = findViewById(R.id.rbBizikidetza)
         rvGaleria = findViewById(R.id.rvGaleria)
         progressBar = findViewById(R.id.progressBar)
     }
@@ -156,7 +158,7 @@ class PhotoMissionActivity : BaseMenuActivity() {
         }
 
         if (isUploading) {
-            Toast.makeText(this, "Ya hay una subida en progreso", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, getString(R.string.photo_mission_upload_in_progress), Toast.LENGTH_SHORT).show()
             return
         }
 
@@ -209,7 +211,7 @@ class PhotoMissionActivity : BaseMenuActivity() {
                     Log.e(TAG, "❌ Error subiendo imagen: ${result.message}")
                     Toast.makeText(
                         this@PhotoMissionActivity,
-                        "Error al subir la imagen: ${result.message}",
+                        getString(R.string.photo_mission_error_subir, result.message ?: ""),
                         Toast.LENGTH_LONG
                     ).show()
                 }
@@ -239,6 +241,8 @@ class PhotoMissionActivity : BaseMenuActivity() {
     }
 
     private fun resetearVista() {
+        // Liberar memoria del Bitmap antes de establecerlo a null
+        fotoActual?.recycle()
         fotoActual = null
         ivFotoPreview.visibility = View.GONE
         tvSeleccionarEtiqueta.visibility = View.GONE
@@ -373,7 +377,7 @@ class PhotoMissionActivity : BaseMenuActivity() {
                     Log.e(TAG, "❌ Error guardando actividad: ${result.message}")
                     Toast.makeText(
                         this@PhotoMissionActivity,
-                        "Error al guardar la foto: ${result.message}",
+                        getString(R.string.photo_mission_error_guardar, result.message ?: ""),
                         Toast.LENGTH_LONG
                     ).show()
                 }
@@ -400,18 +404,17 @@ class PhotoMissionActivity : BaseMenuActivity() {
         }
 
         try {
-            // Parsear JSON: {"url":"https://...", "etiqueta":"TRADIZIOA"}
-            val jsonRegex = """"url":"([^"]+)","etiqueta":"([^"]+)"""".toRegex()
-            val matchResult = jsonRegex.find(respuestaContenido)
+            // Parsear JSON usando Moshi (más seguro que regex)
+            val jsonAdapter = moshi.adapter(FotoRespuestaContenido::class.java)
+            val fotoRespuesta = jsonAdapter.fromJson(respuestaContenido)
 
-            if (matchResult != null) {
-                val (photoUrl, etiquetaName) = matchResult.destructured
-                Log.d(TAG, "🔍 URL extraída: $photoUrl")
-                Log.d(TAG, "🔍 Etiqueta extraída: $etiquetaName")
+            if (fotoRespuesta != null) {
+                Log.d(TAG, "🔍 URL extraída: ${fotoRespuesta.url}")
+                Log.d(TAG, "🔍 Etiqueta extraída: ${fotoRespuesta.etiqueta}")
 
-                val etiqueta = EtiquetaFoto.valueOf(etiquetaName)
+                val etiqueta = EtiquetaFoto.valueOf(fotoRespuesta.etiqueta)
 
-                Log.d(TAG, "📸 Cargando foto desde API: $photoUrl")
+                Log.d(TAG, "📸 Cargando foto desde API: ${fotoRespuesta.url}")
 
                 // Crear FotoGaleria con la imagen desde URL
                 contadorFotos++
@@ -419,7 +422,7 @@ class PhotoMissionActivity : BaseMenuActivity() {
                     id = contadorFotos,
                     bitmap = null, // Se cargará desde URL en el adapter
                     etiqueta = etiqueta,
-                    url = photoUrl
+                    url = fotoRespuesta.url
                 )
 
                 galeriaFotos.add(0, fotoGuardada)
@@ -431,8 +434,8 @@ class PhotoMissionActivity : BaseMenuActivity() {
 
                 Log.d(TAG, "✅ Foto cargada desde API correctamente (total fotos: ${galeriaFotos.size})")
             } else {
-                Log.w(TAG, "⚠️ Formato de respuesta_contenido no reconocido: $respuestaContenido")
-                Log.w(TAG, "⚠️ Formato esperado: {\"url\":\"...\",\"etiqueta\":\"...\"}")
+                Log.w(TAG, "⚠️ Error parseando JSON: respuesta null")
+                Log.w(TAG, "⚠️ Contenido recibido: $respuestaContenido")
             }
         } catch (e: IllegalArgumentException) {
             Log.e(TAG, "❌ Error: Etiqueta inválida - ${e.message}", e)
