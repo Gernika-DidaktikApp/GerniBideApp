@@ -49,6 +49,9 @@ object ApiConfig {
     /** GET - Obtener progreso de actividad por ID */
     const val ACTIVIDAD_PROGRESO_GET = "/api/v1/actividad-progreso/{progreso_id}"
 
+    /** PUT - Actualizar progreso de actividad (solo respuesta_contenido si está completada) */
+    const val ACTIVIDAD_PROGRESO_UPDATE = "/api/v1/actividad-progreso/{progreso_id}"
+
     /** GET - Obtener resumen de progreso de un punto */
     const val ACTIVIDAD_PROGRESO_RESUMEN = "/api/v1/actividad-progreso/punto/{id_juego}/{id_punto}/resumen"
 
@@ -58,5 +61,8 @@ object ApiConfig {
 
     /** GET - Obtener partida por ID */
     const val PARTIDAS_GET = "/api/v1/partidas/{id}"
+
+    /** POST - Obtener partida activa del usuario, o crear una si no existe */
+    const val PARTIDAS_OBTENER_O_CREAR = "/api/v1/partidas/activa/usuario/{usuario_id}/obtener-o-crear"
 
 }

@@ -51,6 +51,7 @@ class PhotoMissionActivity : BaseMenuActivity() {
     private lateinit var cloudinaryRepository: CloudinaryRepository
     private lateinit var tokenManager: TokenManager
     private var actividadProgresoId: String? = null
+    private var actividadEstado: String? = null // "en_progreso" o "completado"
 
     private val galeriaFotos = mutableListOf<FotoGaleria>()
     private var fotoActual: Bitmap? = null
@@ -59,6 +60,8 @@ class PhotoMissionActivity : BaseMenuActivity() {
 
     companion object {
         private const val TAG = "PhotoMissionActivity"
+        private const val PREFS_NAME = "plaza_photo_mission"
+        private const val KEY_ACTIVIDAD_PROGRESO_ID = "actividad_progreso_id"
     }
 
     private val requestPermissionLauncher = registerForActivityResult(
@@ -267,32 +270,113 @@ class PhotoMissionActivity : BaseMenuActivity() {
     private fun iniciarActividad() {
         val juegoId = tokenManager.getJuegoId() ?: return
         lifecycleScope.launch {
-            when (val result = gameRepository.iniciarActividad(juegoId, Puntos.Plaza.ID, Puntos.Plaza.PHOTO_MISSION)) {
-                is Resource.Success -> {
-                    actividadProgresoId = result.data.id
+            // Primero verificar si ya existe un progreso guardado
+            val prefs = getSharedPreferences(PREFS_NAME, MODE_PRIVATE)
+            val progresoIdGuardado = prefs.getString(KEY_ACTIVIDAD_PROGRESO_ID, null)
 
-                    // Si la actividad ya está completada, cargar la foto
-                    if (result.data.estaCompletado()) {
-                        cargarFotoDesdeApi(result.data)
+            if (progresoIdGuardado != null) {
+                // Ya existe un progreso, intentar obtenerlo
+                Log.d(TAG, "📂 Progreso existente encontrado: $progresoIdGuardado")
+                when (val result = gameRepository.getActividadProgreso(progresoIdGuardado)) {
+                    is Resource.Success -> {
+                        actividadProgresoId = result.data.id
+                        actividadEstado = result.data.estado // Guardar el estado
+                        Log.d(TAG, "✅ Progreso cargado - ID: ${result.data.id}, Estado: ${result.data.estado}")
+                        Log.d(TAG, "🔍 Tiene respuesta_contenido: ${!result.data.respuestaContenido.isNullOrEmpty()}")
+
+                        // Si está completado, cargar la foto
+                        if (result.data.estaCompletado()) {
+                            Log.d(TAG, "✅ La actividad está completada, cargando foto...")
+                            cargarFotoDesdeApi(result.data)
+                        } else {
+                            Log.d(TAG, "ℹ️ La actividad está en progreso, no hay foto que cargar")
+                        }
                     }
+                    is Resource.Error -> {
+                        // El progreso guardado no existe o es inválido, crear uno nuevo
+                        Log.w(TAG, "⚠️ Progreso guardado inválido, creando nuevo: ${result.message}")
+                        crearNuevoProgreso(juegoId)
+                    }
+                    is Resource.Loading -> { }
                 }
-                is Resource.Error -> Log.e(TAG, "❌ Error iniciar actividad: ${result.message}")
-                is Resource.Loading -> { }
+            } else {
+                // No existe progreso guardado, crear uno nuevo
+                Log.d(TAG, "🆕 No hay progreso guardado, creando nuevo")
+                crearNuevoProgreso(juegoId)
             }
         }
     }
 
     /**
-     * Completa la actividad enviando la puntuación y los datos de la foto en formato JSON.
+     * Crea un nuevo progreso de actividad y lo guarda.
+     */
+    private suspend fun crearNuevoProgreso(juegoId: String) {
+        when (val result = gameRepository.iniciarActividad(juegoId, Puntos.Plaza.ID, Puntos.Plaza.PHOTO_MISSION)) {
+            is Resource.Success -> {
+                actividadProgresoId = result.data.id
+                actividadEstado = result.data.estado // Guardar el estado (debería ser "en_progreso")
+
+                // Guardar el ID del progreso
+                val prefs = getSharedPreferences(PREFS_NAME, MODE_PRIVATE)
+                prefs.edit().putString(KEY_ACTIVIDAD_PROGRESO_ID, result.data.id).apply()
+
+                Log.d(TAG, "✅ Nuevo progreso creado: ${result.data.id}, Estado: ${result.data.estado}")
+
+                // Si la actividad ya está completada (no debería), cargar la foto
+                if (result.data.estaCompletado()) {
+                    cargarFotoDesdeApi(result.data)
+                }
+            }
+            is Resource.Error -> {
+                Log.e(TAG, "❌ Error al crear nuevo progreso: ${result.message}")
+            }
+            is Resource.Loading -> { }
+        }
+    }
+
+    /**
+     * Completa o actualiza la actividad con los datos de la foto en formato JSON.
+     * Usa el endpoint correcto según el estado actual:
+     * - "en_progreso": PUT /completar (marca como completada)
+     * - "completado": PUT / (actualiza respuesta_contenido)
      *
      * @param respuestaJson JSON con URL de Cloudinary y etiqueta: {"url":"...", "etiqueta":"..."}
      */
     private fun completarActividad(respuestaJson: String) {
         val estadoId = actividadProgresoId ?: return
         lifecycleScope.launch {
-            when (val result = gameRepository.completarActividad(estadoId, 100.0, respuestaJson)) {
-                is Resource.Success -> Log.d(TAG, "✅ Actividad completada: $respuestaJson")
-                is Resource.Error -> Log.e(TAG, "❌ Error completando actividad: ${result.message}")
+            // Usar el endpoint correcto según el estado actual
+            val result = when (actividadEstado) {
+                "completado" -> {
+                    // Actividad ya completada: usar endpoint de actualización
+                    Log.d(TAG, "🔄 Actividad ya completada, actualizando respuesta_contenido...")
+                    gameRepository.actualizarActividad(
+                        progresoId = estadoId,
+                        respuestaContenido = respuestaJson
+                    )
+                }
+                else -> {
+                    // Actividad en progreso: usar endpoint de completar
+                    Log.d(TAG, "🏁 Completando actividad por primera vez...")
+                    gameRepository.completarActividad(estadoId, 100.0, respuestaJson)
+                }
+            }
+
+            when (result) {
+                is Resource.Success -> {
+                    // Actualizar el estado local
+                    actividadEstado = result.data.estado
+                    Log.d(TAG, "✅ Actividad guardada exitosamente: $respuestaJson")
+                    Log.d(TAG, "✅ Nuevo estado: ${result.data.estado}")
+                }
+                is Resource.Error -> {
+                    Log.e(TAG, "❌ Error guardando actividad: ${result.message}")
+                    Toast.makeText(
+                        this@PhotoMissionActivity,
+                        "Error al guardar la foto: ${result.message}",
+                        Toast.LENGTH_LONG
+                    ).show()
+                }
                 is Resource.Loading -> { }
             }
         }
@@ -305,10 +389,13 @@ class PhotoMissionActivity : BaseMenuActivity() {
      * @param progreso Respuesta de la API con los datos del progreso
      */
     private fun cargarFotoDesdeApi(progreso: es.didaktikapp.gernikapp.data.models.ActividadProgresoResponse) {
+        Log.d(TAG, "🔍 cargarFotoDesdeApi() - Estado: ${progreso.estado}, Progreso ID: ${progreso.id}")
+
         val respuestaContenido = progreso.respuestaContenido
+        Log.d(TAG, "🔍 respuesta_contenido: $respuestaContenido")
 
         if (respuestaContenido.isNullOrEmpty()) {
-            Log.d(TAG, "⚠️ No hay foto guardada en la API")
+            Log.w(TAG, "⚠️ No hay foto guardada en la API (respuesta_contenido es null o vacío)")
             return
         }
 
@@ -319,6 +406,9 @@ class PhotoMissionActivity : BaseMenuActivity() {
 
             if (matchResult != null) {
                 val (photoUrl, etiquetaName) = matchResult.destructured
+                Log.d(TAG, "🔍 URL extraída: $photoUrl")
+                Log.d(TAG, "🔍 Etiqueta extraída: $etiquetaName")
+
                 val etiqueta = EtiquetaFoto.valueOf(etiquetaName)
 
                 Log.d(TAG, "📸 Cargando foto desde API: $photoUrl")
@@ -339,10 +429,13 @@ class PhotoMissionActivity : BaseMenuActivity() {
                 // Habilitar botón de retroceso si la actividad está completada
                 btnBack.isEnabled = true
 
-                Log.d(TAG, "✅ Foto cargada desde API correctamente")
+                Log.d(TAG, "✅ Foto cargada desde API correctamente (total fotos: ${galeriaFotos.size})")
             } else {
                 Log.w(TAG, "⚠️ Formato de respuesta_contenido no reconocido: $respuestaContenido")
+                Log.w(TAG, "⚠️ Formato esperado: {\"url\":\"...\",\"etiqueta\":\"...\"}")
             }
+        } catch (e: IllegalArgumentException) {
+            Log.e(TAG, "❌ Error: Etiqueta inválida - ${e.message}", e)
         } catch (e: Exception) {
             Log.e(TAG, "❌ Error parseando foto desde API: ${e.message}", e)
         }

@@ -25,3 +25,4 @@ data class ActividadProgresoRequest(
     @Json(name = "id_actividad")
     val idActividad: String
 )
+

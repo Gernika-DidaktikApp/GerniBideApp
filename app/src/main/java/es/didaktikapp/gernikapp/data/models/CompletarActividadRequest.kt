@@ -4,10 +4,13 @@ import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 
 /**
- * Request para completar una actividad con su puntuación y respuesta.
- * PUT /api/v1/actividad-progreso/{progreso_id}/completar
+ * Request para completar o actualizar una actividad.
  *
- * @property puntuacion Puntuación obtenida en la actividad
+ * Usado en:
+ * - PUT /api/v1/actividad-progreso/{progreso_id}/completar (completar actividad)
+ * - PUT /api/v1/actividad-progreso/{progreso_id} (actualizar actividad completada)
+ *
+ * @property puntuacion Puntuación obtenida (requerida al completar, opcional al actualizar)
  * @property respuestaContenido Contenido de la respuesta del usuario (texto, URL de imagen, etc.)
  * @property deviceType Tipo de dispositivo (ej: "Android", "iOS")
  * @property appVersion Versión de la aplicación (ej: "1.0.0")
@@ -18,7 +21,7 @@ import com.squareup.moshi.JsonClass
 @JsonClass(generateAdapter = true)
 data class CompletarActividadRequest(
     @Json(name = "puntuacion")
-    val puntuacion: Double,
+    val puntuacion: Double? = null,
 
     @Json(name = "respuesta_contenido")
     val respuestaContenido: String? = null,

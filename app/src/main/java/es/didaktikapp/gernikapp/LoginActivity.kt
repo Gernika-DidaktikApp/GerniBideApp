@@ -146,9 +146,14 @@ class LoginActivity : AppCompatActivity() {
     }
 
     /**
-     * Crea una nueva partida para el usuario autenticado.
-     * La partida se crea automáticamente después del login exitoso.
+     * Obtiene la partida activa del usuario o crea una nueva si no existe.
+     * Este método se llama automáticamente después del login exitoso.
      * Guarda el juegoId en TokenManager y navega al mapa.
+     *
+     * Ventajas sobre crearPartida():
+     * - No falla si ya existe una partida activa
+     * - Permite continuar una partida existente
+     * - Simplifica la lógica del cliente
      */
     private suspend fun crearPartida() {
         val userId = tokenManager.getUserId()
@@ -163,13 +168,14 @@ class LoginActivity : AppCompatActivity() {
             return
         }
 
-        when (val result = gameRepository.crearPartida(userId)) {
+        // Usar el endpoint obtener-o-crear en lugar de crear directamente
+        when (val result = gameRepository.obtenerOCrearPartidaActiva(userId)) {
             is Resource.Success -> {
-                // Guardar el ID de la partida
+                // Guardar el ID de la partida (puede ser una existente o nueva)
                 tokenManager.saveJuegoId(result.data.id)
 
                 if (BuildConfig.DEBUG) {
-                    Log.d(TAG, "🎮 Partida creada exitosamente")
+                    Log.d(TAG, "🎮 Partida obtenida/creada exitosamente - ID: ${result.data.id}")
                     tokenManager.logSessionState(TAG)
                 }
 
@@ -180,7 +186,7 @@ class LoginActivity : AppCompatActivity() {
                 setLoading(false)
                 Toast.makeText(
                     this,
-                    "Error al crear partida: ${result.message}",
+                    "Error al obtener partida: ${result.message}",
                     Toast.LENGTH_LONG
                 ).show()
             }

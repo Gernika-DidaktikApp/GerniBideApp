@@ -106,6 +106,18 @@ interface ApiService {
         @Path("id") partidaId: String
     ): Response<PartidaResponse>
 
+    /**
+     * Obtiene la partida activa del usuario, o crea una nueva si no existe.
+     * Este es el endpoint RECOMENDADO para evitar errores 400 por partidas duplicadas.
+     *
+     * @param usuarioId ID del usuario
+     * @return Response con la partida activa (existente o nueva)
+     */
+    @POST(ApiConfig.PARTIDAS_OBTENER_O_CREAR)
+    suspend fun obtenerOCrearPartidaActiva(
+        @Path("usuario_id") usuarioId: String
+    ): Response<PartidaResponse>
+
     // ============ PROGRESO DE ACTIVIDADES ============
 
     /**
@@ -144,5 +156,20 @@ interface ApiService {
     @GET(ApiConfig.ACTIVIDAD_PROGRESO_GET)
     suspend fun getActividadProgreso(
         @Path("progreso_id") progresoId: String
+    ): Response<ActividadProgresoResponse>
+
+    /**
+     * Actualiza un progreso de actividad existente.
+     * RESTRICCIÓN: Solo se puede actualizar respuesta_contenido si la actividad está completada.
+     * Requiere autenticación (token JWT).
+     *
+     * @param progresoId ID del progreso de la actividad
+     * @param request Datos a actualizar (respuesta_contenido, puntuacion, etc.)
+     * @return Response con el progreso de la actividad actualizada
+     */
+    @PUT(ApiConfig.ACTIVIDAD_PROGRESO_UPDATE)
+    suspend fun actualizarActividad(
+        @Path("progreso_id") progresoId: String,
+        @Body request: CompletarActividadRequest
     ): Response<ActividadProgresoResponse>
 }

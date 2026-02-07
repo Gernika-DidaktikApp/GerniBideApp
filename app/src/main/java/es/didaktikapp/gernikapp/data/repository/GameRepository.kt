@@ -80,6 +80,42 @@ class GameRepository(context: Context) : BaseRepository(context) {
         )
     }
 
+    /**
+     * Obtiene la partida activa del usuario, o crea una nueva si no existe.
+     * Este es el método RECOMENDADO para usar después del login.
+     *
+     * Ventajas:
+     * - No da error 400 si ya existe una partida activa
+     * - Simplifica la lógica del cliente
+     * - Siempre retorna una partida válida
+     *
+     * @param idUsuario ID del usuario
+     * @return Resource con la partida activa (existente o recién creada)
+     */
+    suspend fun obtenerOCrearPartidaActiva(idUsuario: String): Resource<PartidaResponse> {
+        if (BuildConfig.DEBUG) {
+            Log.d(TAG, "🎮 OBTENER O CREAR PARTIDA ACTIVA - userId: $idUsuario")
+        }
+
+        val result = safeApiCall(
+            apiCall = { apiService.obtenerOCrearPartidaActiva(idUsuario) }
+        )
+
+        if (BuildConfig.DEBUG) {
+            when (result) {
+                is Resource.Success -> {
+                    Log.d(TAG, "✅ PARTIDA ACTIVA - Éxito, juegoId: ${result.data.id}, estado: ${result.data.estado}")
+                }
+                is Resource.Error -> {
+                    Log.e(TAG, "❌ PARTIDA ACTIVA - Error: ${result.message} (code: ${result.code})")
+                }
+                is Resource.Loading -> {}
+            }
+        }
+
+        return result
+    }
+
     // ============ PROGRESO DE ACTIVIDADES ============
 
     /**
@@ -191,6 +227,49 @@ class GameRepository(context: Context) : BaseRepository(context) {
                 }
                 is Resource.Error -> {
                     Log.e(TAG, "❌ GET ACTIVIDAD PROGRESO - Error: ${result.message} (code: ${result.code})")
+                }
+                is Resource.Loading -> {}
+            }
+        }
+
+        return result
+    }
+
+    /**
+     * Actualiza un progreso de actividad existente.
+     * IMPORTANTE: Solo se puede actualizar respuesta_contenido si la actividad está completada.
+     *
+     * @param progresoId ID del progreso de la actividad
+     * @param puntuacion Puntuación (opcional)
+     * @param respuestaContenido Contenido de la respuesta del usuario (opcional)
+     * @return Resource con el progreso de la actividad actualizada
+     */
+    suspend fun actualizarActividad(
+        progresoId: String,
+        puntuacion: Double? = null,
+        respuestaContenido: String? = null
+    ): Resource<ActividadProgresoResponse> {
+        if (BuildConfig.DEBUG) {
+            Log.d(TAG, "🔄 ACTUALIZAR ACTIVIDAD - progresoId: $progresoId, puntuacion: $puntuacion, respuesta: $respuestaContenido")
+        }
+
+        val result = safeApiCall(
+            apiCall = {
+                val request = CompletarActividadRequest(
+                    puntuacion = puntuacion,
+                    respuestaContenido = respuestaContenido
+                )
+                apiService.actualizarActividad(progresoId, request)
+            }
+        )
+
+        if (BuildConfig.DEBUG) {
+            when (result) {
+                is Resource.Success -> {
+                    Log.d(TAG, "✅ ACTUALIZAR ACTIVIDAD - Éxito")
+                }
+                is Resource.Error -> {
+                    Log.e(TAG, "❌ ACTUALIZAR ACTIVIDAD - Error: ${result.message} (code: ${result.code})")
                 }
                 is Resource.Loading -> {}
             }
