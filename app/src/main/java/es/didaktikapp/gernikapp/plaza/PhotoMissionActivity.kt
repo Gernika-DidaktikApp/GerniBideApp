@@ -59,10 +59,6 @@ class PhotoMissionActivity : BaseMenuActivity() {
 
     companion object {
         private const val TAG = "PhotoMissionActivity"
-        private const val PREFS_NAME = "plaza_progress"
-        private const val KEY_PHOTO_COMPLETED = "photo_mission_completed"
-        private const val KEY_PHOTO_URL = "photo_mission_url"
-        private const val KEY_PHOTO_TAG = "photo_mission_tag"
     }
 
     private val requestPermissionLauncher = registerForActivityResult(
@@ -95,10 +91,9 @@ class PhotoMissionActivity : BaseMenuActivity() {
         tokenManager = TokenManager(this)
 
         inicializarVistas()
-        iniciarActividad()
         setupRecyclerView()
         setupButtons()
-        cargarFotoGuardada()
+        iniciarActividad() // Carga la foto automáticamente si existe
     }
 
     private fun inicializarVistas() {
@@ -113,12 +108,6 @@ class PhotoMissionActivity : BaseMenuActivity() {
         rbBizikidetza = findViewById(R.id.rbBizikidetza)
         rvGaleria = findViewById(R.id.rvGaleria)
         progressBar = findViewById(R.id.progressBar)
-
-        // Check if activity was previously completed
-        val prefs = getSharedPreferences(PREFS_NAME, MODE_PRIVATE)
-        if (prefs.getBoolean(KEY_PHOTO_COMPLETED, false)) {
-            btnBack.isEnabled = true
-        }
     }
 
     private fun setupRecyclerView() {
@@ -196,18 +185,12 @@ class PhotoMissionActivity : BaseMenuActivity() {
                     adapter.notifyItemInserted(0)
                     rvGaleria.scrollToPosition(0)
 
-                    // Enable back button and save progress
+                    // Enable back button
                     btnBack.isEnabled = true
-                    val prefs = getSharedPreferences(PREFS_NAME, MODE_PRIVATE)
-                    prefs.edit().apply {
-                        putBoolean(KEY_PHOTO_COMPLETED, true)
-                        putString(KEY_PHOTO_URL, imageUrl)
-                        putString(KEY_PHOTO_TAG, etiqueta.name)
-                        apply()
-                    }
 
-                    // Completar actividad con URL de imagen
-                    completarActividad(imageUrl)
+                    // Completar actividad con URL de imagen y etiqueta en formato JSON
+                    val respuestaJson = """{"url":"$imageUrl","etiqueta":"${etiqueta.name}"}"""
+                    completarActividad(respuestaJson)
 
                     // Resetear vista
                     resetearVista()
@@ -285,65 +268,83 @@ class PhotoMissionActivity : BaseMenuActivity() {
         val juegoId = tokenManager.getJuegoId() ?: return
         lifecycleScope.launch {
             when (val result = gameRepository.iniciarActividad(juegoId, Puntos.Plaza.ID, Puntos.Plaza.PHOTO_MISSION)) {
-                is Resource.Success -> actividadProgresoId = result.data.id
-                is Resource.Error -> Log.e("PhotoMission", "Error: ${result.message}")
+                is Resource.Success -> {
+                    actividadProgresoId = result.data.id
+
+                    // Si la actividad ya está completada, cargar la foto
+                    if (result.data.estaCompletado()) {
+                        cargarFotoDesdeApi(result.data)
+                    }
+                }
+                is Resource.Error -> Log.e(TAG, "❌ Error iniciar actividad: ${result.message}")
                 is Resource.Loading -> { }
             }
         }
     }
 
     /**
-     * Completa el evento enviando la puntuación y la URL de la imagen.
+     * Completa la actividad enviando la puntuación y los datos de la foto en formato JSON.
      *
-     * @param imageUrl URL de la imagen subida a Cloudinary
+     * @param respuestaJson JSON con URL de Cloudinary y etiqueta: {"url":"...", "etiqueta":"..."}
      */
-    private fun completarActividad(imageUrl: String) {
+    private fun completarActividad(respuestaJson: String) {
         val estadoId = actividadProgresoId ?: return
         lifecycleScope.launch {
-            when (val result = gameRepository.completarActividad(estadoId, 100.0, imageUrl)) {
-                is Resource.Success -> Log.d(TAG, "✅ Evento completado con imagen: $imageUrl")
-                is Resource.Error -> Log.e(TAG, "❌ Error completando evento: ${result.message}")
+            when (val result = gameRepository.completarActividad(estadoId, 100.0, respuestaJson)) {
+                is Resource.Success -> Log.d(TAG, "✅ Actividad completada: $respuestaJson")
+                is Resource.Error -> Log.e(TAG, "❌ Error completando actividad: ${result.message}")
                 is Resource.Loading -> { }
             }
         }
     }
 
     /**
-     * Carga la foto guardada previamente desde Cloudinary.
-     * Si existe una foto guardada, la muestra en la galería.
+     * Carga la foto desde la API de Gernika.
+     * Parsea el JSON de respuesta_contenido para obtener la URL y etiqueta.
+     *
+     * @param progreso Respuesta de la API con los datos del progreso
      */
-    private fun cargarFotoGuardada() {
-        val prefs = getSharedPreferences(PREFS_NAME, MODE_PRIVATE)
-        val photoUrl = prefs.getString(KEY_PHOTO_URL, null)
-        val photoTag = prefs.getString(KEY_PHOTO_TAG, null)
+    private fun cargarFotoDesdeApi(progreso: es.didaktikapp.gernikapp.data.models.ActividadProgresoResponse) {
+        val respuestaContenido = progreso.respuestaContenido
 
-        if (photoUrl != null && photoTag != null) {
-            Log.d(TAG, "📸 Cargando foto guardada: $photoUrl")
+        if (respuestaContenido.isNullOrEmpty()) {
+            Log.d(TAG, "⚠️ No hay foto guardada en la API")
+            return
+        }
 
-            // Cargar imagen desde URL usando Coil
-            lifecycleScope.launch {
-                try {
-                    // Convertir la etiqueta de String a EtiquetaFoto
-                    val etiqueta = EtiquetaFoto.valueOf(photoTag)
+        try {
+            // Parsear JSON: {"url":"https://...", "etiqueta":"TRADIZIOA"}
+            val jsonRegex = """"url":"([^"]+)","etiqueta":"([^"]+)"""".toRegex()
+            val matchResult = jsonRegex.find(respuestaContenido)
 
-                    // Crear una FotoGaleria con la imagen cargada
-                    contadorFotos++
-                    val fotoGuardada = FotoGaleria(
-                        id = contadorFotos,
-                        bitmap = null, // Se cargará desde URL
-                        etiqueta = etiqueta,
-                        url = photoUrl // Añadiremos este campo al modelo
-                    )
+            if (matchResult != null) {
+                val (photoUrl, etiquetaName) = matchResult.destructured
+                val etiqueta = EtiquetaFoto.valueOf(etiquetaName)
 
-                    galeriaFotos.add(0, fotoGuardada)
-                    adapter.notifyItemInserted(0)
-                    rvGaleria.scrollToPosition(0)
+                Log.d(TAG, "📸 Cargando foto desde API: $photoUrl")
 
-                    Log.d(TAG, "✅ Foto guardada cargada en galería")
-                } catch (e: Exception) {
-                    Log.e(TAG, "❌ Error cargando foto guardada: ${e.message}")
-                }
+                // Crear FotoGaleria con la imagen desde URL
+                contadorFotos++
+                val fotoGuardada = FotoGaleria(
+                    id = contadorFotos,
+                    bitmap = null, // Se cargará desde URL en el adapter
+                    etiqueta = etiqueta,
+                    url = photoUrl
+                )
+
+                galeriaFotos.add(0, fotoGuardada)
+                adapter.notifyItemInserted(0)
+                rvGaleria.scrollToPosition(0)
+
+                // Habilitar botón de retroceso si la actividad está completada
+                btnBack.isEnabled = true
+
+                Log.d(TAG, "✅ Foto cargada desde API correctamente")
+            } else {
+                Log.w(TAG, "⚠️ Formato de respuesta_contenido no reconocido: $respuestaContenido")
             }
+        } catch (e: Exception) {
+            Log.e(TAG, "❌ Error parseando foto desde API: ${e.message}", e)
         }
     }
 }
