@@ -17,7 +17,7 @@
         android:layout_marginEnd="16dp"
         android:text="@string/my_message_title"
         android:textAlignment="center"
-        android:textColor="#2C3E50"
+        android:textColor="@color/btnPrincipal"
         android:textSize="24sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
@@ -116,11 +116,10 @@
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btnBack"
+            style="@style/EstiloBotonSecundario"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
             android:layout_weight="1"
-            android:background="@drawable/bg_boton_primario"
             android:minHeight="60dp"
             android:text="@string/itzuli"
             android:enabled="false"
@@ -129,11 +128,10 @@
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/sendButton"
+            style="@style/EstiloBotonPrimario"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_weight="1"
-            android:background="@drawable/bg_boton_primario"
             android:minHeight="60dp"
             android:text="@string/my_message_send"
             android:textSize="16sp"

@@ -14,8 +14,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="52dp"
         android:text="@string/sound_game_title"
-        android:textColor="@color/black"
-        android:textSize="28sp"
+        android:textColor="@color/btnPrincipal"
+        android:textSize="24sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.518"
@@ -165,7 +165,7 @@
 
     <Button
         android:id="@+id/btnBack"
-        style="@style/EstiloBotonPrimario"
+        style="@style/EstiloBotonSecundario"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="24dp"

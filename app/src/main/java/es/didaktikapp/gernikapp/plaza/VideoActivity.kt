@@ -165,7 +165,7 @@ class VideoActivity : BaseMenuActivity() {
     }
 
     private fun enableButtonWithTransition() {
-        val transition = ContextCompat.getDrawable(this, R.drawable.bg_boton_primario_transition) as? TransitionDrawable
+        val transition = ContextCompat.getDrawable(this, R.drawable.bg_boton_secundario_transition) as? TransitionDrawable
         if (transition != null) {
             btnBack.background = transition
             btnBack.isEnabled = true

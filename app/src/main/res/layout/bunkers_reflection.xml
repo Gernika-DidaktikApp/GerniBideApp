@@ -14,7 +14,7 @@
         android:layout_margin="32dp"
         android:text="@string/reflection_question"
         android:textAlignment="center"
-        android:textColor="@color/black"
+        android:textColor="@color/btnPrincipal"
         android:textSize="24sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
@@ -156,7 +156,7 @@
 
     <Button
         android:id="@+id/btnBack"
-        style="@style/EstiloBotonPrimario"
+        style="@style/EstiloBotonSecundario"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="24dp"

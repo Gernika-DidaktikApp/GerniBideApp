@@ -77,14 +77,13 @@
 
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btnGoToActivity"
+                style="@style/EstiloBotonPrimario"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:text="@string/map_button_go_to_activity"
                 android:textSize="18sp"
                 android:textColor="@color/white"
                 android:padding="16dp"
-                android:background="@drawable/bg_boton_primario"
                 android:visibility="gone" />
 
         </LinearLayout>

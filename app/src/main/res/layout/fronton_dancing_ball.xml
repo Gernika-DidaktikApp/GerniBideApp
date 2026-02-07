@@ -95,7 +95,7 @@
             <!-- Volver al menú principal -->
             <Button
                 android:id="@+id/btnBack"
-                style="@style/EstiloBotonPrimario"
+                style="@style/EstiloBotonSecundario"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"

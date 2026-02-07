@@ -106,7 +106,7 @@
     <Button
         android:id="@+id/btnComprobar"
 
-        style="@style/EstiloBotonSecundario"
+        style="@style/EstiloBotonPrimario"
         android:layout_width="wrap_content"
         android:text="@string/comprobar"
         android:layout_marginTop="24dp"
@@ -129,7 +129,7 @@
 
     <Button
         android:id="@+id/btnBack"
-        style="@style/EstiloBotonPrimario"
+        style="@style/EstiloBotonSecundario"
         android:layout_width="wrap_content"
         android:text="@string/itzuli"
         android:enabled="false"

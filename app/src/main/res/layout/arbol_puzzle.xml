@@ -43,11 +43,9 @@
 
     <Button
         android:id="@+id/btnBack"
+        style="@style/EstiloBotonSecundario"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:backgroundTint="@color/btnPrincipal"
         android:text="@string/siguiente"
-        android:textColor="@color/white"
         android:visibility="gone"
         android:elevation="10dp"
         app:layout_constraintBottom_toBottomOf="parent"

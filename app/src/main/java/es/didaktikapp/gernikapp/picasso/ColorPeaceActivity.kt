@@ -121,9 +121,7 @@ class ColorPeaceActivity : BaseMenuActivity() {
 
         // Configurar botones para modo preview
         binding.clearButton.text = getString(R.string.color_peace_repaint)
-        binding.clearButton.backgroundTintList = ColorStateList.valueOf(
-            Color.parseColor("#FF9800")
-        )
+        // No cambiamos el color - usa EstiloBotonSecundario del XML
         binding.finishButton.text = getString(R.string.color_peace_view_result)
 
         binding.clearButton.setOnClickListener {
@@ -154,15 +152,11 @@ class ColorPeaceActivity : BaseMenuActivity() {
         binding.guernicaImage.visibility = View.VISIBLE
         binding.paintCanvas.visibility = View.VISIBLE
 
-        // Restaurar textos y colores de botones
+        // Restaurar textos - los colores vienen de los estilos del XML
         binding.clearButton.text = getString(R.string.color_peace_clear)
-        binding.clearButton.backgroundTintList = ColorStateList.valueOf(
-            Color.parseColor("#E57373")
-        )
+        // No cambiamos el color - usa EstiloBotonSecundario del XML
         binding.finishButton.text = getString(R.string.color_peace_finish)
-        binding.finishButton.backgroundTintList = ColorStateList.valueOf(
-            Color.parseColor("#66BB6A")
-        )
+        // No cambiamos el color - usa EstiloBotonPrimario del XML
 
         // Configurar botones para modo pintar
         binding.clearButton.setOnClickListener {

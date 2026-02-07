@@ -113,7 +113,7 @@
 
     <Button
         android:id="@+id/btnBack"
-        style="@style/EstiloBotonPrimario"
+        style="@style/EstiloBotonSecundario"
         android:layout_width="wrap_content"
         android:text="@string/itzuli"
         android:layout_margin="24dp"

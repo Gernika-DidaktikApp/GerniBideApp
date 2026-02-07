@@ -100,7 +100,7 @@
                 android:textAlignment="center"
                 android:textSize="24sp"
                 android:textStyle="bold"
-                android:textColor="@color/black"
+                android:textColor="@color/btnPrincipal"
                 android:layout_marginBottom="24dp"/>
 
             <!-- Question 1 -->
@@ -113,14 +113,14 @@
                 android:layout_marginBottom="8dp"/>
             <Button
                 android:id="@+id/q1a1"
+                style="@style/EstiloBotonPrimario"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
                 android:text="@string/legeak_adosteko_eta_foruak_zin_egiteko"
                 android:layout_marginBottom="4dp"/>
             <Button
                 android:id="@+id/q1a2"
+                style="@style/EstiloBotonPrimario"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
                 android:text="@string/bazkaltzeko"
                 android:layout_marginBottom="16dp"/>
 
@@ -134,14 +134,14 @@
                 android:layout_marginBottom="8dp"/>
             <Button
                 android:id="@+id/q2a1"
+                style="@style/EstiloBotonPrimario"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
                 android:text="@string/euskal_herriko_demokrazia_eta_askatasuna"
                 android:layout_marginBottom="4dp"/>
             <Button
                 android:id="@+id/q2a2"
+                style="@style/EstiloBotonPrimario"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
                 android:text="@string/museo_soil_bat"
                 android:layout_marginBottom="16dp"/>
 
@@ -155,14 +155,14 @@
                 android:layout_marginBottom="8dp"/>
             <Button
                 android:id="@+id/q3a1"
+                style="@style/EstiloBotonPrimario"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
                 android:text="@string/batzar_nagusiak_egiteko"
                 android:layout_marginBottom="4dp"/>
             <Button
                 android:id="@+id/q3a2"
+                style="@style/EstiloBotonPrimario"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
                 android:text="@string/kontzertuak_emateko"
                 android:layout_marginBottom="16dp"/>
 
@@ -183,7 +183,7 @@
 
     <Button
         android:id="@+id/btnVolver"
-        style="@style/EstiloBotonPrimario"
+        style="@style/EstiloBotonSecundario"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="24dp"
