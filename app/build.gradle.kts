@@ -29,6 +29,14 @@ android {
 
         val apiUrl = properties.getProperty("API_BASE_URL") ?: "http://10.0.2.2:8000"
         buildConfigField("String", "API_BASE_URL", "\"$apiUrl\"")
+
+        // Cloudinary configuration
+        val cloudinaryCloudName = properties.getProperty("CLOUDINARY_CLOUD_NAME") ?: ""
+        val cloudinaryApiKey = properties.getProperty("CLOUDINARY_API_KEY") ?: ""
+        val cloudinaryApiSecret = properties.getProperty("CLOUDINARY_API_SECRET") ?: ""
+        buildConfigField("String", "CLOUDINARY_CLOUD_NAME", "\"$cloudinaryCloudName\"")
+        buildConfigField("String", "CLOUDINARY_API_KEY", "\"$cloudinaryApiKey\"")
+        buildConfigField("String", "CLOUDINARY_API_SECRET", "\"$cloudinaryApiSecret\"")
     }
 
     buildTypes {
@@ -82,6 +90,12 @@ dependencies {
 
     // Security - Encrypted SharedPreferences
     implementation("androidx.security:security-crypto:1.1.0-alpha06")
+
+    // Cloudinary - Image upload
+    implementation("com.cloudinary:cloudinary-android:3.0.2")
+
+    // Coil - Image loading from URL
+    implementation("io.coil-kt:coil:2.5.0")
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

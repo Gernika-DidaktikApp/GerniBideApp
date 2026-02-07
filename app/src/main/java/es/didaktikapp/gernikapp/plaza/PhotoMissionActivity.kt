@@ -1,7 +1,6 @@
 package es.didaktikapp.gernikapp.plaza
 
 import android.Manifest
-import android.content.Context
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.provider.MediaStore
@@ -9,6 +8,7 @@ import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.ImageView
+import android.widget.ProgressBar
 import android.widget.RadioButton
 import android.widget.RadioGroup
 import android.widget.TextView
@@ -21,11 +21,12 @@ import androidx.recyclerview.widget.RecyclerView
 import es.didaktikapp.gernikapp.BaseMenuActivity
 import es.didaktikapp.gernikapp.R
 import es.didaktikapp.gernikapp.data.local.TokenManager
+import es.didaktikapp.gernikapp.data.repository.CloudinaryRepository
 import es.didaktikapp.gernikapp.data.repository.GameRepository
 import es.didaktikapp.gernikapp.plaza.adapters.PhotoMissionAdapter
 import es.didaktikapp.gernikapp.plaza.models.EtiquetaFoto
 import es.didaktikapp.gernikapp.plaza.models.FotoGaleria
-import es.didaktikapp.gernikapp.utils.Constants.Actividades
+import es.didaktikapp.gernikapp.utils.Constants.Puntos
 import es.didaktikapp.gernikapp.utils.Resource
 import kotlinx.coroutines.launch
 
@@ -44,14 +45,25 @@ class PhotoMissionActivity : BaseMenuActivity() {
     private lateinit var rbKomunitatea: RadioButton
     private lateinit var rbBizikidetza: RadioButton
     private lateinit var rvGaleria: RecyclerView
+    private lateinit var progressBar: ProgressBar
     private lateinit var adapter: PhotoMissionAdapter
     private lateinit var gameRepository: GameRepository
+    private lateinit var cloudinaryRepository: CloudinaryRepository
     private lateinit var tokenManager: TokenManager
-    private var eventoEstadoId: String? = null
+    private var actividadProgresoId: String? = null
 
     private val galeriaFotos = mutableListOf<FotoGaleria>()
     private var fotoActual: Bitmap? = null
     private var contadorFotos = 0
+    private var isUploading = false
+
+    companion object {
+        private const val TAG = "PhotoMissionActivity"
+        private const val PREFS_NAME = "plaza_progress"
+        private const val KEY_PHOTO_COMPLETED = "photo_mission_completed"
+        private const val KEY_PHOTO_URL = "photo_mission_url"
+        private const val KEY_PHOTO_TAG = "photo_mission_tag"
+    }
 
     private val requestPermissionLauncher = registerForActivityResult(
         ActivityResultContracts.RequestPermission()
@@ -79,12 +91,14 @@ class PhotoMissionActivity : BaseMenuActivity() {
 
     override fun onContentInflated() {
         gameRepository = GameRepository(this)
+        cloudinaryRepository = CloudinaryRepository(this)
         tokenManager = TokenManager(this)
 
         inicializarVistas()
-        iniciarEvento()
+        iniciarActividad()
         setupRecyclerView()
         setupButtons()
+        cargarFotoGuardada()
     }
 
     private fun inicializarVistas() {
@@ -98,10 +112,11 @@ class PhotoMissionActivity : BaseMenuActivity() {
         rbKomunitatea = findViewById(R.id.rbKomunitatea)
         rbBizikidetza = findViewById(R.id.rbBizikidetza)
         rvGaleria = findViewById(R.id.rvGaleria)
+        progressBar = findViewById(R.id.progressBar)
 
         // Check if activity was previously completed
-        val prefs = getSharedPreferences("plaza_progress", Context.MODE_PRIVATE)
-        if (prefs.getBoolean("photo_mission_completed", false)) {
+        val prefs = getSharedPreferences(PREFS_NAME, MODE_PRIVATE)
+        if (prefs.getBoolean(KEY_PHOTO_COMPLETED, false)) {
             btnBack.isEnabled = true
         }
     }
@@ -148,6 +163,11 @@ class PhotoMissionActivity : BaseMenuActivity() {
             return
         }
 
+        if (isUploading) {
+            Toast.makeText(this, "Ya hay una subida en progreso", Toast.LENGTH_SHORT).show()
+            return
+        }
+
         val etiqueta = when (selectedId) {
             R.id.rbTradizioa -> EtiquetaFoto.TRADIZIOA
             R.id.rbKomunitatea -> EtiquetaFoto.KOMUNITATEA
@@ -155,27 +175,81 @@ class PhotoMissionActivity : BaseMenuActivity() {
             else -> return
         }
 
-        // Añadir foto a la galería
-        contadorFotos++
-        val nuevaFoto = FotoGaleria(
-            id = contadorFotos,
-            bitmap = fotoActual!!,
-            etiqueta = etiqueta
-        )
-        galeriaFotos.add(0, nuevaFoto) // Añadir al inicio
-        adapter.notifyItemInserted(0)
-        rvGaleria.scrollToPosition(0)
+        // Subir a Cloudinary usando el repositorio
+        lifecycleScope.launch {
+            isUploading = true
+            mostrarCargando(true)
 
-        // Enable back button and save progress
-        btnBack.isEnabled = true
-        val prefs = getSharedPreferences("plaza_progress", Context.MODE_PRIVATE)
-        prefs.edit().putBoolean("photo_mission_completed", true).apply()
-        completarEvento()
+            when (val result = cloudinaryRepository.subirImagen(fotoActual!!)) {
+                is Resource.Success -> {
+                    val imageUrl = result.data
 
-        // Resetear vista
-        resetearVista()
+                    // Éxito: Añadir foto a la galería local
+                    contadorFotos++
+                    val nuevaFoto = FotoGaleria(
+                        id = contadorFotos,
+                        bitmap = fotoActual,
+                        etiqueta = etiqueta,
+                        url = imageUrl
+                    )
+                    galeriaFotos.add(0, nuevaFoto)
+                    adapter.notifyItemInserted(0)
+                    rvGaleria.scrollToPosition(0)
 
-        Toast.makeText(this, getString(R.string.photo_mission_subida_exito), Toast.LENGTH_SHORT).show()
+                    // Enable back button and save progress
+                    btnBack.isEnabled = true
+                    val prefs = getSharedPreferences(PREFS_NAME, MODE_PRIVATE)
+                    prefs.edit().apply {
+                        putBoolean(KEY_PHOTO_COMPLETED, true)
+                        putString(KEY_PHOTO_URL, imageUrl)
+                        putString(KEY_PHOTO_TAG, etiqueta.name)
+                        apply()
+                    }
+
+                    // Completar actividad con URL de imagen
+                    completarActividad(imageUrl)
+
+                    // Resetear vista
+                    resetearVista()
+
+                    Toast.makeText(
+                        this@PhotoMissionActivity,
+                        getString(R.string.photo_mission_subida_exito),
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+                is Resource.Error -> {
+                    // Error en la subida
+                    Log.e(TAG, "❌ Error subiendo imagen: ${result.message}")
+                    Toast.makeText(
+                        this@PhotoMissionActivity,
+                        "Error al subir la imagen: ${result.message}",
+                        Toast.LENGTH_LONG
+                    ).show()
+                }
+                is Resource.Loading -> { }
+            }
+
+            isUploading = false
+            mostrarCargando(false)
+        }
+    }
+
+    /**
+     * Muestra u oculta el indicador de carga durante la subida.
+     *
+     * @param mostrar true para mostrar, false para ocultar
+     */
+    private fun mostrarCargando(mostrar: Boolean) {
+        if (mostrar) {
+            progressBar.visibility = View.VISIBLE
+            btnIgo.isEnabled = false
+            btnTomarFoto.isEnabled = false
+        } else {
+            progressBar.visibility = View.GONE
+            btnIgo.isEnabled = true
+            btnTomarFoto.isEnabled = true
+        }
     }
 
     private fun resetearVista() {
@@ -207,24 +281,68 @@ class PhotoMissionActivity : BaseMenuActivity() {
         takePictureLauncher.launch(takePictureIntent)
     }
 
-    private fun iniciarEvento() {
+    private fun iniciarActividad() {
         val juegoId = tokenManager.getJuegoId() ?: return
         lifecycleScope.launch {
-            when (val result = gameRepository.iniciarEvento(juegoId, Actividades.Plaza.ID, Actividades.Plaza.PHOTO_MISSION)) {
-                is Resource.Success -> eventoEstadoId = result.data.id
+            when (val result = gameRepository.iniciarActividad(juegoId, Puntos.Plaza.ID, Puntos.Plaza.PHOTO_MISSION)) {
+                is Resource.Success -> actividadProgresoId = result.data.id
                 is Resource.Error -> Log.e("PhotoMission", "Error: ${result.message}")
                 is Resource.Loading -> { }
             }
         }
     }
 
-    private fun completarEvento() {
-        val estadoId = eventoEstadoId ?: return
+    /**
+     * Completa el evento enviando la puntuación y la URL de la imagen.
+     *
+     * @param imageUrl URL de la imagen subida a Cloudinary
+     */
+    private fun completarActividad(imageUrl: String) {
+        val estadoId = actividadProgresoId ?: return
         lifecycleScope.launch {
-            when (val result = gameRepository.completarEvento(estadoId, 100.0)) {
-                is Resource.Success -> Log.d("PhotoMission", "Completado")
-                is Resource.Error -> Log.e("PhotoMission", "Error: ${result.message}")
+            when (val result = gameRepository.completarActividad(estadoId, 100.0, imageUrl)) {
+                is Resource.Success -> Log.d(TAG, "✅ Evento completado con imagen: $imageUrl")
+                is Resource.Error -> Log.e(TAG, "❌ Error completando evento: ${result.message}")
                 is Resource.Loading -> { }
+            }
+        }
+    }
+
+    /**
+     * Carga la foto guardada previamente desde Cloudinary.
+     * Si existe una foto guardada, la muestra en la galería.
+     */
+    private fun cargarFotoGuardada() {
+        val prefs = getSharedPreferences(PREFS_NAME, MODE_PRIVATE)
+        val photoUrl = prefs.getString(KEY_PHOTO_URL, null)
+        val photoTag = prefs.getString(KEY_PHOTO_TAG, null)
+
+        if (photoUrl != null && photoTag != null) {
+            Log.d(TAG, "📸 Cargando foto guardada: $photoUrl")
+
+            // Cargar imagen desde URL usando Coil
+            lifecycleScope.launch {
+                try {
+                    // Convertir la etiqueta de String a EtiquetaFoto
+                    val etiqueta = EtiquetaFoto.valueOf(photoTag)
+
+                    // Crear una FotoGaleria con la imagen cargada
+                    contadorFotos++
+                    val fotoGuardada = FotoGaleria(
+                        id = contadorFotos,
+                        bitmap = null, // Se cargará desde URL
+                        etiqueta = etiqueta,
+                        url = photoUrl // Añadiremos este campo al modelo
+                    )
+
+                    galeriaFotos.add(0, fotoGuardada)
+                    adapter.notifyItemInserted(0)
+                    rvGaleria.scrollToPosition(0)
+
+                    Log.d(TAG, "✅ Foto guardada cargada en galería")
+                } catch (e: Exception) {
+                    Log.e(TAG, "❌ Error cargando foto guardada: ${e.message}")
+                }
             }
         }
     }
