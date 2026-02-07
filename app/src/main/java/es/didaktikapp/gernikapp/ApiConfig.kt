@@ -39,15 +39,18 @@ object ApiConfig {
     /** GET - Obtener estadísticas del usuario (requiere auth) */
     const val USER_STATS = "/api/v1/usuarios/{usuario_id}/estadisticas"
 
-    // ============ PROGRESO ============
-    /** GET - Obtener progreso del usuario (requiere auth) */
-    const val PROGRESS_GET = "/api/v1/progress"
+    // ============ PROGRESO DE ACTIVIDADES ============
+    /** POST - Iniciar actividad dentro de un punto */
+    const val ACTIVIDAD_PROGRESO_INICIAR = "/api/v1/actividad-progreso/iniciar"
 
-    /** POST - Guardar progreso de actividad (requiere auth) */
-    const val PROGRESS_SAVE = "/api/v1/progress"
+    /** PUT - Completar actividad con puntuación y respuesta */
+    const val ACTIVIDAD_PROGRESO_COMPLETAR = "/api/v1/actividad-progreso/{progreso_id}/completar"
 
-    /** GET - Obtener puntuación máxima (requiere auth) */
-    const val SCORE_TOP = "/api/v1/score/top"
+    /** GET - Obtener progreso de actividad por ID */
+    const val ACTIVIDAD_PROGRESO_GET = "/api/v1/actividad-progreso/{progreso_id}"
+
+    /** GET - Obtener resumen de progreso de un punto */
+    const val ACTIVIDAD_PROGRESO_RESUMEN = "/api/v1/actividad-progreso/punto/{id_juego}/{id_punto}/resumen"
 
     // ============ PARTIDAS ============
     /** POST - Crear nueva partida */
@@ -56,10 +59,4 @@ object ApiConfig {
     /** GET - Obtener partida por ID */
     const val PARTIDAS_GET = "/api/v1/partidas/{id}"
 
-    // ============ ESTADOS DE EVENTO ============
-    /** POST - Iniciar un evento dentro de una actividad */
-    const val EVENTO_ESTADO_INICIAR = "/api/v1/evento-estados/iniciar"
-
-    /** PUT - Completar un evento con puntuación */
-    const val EVENTO_ESTADO_COMPLETAR = "/api/v1/evento-estados/{estado_id}/completar"
 }

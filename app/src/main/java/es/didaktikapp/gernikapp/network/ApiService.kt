@@ -1,9 +1,9 @@
 package es.didaktikapp.gernikapp.network
 
 import es.didaktikapp.gernikapp.ApiConfig
-import es.didaktikapp.gernikapp.data.models.CompletarEventoRequest
-import es.didaktikapp.gernikapp.data.models.EventoEstadoRequest
-import es.didaktikapp.gernikapp.data.models.EventoEstadoResponse
+import es.didaktikapp.gernikapp.data.models.ActividadProgresoRequest
+import es.didaktikapp.gernikapp.data.models.ActividadProgresoResponse
+import es.didaktikapp.gernikapp.data.models.CompletarActividadRequest
 import es.didaktikapp.gernikapp.data.models.HealthResponse
 import es.didaktikapp.gernikapp.data.models.LoginRequest
 import es.didaktikapp.gernikapp.data.models.LoginResponse
@@ -106,25 +106,43 @@ interface ApiService {
         @Path("id") partidaId: String
     ): Response<PartidaResponse>
 
-    // ============ ESTADOS DE EVENTO ============
+    // ============ PROGRESO DE ACTIVIDADES ============
 
     /**
-     * Inicia un evento dentro de una actividad.
+     * Inicia una actividad dentro de un punto.
      * Registra automáticamente la fecha de inicio.
+     *
+     * @param request Datos de la actividad a iniciar (id_juego, id_punto, id_actividad)
+     * @return Response con el progreso de la actividad iniciada
      */
-    @POST(ApiConfig.EVENTO_ESTADO_INICIAR)
-    suspend fun iniciarEvento(
-        @Body request: EventoEstadoRequest
-    ): Response<EventoEstadoResponse>
+    @POST(ApiConfig.ACTIVIDAD_PROGRESO_INICIAR)
+    suspend fun iniciarActividad(
+        @Body request: ActividadProgresoRequest
+    ): Response<ActividadProgresoResponse>
 
     /**
-     * Completa un evento con su puntuación.
+     * Completa una actividad con su puntuación y respuesta.
      * Calcula automáticamente la duración.
-     * Si es el último evento, la actividad se completa automáticamente.
+     *
+     * @param progresoId ID del progreso de la actividad (obtenido al iniciar)
+     * @param request Datos de completación (puntuacion, respuesta_contenido, etc.)
+     * @return Response con el progreso de la actividad completada
      */
-    @PUT(ApiConfig.EVENTO_ESTADO_COMPLETAR)
-    suspend fun completarEvento(
-        @Path("estado_id") estadoId: String,
-        @Body request: CompletarEventoRequest
-    ): Response<EventoEstadoResponse>
+    @PUT(ApiConfig.ACTIVIDAD_PROGRESO_COMPLETAR)
+    suspend fun completarActividad(
+        @Path("progreso_id") progresoId: String,
+        @Body request: CompletarActividadRequest
+    ): Response<ActividadProgresoResponse>
+
+    /**
+     * Obtiene un progreso de actividad por su ID.
+     * Requiere autenticación (token JWT).
+     *
+     * @param progresoId ID del progreso de la actividad
+     * @return Response con los datos del progreso
+     */
+    @GET(ApiConfig.ACTIVIDAD_PROGRESO_GET)
+    suspend fun getActividadProgreso(
+        @Path("progreso_id") progresoId: String
+    ): Response<ActividadProgresoResponse>
 }
