@@ -18,7 +18,7 @@ import es.didaktikapp.gernikapp.BaseMenuActivity
 import es.didaktikapp.gernikapp.R
 import es.didaktikapp.gernikapp.data.local.TokenManager
 import es.didaktikapp.gernikapp.data.repository.GameRepository
-import es.didaktikapp.gernikapp.utils.Constants.Actividades
+import es.didaktikapp.gernikapp.utils.Constants.Puntos
 import es.didaktikapp.gernikapp.utils.Resource
 import kotlinx.coroutines.launch
 import java.util.Locale
@@ -37,7 +37,7 @@ class VideoActivity : BaseMenuActivity() {
     private lateinit var progressBar: ProgressBar
     private lateinit var gameRepository: GameRepository
     private lateinit var tokenManager: TokenManager
-    private var eventoEstadoId: String? = null
+    private var actividadProgresoId: String? = null
 
     private val handler = Handler(Looper.getMainLooper())
     private var isTracking = false
@@ -61,7 +61,7 @@ class VideoActivity : BaseMenuActivity() {
             btnBack.isEnabled = true
         }
 
-        iniciarEvento()
+        iniciarActividad()
         setupVideoPlayer()
         setupVideoControls()
         setupButtons()
@@ -88,7 +88,7 @@ class VideoActivity : BaseMenuActivity() {
         videoView.setOnCompletionListener {
             enableButtonWithTransition()
             updatePlayPauseButton()
-            completarEvento()
+            completarActividad()
 
             // Save progress
             val prefs = getSharedPreferences("plaza_progress", Context.MODE_PRIVATE)
@@ -188,21 +188,21 @@ class VideoActivity : BaseMenuActivity() {
         handler.removeCallbacksAndMessages(null)
     }
 
-    private fun iniciarEvento() {
+    private fun iniciarActividad() {
         val juegoId = tokenManager.getJuegoId() ?: return
         lifecycleScope.launch {
-            when (val result = gameRepository.iniciarEvento(juegoId, Actividades.Plaza.ID, Actividades.Plaza.VIDEO)) {
-                is Resource.Success -> eventoEstadoId = result.data.id
+            when (val result = gameRepository.iniciarActividad(juegoId, Puntos.Plaza.ID, Puntos.Plaza.VIDEO)) {
+                is Resource.Success -> actividadProgresoId = result.data.id
                 is Resource.Error -> Log.e("Video", "Error: ${result.message}")
                 is Resource.Loading -> { }
             }
         }
     }
 
-    private fun completarEvento() {
-        val estadoId = eventoEstadoId ?: return
+    private fun completarActividad() {
+        val estadoId = actividadProgresoId ?: return
         lifecycleScope.launch {
-            when (val result = gameRepository.completarEvento(estadoId, 100.0)) {
+            when (val result = gameRepository.completarActividad(estadoId, 100.0)) {
                 is Resource.Success -> Log.d("Video", "Completado")
                 is Resource.Error -> Log.e("Video", "Error: ${result.message}")
                 is Resource.Loading -> { }

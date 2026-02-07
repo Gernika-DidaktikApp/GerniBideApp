@@ -11,7 +11,7 @@ import android.widget.TextView
 import androidx.lifecycle.lifecycleScope
 import es.didaktikapp.gernikapp.data.local.TokenManager
 import es.didaktikapp.gernikapp.data.repository.GameRepository
-import es.didaktikapp.gernikapp.utils.Constants.Actividades
+import es.didaktikapp.gernikapp.utils.Constants.Puntos
 import es.didaktikapp.gernikapp.utils.Resource
 import kotlinx.coroutines.launch
 
@@ -48,7 +48,7 @@ class ReflectionActivity : BaseMenuActivity() {
     private lateinit var tokenManager: TokenManager
 
     /** Identificador del estado del evento activo en la API. */
-    private var eventoEstadoId: String? = null
+    private var actividadProgresoId: String? = null
 
     /** @return Layout principal de la actividad de reflexión. */
     override fun getContentLayoutId() = R.layout.bunkers_reflection
@@ -67,7 +67,7 @@ class ReflectionActivity : BaseMenuActivity() {
         gameRepository = GameRepository(this)
         tokenManager = TokenManager(this)
 
-        iniciarEvento()
+        iniciarActividad()
 
         val tvFeedback: TextView = findViewById(R.id.tvFeedback)
         val btnBack: Button = findViewById(R.id.btnBack)
@@ -100,7 +100,7 @@ class ReflectionActivity : BaseMenuActivity() {
                 // Marcar como completada y habilitar botón
                 btnBack.isEnabled = true
                 prefs.edit().putBoolean("reflection_completed", true).apply()
-                completarEvento()
+                completarActividad()
 
                 /**
                  * **Feedback visual dinámico:**
@@ -127,15 +127,15 @@ class ReflectionActivity : BaseMenuActivity() {
      * Inicia el evento **"REFLECTION"** del módulo Bunkers en la API.
      * Se ejecuta automáticamente al cargar la actividad.
      */
-    private fun iniciarEvento() {
+    private fun iniciarActividad() {
         val juegoId = tokenManager.getJuegoId() ?: return
         lifecycleScope.launch {
-            when (val result = gameRepository.iniciarEvento(
+            when (val result = gameRepository.iniciarActividad(
                 juegoId,
-                Actividades.Bunkers.ID,
-                Actividades.Bunkers.REFLECTION
+                Puntos.Bunkers.ID,
+                Puntos.Bunkers.REFLECTION
             )) {
-                is Resource.Success -> eventoEstadoId = result.data.id
+                is Resource.Success -> actividadProgresoId = result.data.id
                 is Resource.Error -> Log.e("Reflection", "Error: ${result.message}")
                 is Resource.Loading -> { }
             }
@@ -146,10 +146,10 @@ class ReflectionActivity : BaseMenuActivity() {
      * Completa el evento con **puntuación 100%** inmediatamente al seleccionar cualquier emoción.
      * **No requiere completar todas las opciones.**
      */
-    private fun completarEvento() {
-        val estadoId = eventoEstadoId ?: return
+    private fun completarActividad() {
+        val estadoId = actividadProgresoId ?: return
         lifecycleScope.launch {
-            when (val result = gameRepository.completarEvento(estadoId, 100.0)) {
+            when (val result = gameRepository.completarActividad(estadoId, 100.0)) {
                 is Resource.Success -> Log.d("Reflection", "Completado")
                 is Resource.Error -> Log.e("Reflection", "Error: ${result.message}")
                 is Resource.Loading -> { }

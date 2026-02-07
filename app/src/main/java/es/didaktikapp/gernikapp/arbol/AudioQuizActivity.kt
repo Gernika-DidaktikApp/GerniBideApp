@@ -17,7 +17,7 @@ import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
 import es.didaktikapp.gernikapp.data.local.TokenManager
 import es.didaktikapp.gernikapp.data.repository.GameRepository
-import es.didaktikapp.gernikapp.utils.Constants.Actividades
+import es.didaktikapp.gernikapp.utils.Constants.Puntos
 import es.didaktikapp.gernikapp.utils.Resource
 import kotlinx.coroutines.launch
 
@@ -68,7 +68,7 @@ class AudioQuizActivity : BaseMenuActivity() {
     private lateinit var tokenManager: TokenManager
 
     /** Identificador del estado del evento activo en la API. */
-    private var eventoEstadoId: String? = null
+    private var actividadProgresoId: String? = null
 
     /** Número de respuestas correctas. */
     private var correctAnswers = 0
@@ -98,7 +98,7 @@ class AudioQuizActivity : BaseMenuActivity() {
         tvCongrats = findViewById(R.id.tvCongrats)
 
         // Iniciar evento en la API
-        iniciarEvento()
+        iniciarActividad()
 
         // Configurar y reproducir audio educativo
         mediaPlayer = MediaPlayer.create(this, R.raw.genikako_arbola)
@@ -217,7 +217,7 @@ class AudioQuizActivity : BaseMenuActivity() {
             val prefs = getSharedPreferences("arbol_progress", Context.MODE_PRIVATE)
             prefs.edit().putBoolean("audio_quiz_completed", true).apply()
 
-            completarEvento()
+            completarActividad()
         }
     }
 
@@ -225,7 +225,7 @@ class AudioQuizActivity : BaseMenuActivity() {
      * Inicia el evento asociado a esta actividad en la API.
      * Se ejecuta al entrar en la subactividad.
      */
-    private fun iniciarEvento() {
+    private fun iniciarActividad() {
         val juegoId = tokenManager.getJuegoId()
 
         if (juegoId == null) {
@@ -234,14 +234,14 @@ class AudioQuizActivity : BaseMenuActivity() {
         }
 
         lifecycleScope.launch {
-            when (val result = gameRepository.iniciarEvento(
+            when (val result = gameRepository.iniciarActividad(
                 idJuego = juegoId,
-                idActividad = Actividades.Arbol.ID,
-                idEvento = Actividades.Arbol.AUDIO_QUIZ
+                idPunto = Puntos.Arbol.ID,
+                idActividad = Puntos.Arbol.AUDIO_QUIZ
             )) {
                 is Resource.Success -> {
-                    eventoEstadoId = result.data.id
-                    Log.d("AudioQuiz", "Evento iniciado: $eventoEstadoId")
+                    actividadProgresoId = result.data.id
+                    Log.d("AudioQuiz", "Evento iniciado: $actividadProgresoId")
                 }
                 is Resource.Error -> {
                     Log.e("AudioQuiz", "Error al iniciar evento: ${result.message}")
@@ -256,19 +256,19 @@ class AudioQuizActivity : BaseMenuActivity() {
      *
      * La puntuación se calcula como `(respuestasCorrectas * 100)`.
      */
-    private fun completarEvento() {
-        val estadoId = eventoEstadoId
+    private fun completarActividad() {
+        val estadoId = actividadProgresoId
 
         if (estadoId == null) {
-            Log.e("AudioQuiz", "No hay eventoEstadoId guardado")
+            Log.e("AudioQuiz", "No hay actividadProgresoId guardado")
             return
         }
 
         val puntuacion = correctAnswers * 100.0
 
         lifecycleScope.launch {
-            when (val result = gameRepository.completarEvento(
-                estadoId = estadoId,
+            when (val result = gameRepository.completarActividad(
+                progresoId = estadoId,
                 puntuacion = puntuacion
             )) {
                 is Resource.Success -> {

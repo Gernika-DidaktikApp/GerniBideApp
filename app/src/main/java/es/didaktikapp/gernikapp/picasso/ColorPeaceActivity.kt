@@ -16,7 +16,7 @@ import es.didaktikapp.gernikapp.data.repository.GameRepository
 import es.didaktikapp.gernikapp.databinding.PicassoColorPeaceBinding
 import es.didaktikapp.gernikapp.utils.BitmapUtils
 import es.didaktikapp.gernikapp.utils.Constants
-import es.didaktikapp.gernikapp.utils.Constants.Actividades
+import es.didaktikapp.gernikapp.utils.Constants.Puntos
 import es.didaktikapp.gernikapp.utils.Resource
 import kotlinx.coroutines.launch
 import java.io.File
@@ -33,7 +33,7 @@ import java.io.File
  * @property binding ViewBinding del layout picasso_color_peace.xml
  * @property gameRepository Repositorio para gestionar eventos del juego
  * @property tokenManager Gestor de tokens JWT y juegoId
- * @property eventoEstadoId ID del estado del evento actual (puede ser null)
+ * @property actividadProgresoId ID del estado del evento actual (puede ser null)
  * @property colorBlue Color azul de la paleta (#4FC3F7)
  * @property colorGreen Color verde de la paleta (#66BB6A)
  * @property colorYellow Color amarillo de la paleta (#FFEB3B)
@@ -44,7 +44,7 @@ import java.io.File
  * - Requiere imagen R.drawable.gernika_outlines en recursos
  * - Usa PaintCanvasView para el canvas de pintura con zoom y pan
  * - Guarda resultado en Constants.Files.GUERNICA_IMAGE_FILENAME
- * - Inicia evento automáticamente con Actividades.Picasso.COLOR_PEACE
+ * - Inicia evento automáticamente con Puntos.Picasso.COLOR_PEACE
  *
  * @see PaintCanvasView
  * @see ResultActivity
@@ -55,7 +55,7 @@ class ColorPeaceActivity : BaseMenuActivity() {
     private lateinit var binding: PicassoColorPeaceBinding
     private lateinit var gameRepository: GameRepository
     private lateinit var tokenManager: TokenManager
-    private var eventoEstadoId: String? = null
+    private var actividadProgresoId: String? = null
 
     // Colores disponibles
     private val colorBlue = Color.parseColor("#4FC3F7")
@@ -68,7 +68,7 @@ class ColorPeaceActivity : BaseMenuActivity() {
         gameRepository = GameRepository(this)
         tokenManager = TokenManager(this)
         binding = PicassoColorPeaceBinding.inflate(layoutInflater, contentContainer, true)
-        iniciarEvento()
+        iniciarActividad()
         setupColorListeners()
         setupPaintableBounds()
         checkForSavedPainting()
@@ -301,13 +301,13 @@ class ColorPeaceActivity : BaseMenuActivity() {
      * Si falla, muestra un mensaje de error.
      *
      * @see PaintCanvasView.saveToInternalStorage
-     * @see completarEvento
+     * @see completarActividad
      */
     private fun saveAndFinish() {
         val saved = binding.paintCanvas.saveToInternalStorage(this)
 
         if (saved) {
-            completarEvento()
+            completarActividad()
             showCompletionDialog()
         } else {
             Toast.makeText(
@@ -338,17 +338,17 @@ class ColorPeaceActivity : BaseMenuActivity() {
     /**
      * Inicia el evento en la API del juego.
      * Requiere un juegoId válido del TokenManager.
-     * Guarda el eventoEstadoId devuelto por la API para completar el evento después.
+     * Guarda el actividadProgresoId devuelto por la API para completar el evento después.
      *
      * IDs utilizados:
-     * - idActividad: Actividades.Picasso.ID
-     * - idEvento: Actividades.Picasso.COLOR_PEACE
+     * - idActividad: Puntos.Picasso.ID
+     * - idEvento: Puntos.Picasso.COLOR_PEACE
      */
-    private fun iniciarEvento() {
+    private fun iniciarActividad() {
         val juegoId = tokenManager.getJuegoId() ?: return
         lifecycleScope.launch {
-            when (val result = gameRepository.iniciarEvento(juegoId, Actividades.Picasso.ID, Actividades.Picasso.COLOR_PEACE)) {
-                is Resource.Success -> eventoEstadoId = result.data.id
+            when (val result = gameRepository.iniciarActividad(juegoId, Puntos.Picasso.ID, Puntos.Picasso.COLOR_PEACE)) {
+                is Resource.Success -> actividadProgresoId = result.data.id
                 is Resource.Error -> Log.e("ColorPeace", "Error: ${result.message}")
                 is Resource.Loading -> { }
             }
@@ -357,15 +357,15 @@ class ColorPeaceActivity : BaseMenuActivity() {
 
     /**
      * Completa el evento en la API del juego.
-     * Requiere un eventoEstadoId válido obtenido de iniciarEvento().
+     * Requiere un actividadProgresoId válido obtenido de iniciarActividad().
      *
-     * @see iniciarEvento
+     * @see iniciarActividad
      * Puntuación enviada: 100.0 (actividad completada)
      */
-    private fun completarEvento() {
-        val estadoId = eventoEstadoId ?: return
+    private fun completarActividad() {
+        val estadoId = actividadProgresoId ?: return
         lifecycleScope.launch {
-            when (val result = gameRepository.completarEvento(estadoId, 100.0)) {
+            when (val result = gameRepository.completarActividad(estadoId, 100.0)) {
                 is Resource.Success -> Log.d("ColorPeace", "Completado")
                 is Resource.Error -> Log.e("ColorPeace", "Error: ${result.message}")
                 is Resource.Loading -> { }

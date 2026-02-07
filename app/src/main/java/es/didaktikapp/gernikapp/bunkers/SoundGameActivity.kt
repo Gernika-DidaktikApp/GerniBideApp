@@ -15,7 +15,7 @@ import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
 import es.didaktikapp.gernikapp.data.local.TokenManager
 import es.didaktikapp.gernikapp.data.repository.GameRepository
-import es.didaktikapp.gernikapp.utils.Constants.Actividades
+import es.didaktikapp.gernikapp.utils.Constants.Puntos
 import es.didaktikapp.gernikapp.utils.Resource
 import kotlinx.coroutines.launch
 
@@ -66,7 +66,7 @@ class SoundGameActivity : BaseMenuActivity() {
     private lateinit var tokenManager: TokenManager
 
     /** ID del estado del evento activo en la API. */
-    private var eventoEstadoId: String? = null
+    private var actividadProgresoId: String? = null
 
     /** Contador de aciertos (0-5). */
     private var stars = 0
@@ -132,7 +132,7 @@ class SoundGameActivity : BaseMenuActivity() {
         btnBack = findViewById(R.id.btnBack)
         rootLayout = findViewById(R.id.soundGameRoot)
 
-        iniciarEvento()
+        iniciarActividad()
 
         val prefs = getSharedPreferences("bunkers_progress", Context.MODE_PRIVATE)
         if (prefs.getBoolean("sound_game_completed", false)) {
@@ -284,7 +284,7 @@ class SoundGameActivity : BaseMenuActivity() {
             val prefs = getSharedPreferences("bunkers_progress", Context.MODE_PRIVATE)
             prefs.edit().putBoolean("sound_game_completed", true).apply()
 
-            completarEvento()
+            completarActividad()
         }
     }
 
@@ -300,13 +300,13 @@ class SoundGameActivity : BaseMenuActivity() {
     /**
      * Inicia evento **"SOUND_GAME"** del módulo Bunkers en la API.
      */
-    private fun iniciarEvento() {
+    private fun iniciarActividad() {
         val juegoId = tokenManager.getJuegoId() ?: return
         lifecycleScope.launch {
-            when (val result = gameRepository.iniciarEvento(
-                juegoId, Actividades.Bunkers.ID, Actividades.Bunkers.SOUND_GAME
+            when (val result = gameRepository.iniciarActividad(
+                juegoId, Puntos.Bunkers.ID, Puntos.Bunkers.SOUND_GAME
             )) {
-                is Resource.Success -> eventoEstadoId = result.data.id
+                is Resource.Success -> actividadProgresoId = result.data.id
                 is Resource.Error -> Log.e("SoundGame", "Error: ${result.message}")
                 is Resource.Loading -> { }
             }
@@ -321,10 +321,10 @@ class SoundGameActivity : BaseMenuActivity() {
      * - 3/5 → `300.0`
      * - 1/5 → `100.0`
      */
-    private fun completarEvento() {
-        val estadoId = eventoEstadoId ?: return
+    private fun completarActividad() {
+        val estadoId = actividadProgresoId ?: return
         lifecycleScope.launch {
-            when (val result = gameRepository.completarEvento(estadoId, stars * 100.0)) {
+            when (val result = gameRepository.completarActividad(estadoId, stars * 100.0)) {
                 is Resource.Success -> Log.d("SoundGame", "Completado: ${stars * 100}")
                 is Resource.Error -> Log.e("SoundGame", "Error: ${result.message}")
                 is Resource.Loading -> { }

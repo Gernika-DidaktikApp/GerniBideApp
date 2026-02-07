@@ -12,7 +12,7 @@ import es.didaktikapp.gernikapp.BaseMenuActivity
 import es.didaktikapp.gernikapp.R
 import es.didaktikapp.gernikapp.data.local.TokenManager
 import es.didaktikapp.gernikapp.data.repository.GameRepository
-import es.didaktikapp.gernikapp.utils.Constants.Actividades
+import es.didaktikapp.gernikapp.utils.Constants.Puntos
 import es.didaktikapp.gernikapp.utils.Resource
 import kotlinx.coroutines.launch
 
@@ -23,14 +23,14 @@ class CestaTipActivity : BaseMenuActivity() {
 
     private lateinit var gameRepository: GameRepository
     private lateinit var tokenManager: TokenManager
-    private var eventoEstadoId: String? = null
+    private var actividadProgresoId: String? = null
 
     override fun getContentLayoutId() = R.layout.fronton_cesta_tip
 
     override fun onContentInflated() {
         gameRepository = GameRepository(this)
         tokenManager = TokenManager(this)
-        iniciarEvento()
+        iniciarActividad()
 
         val videoView = findViewById<VideoView>(R.id.videoFronton)
         val btnPlayPause = findViewById<Button>(R.id.btnPlayVideo)
@@ -78,7 +78,7 @@ class CestaTipActivity : BaseMenuActivity() {
 
                 btnBack.isEnabled = true
                 prefs.edit().putBoolean("cesta_tip_completed", true).apply()
-                completarEvento()
+                completarActividad()
 
             } else {
                 Toast.makeText(this, getString(R.string.hautatu_aukera_bat), Toast.LENGTH_SHORT).show()
@@ -90,21 +90,21 @@ class CestaTipActivity : BaseMenuActivity() {
         }
     }
 
-    private fun iniciarEvento() {
+    private fun iniciarActividad() {
         val juegoId = tokenManager.getJuegoId() ?: return
         lifecycleScope.launch {
-            when (val result = gameRepository.iniciarEvento(juegoId, Actividades.Fronton.ID, Actividades.Fronton.CESTA_TIP)) {
-                is Resource.Success -> eventoEstadoId = result.data.id
+            when (val result = gameRepository.iniciarActividad(juegoId, Puntos.Fronton.ID, Puntos.Fronton.CESTA_TIP)) {
+                is Resource.Success -> actividadProgresoId = result.data.id
                 is Resource.Error -> Log.e("CestaTip", "Error: ${result.message}")
                 is Resource.Loading -> { }
             }
         }
     }
 
-    private fun completarEvento() {
-        val estadoId = eventoEstadoId ?: return
+    private fun completarActividad() {
+        val estadoId = actividadProgresoId ?: return
         lifecycleScope.launch {
-            when (val result = gameRepository.completarEvento(estadoId, 100.0)) {
+            when (val result = gameRepository.completarActividad(estadoId, 100.0)) {
                 is Resource.Success -> Log.d("CestaTip", "Completado")
                 is Resource.Error -> Log.e("CestaTip", "Error: ${result.message}")
                 is Resource.Loading -> { }

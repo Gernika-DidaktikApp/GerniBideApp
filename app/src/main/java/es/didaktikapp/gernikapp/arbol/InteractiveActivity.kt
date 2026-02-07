@@ -23,7 +23,7 @@ import es.didaktikapp.gernikapp.BaseMenuActivity
 import es.didaktikapp.gernikapp.R
 import es.didaktikapp.gernikapp.data.local.TokenManager
 import es.didaktikapp.gernikapp.data.repository.GameRepository
-import es.didaktikapp.gernikapp.utils.Constants.Actividades
+import es.didaktikapp.gernikapp.utils.Constants.Puntos
 import es.didaktikapp.gernikapp.utils.Resource
 import kotlinx.coroutines.launch
 import kotlin.math.hypot
@@ -60,7 +60,7 @@ class InteractiveActivity : BaseMenuActivity() {
     private lateinit var tokenManager: TokenManager
 
     /** ID del estado del evento activo en la API. */
-    private var eventoEstadoId: String? = null
+    private var actividadProgresoId: String? = null
 
     /**
      * Coordenadas porcentuales exactas de los 13 óvalos blancos en la imagen `arbola_image.jpg`.
@@ -112,12 +112,12 @@ class InteractiveActivity : BaseMenuActivity() {
         }
 
         findViewById<View>(R.id.btnFinish).setOnClickListener {
-            completarEvento()
+            completarActividad()
             finish()
         }
 
         // Iniciar seguimiento del evento
-        iniciarEvento()
+        iniciarActividad()
     }
 
     /**
@@ -324,12 +324,12 @@ class InteractiveActivity : BaseMenuActivity() {
     /**
      * Inicia el evento "Mi Árbol" en la API al cargar la actividad.
      */
-    private fun iniciarEvento() {
+    private fun iniciarActividad() {
         val juegoId = tokenManager.getJuegoId() ?: return
         lifecycleScope.launch {
-            val result = gameRepository.iniciarEvento(juegoId, Actividades.Arbol.ID, Actividades.Arbol.MY_TREE)
+            val result = gameRepository.iniciarActividad(juegoId, Puntos.Arbol.ID, Puntos.Arbol.MY_TREE)
             if (result is Resource.Success) {
-                eventoEstadoId = result.data.id
+                actividadProgresoId = result.data.id
             }
         }
     }
@@ -338,10 +338,10 @@ class InteractiveActivity : BaseMenuActivity() {
      * Completa el evento asignando puntuación máxima (100.0).
      * Se ejecuta al pulsar "Finalizar".
      */
-    private fun completarEvento() {
-        val estadoId = eventoEstadoId ?: return
+    private fun completarActividad() {
+        val estadoId = actividadProgresoId ?: return
         lifecycleScope.launch {
-            gameRepository.completarEvento(estadoId, 100.0)
+            gameRepository.completarActividad(estadoId, 100.0)
         }
     }
 }

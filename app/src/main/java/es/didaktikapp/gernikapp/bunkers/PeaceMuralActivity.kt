@@ -16,7 +16,7 @@ import android.widget.TextView
 import androidx.lifecycle.lifecycleScope
 import es.didaktikapp.gernikapp.data.local.TokenManager
 import es.didaktikapp.gernikapp.data.repository.GameRepository
-import es.didaktikapp.gernikapp.utils.Constants.Actividades
+import es.didaktikapp.gernikapp.utils.Constants.Puntos
 import es.didaktikapp.gernikapp.utils.Resource
 import kotlinx.coroutines.launch
 import kotlin.random.Random
@@ -67,7 +67,7 @@ class PeaceMuralActivity : BaseMenuActivity() {
     private lateinit var tokenManager: TokenManager
 
     /** Identificador del estado del evento activo en la API. */
-    private var eventoEstadoId: String? = null
+    private var actividadProgresoId: String? = null
 
     /** @return Layout principal del mural de la paz. */
     override fun getContentLayoutId() = R.layout.bunkers_peace_mural
@@ -90,7 +90,7 @@ class PeaceMuralActivity : BaseMenuActivity() {
         tvFinalCongrats = findViewById(R.id.tvFinalCongrats)
         btnBack = findViewById(R.id.btnBack)
 
-        iniciarEvento()
+        iniciarActividad()
 
         // Si ya estaba completada, habilitar botón
         if (progressPrefs.getBoolean("peace_mural_completed", false)) {
@@ -176,7 +176,7 @@ class PeaceMuralActivity : BaseMenuActivity() {
                 // Marcar como completada
                 btnBack.isEnabled = true
                 progressPrefs.edit().putBoolean("peace_mural_completed", true).apply()
-                completarEvento()
+                completarActividad()
             }
         }
     }
@@ -280,11 +280,11 @@ class PeaceMuralActivity : BaseMenuActivity() {
     /**
      * Inicia el evento **"PEACE_MURAL"** del módulo Bunkers en la API.
      */
-    private fun iniciarEvento() {
+    private fun iniciarActividad() {
         val juegoId = tokenManager.getJuegoId() ?: return
         lifecycleScope.launch {
-            when (val result = gameRepository.iniciarEvento(juegoId, Actividades.Bunkers.ID, Actividades.Bunkers.PEACE_MURAL)) {
-                is Resource.Success -> eventoEstadoId = result.data.id
+            when (val result = gameRepository.iniciarActividad(juegoId, Puntos.Bunkers.ID, Puntos.Bunkers.PEACE_MURAL)) {
+                is Resource.Success -> actividadProgresoId = result.data.id
                 is Resource.Error -> Log.e("PeaceMural", "Error: ${result.message}")
                 is Resource.Loading -> { }
             }
@@ -294,10 +294,10 @@ class PeaceMuralActivity : BaseMenuActivity() {
     /**
      * Completa el evento con **puntuación 100%** al añadir cualquier palabra.
      */
-    private fun completarEvento() {
-        val estadoId = eventoEstadoId ?: return
+    private fun completarActividad() {
+        val estadoId = actividadProgresoId ?: return
         lifecycleScope.launch {
-            when (val result = gameRepository.completarEvento(estadoId, 100.0)) {
+            when (val result = gameRepository.completarActividad(estadoId, 100.0)) {
                 is Resource.Success -> Log.d("PeaceMural", "Completado")
                 is Resource.Error -> Log.e("PeaceMural", "Error: ${result.message}")
                 is Resource.Loading -> { }

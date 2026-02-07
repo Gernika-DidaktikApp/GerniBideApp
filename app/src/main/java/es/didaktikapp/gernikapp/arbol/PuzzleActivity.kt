@@ -19,7 +19,7 @@ import android.widget.TextView
 import androidx.lifecycle.lifecycleScope
 import es.didaktikapp.gernikapp.data.local.TokenManager
 import es.didaktikapp.gernikapp.data.repository.GameRepository
-import es.didaktikapp.gernikapp.utils.Constants.Actividades
+import es.didaktikapp.gernikapp.utils.Constants.Puntos
 import es.didaktikapp.gernikapp.utils.Resource
 import kotlinx.coroutines.launch
 import kotlin.random.Random
@@ -61,7 +61,7 @@ class PuzzleActivity : BaseMenuActivity() {
     private lateinit var tokenManager: TokenManager
 
     /** Identificador del estado del evento activo en la API. */
-    private var eventoEstadoId: String? = null
+    private var actividadProgresoId: String? = null
 
     /** Dimensiones del puzzle: 2 filas × 3 columnas = 6 piezas. */
     private val rows = 2
@@ -109,7 +109,7 @@ class PuzzleActivity : BaseMenuActivity() {
         btnBack = findViewById(R.id.btnBack)
         guideImage = findViewById(R.id.guideImage)
 
-        iniciarEvento()
+        iniciarActividad()
 
         btnBack.setOnClickListener {
             finish()
@@ -274,7 +274,7 @@ class PuzzleActivity : BaseMenuActivity() {
             val prefs = getSharedPreferences("arbol_progress", Context.MODE_PRIVATE)
             prefs.edit().putBoolean("puzzle_completed", true).apply()
 
-            completarEvento()
+            completarActividad()
         }
     }
 
@@ -318,7 +318,7 @@ class PuzzleActivity : BaseMenuActivity() {
     /**
      * Inicia el evento "PUZZLE" en la API al cargar la actividad.
      */
-    private fun iniciarEvento() {
+    private fun iniciarActividad() {
         val juegoId = tokenManager.getJuegoId()
 
         if (juegoId == null) {
@@ -327,14 +327,14 @@ class PuzzleActivity : BaseMenuActivity() {
         }
 
         lifecycleScope.launch {
-            when (val result = gameRepository.iniciarEvento(
+            when (val result = gameRepository.iniciarActividad(
                 idJuego = juegoId,
-                idActividad = Actividades.Arbol.ID,
-                idEvento = Actividades.Arbol.PUZZLE
+                idPunto = Puntos.Arbol.ID,
+                idActividad = Puntos.Arbol.PUZZLE
             )) {
                 is Resource.Success -> {
-                    eventoEstadoId = result.data.id
-                    Log.d("Puzzle", "Evento iniciado: $eventoEstadoId")
+                    actividadProgresoId = result.data.id
+                    Log.d("Puzzle", "Evento iniciado: $actividadProgresoId")
                 }
                 is Resource.Error -> {
                     Log.e("Puzzle", "Error al iniciar evento: ${result.message}")
@@ -348,17 +348,17 @@ class PuzzleActivity : BaseMenuActivity() {
      * Completa el evento en la API con **puntuación 100%**.
      * Se ejecuta automáticamente al completar todas las piezas.
      */
-    private fun completarEvento() {
-        val estadoId = eventoEstadoId
+    private fun completarActividad() {
+        val estadoId = actividadProgresoId
 
         if (estadoId == null) {
-            Log.e("Puzzle", "No hay eventoEstadoId guardado")
+            Log.e("Puzzle", "No hay actividadProgresoId guardado")
             return
         }
 
         lifecycleScope.launch {
-            when (val result = gameRepository.completarEvento(
-                estadoId = estadoId,
+            when (val result = gameRepository.completarActividad(
+                progresoId = estadoId,
                 puntuacion = 100.0 // Puzzle completado = 100%
             )) {
                 is Resource.Success -> {

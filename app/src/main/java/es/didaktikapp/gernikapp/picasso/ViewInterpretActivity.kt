@@ -13,7 +13,7 @@ import es.didaktikapp.gernikapp.R
 import es.didaktikapp.gernikapp.data.local.TokenManager
 import es.didaktikapp.gernikapp.data.repository.GameRepository
 import es.didaktikapp.gernikapp.databinding.PicassoViewInterpretBinding
-import es.didaktikapp.gernikapp.utils.Constants.Actividades
+import es.didaktikapp.gernikapp.utils.Constants.Puntos
 import es.didaktikapp.gernikapp.utils.Resource
 import kotlinx.coroutines.launch
 
@@ -32,7 +32,7 @@ import kotlinx.coroutines.launch
  * @property binding ViewBinding del layout picasso_view_interpret.xml
  * @property gameRepository Repositorio para gestionar eventos del juego
  * @property tokenManager Gestor de tokens JWT y juegoId
- * @property eventoEstadoId ID del estado del evento actual (puede ser null)
+ * @property actividadProgresoId ID del estado del evento actual (puede ser null)
  * @property currentQuestionIndex Índice de la pregunta actual (0-5)
  * @property correctAnswers Número de respuestas correctas acumuladas
  *
@@ -51,7 +51,7 @@ class ViewInterpretActivity : BaseMenuActivity() {
     private lateinit var binding: PicassoViewInterpretBinding
     private lateinit var gameRepository: GameRepository
     private lateinit var tokenManager: TokenManager
-    private var eventoEstadoId: String? = null
+    private var actividadProgresoId: String? = null
     private var currentQuestionIndex = 0
     private var correctAnswers = 0
 
@@ -141,7 +141,7 @@ class ViewInterpretActivity : BaseMenuActivity() {
         gameRepository = GameRepository(this)
         tokenManager = TokenManager(this)
         binding = PicassoViewInterpretBinding.inflate(layoutInflater, contentContainer, true)
-        iniciarEvento()
+        iniciarActividad()
         setupOptionListeners()
         binding.nextButton.setOnClickListener {
             loadNextQuestion()
@@ -447,7 +447,7 @@ class ViewInterpretActivity : BaseMenuActivity() {
         val progressPrefs = getSharedPreferences("picasso_progress", MODE_PRIVATE)
         progressPrefs.edit().putBoolean("view_interpret_completed", true).apply()
 
-        completarEvento()
+        completarActividad()
 
         val stars = when (correctAnswers) {
             6 -> "⭐⭐⭐⭐⭐"
@@ -471,17 +471,17 @@ class ViewInterpretActivity : BaseMenuActivity() {
     /**
      * Inicia el evento en la API del juego.
      * Requiere un juegoId válido del TokenManager.
-     * Guarda el eventoEstadoId devuelto por la API para completar el evento después.
+     * Guarda el actividadProgresoId devuelto por la API para completar el evento después.
      *
      * IDs utilizados:
-     * - idActividad: Actividades.Picasso.ID
-     * - idEvento: Actividades.Picasso.VIEW_INTERPRET
+     * - idActividad: Puntos.Picasso.ID
+     * - idEvento: Puntos.Picasso.VIEW_INTERPRET
      */
-    private fun iniciarEvento() {
+    private fun iniciarActividad() {
         val juegoId = tokenManager.getJuegoId() ?: return
         lifecycleScope.launch {
-            when (val result = gameRepository.iniciarEvento(juegoId, Actividades.Picasso.ID, Actividades.Picasso.VIEW_INTERPRET)) {
-                is Resource.Success -> eventoEstadoId = result.data.id
+            when (val result = gameRepository.iniciarActividad(juegoId, Puntos.Picasso.ID, Puntos.Picasso.VIEW_INTERPRET)) {
+                is Resource.Success -> actividadProgresoId = result.data.id
                 is Resource.Error -> Log.e("ViewInterpret", "Error: ${result.message}")
                 is Resource.Loading -> { }
             }
@@ -490,15 +490,15 @@ class ViewInterpretActivity : BaseMenuActivity() {
 
     /**
      * Completa el evento en la API del juego.
-     * Requiere un eventoEstadoId válido obtenido de iniciarEvento().
+     * Requiere un actividadProgresoId válido obtenido de iniciarActividad().
      *
-     * @see iniciarEvento
+     * @see iniciarActividad
      * Puntuación enviada: correctAnswers * 100.0 (0-600 puntos)
      */
-    private fun completarEvento() {
-        val estadoId = eventoEstadoId ?: return
+    private fun completarActividad() {
+        val estadoId = actividadProgresoId ?: return
         lifecycleScope.launch {
-            when (val result = gameRepository.completarEvento(estadoId, correctAnswers * 100.0)) {
+            when (val result = gameRepository.completarActividad(estadoId, correctAnswers * 100.0)) {
                 is Resource.Success -> Log.d("ViewInterpret", "Completado: ${correctAnswers * 100}")
                 is Resource.Error -> Log.e("ViewInterpret", "Error: ${result.message}")
                 is Resource.Loading -> { }

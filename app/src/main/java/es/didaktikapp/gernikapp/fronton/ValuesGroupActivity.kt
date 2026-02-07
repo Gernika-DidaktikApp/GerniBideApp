@@ -18,7 +18,7 @@ import es.didaktikapp.gernikapp.BaseMenuActivity
 import es.didaktikapp.gernikapp.R
 import es.didaktikapp.gernikapp.data.local.TokenManager
 import es.didaktikapp.gernikapp.data.repository.GameRepository
-import es.didaktikapp.gernikapp.utils.Constants.Actividades
+import es.didaktikapp.gernikapp.utils.Constants.Puntos
 import es.didaktikapp.gernikapp.utils.Resource
 import kotlinx.coroutines.launch
 
@@ -29,14 +29,14 @@ class ValuesGroupActivity : BaseMenuActivity() {
 
     private lateinit var gameRepository: GameRepository
     private lateinit var tokenManager: TokenManager
-    private var eventoEstadoId: String? = null
+    private var actividadProgresoId: String? = null
 
     override fun getContentLayoutId() = R.layout.fronton_values_group
 
     override fun onContentInflated() {
         gameRepository = GameRepository(this)
         tokenManager = TokenManager(this)
-        iniciarEvento()
+        iniciarActividad()
 
         val input = findViewById<EditText>(R.id.inputValor)
         val btnAnadir = findViewById<Button>(R.id.btnAnadir)
@@ -98,25 +98,25 @@ class ValuesGroupActivity : BaseMenuActivity() {
             mensajeFinal.visibility = View.VISIBLE
             btnBack.isEnabled = true
             prefs.edit().putBoolean("values_group_completed", true).apply()
-            completarEvento()
+            completarActividad()
         }
     }
 
-    private fun iniciarEvento() {
+    private fun iniciarActividad() {
         val juegoId = tokenManager.getJuegoId() ?: return
         lifecycleScope.launch {
-            when (val result = gameRepository.iniciarEvento(juegoId, Actividades.Fronton.ID, Actividades.Fronton.VALUES_GROUP)) {
-                is Resource.Success -> eventoEstadoId = result.data.id
+            when (val result = gameRepository.iniciarActividad(juegoId, Puntos.Fronton.ID, Puntos.Fronton.VALUES_GROUP)) {
+                is Resource.Success -> actividadProgresoId = result.data.id
                 is Resource.Error -> Log.e("ValuesGroup", "Error: ${result.message}")
                 is Resource.Loading -> { }
             }
         }
     }
 
-    private fun completarEvento() {
-        val estadoId = eventoEstadoId ?: return
+    private fun completarActividad() {
+        val estadoId = actividadProgresoId ?: return
         lifecycleScope.launch {
-            when (val result = gameRepository.completarEvento(estadoId, 100.0)) {
+            when (val result = gameRepository.completarActividad(estadoId, 100.0)) {
                 is Resource.Success -> Log.d("ValuesGroup", "Completado")
                 is Resource.Error -> Log.e("ValuesGroup", "Error: ${result.message}")
                 is Resource.Loading -> { }

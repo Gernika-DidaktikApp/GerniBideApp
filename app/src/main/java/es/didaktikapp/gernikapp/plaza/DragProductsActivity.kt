@@ -22,7 +22,7 @@ import es.didaktikapp.gernikapp.data.local.TokenManager
 import es.didaktikapp.gernikapp.data.repository.GameRepository
 import es.didaktikapp.gernikapp.plaza.models.Product
 import es.didaktikapp.gernikapp.plaza.models.ProductCategory
-import es.didaktikapp.gernikapp.utils.Constants.Actividades
+import es.didaktikapp.gernikapp.utils.Constants.Puntos
 import es.didaktikapp.gernikapp.utils.Resource
 import kotlinx.coroutines.launch
 
@@ -35,7 +35,7 @@ class DragProductsActivity : BaseMenuActivity() {
     private lateinit var btnBack: Button
     private lateinit var gameRepository: GameRepository
     private lateinit var tokenManager: TokenManager
-    private var eventoEstadoId: String? = null
+    private var actividadProgresoId: String? = null
     private val products = mutableListOf<Product>()
     private var productosColocados = 0
     private var mediaPlayer: MediaPlayer? = null
@@ -55,7 +55,7 @@ class DragProductsActivity : BaseMenuActivity() {
             btnBack.isEnabled = true
         }
 
-        iniciarEvento()
+        iniciarActividad()
         inicializarProductos()
         crearVistaProductos()
         configurarPuestos()
@@ -312,7 +312,7 @@ class DragProductsActivity : BaseMenuActivity() {
                         // Guardar progreso
                         val prefs = getSharedPreferences("plaza_progress", Context.MODE_PRIVATE)
                         prefs.edit().putBoolean("drag_products_completed", true).apply()
-                        completarEvento()
+                        completarActividad()
                         mostrarMensajeCompletado()
                     }
                 } else {
@@ -379,21 +379,21 @@ class DragProductsActivity : BaseMenuActivity() {
         }
     }
 
-    private fun iniciarEvento() {
+    private fun iniciarActividad() {
         val juegoId = tokenManager.getJuegoId() ?: return
         lifecycleScope.launch {
-            when (val result = gameRepository.iniciarEvento(juegoId, Actividades.Plaza.ID, Actividades.Plaza.DRAG_PRODUCTS)) {
-                is Resource.Success -> eventoEstadoId = result.data.id
+            when (val result = gameRepository.iniciarActividad(juegoId, Puntos.Plaza.ID, Puntos.Plaza.DRAG_PRODUCTS)) {
+                is Resource.Success -> actividadProgresoId = result.data.id
                 is Resource.Error -> Log.e("DragProducts", "Error: ${result.message}")
                 is Resource.Loading -> { }
             }
         }
     }
 
-    private fun completarEvento() {
-        val estadoId = eventoEstadoId ?: return
+    private fun completarActividad() {
+        val estadoId = actividadProgresoId ?: return
         lifecycleScope.launch {
-            when (val result = gameRepository.completarEvento(estadoId, 100.0)) {
+            when (val result = gameRepository.completarActividad(estadoId, 100.0)) {
                 is Resource.Success -> Log.d("DragProducts", "Completado")
                 is Resource.Error -> Log.e("DragProducts", "Error: ${result.message}")
                 is Resource.Loading -> { }

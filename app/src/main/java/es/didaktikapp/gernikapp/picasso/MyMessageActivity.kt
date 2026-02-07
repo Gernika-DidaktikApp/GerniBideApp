@@ -18,7 +18,7 @@ import es.didaktikapp.gernikapp.data.local.TokenManager
 import es.didaktikapp.gernikapp.data.repository.GameRepository
 import es.didaktikapp.gernikapp.databinding.PicassoMyMessageBinding
 import es.didaktikapp.gernikapp.utils.Constants
-import es.didaktikapp.gernikapp.utils.Constants.Actividades
+import es.didaktikapp.gernikapp.utils.Constants.Puntos
 import es.didaktikapp.gernikapp.utils.Resource
 import kotlinx.coroutines.launch
 import java.io.File
@@ -39,7 +39,7 @@ import java.io.File
  * @property binding ViewBinding del layout picasso_my_message.xml
  * @property gameRepository Repositorio para gestionar eventos del juego
  * @property tokenManager Gestor de tokens JWT y juegoId
- * @property eventoEstadoId ID del estado del evento actual (puede ser null)
+ * @property actividadProgresoId ID del estado del evento actual (puede ser null)
  * @property messagesFile Archivo externo donde se almacenan todos los mensajes
  *
  * Condiciones:
@@ -56,7 +56,7 @@ class MyMessageActivity : BaseMenuActivity() {
     private lateinit var binding: PicassoMyMessageBinding
     private lateinit var gameRepository: GameRepository
     private lateinit var tokenManager: TokenManager
-    private var eventoEstadoId: String? = null
+    private var actividadProgresoId: String? = null
 
     private val messagesFile by lazy {
         File(getExternalFilesDir(null), Constants.Files.PEACE_MESSAGES_FILENAME)
@@ -74,7 +74,7 @@ class MyMessageActivity : BaseMenuActivity() {
         gameRepository = GameRepository(this)
         tokenManager = TokenManager(this)
         binding = PicassoMyMessageBinding.inflate(layoutInflater, contentContainer, true)
-        iniciarEvento()
+        iniciarActividad()
         setupCharacterCounter()
         setupSendButton()
         setupBackButton()
@@ -186,7 +186,7 @@ class MyMessageActivity : BaseMenuActivity() {
         binding.btnBack.isEnabled = true
         val progressPrefs = getSharedPreferences(PROGRESS_PREFS, MODE_PRIVATE)
         progressPrefs.edit().putBoolean(KEY_MY_MESSAGE_COMPLETED, true).apply()
-        completarEvento()
+        completarActividad()
 
         // Limpiar input
         binding.messageInput.text.clear()
@@ -382,17 +382,17 @@ class MyMessageActivity : BaseMenuActivity() {
     /**
      * Inicia el evento en la API del juego.
      * Requiere un juegoId válido del TokenManager.
-     * Guarda el eventoEstadoId devuelto por la API para completar el evento después.
+     * Guarda el actividadProgresoId devuelto por la API para completar el evento después.
      *
      * IDs utilizados:
-     * - idActividad: Actividades.Picasso.ID
-     * - idEvento: Actividades.Picasso.MY_MESSAGE
+     * - idActividad: Puntos.Picasso.ID
+     * - idEvento: Puntos.Picasso.MY_MESSAGE
      */
-    private fun iniciarEvento() {
+    private fun iniciarActividad() {
         val juegoId = tokenManager.getJuegoId() ?: return
         lifecycleScope.launch {
-            when (val result = gameRepository.iniciarEvento(juegoId, Actividades.Picasso.ID, Actividades.Picasso.MY_MESSAGE)) {
-                is Resource.Success -> eventoEstadoId = result.data.id
+            when (val result = gameRepository.iniciarActividad(juegoId, Puntos.Picasso.ID, Puntos.Picasso.MY_MESSAGE)) {
+                is Resource.Success -> actividadProgresoId = result.data.id
                 is Resource.Error -> Log.e("MyMessage", "Error: ${result.message}")
                 is Resource.Loading -> { }
             }
@@ -401,15 +401,15 @@ class MyMessageActivity : BaseMenuActivity() {
 
     /**
      * Completa el evento en la API del juego.
-     * Requiere un eventoEstadoId válido obtenido de iniciarEvento().
+     * Requiere un actividadProgresoId válido obtenido de iniciarActividad().
      *
-     * @see iniciarEvento
+     * @see iniciarActividad
      * Puntuación enviada: 100.0 (actividad completada)
      */
-    private fun completarEvento() {
-        val estadoId = eventoEstadoId ?: return
+    private fun completarActividad() {
+        val estadoId = actividadProgresoId ?: return
         lifecycleScope.launch {
-            when (val result = gameRepository.completarEvento(estadoId, 100.0)) {
+            when (val result = gameRepository.completarActividad(estadoId, 100.0)) {
                 is Resource.Success -> Log.d("MyMessage", "Completado")
                 is Resource.Error -> Log.e("MyMessage", "Error: ${result.message}")
                 is Resource.Loading -> { }
