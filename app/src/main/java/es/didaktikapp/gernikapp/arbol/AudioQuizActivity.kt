@@ -43,11 +43,20 @@ class AudioQuizActivity : BaseMenuActivity() {
     /** Barra de progreso del audio. */
     private lateinit var seekBar: SeekBar
 
+    /** TextView para mostrar el tiempo de reproducción. */
+    private lateinit var tvTime: TextView
+
+    /** Botón toggle para play/pause. */
+    private lateinit var btnPlayPause: ImageButton
+
     /** Runnable que actualiza la barra de reproducción periódicamente. */
     private lateinit var runnable: Runnable
 
     /** Handler para programar actualizaciones del SeekBar en el hilo principal. */
     private var handler = Handler(Looper.getMainLooper())
+
+    /** Flag para controlar si el usuario está arrastrando el SeekBar. */
+    private var isTracking = false
 
     /** Contenedor de la interfaz de reproducción de voz. */
     private lateinit var voiceContainer: View
@@ -96,6 +105,9 @@ class AudioQuizActivity : BaseMenuActivity() {
         quizContainer = findViewById(R.id.quizContainer)
         btnVolver = findViewById(R.id.btnVolver)
         tvCongrats = findViewById(R.id.tvCongrats)
+        seekBar = findViewById(R.id.seekBarAudio)
+        tvTime = findViewById(R.id.tvTime)
+        btnPlayPause = findViewById(R.id.btnPlayPause)
 
         // Iniciar evento en la API
         iniciarActividad()
@@ -103,50 +115,52 @@ class AudioQuizActivity : BaseMenuActivity() {
         // Configurar y reproducir audio educativo
         mediaPlayer = MediaPlayer.create(this, R.raw.genikako_arbola)
         mediaPlayer.isLooping = false
+        seekBar.max = mediaPlayer.duration
         mediaPlayer.start()
+        updatePlayPauseButton()
 
         // Mostrar quiz al terminar el audio
         mediaPlayer.setOnCompletionListener {
+            updatePlayPauseButton()
             showQuiz()
         }
 
         // Configuración del SeekBar
-        seekBar = findViewById(R.id.seekBarAudio)
-        if (::mediaPlayer.isInitialized) {
-            seekBar.max = mediaPlayer.duration
-        }
-
         runnable = Runnable {
-            if (::mediaPlayer.isInitialized) {
+            if (!isTracking && ::mediaPlayer.isInitialized) {
                 try {
                     seekBar.progress = mediaPlayer.currentPosition
+                    updateTimeDisplay()
                 } catch (e: Exception) {}
             }
-            handler.postDelayed(runnable, 500)
+            handler.postDelayed(runnable, 100)
         }
-        handler.postDelayed(runnable, 500)
+        handler.postDelayed(runnable, 100)
 
         seekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
                 if (fromUser && ::mediaPlayer.isInitialized) {
                     mediaPlayer.seekTo(progress)
+                    updateTimeDisplay()
                 }
             }
-            override fun onStartTrackingTouch(seekBar: SeekBar?) {}
-            override fun onStopTrackingTouch(seekBar: SeekBar?) {}
+            override fun onStartTrackingTouch(seekBar: SeekBar?) {
+                isTracking = true
+            }
+            override fun onStopTrackingTouch(seekBar: SeekBar?) {
+                isTracking = false
+            }
         })
 
-        // Controles de reproducción
-        findViewById<ImageButton>(R.id.btnPlay).setOnClickListener {
-            if (!mediaPlayer.isPlaying) mediaPlayer.start()
-        }
-        findViewById<ImageButton>(R.id.btnPause).setOnClickListener {
-            if (mediaPlayer.isPlaying) mediaPlayer.pause()
-        }
-        findViewById<ImageButton>(R.id.btnStop).setOnClickListener {
-            mediaPlayer.pause()
-            mediaPlayer.seekTo(0)
-            seekBar.progress = 0
+        // Control de reproducción toggle
+        btnPlayPause.setOnClickListener {
+            if (mediaPlayer.isPlaying) {
+                mediaPlayer.pause()
+            } else {
+                mediaPlayer.start()
+                handler.postDelayed(runnable, 100)
+            }
+            updatePlayPauseButton()
         }
 
         btnVolver.setOnClickListener {
@@ -164,6 +178,32 @@ class AudioQuizActivity : BaseMenuActivity() {
         voiceContainer.visibility = View.GONE
         quizContainer.visibility = View.VISIBLE
         btnVolver.visibility = View.VISIBLE
+    }
+
+    /**
+     * Actualiza el ícono del botón play/pause según el estado del MediaPlayer.
+     */
+    private fun updatePlayPauseButton() {
+        val iconRes = if (mediaPlayer.isPlaying) {
+            android.R.drawable.ic_media_pause
+        } else {
+            android.R.drawable.ic_media_play
+        }
+        btnPlayPause.setImageResource(iconRes)
+    }
+
+    /**
+     * Actualiza el TextView de tiempo con el formato MM:SS / MM:SS.
+     */
+    private fun updateTimeDisplay() {
+        val current = mediaPlayer.currentPosition / 1000
+        val total = mediaPlayer.duration / 1000
+        tvTime.text = String.format(
+            java.util.Locale.US,
+            "%d:%02d / %d:%02d",
+            current / 60, current % 60,
+            total / 60, total % 60
+        )
     }
 
     /**

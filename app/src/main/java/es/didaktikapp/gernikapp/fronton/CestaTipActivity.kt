@@ -1,9 +1,14 @@
 package es.didaktikapp.gernikapp.fronton
 
 import android.content.Context
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import android.widget.Button
+import android.widget.ImageButton
 import android.widget.RadioGroup
+import android.widget.SeekBar
+import android.widget.TextView
 import android.widget.Toast
 import android.widget.VideoView
 import androidx.core.net.toUri
@@ -15,6 +20,7 @@ import es.didaktikapp.gernikapp.data.repository.GameRepository
 import es.didaktikapp.gernikapp.utils.Constants.Puntos
 import es.didaktikapp.gernikapp.utils.Resource
 import kotlinx.coroutines.launch
+import java.util.Locale
 
 /**
  * Activity del quiz de valores de Cesta Punta.
@@ -25,6 +31,14 @@ class CestaTipActivity : BaseMenuActivity() {
     private lateinit var tokenManager: TokenManager
     private var actividadProgresoId: String? = null
 
+    private lateinit var videoView: VideoView
+    private lateinit var btnPlayPause: ImageButton
+    private lateinit var seekBar: SeekBar
+    private lateinit var tvTime: TextView
+
+    private val handler = Handler(Looper.getMainLooper())
+    private var isTracking = false
+
     override fun getContentLayoutId() = R.layout.fronton_cesta_tip
 
     override fun onContentInflated() {
@@ -32,21 +46,51 @@ class CestaTipActivity : BaseMenuActivity() {
         tokenManager = TokenManager(this)
         iniciarActividad()
 
-        val videoView = findViewById<VideoView>(R.id.videoFronton)
-        val btnPlayPause = findViewById<Button>(R.id.btnPlayVideo)
+        videoView = findViewById(R.id.videoFronton)
+        btnPlayPause = findViewById(R.id.btnPlayPause)
+        seekBar = findViewById(R.id.seekBar)
+        tvTime = findViewById(R.id.tvTime)
 
         val uri = "android.resource://${packageName}/${R.raw.fronton_jarduerarako_bideoa}".toUri()
         videoView.setVideoURI(uri)
 
+        videoView.setOnPreparedListener {
+            seekBar.max = videoView.duration
+            updateTimeDisplay()
+        }
+
+        videoView.setOnCompletionListener {
+            updatePlayPauseButton()
+        }
+
+        // Control de reproducción toggle
         btnPlayPause.setOnClickListener {
             if (videoView.isPlaying) {
                 videoView.pause()
-                btnPlayPause.text = getString(R.string.videoa_erreproduzitu)
             } else {
                 videoView.start()
-                btnPlayPause.text = getString(R.string.videoa_gelditu)
+                updateSeekBar()
             }
+            updatePlayPauseButton()
         }
+
+        // SeekBar
+        seekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
+                if (fromUser) {
+                    videoView.seekTo(progress)
+                    updateTimeDisplay()
+                }
+            }
+
+            override fun onStartTrackingTouch(seekBar: SeekBar?) {
+                isTracking = true
+            }
+
+            override fun onStopTrackingTouch(seekBar: SeekBar?) {
+                isTracking = false
+            }
+        })
 
         val radioGroup = findViewById<RadioGroup>(R.id.opcionesGroup)
         val btnConfirmar = findViewById<Button>(R.id.btnConfirmar)
@@ -110,5 +154,46 @@ class CestaTipActivity : BaseMenuActivity() {
                 is Resource.Loading -> { }
             }
         }
+    }
+
+    private fun updatePlayPauseButton() {
+        val iconRes = if (videoView.isPlaying) {
+            android.R.drawable.ic_media_pause
+        } else {
+            android.R.drawable.ic_media_play
+        }
+        btnPlayPause.setImageResource(iconRes)
+    }
+
+    private fun updateSeekBar() {
+        if (!isTracking && videoView.isPlaying) {
+            seekBar.progress = videoView.currentPosition
+            updateTimeDisplay()
+            handler.postDelayed({ updateSeekBar() }, 100)
+        }
+    }
+
+    private fun updateTimeDisplay() {
+        val current = videoView.currentPosition / 1000
+        val total = videoView.duration / 1000
+        tvTime.text = String.format(
+            Locale.US,
+            "%d:%02d / %d:%02d",
+            current / 60, current % 60,
+            total / 60, total % 60
+        )
+    }
+
+    override fun onPause() {
+        super.onPause()
+        if (videoView.isPlaying) {
+            videoView.pause()
+        }
+        handler.removeCallbacksAndMessages(null)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        handler.removeCallbacksAndMessages(null)
     }
 }

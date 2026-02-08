@@ -14,66 +14,71 @@
         android:layout_height="match_parent"
         android:visibility="visible">
 
-        <ImageView
-            android:id="@+id/ivIntro"
+        <!-- Contenedor de la imagen con esquinas redondeadas -->
+        <FrameLayout
+            android:id="@+id/imageContainer"
             android:layout_width="359dp"
             android:layout_height="447dp"
             android:layout_marginTop="24dp"
-            android:scaleType="centerCrop"
-            android:src="@drawable/gernikako_arbola"
+            android:background="@drawable/bg_video_container"
+            android:clipToOutline="true"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent">
 
-        <SeekBar
-            android:id="@+id/seekBarAudio"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="32dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="32dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/ivIntro" />
+            <ImageView
+                android:id="@+id/ivIntro"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="centerCrop"
+                android:src="@drawable/gernikako_arbola" />
+
+        </FrameLayout>
 
         <LinearLayout
-            android:id="@+id/mediaControls"
-            android:layout_width="wrap_content"
+            android:id="@+id/audioControls"
+            android:layout_width="359dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
+            android:background="@drawable/bg_video_controls"
+            android:gravity="center_vertical"
             android:orientation="horizontal"
+            android:paddingVertical="12dp"
+            android:paddingHorizontal="12dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/seekBarAudio">
+            app:layout_constraintTop_toBottomOf="@+id/imageContainer">
 
             <ImageButton
-                android:id="@+id/btnPlay"
-                android:layout_width="48dp"
-                android:layout_height="48dp"
+                android:id="@+id/btnPlayPause"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:contentDescription="@string/play_pause"
+                android:padding="6dp"
+                android:src="@android:drawable/ic_media_play"
+                app:tint="@color/white" />
+
+            <SeekBar
+                android:id="@+id/seekBarAudio"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginStart="8dp"
                 android:layout_marginEnd="8dp"
-                android:background="@drawable/bg_boton_primario"
-                android:contentDescription="@string/play"
-                android:src="@drawable/ic_play"
-                app:tint="@color/white" />
+                android:progressTint="@color/btnPrincipalShadow"
+                android:thumbTint="@color/white" />
 
-            <ImageButton
-                android:id="@+id/btnPause"
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                android:layout_marginEnd="8dp"
-                android:background="@drawable/bg_boton_primario"
-                android:contentDescription="@string/pause"
-                android:src="@drawable/ic_pause"
-                app:tint="@color/white" />
+            <TextView
+                android:id="@+id/tvTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/_0_00_0_00"
+                android:textColor="@color/white"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:minWidth="70dp"
+                android:gravity="end" />
 
-            <ImageButton
-                android:id="@+id/btnStop"
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                android:background="@drawable/bg_boton_primario"
-                android:contentDescription="@string/stop"
-                android:src="@drawable/ic_stop"
-                app:tint="@color/white" />
         </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -1,8 +1,13 @@
 package es.didaktikapp.gernikapp.fronton
 
 import android.content.Context
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import android.widget.Button
+import android.widget.ImageButton
+import android.widget.SeekBar
+import android.widget.TextView
 import android.widget.VideoView
 import androidx.core.net.toUri
 import androidx.lifecycle.lifecycleScope
@@ -13,6 +18,7 @@ import es.didaktikapp.gernikapp.data.repository.GameRepository
 import es.didaktikapp.gernikapp.utils.Constants.Puntos
 import es.didaktikapp.gernikapp.utils.Resource
 import kotlinx.coroutines.launch
+import java.util.Locale
 
 /**
  * Activity informativa del Frontón Jai Alai de Gernika.
@@ -23,15 +29,26 @@ class InfoActivity : BaseMenuActivity() {
     private lateinit var tokenManager: TokenManager
     private var actividadProgresoId: String? = null
 
+    private lateinit var videoView: VideoView
+    private lateinit var btnPlayPause: ImageButton
+    private lateinit var seekBar: SeekBar
+    private lateinit var tvTime: TextView
+    private lateinit var btnBack: Button
+
+    private val handler = Handler(Looper.getMainLooper())
+    private var isTracking = false
+
     override fun getContentLayoutId() = R.layout.fronton_info
 
     override fun onContentInflated() {
         gameRepository = GameRepository(this)
         tokenManager = TokenManager(this)
 
-        val videoView = findViewById<VideoView>(R.id.videoFronton)
-        val btnPlayPause = findViewById<Button>(R.id.btnPlayVideo)
-        val btnBack = findViewById<Button>(R.id.btnBack)
+        videoView = findViewById(R.id.videoFronton)
+        btnPlayPause = findViewById(R.id.btnPlayPause)
+        seekBar = findViewById(R.id.seekBar)
+        tvTime = findViewById(R.id.tvTime)
+        btnBack = findViewById(R.id.btnBack)
 
         val prefs = getSharedPreferences("fronton_progress", Context.MODE_PRIVATE)
 
@@ -45,25 +62,93 @@ class InfoActivity : BaseMenuActivity() {
         val uri = "android.resource://${packageName}/${R.raw.frontoia}".toUri()
         videoView.setVideoURI(uri)
 
+        videoView.setOnPreparedListener {
+            seekBar.max = videoView.duration
+            updateTimeDisplay()
+        }
+
+        videoView.setOnCompletionListener {
+            updatePlayPauseButton()
+
+            // Habilitar botón y guardar progreso al completar el vídeo
+            btnBack.isEnabled = true
+            prefs.edit().putBoolean("info_completed", true).apply()
+            completarActividad()
+        }
+
+        // Control de reproducción toggle
         btnPlayPause.setOnClickListener {
             if (videoView.isPlaying) {
                 videoView.pause()
-                btnPlayPause.text = getString(R.string.videoa_erreproduzitu)
             } else {
                 videoView.start()
-                btnPlayPause.text = getString(R.string.videoa_gelditu)
-
-                // Habilitar botón y guardar progreso al reproducir el vídeo
-                btnBack.isEnabled = true
-                prefs.edit().putBoolean("info_completed", true).apply()
-                completarActividad()
+                updateSeekBar()
             }
+            updatePlayPauseButton()
         }
+
+        // SeekBar
+        seekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
+                if (fromUser) {
+                    videoView.seekTo(progress)
+                    updateTimeDisplay()
+                }
+            }
+
+            override fun onStartTrackingTouch(seekBar: SeekBar?) {
+                isTracking = true
+            }
+
+            override fun onStopTrackingTouch(seekBar: SeekBar?) {
+                isTracking = false
+            }
+        })
 
         btnBack.setOnClickListener {
             finish()
         }
+    }
 
+    private fun updatePlayPauseButton() {
+        val iconRes = if (videoView.isPlaying) {
+            android.R.drawable.ic_media_pause
+        } else {
+            android.R.drawable.ic_media_play
+        }
+        btnPlayPause.setImageResource(iconRes)
+    }
+
+    private fun updateSeekBar() {
+        if (!isTracking && videoView.isPlaying) {
+            seekBar.progress = videoView.currentPosition
+            updateTimeDisplay()
+            handler.postDelayed({ updateSeekBar() }, 100)
+        }
+    }
+
+    private fun updateTimeDisplay() {
+        val current = videoView.currentPosition / 1000
+        val total = videoView.duration / 1000
+        tvTime.text = String.format(
+            Locale.US,
+            "%d:%02d / %d:%02d",
+            current / 60, current % 60,
+            total / 60, total % 60
+        )
+    }
+
+    override fun onPause() {
+        super.onPause()
+        if (videoView.isPlaying) {
+            videoView.pause()
+        }
+        handler.removeCallbacksAndMessages(null)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        handler.removeCallbacksAndMessages(null)
     }
 
     private fun iniciarActividad() {
