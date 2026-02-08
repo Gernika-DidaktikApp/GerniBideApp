@@ -38,6 +38,8 @@ class RegisterActivity : AppCompatActivity() {
         binding = ActivityRegisterBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        LogManager.write(this@RegisterActivity, "RegisterActivity iniciada")
+
         setupInputFilters()
         setupClassCheckbox()
         setupRegisterButton()
@@ -103,6 +105,8 @@ class RegisterActivity : AppCompatActivity() {
     private fun setupRegisterButton() {
         binding.btnRegistro.setOnClickListener {
             if (validateFields()) {
+                LogManager.write(this@RegisterActivity, "Intento de registro con usuario: ${binding.editTextUsername.text}")
+
                 val registerRequest = RegisterRequest (
                     username = binding.editTextUsername.text.toString().trim(),
                     nombre = binding.editTextNombre.text.toString().trim(),
@@ -123,6 +127,8 @@ class RegisterActivity : AppCompatActivity() {
                         val response = apiService.register(registerRequest)
 
                         if (response.isSuccessful) {
+                            LogManager.write(this@RegisterActivity, "Registro exitoso para usuario: ${registerRequest.username}")
+
                             Toast.makeText(this@RegisterActivity, getString(R.string.registro_exitoso), Toast.LENGTH_LONG).show()
                             val intent = Intent(this@RegisterActivity, MapaActivity::class.java)
                             startActivity(intent)
@@ -135,14 +141,22 @@ class RegisterActivity : AppCompatActivity() {
                                 422 -> "Datos inválidos"
                                 else -> "Error del servidor (${response.code()})"
                             }
+                            LogManager.write(this@RegisterActivity, "Error en registro: $errorMsg")
+
                             Toast.makeText(this@RegisterActivity, errorMsg, Toast.LENGTH_LONG).show()
                         }
 
                     } catch (e: HttpException) {
                         val errorBody = e.response()?.errorBody()?.string()
                         val errorMsg = ApiErrorParser.parse(errorBody, e.code(), this@RegisterActivity)
+
+                        LogManager.write(this@RegisterActivity, "HttpException en registro: $errorMsg")
+
                         Toast.makeText(this@RegisterActivity, errorMsg, Toast.LENGTH_LONG).show()
+
                     } catch (e: Exception) {
+                        LogManager.write(this@RegisterActivity, "Error de conexión en registro: ${e.message}")
+
                         Toast.makeText(this@RegisterActivity, getString(R.string.error_de_conexion), Toast.LENGTH_LONG).show()
                     } finally {
                         binding.btnRegistro.isEnabled = true
@@ -159,6 +173,8 @@ class RegisterActivity : AppCompatActivity() {
      */
     private fun setupLoginLink() {
         binding.tvLoginLink.setOnClickListener {
+            LogManager.write(this@RegisterActivity, "Usuario navegó a LoginActivity desde RegisterActivity")
+
             val intent = Intent(this, LoginActivity::class.java)
             startActivity(intent)
             finish()

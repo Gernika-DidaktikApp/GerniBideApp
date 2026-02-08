@@ -14,6 +14,7 @@ import android.view.GestureDetector
 import android.view.MotionEvent
 import android.view.ScaleGestureDetector
 import android.view.View
+import es.didaktikapp.gernikapp.LogManager
 import es.didaktikapp.gernikapp.utils.Constants
 import java.io.File
 import java.io.FileOutputStream
@@ -121,6 +122,8 @@ class PaintCanvasView @JvmOverloads constructor(
      */
     private fun initializePaintBitmap() {
         if (width > 0 && height > 0) {
+            LogManager.write(context, "PaintCanvasView inicializado: ${width}x${height}")
+
             paintBitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
             bitmapCanvas = Canvas(paintBitmap!!)
             bitmapCanvas?.drawColor(Color.TRANSPARENT)
@@ -143,6 +146,8 @@ class PaintCanvasView @JvmOverloads constructor(
      * @param bottom Coordenada Y inferior del área pintable
      */
     fun setPaintableBounds(left: Float, top: Float, right: Float, bottom: Float) {
+        LogManager.write(context, "Límites pintables: L=$left T=$top R=$right B=$bottom")
+
         paintableLeft = left
         paintableTop = top
         paintableRight = right
@@ -293,6 +298,8 @@ class PaintCanvasView @JvmOverloads constructor(
      * Resetea el bitmap a transparente y limpia la lista de paths.
      */
     fun clearCanvas() {
+        LogManager.write(context, "Canvas limpiado por el usuario")
+
         paintBitmap?.let {
             bitmapCanvas?.drawColor(Color.TRANSPARENT, PorterDuff.Mode.CLEAR)
             invalidate()
@@ -364,13 +371,17 @@ class PaintCanvasView @JvmOverloads constructor(
      */
     fun saveToInternalStorage(context: Context, filename: String = "guernica_coloreado.png"): Boolean {
         return try {
+            LogManager.write(context, "Guardando pintura en $filename")
+
             val bitmap = getBitmap()
             val file = File(context.filesDir, filename)
             FileOutputStream(file).use { out ->
                 bitmap.compress(Bitmap.CompressFormat.PNG, 100, out)
             }
+            LogManager.write(context, "Pintura guardada correctamente")
             true
         } catch (e: Exception) {
+            LogManager.write(context, "Error al guardar pintura: ${e.message}")
             e.printStackTrace()
             false
         }

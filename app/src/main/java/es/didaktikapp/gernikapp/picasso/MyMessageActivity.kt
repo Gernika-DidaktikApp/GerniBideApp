@@ -13,6 +13,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.cardview.widget.CardView
 import androidx.lifecycle.lifecycleScope
 import es.didaktikapp.gernikapp.BaseMenuActivity
+import es.didaktikapp.gernikapp.LogManager
 import es.didaktikapp.gernikapp.R
 import es.didaktikapp.gernikapp.data.local.TokenManager
 import es.didaktikapp.gernikapp.data.repository.GameRepository
@@ -71,6 +72,8 @@ class MyMessageActivity : BaseMenuActivity() {
     }
 
     override fun onContentInflated() {
+        LogManager.write(this@MyMessageActivity, "MyMessageActivity iniciada")
+
         gameRepository = GameRepository(this)
         tokenManager = TokenManager(this)
         binding = PicassoMyMessageBinding.inflate(layoutInflater, contentContainer, true)
@@ -210,6 +213,8 @@ class MyMessageActivity : BaseMenuActivity() {
      */
     private fun saveMessage(message: String) {
         // Guardar mensaje personal del usuario
+        LogManager.write(this@MyMessageActivity, "Mensaje guardado localmente en Picasso")
+
         val prefs = getSharedPreferences(PREFS_NAME, MODE_PRIVATE)
         prefs.edit().apply {
             putBoolean(KEY_HAS_MESSAGE, true)
@@ -392,8 +397,14 @@ class MyMessageActivity : BaseMenuActivity() {
         val juegoId = tokenManager.getJuegoId() ?: return
         lifecycleScope.launch {
             when (val result = gameRepository.iniciarActividad(juegoId, Puntos.Picasso.ID, Puntos.Picasso.MY_MESSAGE)) {
-                is Resource.Success -> actividadProgresoId = result.data.id
-                is Resource.Error -> Log.e("MyMessage", "Error: ${result.message}")
+                is Resource.Success -> {
+                    actividadProgresoId = result.data.id
+                    LogManager.write(this@MyMessageActivity, "API iniciarActividad PICASSO_MY_MESSAGE id=$actividadProgresoId")
+                }
+                is Resource.Error -> {
+                    Log.e("MyMessage", "Error: ${result.message}")
+                    LogManager.write(this@MyMessageActivity, "Error iniciarActividad PICASSO_MY_MESSAGE: ${result.message}")
+                }
                 is Resource.Loading -> { }
             }
         }
@@ -410,8 +421,14 @@ class MyMessageActivity : BaseMenuActivity() {
         val estadoId = actividadProgresoId ?: return
         lifecycleScope.launch {
             when (val result = gameRepository.completarActividad(estadoId, 100.0)) {
-                is Resource.Success -> Log.d("MyMessage", "Completado")
-                is Resource.Error -> Log.e("MyMessage", "Error: ${result.message}")
+                is Resource.Success -> {
+                    Log.d("MyMessage", "Completado")
+                    LogManager.write(this@MyMessageActivity, "API completarActividad PICASSO_MY_MESSAGE")
+                }
+                is Resource.Error -> {
+                    Log.e("MyMessage", "Error: ${result.message}")
+                    LogManager.write(this@MyMessageActivity, "Error completarActividad PICASSO_MY_MESSAGE: ${result.message}")
+                }
                 is Resource.Loading -> { }
             }
         }

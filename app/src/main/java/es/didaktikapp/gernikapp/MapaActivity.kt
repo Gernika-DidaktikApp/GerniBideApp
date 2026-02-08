@@ -23,19 +23,46 @@ import es.didaktikapp.gernikapp.fronton.MainActivity as FrontonMainActivity
 import es.didaktikapp.gernikapp.picasso.MainActivity as PicassoMainActivity
 import es.didaktikapp.gernikapp.plaza.MainActivity as PlazaMainActivity
 
+/**
+ *
+ *
+ * @author
+ * @version
+ */
 class MapaActivity : BaseMenuActivity(), OnMapReadyCallback {
 
+    /**  */
     private lateinit var binding: ActivityMapaBinding
+
+    /**  */
     private lateinit var nMap: GoogleMap
+
+    /**  */
     private lateinit var bottomSheetBehavior: BottomSheetBehavior<*>
+
+    /**  */
     private lateinit var ivBottomSheetIcon: ImageView
+
+    /**  */
     private lateinit var tvBottomSheetTitle: TextView
+
+    /**  */
     private lateinit var tvBottomSheetDescription: TextView
+
+    /**  */
     private lateinit var btnGoToActivity: Button
+
+    /**  */
     private var selectedLocation: String? = null
 
+    /**
+     *
+     *
+     */
     override fun onContentInflated() {
         binding = ActivityMapaBinding.inflate(layoutInflater, contentContainer, true)
+
+        LogManager.write(this@MapaActivity, "MapaActivity iniciada")
 
         // Inicializar BottomSheet
         val bottomSheet = binding.root.findViewById<androidx.core.widget.NestedScrollView>(R.id.bottomSheet)
@@ -47,6 +74,7 @@ class MapaActivity : BaseMenuActivity(), OnMapReadyCallback {
 
         btnGoToActivity.setOnClickListener {
             selectedTag?.let { tag ->
+                LogManager.write(this@MapaActivity, "Navegando desde mapa a: $tag")
                 val intent = when (tag) {
                     "arbola" -> Intent(this, ArbolMainActivity::class.java)
                     "bunkers" -> Intent(this, BunkersMainActivity::class.java)
@@ -63,8 +91,15 @@ class MapaActivity : BaseMenuActivity(), OnMapReadyCallback {
         mapFragment.getMapAsync(this)
     }
 
+    /**
+     *
+     *
+     * @param googleMap
+     */
     override fun onMapReady(googleMap: GoogleMap) {
         nMap = googleMap
+
+        LogManager.write(this@MapaActivity, "GoogleMap listo")
 
         val gernika = LatLng(Constants.Map.GERNIKA_CENTER_LAT, Constants.Map.GERNIKA_CENTER_LNG)
         nMap.moveCamera(CameraUpdateFactory.newLatLngZoom(gernika, Constants.Map.DEFAULT_ZOOM_LEVEL))
@@ -131,6 +166,12 @@ class MapaActivity : BaseMenuActivity(), OnMapReadyCallback {
 
     private var selectedTag: String? = null
 
+    /**
+     *
+     *
+     * @param titulo
+     * @param tag
+     */
     private fun actualizarBottomSheet(titulo: String, tag: String?) {
         tvBottomSheetTitle.text = titulo
         selectedLocation = titulo
@@ -171,6 +212,10 @@ class MapaActivity : BaseMenuActivity(), OnMapReadyCallback {
         btnGoToActivity.visibility = View.VISIBLE
     }
 
+    /**
+     *
+     *
+     */
     private fun resetBottomSheet() {
         tvBottomSheetTitle.text = getString(R.string.map_bottom_sheet_default_title)
         tvBottomSheetDescription.text = getString(R.string.map_bottom_sheet_default_description)
@@ -181,6 +226,13 @@ class MapaActivity : BaseMenuActivity(), OnMapReadyCallback {
         bottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
     }
 
+    /**
+     *
+     *
+     * @param requestCode
+     * @param permissions
+     * @param grantResults
+     */
     override fun onRequestPermissionsResult(
         requestCode: Int,
         permissions: Array<out String>,
@@ -189,6 +241,7 @@ class MapaActivity : BaseMenuActivity(), OnMapReadyCallback {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         if (requestCode == Constants.Permissions.LOCATION_PERMISSION_REQUEST_CODE) {
             if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                LogManager.write(this@MapaActivity, "Permiso de ubicación concedido")
                 // Permiso concedido, habilitar ubicación en el mapa
                 if (ActivityCompat.checkSelfPermission(
                         this,

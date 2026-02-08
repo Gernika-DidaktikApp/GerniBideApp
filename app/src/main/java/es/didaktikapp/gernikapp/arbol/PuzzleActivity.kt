@@ -3,7 +3,6 @@ package es.didaktikapp.gernikapp.arbol
 import es.didaktikapp.gernikapp.R
 import es.didaktikapp.gernikapp.BaseMenuActivity
 
-import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Rect
@@ -23,6 +22,7 @@ import es.didaktikapp.gernikapp.utils.Constants.Puntos
 import es.didaktikapp.gernikapp.utils.Resource
 import kotlinx.coroutines.launch
 import kotlin.random.Random
+import androidx.core.content.edit
 
 /**
  * Activity de puzzle de **6 piezas** (2x3) donde el usuario arma la imagen `arbola_eta_batzar_etxea`.
@@ -116,7 +116,7 @@ class PuzzleActivity : BaseMenuActivity() {
         }
 
         // Si ya estaba completado, mostrar botón activo
-        val prefs = getSharedPreferences("arbol_progress", Context.MODE_PRIVATE)
+        val prefs = getSharedPreferences("arbol_progress", MODE_PRIVATE)
         if (prefs.getBoolean("puzzle_completed", false)) {
             btnBack.visibility = View.VISIBLE
             btnBack.isEnabled = true
@@ -271,8 +271,8 @@ class PuzzleActivity : BaseMenuActivity() {
             guideImage.alpha = 0.5f
 
             // Persistir progreso local
-            val prefs = getSharedPreferences("arbol_progress", Context.MODE_PRIVATE)
-            prefs.edit().putBoolean("puzzle_completed", true).apply()
+            val prefs = getSharedPreferences("arbol_progress", MODE_PRIVATE)
+            prefs.edit { putBoolean("puzzle_completed", true) }
 
             completarActividad()
         }

@@ -1,5 +1,6 @@
 package es.didaktikapp.gernikapp
 
+import android.content.Context
 import android.content.Intent
 import android.util.Log
 import android.widget.Button
@@ -20,11 +21,15 @@ import java.util.Locale
  */
 class ProfileActivity : BaseMenuActivity() {
 
+    /**  */
     companion object {
         private const val TAG = "ProfileActivity"
     }
 
+    /**  */
     private lateinit var tokenManager: TokenManager
+
+    /**  */
     private lateinit var userRepository: UserRepository
 
     // Views
@@ -45,11 +50,18 @@ class ProfileActivity : BaseMenuActivity() {
     private lateinit var achievementPlaza: LinearLayout
     private lateinit var achievementFronton: LinearLayout
 
+    /**  */
     override fun getContentLayoutId() = R.layout.activity_profile
 
+    /**
+     *
+     *
+     */
     override fun onContentInflated() {
         tokenManager = TokenManager(this)
         userRepository = UserRepository(this)
+
+        LogManager.write(this@ProfileActivity, "ProfileActivity iniciada")
 
         // Log del estado de la sesión
         if (BuildConfig.DEBUG) {
@@ -62,6 +74,10 @@ class ProfileActivity : BaseMenuActivity() {
         loadUserProfile()
     }
 
+    /**
+     *
+     *
+     */
     private fun initViews() {
         tvAvatarInitials = findViewById(R.id.tvAvatarInitials)
         tvFullName = findViewById(R.id.tvFullName)
@@ -81,6 +97,10 @@ class ProfileActivity : BaseMenuActivity() {
         achievementFronton = findViewById(R.id.achievementFronton)
     }
 
+    /**
+     *
+     *
+     */
     private fun setupListeners() {
         btnEditProfile.setOnClickListener {
             startActivity(Intent(this, UserEditActivity::class.java))
@@ -91,8 +111,14 @@ class ProfileActivity : BaseMenuActivity() {
         }
     }
 
+    /**
+     *
+     *
+     */
     private fun loadUserProfile() {
         Log.d(TAG, "📱 Cargando perfil de usuario...")
+
+        LogManager.write(this@ProfileActivity, "Cargando perfil de usuario")
 
         // Mostrar datos locales primero (username guardado)
         tokenManager.getUsername()?.let { username ->
@@ -104,7 +130,8 @@ class ProfileActivity : BaseMenuActivity() {
         lifecycleScope.launch {
             when (val result = userRepository.getUserProfile()) {
                 is Resource.Success -> {
-                    result.data?.let { user ->
+                    result.data.let { user ->
+                        LogManager.write(this@ProfileActivity, "Perfil cargado: ${user.username} (ID: ${user.id})")
                         Log.d(TAG, "✅ Perfil cargado: ${user.username} (ID: ${user.id})")
                         updateUI(user.nombre, user.apellido, user.username, user.topScore, user.creation)
                         // Cargar estadísticas del usuario
@@ -112,6 +139,7 @@ class ProfileActivity : BaseMenuActivity() {
                     }
                 }
                 is Resource.Error -> {
+                    LogManager.write(this@ProfileActivity, "Error cargando perfil: ${result.message}")
                     Log.e(TAG, "❌ Error cargando perfil: ${result.message}")
                     // Si falla la API, mostrar datos locales
                     tokenManager.getUsername()?.let { username ->
@@ -123,19 +151,28 @@ class ProfileActivity : BaseMenuActivity() {
         }
     }
 
+    /**
+     *
+     *
+     * @param userId
+     */
     private fun loadUserStats(userId: String) {
         Log.d(TAG, "📊 Cargando estadísticas para usuario: $userId")
+
+        LogManager.write(this@ProfileActivity, "Cargando estadísticas para usuario: $userId")
 
         lifecycleScope.launch {
             when (val result = userRepository.getUserStats(userId)) {
                 is Resource.Success -> {
-                    result.data?.let { stats ->
+                    result.data.let { stats ->
                         Log.d(TAG, "✅ Estadísticas cargadas: ${stats.actividadesCompletadas} actividades, ${stats.rachaDias} días racha")
+                        LogManager.write(this@ProfileActivity, "Estadísticas cargadas: ${stats.actividadesCompletadas} actividades, ${stats.rachaDias} días racha")
                         updateStats(stats.actividadesCompletadas, stats.rachaDias)
                         unlockCompletedModules(stats.modulosCompletados)
                     }
                 }
                 is Resource.Error -> {
+                    LogManager.write(this@ProfileActivity, "Error cargando estadísticas: ${result.message}")
                     Log.e(TAG, "❌ Error cargando estadísticas: ${result.message}")
                     // Si falla la API, mostrar valores por defecto
                     updateStats(0, 0)
@@ -145,11 +182,22 @@ class ProfileActivity : BaseMenuActivity() {
         }
     }
 
+    /**
+     *
+     *
+     * @param activitiesCompleted
+     * @param streak
+     */
     private fun updateStats(activitiesCompleted: Int, streak: Int) {
         tvActivitiesCompleted.text = activitiesCompleted.toString()
         tvStreak.text = streak.toString()
     }
 
+    /**
+     *
+     *
+     * @param modulosCompletados
+     */
     private fun unlockCompletedModules(modulosCompletados: List<String>) {
         // Mapeo de nombres de módulos de la API a IDs de achievements
         val moduleMap = mapOf(
@@ -174,6 +222,15 @@ class ProfileActivity : BaseMenuActivity() {
         }
     }
 
+    /**
+     *
+     *
+     * @param nombre
+     * @param apellido
+     * @param username
+     * @param topScore
+     * @param creationDate
+     */
     private fun updateUI(
         nombre: String,
         apellido: String,
@@ -189,12 +246,23 @@ class ProfileActivity : BaseMenuActivity() {
         updateMemberSince(creationDate)
     }
 
+    /**
+     *
+     *
+     * @param nombre
+     * @param apellido
+     */
     private fun updateAvatarInitials(nombre: String, apellido: String) {
         val initial1 = nombre.firstOrNull()?.uppercaseChar() ?: '?'
         val initial2 = apellido.firstOrNull()?.uppercaseChar() ?: nombre.getOrNull(1)?.uppercaseChar() ?: ""
         tvAvatarInitials.text = "$initial1$initial2"
     }
 
+    /**
+     *
+     *
+     * @param creationDate
+     */
     private fun updateMemberSince(creationDate: String?) {
         if (creationDate.isNullOrEmpty()) {
             tvMemberSince.text = getString(R.string.profile_member_since, "2024")
@@ -233,6 +301,10 @@ class ProfileActivity : BaseMenuActivity() {
             ?.start()
     }
 
+    /**
+     *
+     *
+     */
     private fun showLogoutConfirmation() {
         android.app.AlertDialog.Builder(this)
             .setTitle(R.string.profile_logout_title)
@@ -244,9 +316,15 @@ class ProfileActivity : BaseMenuActivity() {
             .show()
     }
 
+    /**
+     *
+     *
+     */
     private fun performLogout() {
         tokenManager.clearSession()
         Toast.makeText(this, getString(R.string.profile_logout_success), Toast.LENGTH_SHORT).show()
+
+        LogManager.write(this@ProfileActivity, "Usuario cerró sesión")
 
         // Navegar al login y limpiar el back stack
         val intent = Intent(this, LoginActivity::class.java)
@@ -255,6 +333,10 @@ class ProfileActivity : BaseMenuActivity() {
         finish()
     }
 
+    /**
+     *
+     *
+     */
     override fun onResume() {
         super.onResume()
         // Recargar datos al volver (por si se editó el perfil)

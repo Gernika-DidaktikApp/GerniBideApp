@@ -9,6 +9,7 @@ import android.widget.Button
 import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.lifecycleScope
 import es.didaktikapp.gernikapp.BaseMenuActivity
+import es.didaktikapp.gernikapp.LogManager
 import es.didaktikapp.gernikapp.R
 import es.didaktikapp.gernikapp.data.local.TokenManager
 import es.didaktikapp.gernikapp.data.repository.GameRepository
@@ -138,6 +139,8 @@ class ViewInterpretActivity : BaseMenuActivity() {
     )
 
     override fun onContentInflated() {
+        LogManager.write(this@ViewInterpretActivity, "ViewInterpretActivity iniciada")
+
         gameRepository = GameRepository(this)
         tokenManager = TokenManager(this)
         binding = PicassoViewInterpretBinding.inflate(layoutInflater, contentContainer, true)
@@ -296,6 +299,8 @@ class ViewInterpretActivity : BaseMenuActivity() {
      */
     private fun loadQuestion() {
         if (currentQuestionIndex < questions.size) {
+            LogManager.write( this@ViewInterpretActivity, "Cargando pregunta ${currentQuestionIndex + 1} de ${questions.size}" )
+
             val question = questions[currentQuestionIndex]
 
             // Actualizar UI
@@ -366,6 +371,9 @@ class ViewInterpretActivity : BaseMenuActivity() {
      */
     private fun checkAnswer(selectedIndex: Int, selectedButton: Button) {
         val question = questions[currentQuestionIndex]
+
+        LogManager.write( this@ViewInterpretActivity, "Respuesta seleccionada: $selectedIndex (correcta=${question.correctAnswerIndex})" )
+
         val options = listOf(binding.option1, binding.option2, binding.option3, binding.option4)
 
         // Deshabilitar todos los botones
@@ -400,6 +408,8 @@ class ViewInterpretActivity : BaseMenuActivity() {
      * - Si no hay más: muestra resultados finales
      */
     private fun loadNextQuestion() {
+        LogManager.write( this@ViewInterpretActivity, "Avanzando a la siguiente pregunta (actual=$currentQuestionIndex)" )
+
         currentQuestionIndex++
         saveProgress() // Guardar progreso después de cada pregunta
 
@@ -439,6 +449,8 @@ class ViewInterpretActivity : BaseMenuActivity() {
      * - Completa el evento en la API con puntuación
      */
     private fun showFinalResults() {
+        LogManager.write( this@ViewInterpretActivity, "Test completado con $correctAnswers aciertos" )
+
         // Guardar resultado final en lugar de limpiar
         saveProgress(testCompleted = true)
 
@@ -481,8 +493,14 @@ class ViewInterpretActivity : BaseMenuActivity() {
         val juegoId = tokenManager.getJuegoId() ?: return
         lifecycleScope.launch {
             when (val result = gameRepository.iniciarActividad(juegoId, Puntos.Picasso.ID, Puntos.Picasso.VIEW_INTERPRET)) {
-                is Resource.Success -> actividadProgresoId = result.data.id
-                is Resource.Error -> Log.e("ViewInterpret", "Error: ${result.message}")
+                is Resource.Success -> {
+                    actividadProgresoId = result.data.id
+                    LogManager.write(this@ViewInterpretActivity, "API iniciarActividad VIEW_INTERPRET id=$actividadProgresoId")
+                }
+                is Resource.Error -> {
+                    Log.e("ViewInterpret", "Error: ${result.message}")
+                    LogManager.write(this@ViewInterpretActivity, "Error iniciarActividad VIEW_INTERPRET: ${result.message}")
+                }
                 is Resource.Loading -> { }
             }
         }
@@ -499,8 +517,14 @@ class ViewInterpretActivity : BaseMenuActivity() {
         val estadoId = actividadProgresoId ?: return
         lifecycleScope.launch {
             when (val result = gameRepository.completarActividad(estadoId, correctAnswers * 100.0)) {
-                is Resource.Success -> Log.d("ViewInterpret", "Completado: ${correctAnswers * 100}")
-                is Resource.Error -> Log.e("ViewInterpret", "Error: ${result.message}")
+                is Resource.Success -> {
+                    Log.d("ViewInterpret", "Completado: ${correctAnswers * 100}")
+                    LogManager.write(this@ViewInterpretActivity, "API completarActividad VIEW_INTERPRET puntuación=${correctAnswers * 100}")
+                }
+                is Resource.Error -> {
+                    Log.e("ViewInterpret", "Error: ${result.message}")
+                    LogManager.write(this@ViewInterpretActivity, "Error completarActividad VIEW_INTERPRET: ${result.message}")
+                }
                 is Resource.Loading -> { }
             }
         }

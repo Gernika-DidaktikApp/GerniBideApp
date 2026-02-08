@@ -1,6 +1,5 @@
 package es.didaktikapp.gernikapp.arbol
 
-import android.content.Context
 import android.content.Intent
 import androidx.core.content.ContextCompat
 import es.didaktikapp.gernikapp.BaseMenuActivity
@@ -62,7 +61,7 @@ class MainActivity : BaseMenuActivity() {
      * **Drawable aplicado:** `R.drawable.bg_boton_completado`
      */
     private fun updateCompletedActivities() {
-        val prefs = getSharedPreferences("arbol_progress", Context.MODE_PRIVATE)
+        val prefs = getSharedPreferences("arbol_progress", MODE_PRIVATE)
 
         // Audio Quiz completado
         if (prefs.getBoolean("audio_quiz_completed", false)) {

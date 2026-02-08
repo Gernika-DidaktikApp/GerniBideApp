@@ -2,6 +2,7 @@ package es.didaktikapp.gernikapp.picasso
 
 import android.graphics.BitmapFactory
 import es.didaktikapp.gernikapp.BaseMenuActivity
+import es.didaktikapp.gernikapp.LogManager
 import es.didaktikapp.gernikapp.R
 import es.didaktikapp.gernikapp.databinding.PicassoResultBinding
 import es.didaktikapp.gernikapp.utils.BitmapUtils
@@ -32,6 +33,8 @@ class ResultActivity : BaseMenuActivity() {
     private lateinit var binding: PicassoResultBinding
 
     override fun onContentInflated() {
+        LogManager.write(this@ResultActivity, "ResultActivity iniciada")
+
         binding = PicassoResultBinding.inflate(layoutInflater, contentContainer, true)
         loadAndDisplayResult()
         setupClickListeners()
@@ -53,9 +56,10 @@ class ResultActivity : BaseMenuActivity() {
         val savedBitmap = PaintCanvasView.loadFromInternalStorage(this)
 
         if (savedBitmap != null) {
+            LogManager.write(this@ResultActivity, "Imagen guardada encontrada, combinando con Guernica")
+
             // Cargar la imagen del Guernica original
             val guernicaBitmap = BitmapFactory.decodeResource(resources, R.drawable.gernika_outlines)
-
             // Combinar las dos imágenes
             val combinedBitmap = BitmapUtils.combineBitmapsWithScaling(guernicaBitmap, savedBitmap)
 
@@ -63,6 +67,7 @@ class ResultActivity : BaseMenuActivity() {
             binding.resultImage.setImageBitmap(combinedBitmap)
         } else {
             // Si no hay imagen guardada, mostrar solo el Guernica
+            LogManager.write(this@ResultActivity, "No hay imagen guardada, mostrando Guernica original")
             binding.resultImage.setImageResource(R.drawable.gernika_outlines)
         }
     }
@@ -76,10 +81,12 @@ class ResultActivity : BaseMenuActivity() {
     private fun setupClickListeners() {
         binding.btnBack.setOnClickListener {
             finish()
+            LogManager.write(this@ResultActivity, "Usuario volvió desde ResultActivity")
         }
 
         binding.btnShare.setOnClickListener {
             // TODO: Implementar compartir imagen
+            LogManager.write(this@ResultActivity, "Botón compartir pulsado")
         }
     }
 }

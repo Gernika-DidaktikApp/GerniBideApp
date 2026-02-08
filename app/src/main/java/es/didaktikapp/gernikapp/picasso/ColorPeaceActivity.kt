@@ -2,7 +2,6 @@ package es.didaktikapp.gernikapp.picasso
 
 import android.content.Intent
 import android.content.pm.ActivityInfo
-import android.content.res.ColorStateList
 import android.graphics.BitmapFactory
 import android.graphics.Color
 import android.os.Bundle
@@ -12,6 +11,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.lifecycleScope
 import es.didaktikapp.gernikapp.BaseMenuActivity
+import es.didaktikapp.gernikapp.LogManager
 import es.didaktikapp.gernikapp.R
 import es.didaktikapp.gernikapp.data.local.TokenManager
 import es.didaktikapp.gernikapp.data.repository.GameRepository
@@ -78,6 +78,8 @@ class ColorPeaceActivity : BaseMenuActivity() {
     }
 
     override fun onContentInflated() {
+        LogManager.write(this@ColorPeaceActivity, "ColorPeaceActivity iniciada")
+
         gameRepository = GameRepository(this)
         tokenManager = TokenManager(this)
         binding = PicassoColorPeaceBinding.inflate(layoutInflater, contentContainer, true)
@@ -103,9 +105,11 @@ class ColorPeaceActivity : BaseMenuActivity() {
     private fun checkForSavedPainting() {
         if (PaintCanvasView.hasSavedImage(this)) {
             // Mostrar modo vista previa
+            LogManager.write(this@ColorPeaceActivity, "Modo vista previa detectado (imagen guardada encontrada)")
             showPreviewMode()
         } else {
             // Mostrar modo pintar
+            LogManager.write(this@ColorPeaceActivity, "Modo pintar activado (sin imagen guardada)")
             showPaintMode()
         }
     }
@@ -257,26 +261,31 @@ class ColorPeaceActivity : BaseMenuActivity() {
     private fun setupColorListeners() {
         binding.colorBlue.setOnClickListener {
             binding.paintCanvas.currentColor = colorBlue
+            LogManager.write(this@ColorPeaceActivity, "Color seleccionado: BLUE")
             highlightSelectedColor(it)
         }
 
         binding.colorGreen.setOnClickListener {
             binding.paintCanvas.currentColor = colorGreen
+            LogManager.write(this@ColorPeaceActivity, "Color seleccionado: GREEN")
             highlightSelectedColor(it)
         }
 
         binding.colorYellow.setOnClickListener {
             binding.paintCanvas.currentColor = colorYellow
+            LogManager.write(this@ColorPeaceActivity, "Color seleccionado: YELLOW")
             highlightSelectedColor(it)
         }
 
         binding.colorPink.setOnClickListener {
             binding.paintCanvas.currentColor = colorPink
+            LogManager.write(this@ColorPeaceActivity, "Color seleccionado: PINK")
             highlightSelectedColor(it)
         }
 
         binding.colorWhite.setOnClickListener {
             binding.paintCanvas.currentColor = colorWhite
+            LogManager.write(this@ColorPeaceActivity, "Color seleccionado: WHITE")
             highlightSelectedColor(it)
         }
     }
@@ -320,9 +329,11 @@ class ColorPeaceActivity : BaseMenuActivity() {
         val saved = binding.paintCanvas.saveToInternalStorage(this)
 
         if (saved) {
+            LogManager.write(this@ColorPeaceActivity, "Pintura guardada correctamente")
             completarActividad()
             showCompletionDialog()
         } else {
+            LogManager.write(this@ColorPeaceActivity, "Error al guardar la pintura")
             Toast.makeText(
                 this,
                 getString(R.string.color_peace_save_error),
@@ -361,8 +372,14 @@ class ColorPeaceActivity : BaseMenuActivity() {
         val juegoId = tokenManager.getJuegoId() ?: return
         lifecycleScope.launch {
             when (val result = gameRepository.iniciarActividad(juegoId, Puntos.Picasso.ID, Puntos.Picasso.COLOR_PEACE)) {
-                is Resource.Success -> actividadProgresoId = result.data.id
-                is Resource.Error -> Log.e("ColorPeace", "Error: ${result.message}")
+                is Resource.Success -> {
+                    actividadProgresoId = result.data.id
+                    LogManager.write(this@ColorPeaceActivity, "API iniciarActividad PICASSO_COLOR_PEACE id=$actividadProgresoId")
+                }
+                is Resource.Error -> {
+                    Log.e("ColorPeace", "Error: ${result.message}")
+                    LogManager.write(this@ColorPeaceActivity, "Error iniciarActividad PICASSO_COLOR_PEACE: ${result.message}")
+                }
                 is Resource.Loading -> { }
             }
         }
@@ -379,8 +396,14 @@ class ColorPeaceActivity : BaseMenuActivity() {
         val estadoId = actividadProgresoId ?: return
         lifecycleScope.launch {
             when (val result = gameRepository.completarActividad(estadoId, 100.0)) {
-                is Resource.Success -> Log.d("ColorPeace", "Completado")
-                is Resource.Error -> Log.e("ColorPeace", "Error: ${result.message}")
+                is Resource.Success -> {
+                    Log.d("ColorPeace", "Completado")
+                    LogManager.write(this@ColorPeaceActivity, "API completarActividad PICASSO_COLOR_PEACE")
+                }
+                is Resource.Error -> {
+                    Log.e("ColorPeace", "Error: ${result.message}")
+                    LogManager.write(this@ColorPeaceActivity, "Error completarActividad PICASSO_COLOR_PEACE: ${result.message}")
+                }
                 is Resource.Loading -> { }
             }
         }

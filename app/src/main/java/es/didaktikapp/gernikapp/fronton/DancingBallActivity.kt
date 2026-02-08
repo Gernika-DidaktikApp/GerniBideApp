@@ -1,6 +1,5 @@
 package es.didaktikapp.gernikapp.fronton
 
-import android.content.Context
 import android.media.AudioManager
 import android.media.ToneGenerator
 import android.os.Handler
@@ -25,36 +24,85 @@ import androidx.activity.OnBackPressedCallback
 import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.launch
+import androidx.core.content.edit
+import es.didaktikapp.gernikapp.LogManager
 
 /**
- * Activity del juego Dancing Ball.
+ * Minijuego del módulo *Frontón* donde el jugador debe golpear una pelota
+ * con la zesta para sumar puntos.
+ *
+ * @author Erlantz
+ * @version 1.0
  */
 class DancingBallActivity : BaseMenuActivity() {
 
+    /** Imagen de la pelota del juego. */
     private lateinit var ball: ImageView
+
+    /** Imagen de la zesta controlada por el jugador. */
     private lateinit var zesta: ImageView
+
+    /** Contenedor principal donde se desarrolla el juego. */
     private lateinit var gameArea: FrameLayout
+
+    /** Texto que muestra la puntuación actual. */
     private lateinit var tvPuntos: TextView
+
+    /** Diálogo mostrado al finalizar la partida. */
     private lateinit var gameOverDialog: LinearLayout
+
+    /** Texto que muestra la puntuación final en Game Over. */
     private lateinit var tvFinalScore: TextView
+
+    /** Botón para reiniciar la partida. */
     private lateinit var btnReiniciar: Button
+
+    /** Botón para volver atrás desde Game Over. */
     private lateinit var btnBack: Button
+
+    /** Repositorio para comunicación con la API del juego. */
     private lateinit var gameRepository: GameRepository
+
+    /** Gestor de sesión y datos locales. */
     private lateinit var tokenManager: TokenManager
+
+    /** ID del progreso de la actividad en la API. */
     private var actividadProgresoId: String? = null
 
+    /** Handler para ejecutar el loop del juego a 60 FPS. */
     private val handler = Handler(Looper.getMainLooper())
+
+    /** Velocidad horizontal de la pelota. */
     private var dx = 8f
+
+    /** Velocidad vertical de la pelota. */
     private var dy = 12f
+
+    /** Puntuación actual del jugador. */
     private var puntos = 0
+
+    /** Indica si el juego está activo. */
     private var gameRunning = true
+
+    /**Ancho del área de juego.  */
     private var gameWidth = 0f
+
+    /** Alto del área de juego. */
     private var gameHeight = 0f
+
+    /** Callback personalizado para el botón de atrás. */
     private lateinit var backCallback: OnBackPressedCallback
 
+    /** @return Layout principal del minijuego. */
     override fun getContentLayoutId() = R.layout.fronton_dancing_ball
 
+    /**
+     * Inicializa vistas, repositorios, controles táctiles, lógica del juego
+     * y registra el inicio del evento en la API.
+     */
     override fun onContentInflated() {
+        LogManager.write(this@DancingBallActivity, "DancingBallActivity iniciada")
+
         gameRepository = GameRepository(this)
         tokenManager = TokenManager(this)
 
@@ -228,9 +276,11 @@ class DancingBallActivity : BaseMenuActivity() {
         tvFinalScore.text = getString(R.string.puntuak_d, puntos)
         gameOverDialog.visibility = View.VISIBLE
 
+        LogManager.write(this@DancingBallActivity, "Game Over en DancingBall: puntos=$puntos")
+
         // Guardar progreso
-        val prefs = getSharedPreferences("fronton_progress", Context.MODE_PRIVATE)
-        prefs.edit().putBoolean("dancing_ball_completed", true).apply()
+        val prefs = getSharedPreferences("fronton_progress", MODE_PRIVATE)
+        prefs.edit { putBoolean("dancing_ball_completed", true) }
         completarActividad()
     }
 
@@ -242,6 +292,8 @@ class DancingBallActivity : BaseMenuActivity() {
      * - Renicia el game loop
      */
     private fun reiniciarJuego() {
+        LogManager.write(this@DancingBallActivity, "Juego reiniciado en DancingBall")
+
         gameRunning = true
         puntos = 0
         dx = 8f
@@ -282,23 +334,41 @@ class DancingBallActivity : BaseMenuActivity() {
         } catch (e: Exception) { }
     }
 
+    /**
+     * Registra el inicio del evento en la API.
+     */
     private fun iniciarActividad() {
         val juegoId = tokenManager.getJuegoId() ?: return
         lifecycleScope.launch {
             when (val result = gameRepository.iniciarActividad(juegoId, Puntos.Fronton.ID, Puntos.Fronton.DANCING_BALL)) {
-                is Resource.Success -> actividadProgresoId = result.data.id
-                is Resource.Error -> Log.e("DancingBall", "Error: ${result.message}")
+                is Resource.Success -> {
+                    actividadProgresoId = result.data.id
+                    LogManager.write(this@DancingBallActivity, "API iniciarActividad DANCING_BALL")
+                }
+                is Resource.Error -> {
+                    LogManager.write(this@DancingBallActivity, "Error iniciarActividad DANCING_BALL: ${result.message}")
+                    Log.e("DancingBall", "Error: ${result.message}")
+                }
                 is Resource.Loading -> { }
             }
         }
     }
 
+    /**
+     * Envía la puntuación final a la API para completar el evento.
+     */
     private fun completarActividad() {
         val estadoId = actividadProgresoId ?: return
         lifecycleScope.launch {
             when (val result = gameRepository.completarActividad(estadoId, (puntos * 100).toDouble())) {
-                is Resource.Success -> Log.d("DancingBall", "Completado")
-                is Resource.Error -> Log.e("DancingBall", "Error: ${result.message}")
+                is Resource.Success -> {
+                    Log.d("DancingBall", "Completado")
+                    LogManager.write(this@DancingBallActivity, "API completarActividad DANCING_BALL")
+                }
+                is Resource.Error -> {
+                    Log.e("DancingBall", "Error: ${result.message}")
+                    LogManager.write(this@DancingBallActivity, "Error completarActividad DANCING_BALL: ${result.message}")
+                }
                 is Resource.Loading -> { }
             }
         }

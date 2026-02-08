@@ -1,12 +1,10 @@
 package es.didaktikapp.gernikapp.arbol
 
-import android.content.Context
 import android.graphics.PointF
 import android.graphics.Rect
 import android.graphics.Typeface
 import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
-import android.util.Log
 import android.view.Gravity
 import android.view.MotionEvent
 import android.view.View
@@ -223,7 +221,7 @@ class InteractiveActivity : BaseMenuActivity() {
                         // Buscar slot más cercano disponible
                         for (i in slotPercentages.indices) {
                             val slotPos = getSlotCoords(slotPercentages[i], imgRect)
-                            val dist = hypot((v.x + v.width / 2 - slotPos.x), (v.y + v.height / 2 - slotPos.y)).toFloat()
+                            val dist = hypot((v.x + v.width / 2 - slotPos.x), (v.y + v.height / 2 - slotPos.y))
 
                             // Solo considerar slots libres o el propio
                             if (dist < minDistance && (occupiedSlots[i] == null || occupiedSlots[i] == v)) {
