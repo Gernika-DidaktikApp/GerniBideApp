@@ -12,11 +12,9 @@
         android:id="@+id/tvTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="52dp"
+        android:layout_marginTop="@dimen/espaciado_xxxl"
         android:text="@string/sound_game_title"
-        android:textColor="@color/btnPrincipal"
-        android:textSize="24sp"
-        android:textStyle="bold"
+        android:textAppearance="@style/AparienciaTexto.App.Encabezado.Primario"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.518"
         app:layout_constraintStart_toStartOf="parent"
@@ -26,10 +24,9 @@
         android:id="@+id/tvStars"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="@dimen/espaciado_lg"
         android:text="@string/_0_5"
-        android:textColor="@color/black"
-        android:textSize="24sp"
+        android:textAppearance="@style/AparienciaTexto.App.Encabezado.Defecto"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
@@ -39,7 +36,7 @@
         android:id="@+id/soundGrid"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="@dimen/espaciado_xl"
         android:columnCount="3"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -47,58 +44,38 @@
 
         <ImageButton
             android:id="@+id/btnSound1"
-            android:layout_width="70dp"
-            android:layout_height="70dp"
-            android:layout_margin="8dp"
-            android:background="@drawable/bg_boton_secundario"
+            style="@style/EstiloImageButtonSecundario"
+            android:layout_margin="@dimen/espaciado_sm"
             android:contentDescription="@string/play"
-            android:src="@drawable/ic_play"
-            app:backgroundTint="@null"
-            app:tint="@color/white" />
+            android:src="@drawable/ic_play" />
 
         <ImageButton
             android:id="@+id/btnSound2"
-            android:layout_width="70dp"
-            android:layout_height="70dp"
-            android:layout_margin="8dp"
-            android:background="@drawable/bg_boton_secundario"
+            style="@style/EstiloImageButtonSecundario"
+            android:layout_margin="@dimen/espaciado_sm"
             android:contentDescription="@string/play"
-            android:src="@drawable/ic_play"
-            app:backgroundTint="@null"
-            app:tint="@color/white" />
+            android:src="@drawable/ic_play" />
 
         <ImageButton
             android:id="@+id/btnSound3"
-            android:layout_width="70dp"
-            android:layout_height="70dp"
-            android:layout_margin="8dp"
-            android:background="@drawable/bg_boton_secundario"
+            style="@style/EstiloImageButtonSecundario"
+            android:layout_margin="@dimen/espaciado_sm"
             android:contentDescription="@string/play"
-            android:src="@drawable/ic_play"
-            app:backgroundTint="@null"
-            app:tint="@color/white" />
+            android:src="@drawable/ic_play" />
 
         <ImageButton
             android:id="@+id/btnSound4"
-            android:layout_width="70dp"
-            android:layout_height="70dp"
-            android:layout_margin="8dp"
-            android:background="@drawable/bg_boton_secundario"
+            style="@style/EstiloImageButtonSecundario"
+            android:layout_margin="@dimen/espaciado_sm"
             android:contentDescription="@string/play"
-            android:src="@drawable/ic_play"
-            app:backgroundTint="@null"
-            app:tint="@color/white" />
+            android:src="@drawable/ic_play" />
 
         <ImageButton
             android:id="@+id/btnSound5"
-            android:layout_width="70dp"
-            android:layout_height="70dp"
-            android:layout_margin="8dp"
-            android:background="@drawable/bg_boton_secundario"
+            style="@style/EstiloImageButtonSecundario"
+            android:layout_margin="@dimen/espaciado_sm"
             android:contentDescription="@string/play"
-            android:src="@drawable/ic_play"
-            app:backgroundTint="@null"
-            app:tint="@color/white" />
+            android:src="@drawable/ic_play" />
 
     </GridLayout>
 
@@ -106,11 +83,10 @@
         android:id="@+id/tvQuestion"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_margin="24dp"
+        android:layout_margin="@dimen/espaciado_xl"
         android:text="@string/sound_game_question"
         android:textAlignment="center"
-        android:textColor="@color/black"
-        android:textSize="20sp"
+        android:textAppearance="@style/AparienciaTexto.App.Cuerpo.Defecto"
         android:textStyle="bold"
         android:visibility="invisible"
         app:layout_constraintEnd_toEndOf="parent"
@@ -121,7 +97,7 @@
         android:id="@+id/categoryControls"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="@dimen/espaciado_base"
         android:orientation="horizontal"
         android:visibility="invisible"
         tools:ignore="ButtonBarContainer"
@@ -133,8 +109,8 @@
             android:id="@+id/btnBeldurra"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="16dp"
-            android:backgroundTint="#F44336"
+            android:layout_marginEnd="@dimen/espaciado_base"
+            android:backgroundTint="@color/categoryBombardeos"
             android:text="@string/sound_game_fear"
             android:textColor="@color/white"
             tools:ignore="ButtonStyle" />
@@ -143,7 +119,7 @@
             android:id="@+id/btnBabesa"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:backgroundTint="#2196F3"
+            android:backgroundTint="@color/categoryRefugio"
             android:text="@string/sound_game_shelter"
             android:textColor="@color/white"
             tools:ignore="ButtonStyle" />
@@ -153,10 +129,9 @@
         android:id="@+id/tvHistoryMessage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="@dimen/espaciado_base"
         android:text="@string/sound_game_history"
-        android:textColor="@color/black"
-        android:textSize="18sp"
+        android:textAppearance="@style/AparienciaTexto.App.Cuerpo.Defecto"
         android:textStyle="italic"
         android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
@@ -167,8 +142,7 @@
         android:id="@+id/btnBack"
         style="@style/EstiloBotonSecundario"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="24dp"
+        android:layout_marginBottom="@dimen/espaciado_xl"
         android:text="@string/itzuli"
         android:enabled="false"
         app:layout_constraintBottom_toBottomOf="parent"

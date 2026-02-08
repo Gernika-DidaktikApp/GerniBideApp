@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Texto Display (Game over, números grandes) -->
+    <style name="AparienciaTexto.App.Display" parent="TextAppearance.Material3.DisplayLarge">
+        <item name="android:textSize">@dimen/texto_display</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="AparienciaTexto.App.Display.Primario">
+        <item name="android:textColor">@color/btnPrincipal</item>
+    </style>
+
+    <!-- Título Grande (Títulos de página: "Gernikako Arbola", "Bunkerrak") -->
+    <style name="AparienciaTexto.App.TituloGrande" parent="TextAppearance.Material3.HeadlineLarge">
+        <item name="android:textSize">@dimen/texto_titulo_grande</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="AparienciaTexto.App.TituloGrande.Primario">
+        <item name="android:textColor">@color/btnPrincipal</item>
+    </style>
+
+    <style name="AparienciaTexto.App.TituloGrande.Secundario">
+        <item name="android:textColor">@color/btnSecundario</item>
+    </style>
+
+    <!-- Título Mediano (Títulos de sección alternativo) -->
+    <style name="AparienciaTexto.App.TituloMediano" parent="TextAppearance.Material3.HeadlineMedium">
+        <item name="android:textSize">@dimen/texto_titulo_mediano</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/btnPrincipal</item>
+    </style>
+
+    <!-- Encabezado (Headers de tarjetas, títulos de diálogo) -->
+    <style name="AparienciaTexto.App.Encabezado" parent="TextAppearance.Material3.TitleLarge">
+        <item name="android:textSize">@dimen/texto_encabezado</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="AparienciaTexto.App.Encabezado.Primario">
+        <item name="android:textColor">@color/btnPrincipal</item>
+    </style>
+
+    <style name="AparienciaTexto.App.Encabezado.Defecto">
+        <item name="android:textColor">@color/txtPrincipal</item>
+    </style>
+
+    <!-- Cuerpo (Contenido principal, descripciones) -->
+    <style name="AparienciaTexto.App.Cuerpo" parent="TextAppearance.Material3.BodyLarge">
+        <item name="android:textSize">@dimen/texto_cuerpo</item>
+    </style>
+
+    <style name="AparienciaTexto.App.Cuerpo.Defecto">
+        <item name="android:textColor">@color/txtPrincipal</item>
+    </style>
+
+    <style name="AparienciaTexto.App.Cuerpo.Secundario">
+        <item name="android:textColor">@color/txtSecundario</item>
+    </style>
+
+    <!-- Etiqueta (Labels de formularios, info secundaria) -->
+    <style name="AparienciaTexto.App.Etiqueta" parent="TextAppearance.Material3.LabelLarge">
+        <item name="android:textSize">@dimen/texto_etiqueta</item>
+    </style>
+
+    <style name="AparienciaTexto.App.Etiqueta.Defecto">
+        <item name="android:textColor">@color/txtPrincipal</item>
+    </style>
+
+    <!-- Caption (Metadata, timestamps) -->
+    <style name="AparienciaTexto.App.Caption" parent="TextAppearance.Material3.BodySmall">
+        <item name="android:textSize">@dimen/texto_caption</item>
+        <item name="android:textColor">@color/txtSecundario</item>
+    </style>
+</resources>

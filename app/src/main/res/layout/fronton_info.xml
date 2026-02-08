@@ -6,7 +6,7 @@
 
     <LinearLayout
         android:orientation="vertical"
-        android:padding="24dp"
+        android:padding="@dimen/espaciado_xl"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -15,7 +15,7 @@
             android:id="@+id/videoContainer"
             android:layout_width="match_parent"
             android:layout_height="200dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="@dimen/espaciado_base"
             android:background="@drawable/bg_video_container"
             android:clipToOutline="true">
 
@@ -34,26 +34,22 @@
             android:background="@drawable/bg_video_controls"
             android:gravity="center_vertical"
             android:orientation="horizontal"
-            android:paddingVertical="12dp"
-            android:paddingHorizontal="12dp">
+            android:paddingVertical="@dimen/espaciado_md"
+            android:paddingHorizontal="@dimen/espaciado_md">
 
             <ImageButton
                 android:id="@+id/btnPlayPause"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:background="?attr/selectableItemBackgroundBorderless"
+                style="@style/EstiloImageButtonMediaControl"
                 android:contentDescription="@string/play_pause"
-                android:padding="6dp"
-                android:src="@android:drawable/ic_media_play"
-                app:tint="@color/white" />
+                android:src="@android:drawable/ic_media_play" />
 
             <SeekBar
                 android:id="@+id/seekBar"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:layout_marginStart="8dp"
-                android:layout_marginEnd="8dp"
+                android:layout_marginStart="@dimen/espaciado_sm"
+                android:layout_marginEnd="@dimen/espaciado_sm"
                 android:progressTint="@color/btnPrincipalShadow"
                 android:thumbTint="@color/white" />
 
@@ -62,8 +58,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/_0_00_0_00"
-                android:textColor="@color/white"
-                android:textSize="14sp"
+                android:textAppearance="@style/AparienciaTexto.App.Caption"
                 android:textStyle="bold"
                 android:minWidth="70dp"
                 android:gravity="end" />
@@ -74,20 +69,19 @@
         <TextView
             android:id="@+id/videoDescripcion"
             android:text="@string/gernikako_jai_alai_frontoia_munduko_handienetakoa_eta_garrantzitsuenetakoa_da_hemen_zesta_puntara_jokatzen_da_munduan_zehar_banatuta_dauden_zesta_puntako_frontoi_askori_eman_die_izena_aurrean_dugun_honek_zestalariak_elkarlanean_aritzen_dira_eta_errespetua_dute_oinarri_kirolaren_bidez_askotariko_balioak_ikasi_eta_transmititzen_direlarik"
-            android:textSize="18sp"
+            android:textAppearance="@style/AparienciaTexto.App.Cuerpo.Defecto"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"/>
+            android:layout_marginTop="@dimen/espaciado_base"/>
 
         <!-- Botón para volver (deshabilitado hasta ver el vídeo) -->
         <Button
             android:id="@+id/btnBack"
             style="@style/EstiloBotonSecundario"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
             android:text="@string/itzuli"
             android:enabled="false"
-            android:layout_marginTop="16dp" />
+            android:layout_marginTop="@dimen/espaciado_base" />
 
     </LinearLayout>
 

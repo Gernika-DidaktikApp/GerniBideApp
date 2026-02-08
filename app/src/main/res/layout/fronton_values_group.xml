@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:flexbox="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
-    android:padding="24dp"
+    android:padding="@dimen/espaciado_xl"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/fondo1">
@@ -16,6 +16,7 @@
         android:layout_marginTop="150dp"
         android:autofillHints="username"
         android:hint="@string/idatzi_zure_taldearen_balioa"
+        android:textAppearance="@style/AparienciaTexto.App.Etiqueta.Defecto"
         android:inputType="text" />
 
     <!-- Botón para añadir el nuevo valor -->
@@ -24,8 +25,7 @@
         style="@style/EstiloBotonPrimario"
         android:text="@string/gehitu"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"/>
+        android:layout_marginTop="@dimen/espaciado_md"/>
 
     <!-- Botón para finalizar -->
     <Button
@@ -33,8 +33,7 @@
         style="@style/EstiloBotonPrimario"
         android:text="@string/amaitu"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"/>
+        android:layout_marginTop="@dimen/espaciado_md"/>
 
     <!-- Contenedor tags flexbox (donde se irán añadiendo los valores) -->
     <com.google.android.flexbox.FlexboxLayout
@@ -44,8 +43,8 @@
         flexbox:flexWrap="wrap"
         flexbox:justifyContent="flex_start"
         flexbox:alignItems="flex_start"
-        android:layout_marginTop="16dp"
-        android:padding="8dp" />
+        android:layout_marginTop="@dimen/espaciado_base"
+        android:padding="@dimen/espaciado_sm" />
 
     <!-- Mensaje final (visible tras pulsar el botón de finalizar) -->
     <TextView
@@ -53,20 +52,19 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/elkarrekin_jokatuz_eta_elkar_entzunez_guztion_balioak_osatuko_ditugu"
-        android:textSize="18sp"
         android:gravity="center"
         android:visibility="gone"
-        android:layout_marginTop="16dp"/>
+        android:layout_marginTop="@dimen/espaciado_base"
+        android:textAppearance="@style/AparienciaTexto.App.Cuerpo.Defecto"/>
 
     <!-- Botón para volver (deshabilitado hasta finalizar) -->
     <Button
         android:id="@+id/btnBack"
         style="@style/EstiloBotonSecundario"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:text="@string/itzuli"
         android:enabled="false"
         android:layout_gravity="center"
-        android:layout_marginTop="16dp"/>
+        android:layout_marginTop="@dimen/espaciado_base"/>
 
 </LinearLayout>

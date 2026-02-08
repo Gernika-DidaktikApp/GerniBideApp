@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Sistema de espaciado base (grilla 4dp) -->
+    <dimen name="espaciado_xs">4dp</dimen>
+    <dimen name="espaciado_sm">8dp</dimen>
+    <dimen name="espaciado_md">12dp</dimen>
+    <dimen name="espaciado_base">16dp</dimen>
+    <dimen name="espaciado_lg">20dp</dimen>
+    <dimen name="espaciado_xl">24dp</dimen>
+    <dimen name="espaciado_xxl">32dp</dimen>
+    <dimen name="espaciado_xxxl">52dp</dimen>
+
+    <!-- Tamaños de botón estándar -->
+    <dimen name="boton_altura">72dp</dimen>
+    <dimen name="boton_padding_horizontal">32dp</dimen>
+
+    <!-- Tamaños de ImageButton -->
+    <dimen name="imagen_boton_pequeno">40dp</dimen>
+    <dimen name="imagen_boton_mediano">48dp</dimen>
+    <dimen name="imagen_boton_grande">70dp</dimen>
+    <dimen name="imagen_boton_xlarge">120dp</dimen>
+
+    <!-- Tamaños de FAB -->
+    <dimen name="fab_mini_ancho">48dp</dimen>
+    <dimen name="fab_mini_alto">52dp</dimen>
+    <dimen name="fab_ancho">64dp</dimen>
+    <dimen name="fab_alto">68dp</dimen>
+
+    <!-- Radios de esquina -->
+    <dimen name="radio_esquina_sm">8dp</dimen>
+    <dimen name="radio_esquina_md">12dp</dimen>
+    <dimen name="radio_esquina_lg">16dp</dimen>
+
+    <!-- Tamaños de texto -->
+    <dimen name="texto_display">48sp</dimen>
+    <dimen name="texto_titulo_grande">32sp</dimen>
+    <dimen name="texto_titulo_mediano">28sp</dimen>
+    <dimen name="texto_encabezado">24sp</dimen>
+    <dimen name="texto_cuerpo">18sp</dimen>
+    <dimen name="texto_etiqueta">16sp</dimen>
+    <dimen name="texto_caption">14sp</dimen>
+    <dimen name="texto_pequeno">12sp</dimen>
+</resources>

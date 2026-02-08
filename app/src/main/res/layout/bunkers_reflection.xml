@@ -11,12 +11,10 @@
         android:id="@+id/tvQuestion"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_margin="32dp"
+        android:layout_margin="@dimen/espaciado_xxl"
         android:text="@string/reflection_question"
         android:textAlignment="center"
-        android:textColor="@color/btnPrincipal"
-        android:textSize="24sp"
-        android:textStyle="bold"
+        android:textAppearance="@style/AparienciaTexto.App.Encabezado.Primario"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -25,7 +23,7 @@
         android:id="@+id/emojiGrid"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="@dimen/espaciado_xxl"
         android:columnCount="2"
         android:rowCount="2"
         app:layout_constraintBottom_toTopOf="@+id/tvFeedback"
@@ -37,104 +35,84 @@
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="12dp"
+            android:layout_margin="@dimen/espaciado_md"
             android:gravity="center"
             android:orientation="vertical">
 
             <ImageButton
                 android:id="@+id/btnBeldurra"
-                android:layout_width="120dp"
-                android:layout_height="120dp"
-                android:background="@drawable/bg_boton_primario"
-                android:padding="12dp"
-                android:scaleType="fitCenter"
-                android:src="@drawable/beldurra_emoji"
-                app:backgroundTint="@null" />
+                style="@style/EstiloImageButtonEmojoPrimario"
+                android:src="@drawable/beldurra_emoji" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
+                android:layout_marginTop="@dimen/espaciado_xs"
                 android:text="@string/reflection_fear"
-                android:textColor="@color/black"
+                android:textAppearance="@style/AparienciaTexto.App.Etiqueta.Defecto"
                 android:textStyle="bold" />
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="12dp"
+            android:layout_margin="@dimen/espaciado_md"
             android:gravity="center"
             android:orientation="vertical">
 
             <ImageButton
                 android:id="@+id/btnTristura"
-                android:layout_width="120dp"
-                android:layout_height="120dp"
-                android:background="@drawable/bg_boton_primario"
-                android:padding="12dp"
-                android:scaleType="fitCenter"
-                android:src="@drawable/tristura_emojia"
-                app:backgroundTint="@null" />
+                style="@style/EstiloImageButtonEmojoPrimario"
+                android:src="@drawable/tristura_emojia" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
+                android:layout_marginTop="@dimen/espaciado_xs"
                 android:text="@string/reflection_sadness"
-                android:textColor="@color/black"
+                android:textAppearance="@style/AparienciaTexto.App.Etiqueta.Defecto"
                 android:textStyle="bold" />
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="12dp"
+            android:layout_margin="@dimen/espaciado_md"
             android:gravity="center"
             android:orientation="vertical">
 
             <ImageButton
                 android:id="@+id/btnLasaitasuna"
-                android:layout_width="120dp"
-                android:layout_height="120dp"
-                android:background="@drawable/bg_boton_primario"
-                android:padding="12dp"
-                android:scaleType="fitCenter"
-                android:src="@drawable/lasaitasuna_emoji"
-                app:backgroundTint="@null" />
+                style="@style/EstiloImageButtonEmojoPrimario"
+                android:src="@drawable/lasaitasuna_emoji" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
+                android:layout_marginTop="@dimen/espaciado_xs"
                 android:text="@string/reflection_calm"
-                android:textColor="@color/black"
+                android:textAppearance="@style/AparienciaTexto.App.Etiqueta.Defecto"
                 android:textStyle="bold" />
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="12dp"
+            android:layout_margin="@dimen/espaciado_md"
             android:gravity="center"
             android:orientation="vertical">
 
             <ImageButton
                 android:id="@+id/btnItxaropena"
-                android:layout_width="120dp"
-                android:layout_height="120dp"
-                android:background="@drawable/bg_boton_primario"
-                android:padding="12dp"
-                android:scaleType="fitCenter"
-                android:src="@drawable/itxaropena_emoji"
-                app:backgroundTint="@null" />
+                style="@style/EstiloImageButtonEmojoPrimario"
+                android:src="@drawable/itxaropena_emoji" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
+                android:layout_marginTop="@dimen/espaciado_xs"
                 android:text="@string/reflection_hope"
-                android:textColor="@color/black"
+                android:textAppearance="@style/AparienciaTexto.App.Etiqueta.Defecto"
                 android:textStyle="bold" />
         </LinearLayout>
     </GridLayout>
@@ -143,11 +121,10 @@
         android:id="@+id/tvFeedback"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:padding="24dp"
+        android:padding="@dimen/espaciado_xl"
         android:text="@string/reflection_feedback"
         android:textAlignment="center"
-        android:textColor="@color/black"
-        android:textSize="20sp"
+        android:textAppearance="@style/AparienciaTexto.App.Cuerpo.Defecto"
         android:textStyle="italic"
         android:visibility="gone"
         app:layout_constraintBottom_toTopOf="@+id/btnBack"
@@ -158,8 +135,7 @@
         android:id="@+id/btnBack"
         style="@style/EstiloBotonSecundario"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="24dp"
+        android:layout_marginBottom="@dimen/espaciado_xl"
         android:text="@string/itzuli"
         android:enabled="false"
         app:layout_constraintBottom_toBottomOf="parent"

@@ -5,16 +5,14 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:gravity="center"
-    android:padding="32dp"
+    android:padding="@dimen/espaciado_xxl"
     android:background="@drawable/fondo2">
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/login_title"
-        android:textSize="32sp"
-        android:textStyle="bold"
-        android:textColor="@color/btnSecundario"
+        android:textAppearance="@style/AparienciaTexto.App.TituloGrande.Secundario"
         android:layout_marginBottom="48dp" />
 
     <EditText
@@ -24,8 +22,8 @@
         android:hint="@string/login_username_hint"
         android:inputType="text"
         android:autofillHints="username"
-        android:padding="16dp"
-        android:layout_marginBottom="16dp"
+        android:padding="@dimen/espaciado_base"
+        android:layout_marginBottom="@dimen/espaciado_base"
         android:background="@drawable/edit_text_background" />
 
     <EditText
@@ -35,8 +33,8 @@
         android:hint="@string/login_password_hint"
         android:inputType="textPassword"
         android:autofillHints="password"
-        android:padding="16dp"
-        android:layout_marginBottom="24dp"
+        android:padding="@dimen/espaciado_base"
+        android:layout_marginBottom="@dimen/espaciado_xl"
         android:background="@drawable/edit_text_background" />
 
     <androidx.appcompat.widget.AppCompatButton
@@ -44,16 +42,14 @@
         style="@style/EstiloBotonPrimario"
         android:layout_width="match_parent"
         android:text="@string/login_button"
-        android:textSize="18sp"
-        android:padding="16dp"
-        android:layout_marginBottom="16dp"/>
+        android:layout_marginBottom="@dimen/espaciado_base"/>
 
     <TextView
         android:id="@+id/tvRegisterLink"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/ez_duzu_konturik_izena_eman"
-        android:textSize="14sp"
+        android:textAppearance="@style/AparienciaTexto.App.Caption"
         android:textColor="@color/btnSecundario"
         android:clickable="true"
         android:focusable="true"

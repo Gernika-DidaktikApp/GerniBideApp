@@ -11,12 +11,10 @@
         android:id="@+id/tvTreeTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="@dimen/espaciado_xl"
         android:text="@string/my_tree_question"
         android:textAlignment="center"
-        android:textColor="@color/btnPrincipal"
-        android:textSize="24sp"
-        android:textStyle="bold"
+        android:textAppearance="@style/AparienciaTexto.App.Encabezado.Primario"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -25,8 +23,8 @@
         android:id="@+id/wordSelectionScroll"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
-        android:padding="8dp"
+        android:layout_marginTop="@dimen/espaciado_md"
+        android:padding="@dimen/espaciado_sm"
         app:layout_constraintTop_toBottomOf="@+id/tvTreeTitle">
 
         <LinearLayout
@@ -38,7 +36,7 @@
                 android:id="@+id/btnAmistadVal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="4dp"
+                android:layout_margin="@dimen/espaciado_xs"
                 android:backgroundTint="@color/valueFriendship"
                 android:text="@string/value_friendship"
                 android:textColor="@color/white" />
@@ -47,7 +45,7 @@
                 android:id="@+id/btnLibertadVal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="4dp"
+                android:layout_margin="@dimen/espaciado_xs"
                 android:backgroundTint="@color/valueFreedom"
                 android:text="@string/value_freedom"
                 android:textColor="@color/white" />
@@ -56,7 +54,7 @@
                 android:id="@+id/btnSolidaridadVal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="4dp"
+                android:layout_margin="@dimen/espaciado_xs"
                 android:backgroundTint="@color/valueSolidarity"
                 android:text="@string/value_solidarity"
                 android:textColor="@color/white" />
@@ -65,7 +63,7 @@
                 android:id="@+id/btnRespetoVal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="4dp"
+                android:layout_margin="@dimen/espaciado_xs"
                 android:backgroundTint="@color/valueRespect"
                 android:text="@string/value_respect"
                 android:textColor="@color/white" />
@@ -74,7 +72,7 @@
                 android:id="@+id/btnPazVal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="4dp"
+                android:layout_margin="@dimen/espaciado_xs"
                 android:backgroundTint="@color/valuePeace"
                 android:text="@string/value_peace"
                 android:textColor="@color/white" />
@@ -85,7 +83,7 @@
         android:id="@+id/treeContainer"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="@dimen/espaciado_sm"
         app:layout_constraintBottom_toTopOf="@+id/btnFinish"
         app:layout_constraintTop_toBottomOf="@+id/wordSelectionScroll">
 
@@ -103,7 +101,7 @@
         android:id="@+id/btnBack"
         style="@style/EstiloBotonSecundario"
         android:layout_width="wrap_content"
-        android:layout_marginBottom="16dp"
+        android:layout_marginBottom="@dimen/espaciado_base"
         android:text="@string/itzuli"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -114,7 +112,7 @@
         style="@style/EstiloBotonPrimario"
         android:layout_width="wrap_content"
         android:layout_gravity="bottom|end"
-        android:layout_margin="16dp"
+        android:layout_margin="@dimen/espaciado_base"
         android:text="@string/color_peace_finish"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />

@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:background="@drawable/fondo6"
     android:orientation="vertical"
-    android:padding="16dp">
+    android:padding="@dimen/espaciado_base">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -22,29 +22,26 @@
                 android:id="@+id/tvTitulo"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
+                android:layout_marginTop="@dimen/espaciado_xl"
                 android:gravity="center"
                 android:text="@string/photo_mission_titulo"
-                android:textColor="@color/btnPrincipal"
-                android:textSize="24sp"
-                android:textStyle="bold" />
+                android:textAppearance="@style/AparienciaTexto.App.Encabezado.Primario" />
 
             <TextView
                 android:id="@+id/tvDescripcion"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/photo_mission_descripcion"
-                android:textSize="16sp"
-                android:textColor="@color/txtPrincipal"
+                android:textAppearance="@style/AparienciaTexto.App.Etiqueta.Defecto"
                 android:gravity="center"
-                android:layout_marginTop="8dp" />
+                android:layout_marginTop="@dimen/espaciado_sm" />
 
             <!-- Vista previa de la foto tomada -->
             <ImageView
                 android:id="@+id/ivFotoPreview"
                 android:layout_width="200dp"
                 android:layout_height="200dp"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="@dimen/espaciado_base"
                 android:layout_gravity="center"
                 android:background="@drawable/plaza_bg_producto"
                 android:contentDescription="@string/photo_mission_preview_description"
@@ -55,10 +52,9 @@
                 android:id="@+id/btnTomarFoto"
                 style="@style/EstiloBotonPrimario"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:text="@string/photo_mission_tomar_foto"
-                android:layout_marginTop="16dp" />
+                android:layout_marginTop="@dimen/espaciado_base" />
 
             <!-- Selector de etiquetas -->
             <TextView
@@ -66,11 +62,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/photo_mission_seleccionar_etiqueta"
-                android:textSize="16sp"
-                android:textColor="@color/txtPrincipal"
-                android:textStyle="bold"
+                android:textAppearance="@style/AparienciaTexto.App.Etiqueta.Defecto"
                 android:gravity="center"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="@dimen/espaciado_base"
                 android:visibility="gone" />
 
             <RadioGroup
@@ -78,7 +72,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="@dimen/espaciado_sm"
                 android:visibility="gone">
 
                 <RadioButton
@@ -86,34 +80,30 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/photo_mission_tradizioa"
-                    android:textSize="16sp"
-                    android:textColor="@color/txtPrincipal" />
+                    android:textAppearance="@style/AparienciaTexto.App.Etiqueta.Defecto" />
 
                 <RadioButton
                     android:id="@+id/rbKomunitatea"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/photo_mission_komunitatea"
-                    android:textSize="16sp"
-                    android:textColor="@color/txtPrincipal" />
+                    android:textAppearance="@style/AparienciaTexto.App.Etiqueta.Defecto" />
 
                 <RadioButton
                     android:id="@+id/rbBizikidetza"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/photo_mission_bizikidetza"
-                    android:textSize="16sp"
-                    android:textColor="@color/txtPrincipal" />
+                    android:textAppearance="@style/AparienciaTexto.App.Etiqueta.Defecto" />
             </RadioGroup>
 
             <Button
                 android:id="@+id/btnIgo"
                 style="@style/EstiloBotonPrimario"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:text="@string/photo_mission_igo"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="@dimen/espaciado_base"
                 android:visibility="gone" />
 
             <!-- ProgressBar para carga de Cloudinary -->
@@ -122,7 +112,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="@dimen/espaciado_base"
                 android:visibility="gone" />
 
             <!-- Galería colectiva -->
@@ -130,19 +120,17 @@
                 android:id="@+id/tvGaleriaColectiva"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="18sp"
-                android:textColor="@color/btnPrincipal"
-                android:textStyle="bold"
+                android:textAppearance="@style/AparienciaTexto.App.Encabezado.Primario"
                 android:gravity="center"
-                android:layout_marginTop="24dp" />
+                android:layout_marginTop="@dimen/espaciado_xl" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rvGaleria"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="@dimen/espaciado_sm"
                 android:nestedScrollingEnabled="false"
-                android:paddingBottom="16dp" />
+                android:paddingBottom="@dimen/espaciado_base" />
 
         </LinearLayout>
     </ScrollView>
@@ -151,9 +139,8 @@
         android:id="@+id/btnBack"
         style="@style/EstiloBotonSecundario"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="@dimen/espaciado_base"
         android:text="@string/itzuli"
         android:enabled="false" />
 

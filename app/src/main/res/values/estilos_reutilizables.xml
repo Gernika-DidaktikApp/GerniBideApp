@@ -24,4 +24,76 @@
     <style name="EstiloBotonCompletado" parent="EstiloBotonBase">
         <item name="android:background">@drawable/bg_boton_completado</item>
     </style>
+
+    <!-- ========================================
+         ESTILOS DE IMAGEBUTTON
+         Nota: backgroundTint="@null" preserva sombras de drawables custom
+         ======================================== -->
+
+    <!-- Base para ImageButtons con fondo del sistema -->
+    <style name="EstiloImageButtonBase">
+        <item name="android:background">?attr/selectableItemBackgroundBorderless</item>
+        <item name="android:scaleType">center</item>
+    </style>
+
+    <!-- Controles de media (play/pause, pequeño) -->
+    <style name="EstiloImageButtonMediaControl" parent="EstiloImageButtonBase">
+        <item name="android:layout_width">@dimen/imagen_boton_pequeno</item>
+        <item name="android:layout_height">@dimen/imagen_boton_pequeno</item>
+        <item name="android:padding">@dimen/espaciado_xs</item>
+    </style>
+
+    <!-- ImageButtons medianos (settings, íconos generales) -->
+    <style name="EstiloImageButtonMediano" parent="EstiloImageButtonBase">
+        <item name="android:layout_width">@dimen/imagen_boton_mediano</item>
+        <item name="android:layout_height">@dimen/imagen_boton_mediano</item>
+        <item name="android:padding">@dimen/espaciado_sm</item>
+    </style>
+
+    <!-- ImageButtons con fondo custom (70dp - botones de juego de sonidos) -->
+    <style name="EstiloImageButtonPrimario">
+        <item name="android:layout_width">@dimen/imagen_boton_grande</item>
+        <item name="android:layout_height">@dimen/imagen_boton_grande</item>
+        <item name="android:background">@drawable/bg_boton_primario</item>
+        <item name="android:scaleType">center</item>
+    </style>
+
+    <style name="EstiloImageButtonSecundario">
+        <item name="android:layout_width">@dimen/imagen_boton_grande</item>
+        <item name="android:layout_height">@dimen/imagen_boton_grande</item>
+        <item name="android:background">@drawable/bg_boton_secundario</item>
+        <item name="android:scaleType">center</item>
+    </style>
+
+    <!-- ImageButtons grandes (120dp - botones de emoji) -->
+    <style name="EstiloImageButtonEmojoPrimario">
+        <item name="android:layout_width">@dimen/imagen_boton_xlarge</item>
+        <item name="android:layout_height">@dimen/imagen_boton_xlarge</item>
+        <item name="android:background">@drawable/bg_boton_primario</item>
+        <item name="android:padding">@dimen/espaciado_md</item>
+        <item name="android:scaleType">fitCenter</item>
+    </style>
+
+    <style name="EstiloImageButtonEmojoSecundario">
+        <item name="android:layout_width">@dimen/imagen_boton_xlarge</item>
+        <item name="android:layout_height">@dimen/imagen_boton_xlarge</item>
+        <item name="android:background">@drawable/bg_boton_secundario</item>
+        <item name="android:padding">@dimen/espaciado_md</item>
+        <item name="android:scaleType">fitCenter</item>
+    </style>
+
+    <!-- Estilos de FAB -->
+    <style name="EstiloFABPrimario">
+        <item name="android:layout_width">@dimen/fab_ancho</item>
+        <item name="android:layout_height">@dimen/fab_alto</item>
+        <item name="android:background">@drawable/bg_fab_primario</item>
+        <item name="android:scaleType">center</item>
+    </style>
+
+    <style name="EstiloFABSecundario">
+        <item name="android:layout_width">@dimen/fab_mini_ancho</item>
+        <item name="android:layout_height">@dimen/fab_mini_alto</item>
+        <item name="android:background">@drawable/bg_fab_secundario</item>
+        <item name="android:scaleType">center</item>
+    </style>
 </resources>

@@ -19,7 +19,7 @@
             android:id="@+id/imageContainer"
             android:layout_width="359dp"
             android:layout_height="447dp"
-            android:layout_marginTop="24dp"
+            android:layout_marginTop="@dimen/espaciado_xl"
             android:background="@drawable/bg_video_container"
             android:clipToOutline="true"
             app:layout_constraintEnd_toEndOf="parent"
@@ -42,29 +42,25 @@
             android:background="@drawable/bg_video_controls"
             android:gravity="center_vertical"
             android:orientation="horizontal"
-            android:paddingVertical="12dp"
-            android:paddingHorizontal="12dp"
+            android:paddingVertical="@dimen/espaciado_md"
+            android:paddingHorizontal="@dimen/espaciado_md"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/imageContainer">
 
             <ImageButton
                 android:id="@+id/btnPlayPause"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:background="?attr/selectableItemBackgroundBorderless"
+                style="@style/EstiloImageButtonMediaControl"
                 android:contentDescription="@string/play_pause"
-                android:padding="6dp"
-                android:src="@android:drawable/ic_media_play"
-                app:tint="@color/white" />
+                android:src="@android:drawable/ic_media_play" />
 
             <SeekBar
                 android:id="@+id/seekBarAudio"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:layout_marginStart="8dp"
-                android:layout_marginEnd="8dp"
+                android:layout_marginStart="@dimen/espaciado_sm"
+                android:layout_marginEnd="@dimen/espaciado_sm"
                 android:progressTint="@color/btnPrincipalShadow"
                 android:thumbTint="@color/white" />
 
@@ -74,7 +70,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/_0_00_0_00"
                 android:textColor="@color/white"
-                android:textSize="14sp"
+                android:textAppearance="@style/AparienciaTexto.App.Caption"
                 android:textStyle="bold"
                 android:minWidth="70dp"
                 android:gravity="end" />
@@ -90,86 +86,84 @@
         android:visibility="gone"
         app:layout_constraintBottom_toTopOf="@+id/btnVolver"
         app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginBottom="16dp">
+        android:layout_marginBottom="@dimen/espaciado_base">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="24dp">
+            android:padding="@dimen/espaciado_xl">
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/ulermen_galderak"
                 android:textAlignment="center"
-                android:textSize="24sp"
-                android:textStyle="bold"
-                android:textColor="@color/btnPrincipal"
-                android:layout_marginBottom="24dp"/>
+                android:textAppearance="@style/AparienciaTexto.App.Encabezado.Primario"
+                android:layout_marginBottom="@dimen/espaciado_xl"/>
 
             <!-- Question 1 -->
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/_1_zertarako_elkartzen_ziren_arbolaren_azpian"
-                android:textSize="18sp"
+                android:textAppearance="@style/AparienciaTexto.App.Cuerpo.Defecto"
                 android:textStyle="bold"
-                android:layout_marginBottom="8dp"/>
+                android:layout_marginBottom="@dimen/espaciado_sm"/>
             <Button
                 android:id="@+id/q1a1"
                 style="@style/EstiloBotonPrimario"
                 android:layout_width="match_parent"
                 android:text="@string/legeak_adosteko_eta_foruak_zin_egiteko"
-                android:layout_marginBottom="4dp"/>
+                android:layout_marginBottom="@dimen/espaciado_xs"/>
             <Button
                 android:id="@+id/q1a2"
                 style="@style/EstiloBotonPrimario"
                 android:layout_width="match_parent"
                 android:text="@string/bazkaltzeko"
-                android:layout_marginBottom="16dp"/>
+                android:layout_marginBottom="@dimen/espaciado_base"/>
 
             <!-- Question 2 -->
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/_2_zer_adierazten_du_batzar_etxeak"
-                android:textSize="18sp"
+                android:textAppearance="@style/AparienciaTexto.App.Cuerpo.Defecto"
                 android:textStyle="bold"
-                android:layout_marginBottom="8dp"/>
+                android:layout_marginBottom="@dimen/espaciado_sm"/>
             <Button
                 android:id="@+id/q2a1"
                 style="@style/EstiloBotonPrimario"
                 android:layout_width="match_parent"
                 android:text="@string/euskal_herriko_demokrazia_eta_askatasuna"
-                android:layout_marginBottom="4dp"/>
+                android:layout_marginBottom="@dimen/espaciado_xs"/>
             <Button
                 android:id="@+id/q2a2"
                 style="@style/EstiloBotonPrimario"
                 android:layout_width="match_parent"
                 android:text="@string/museo_soil_bat"
-                android:layout_marginBottom="16dp"/>
+                android:layout_marginBottom="@dimen/espaciado_base"/>
 
             <!-- Question 3 -->
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/_3_zertarako_erabiltzen_da_batzar_etxea"
-                android:textSize="18sp"
+                android:textAppearance="@style/AparienciaTexto.App.Cuerpo.Defecto"
                 android:textStyle="bold"
-                android:layout_marginBottom="8dp"/>
+                android:layout_marginBottom="@dimen/espaciado_sm"/>
             <Button
                 android:id="@+id/q3a1"
                 style="@style/EstiloBotonPrimario"
                 android:layout_width="match_parent"
                 android:text="@string/batzar_nagusiak_egiteko"
-                android:layout_marginBottom="4dp"/>
+                android:layout_marginBottom="@dimen/espaciado_xs"/>
             <Button
                 android:id="@+id/q3a2"
                 style="@style/EstiloBotonPrimario"
                 android:layout_width="match_parent"
                 android:text="@string/kontzertuak_emateko"
-                android:layout_marginBottom="16dp"/>
+                android:layout_marginBottom="@dimen/espaciado_base"/>
 
             <TextView
                 android:id="@+id/tvCongrats"
@@ -177,11 +171,11 @@
                 android:layout_height="wrap_content"
                 android:text="@string/ondo_egin_duzu_orain_zure_arbola_sortzera_goaz"
                 android:textAlignment="center"
-                android:textSize="20sp"
+                android:textAppearance="@style/AparienciaTexto.App.Cuerpo.Defecto"
                 android:textStyle="bold"
                 android:textColor="@color/correcto"
                 android:visibility="gone"
-                android:layout_marginTop="16dp"/>
+                android:layout_marginTop="@dimen/espaciado_base"/>
 
         </LinearLayout>
     </ScrollView>
@@ -190,8 +184,7 @@
         android:id="@+id/btnVolver"
         style="@style/EstiloBotonSecundario"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="24dp"
+        android:layout_marginBottom="@dimen/espaciado_xl"
         android:text="@string/itzuli"
         android:enabled="false"
         android:visibility="gone"

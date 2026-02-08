@@ -2,7 +2,7 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="24dp"
+    android:padding="@dimen/espaciado_xl"
     android:background="@color/base">
 
     <LinearLayout
@@ -10,7 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_horizontal"
-        android:layout_marginTop="70dp">
+        android:layout_marginTop="@dimen/espaciado_xxxl">
 
         <!-- Logo/App Icon -->
         <ImageView
@@ -18,49 +18,46 @@
             android:layout_height="110dp"
             android:contentDescription="@string/logo_descripcion"
             android:src="@mipmap/ic_gernibide_launcher"
-            android:layout_marginBottom="24dp"/>
+            android:layout_marginBottom="@dimen/espaciado_xl"/>
 
         <!-- Nombre App + Versión -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/app_name"
-            android:textSize="28sp"
-            android:textStyle="bold"
-            android:textColor="@color/btnPrincipal"
-            android:layout_marginBottom="8dp"/>
+            android:textAppearance="@style/AparienciaTexto.App.TituloGrande.Primario"
+            android:layout_marginBottom="@dimen/espaciado_sm"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/version_app"
-            android:textSize="16sp"
-            android:textColor="@android:color/darker_gray"
-            android:layout_marginBottom="32dp"/>
+            android:textAppearance="@style/AparienciaTexto.App.Etiqueta.Defecto"
+            android:layout_marginBottom="@dimen/espaciado_xxl"/>
 
         <!-- Descripción breve -->
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/about_description"
-            android:textSize="16sp"
+            android:textAppearance="@style/AparienciaTexto.App.Cuerpo.Defecto"
             android:textAlignment="center"
-            android:lineSpacingExtra="4dp"
-            android:layout_marginBottom="32dp"/>
+            android:lineSpacingExtra="@dimen/espaciado_xs"
+            android:layout_marginBottom="@dimen/espaciado_xxl"/>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:gravity="center"
-            android:layout_marginBottom="24dp">
+            android:layout_marginBottom="@dimen/espaciado_xl">
 
             <!-- CIFP Ciudad Jardín -->
             <ImageView
                 android:layout_width="80dp"
                 android:layout_height="80dp"
                 android:src="@drawable/logo_ciudad_jardin"
-                android:layout_marginEnd="24dp"
+                android:layout_marginEnd="@dimen/espaciado_xl"
                 android:contentDescription="@string/cifp_ciudad_jardin"/>
 
             <!-- UPV/EHU -->
@@ -77,32 +74,28 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="20dp"
+            android:padding="@dimen/espaciado_lg"
             android:background="@drawable/border_only"
-            android:layout_marginBottom="24dp">
+            android:layout_marginBottom="@dimen/espaciado_xl">
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/desarrollado_por"
-                android:textSize="16sp"
-                android:textStyle="bold"
-                android:layout_marginBottom="8dp"/>
+                android:textAppearance="@style/AparienciaTexto.App.Etiqueta.Defecto"
+                android:layout_marginBottom="@dimen/espaciado_sm"/>
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/autores"
-                android:textSize="18sp"
-                android:textStyle="bold"
-                android:textColor="@color/btnPrincipal"/>
+                android:textAppearance="@style/AparienciaTexto.App.Cuerpo.Defecto"/>
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/didaktikapp"
-                android:textSize="14sp"
-                android:textColor="@android:color/darker_gray"/>
+                android:textAppearance="@style/AparienciaTexto.App.Caption"/>
         </LinearLayout>
 
         <!-- Copyright -->
@@ -110,17 +103,16 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/copyright"
-            android:textSize="12sp"
-            android:textColor="@android:color/darker_gray"
+            android:textAppearance="@style/AparienciaTexto.App.Caption"
             android:textAlignment="center"
-            android:layout_marginBottom="24dp"/>
+            android:layout_marginBottom="@dimen/espaciado_xl"/>
 
         <!-- Botón cerrar -->
         <Button
             android:id="@+id/btnCloseAbout"
             style="@style/EstiloBotonSecundario"
             android:layout_width="match_parent"
-            android:layout_height="56dp"
+            android:layout_height="@dimen/boton_altura"
             android:text="@string/itxi"/>
 
     </LinearLayout>

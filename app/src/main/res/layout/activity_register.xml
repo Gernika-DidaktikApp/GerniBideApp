@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:gravity="top|center_horizontal"
-    android:padding="32dp"
+    android:padding="@dimen/espaciado_xxl"
     android:background="@drawable/fondo2">
 
     <!-- Título de Registro -->
@@ -12,10 +12,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/sortu_kontua"
-        android:textSize="28sp"
-        android:textStyle="bold"
+        android:textAppearance="@style/AparienciaTexto.App.TituloMediano"
         android:textColor="@color/btnSecundario"
-        android:layout_marginBottom="16dp" />
+        android:layout_marginBottom="@dimen/espaciado_base" />
 
     <!-- Campo para introducir el username (solo números + letras) -->
     <EditText
@@ -26,8 +25,8 @@
         android:inputType="textNoSuggestions"
         android:maxLines="1"
         android:autofillHints="username"
-        android:padding="16dp"
-        android:layout_marginBottom="16dp"
+        android:padding="@dimen/espaciado_base"
+        android:layout_marginBottom="@dimen/espaciado_base"
         android:background="@drawable/edit_text_background" />
 
     <!-- Campo para introducir el nombre (solo letras) -->
@@ -39,8 +38,8 @@
         android:hint="@string/izena"
         android:inputType="textCapWords|textNoSuggestions"
         android:maxLines="1"
-        android:padding="16dp"
-        android:layout_marginBottom="16dp"
+        android:padding="@dimen/espaciado_base"
+        android:layout_marginBottom="@dimen/espaciado_base"
         android:background="@drawable/edit_text_background" />
 
     <!-- Campo para introducir el apellido/s (solo letras) -->
@@ -52,8 +51,8 @@
         android:hint="@string/abizena_k"
         android:inputType="textCapWords|textNoSuggestions"
         android:maxLines="1"
-        android:padding="16dp"
-        android:layout_marginBottom="24dp"
+        android:padding="@dimen/espaciado_base"
+        android:layout_marginBottom="@dimen/espaciado_xl"
         android:background="@drawable/edit_text_background" />
 
     <!-- Checkbox + ID Clase -->
@@ -61,7 +60,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:layout_marginBottom="24dp">
+        android:layout_marginBottom="@dimen/espaciado_xl">
 
         <!-- Checkbox para marcar si pertenece a alguna clase -->
         <CheckBox
@@ -69,10 +68,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/klase_batekoa_zara"
-            android:textSize="16sp"
+            android:textAppearance="@style/AparienciaTexto.App.Etiqueta.Defecto"
             android:textColor="@color/btnSecundario"
             android:buttonTint="@color/btnSecundario"
-            android:layout_marginBottom="12dp" />
+            android:layout_marginBottom="@dimen/espaciado_md" />
 
         <!-- Campo para introducir el ID Clase (deshabilitado por defecto) -->
         <EditText
@@ -83,7 +82,7 @@
             android:hint="@string/klase_id"
             android:inputType="textNoSuggestions"
             android:maxLength="10"
-            android:padding="16dp"
+            android:padding="@dimen/espaciado_base"
             android:visibility="gone" />
     </LinearLayout>
 
@@ -96,8 +95,8 @@
         android:inputType="textPassword"
         android:maxLines="1"
         android:autofillHints="password"
-        android:padding="16dp"
-        android:layout_marginBottom="16dp"
+        android:padding="@dimen/espaciado_base"
+        android:layout_marginBottom="@dimen/espaciado_base"
         android:background="@drawable/edit_text_background" />
 
     <!-- Botón de Registro -->
@@ -106,9 +105,7 @@
         style="@style/EstiloBotonPrimario"
         android:layout_width="match_parent"
         android:text="@string/izena_eman"
-        android:textSize="18sp"
-        android:padding="16dp"
-        android:layout_marginBottom="16dp" />
+        android:layout_marginBottom="@dimen/espaciado_base" />
 
     <!-- Botón de enlace a Login -->
     <TextView
@@ -116,7 +113,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/baduzu_kontu_bat_saioa_hasi"
-        android:textSize="14sp"
+        android:textAppearance="@style/AparienciaTexto.App.Caption"
         android:textColor="@color/btnSecundario"
         android:clickable="true"
         android:focusable="true"

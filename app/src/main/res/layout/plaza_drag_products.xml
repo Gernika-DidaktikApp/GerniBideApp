@@ -9,13 +9,11 @@
         android:id="@+id/tvTitulo"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="@dimen/espaciado_xl"
         android:gravity="center"
-        android:padding="8dp"
+        android:padding="@dimen/espaciado_sm"
         android:text="@string/arrastra_productos_titulo"
-        android:textColor="@color/btnPrincipal"
-        android:textSize="24sp"
-        android:textStyle="bold"
+        android:textAppearance="@style/AparienciaTexto.App.Encabezado.Primario"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -25,11 +23,10 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="@string/arrastra_instrucciones"
-        android:textSize="18sp"
-        android:textColor="@color/txtPrincipal"
+        android:textAppearance="@style/AparienciaTexto.App.Cuerpo.Defecto"
         android:gravity="center"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
+        android:layout_marginStart="@dimen/espaciado_base"
+        android:layout_marginEnd="@dimen/espaciado_base"
         app:layout_constraintTop_toBottomOf="@id/tvTitulo"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
@@ -41,9 +38,9 @@
         android:layout_height="wrap_content"
         android:baselineAligned="false"
         android:orientation="horizontal"
-        android:layout_marginTop="16dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
+        android:layout_marginTop="@dimen/espaciado_base"
+        android:layout_marginStart="@dimen/espaciado_base"
+        android:layout_marginEnd="@dimen/espaciado_base"
         android:weightSum="3"
         app:layout_constraintTop_toBottomOf="@id/tvInstrucciones"
         app:layout_constraintStart_toStartOf="parent"
@@ -57,7 +54,7 @@
             android:layout_weight="1"
             android:orientation="vertical"
             android:gravity="center"
-            android:layout_margin="4dp"
+            android:layout_margin="@dimen/espaciado_xs"
             android:background="@drawable/plaza_bg_puesto"
             android:tag="0">
 
@@ -72,11 +69,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/puesto_lacteos"
-                android:textSize="11sp"
-                android:textStyle="bold"
+                android:textAppearance="@style/AparienciaTexto.App.Caption"
                 android:textColor="@color/txtPrincipal"
                 android:gravity="center"
-                android:layout_marginTop="4dp" />
+                android:layout_marginTop="@dimen/espaciado_xs" />
         </LinearLayout>
 
         <!-- Puesto 2: Verduras -->
@@ -87,7 +83,7 @@
             android:layout_weight="1"
             android:orientation="vertical"
             android:gravity="center"
-            android:layout_margin="4dp"
+            android:layout_margin="@dimen/espaciado_xs"
             android:background="@drawable/plaza_bg_puesto"
             android:tag="1">
 
@@ -102,11 +98,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/puesto_verduras"
-                android:textSize="11sp"
-                android:textStyle="bold"
+                android:textAppearance="@style/AparienciaTexto.App.Caption"
                 android:textColor="@color/txtPrincipal"
                 android:gravity="center"
-                android:layout_marginTop="4dp" />
+                android:layout_marginTop="@dimen/espaciado_xs" />
         </LinearLayout>
 
         <!-- Puesto 3: Panadería -->
@@ -117,7 +112,7 @@
             android:layout_weight="1"
             android:orientation="vertical"
             android:gravity="center"
-            android:layout_margin="4dp"
+            android:layout_margin="@dimen/espaciado_xs"
             android:background="@drawable/plaza_bg_puesto"
             android:tag="2">
 
@@ -132,11 +127,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/puesto_panaderia"
-                android:textSize="11sp"
-                android:textStyle="bold"
+                android:textAppearance="@style/AparienciaTexto.App.Caption"
                 android:textColor="@color/txtPrincipal"
                 android:gravity="center"
-                android:layout_marginTop="4dp" />
+                android:layout_marginTop="@dimen/espaciado_xs" />
         </LinearLayout>
     </LinearLayout>
 
@@ -147,9 +141,9 @@
         android:layout_height="wrap_content"
         android:baselineAligned="false"
         android:orientation="horizontal"
-        android:layout_marginTop="8dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
+        android:layout_marginTop="@dimen/espaciado_sm"
+        android:layout_marginStart="@dimen/espaciado_base"
+        android:layout_marginEnd="@dimen/espaciado_base"
         android:weightSum="2"
         app:layout_constraintTop_toBottomOf="@id/layoutPuestosRow1"
         app:layout_constraintStart_toStartOf="parent"
@@ -163,7 +157,7 @@
             android:layout_weight="1"
             android:orientation="vertical"
             android:gravity="center"
-            android:layout_margin="4dp"
+            android:layout_margin="@dimen/espaciado_xs"
             android:background="@drawable/plaza_bg_puesto"
             android:tag="3">
 
@@ -178,11 +172,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/puesto_natural"
-                android:textSize="11sp"
-                android:textStyle="bold"
+                android:textAppearance="@style/AparienciaTexto.App.Caption"
                 android:textColor="@color/txtPrincipal"
                 android:gravity="center"
-                android:layout_marginTop="4dp" />
+                android:layout_marginTop="@dimen/espaciado_xs" />
         </LinearLayout>
 
         <!-- Puesto 5: Artesanía -->
@@ -193,7 +186,7 @@
             android:layout_weight="1"
             android:orientation="vertical"
             android:gravity="center"
-            android:layout_margin="4dp"
+            android:layout_margin="@dimen/espaciado_xs"
             android:background="@drawable/plaza_bg_puesto"
             android:tag="4">
 
@@ -208,11 +201,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/puesto_artesania"
-                android:textSize="11sp"
-                android:textStyle="bold"
+                android:textAppearance="@style/AparienciaTexto.App.Caption"
                 android:textColor="@color/txtPrincipal"
                 android:gravity="center"
-                android:layout_marginTop="4dp" />
+                android:layout_marginTop="@dimen/espaciado_xs" />
         </LinearLayout>
     </LinearLayout>
 
@@ -221,10 +213,10 @@
         android:id="@+id/scrollProductos"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="16dp"
+        android:layout_marginTop="@dimen/espaciado_base"
+        android:layout_marginStart="@dimen/espaciado_base"
+        android:layout_marginEnd="@dimen/espaciado_base"
+        android:layout_marginBottom="@dimen/espaciado_base"
         app:layout_constraintTop_toBottomOf="@id/layoutPuestosRow2"
         app:layout_constraintBottom_toTopOf="@id/btnBack"
         app:layout_constraintStart_toStartOf="parent"
@@ -237,7 +229,7 @@
             android:columnCount="4"
             android:alignmentMode="alignBounds"
             android:useDefaultMargins="false"
-            android:padding="8dp">
+            android:padding="@dimen/espaciado_sm">
             <!-- Los productos se añadirán dinámicamente -->
         </GridLayout>
     </ScrollView>
@@ -247,7 +239,7 @@
         style="@style/EstiloBotonSecundario"
         android:layout_width="wrap_content"
         android:text="@string/itzuli"
-        android:layout_margin="16dp"
+        android:layout_margin="@dimen/espaciado_base"
         android:enabled="false"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"

@@ -28,12 +28,11 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="48dp"
-        android:layout_marginStart="24dp"
-        android:layout_marginEnd="24dp"
+        android:layout_marginStart="@dimen/espaciado_xl"
+        android:layout_marginEnd="@dimen/espaciado_xl"
         android:text="@string/puzzle_victory"
         android:textColor="@color/black"
-        android:textSize="28sp"
-        android:textStyle="bold"
+        android:textAppearance="@style/AparienciaTexto.App.TituloMediano"
         android:visibility="gone"
         android:textAlignment="center"
         android:elevation="10dp"
@@ -51,6 +50,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginBottom="32dp" />
+        android:layout_marginBottom="@dimen/espaciado_xxl" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

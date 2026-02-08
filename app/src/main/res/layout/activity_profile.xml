@@ -9,7 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="24dp">
+        android:padding="@dimen/espaciado_xl">
 
         <!-- Header con Avatar -->
         <LinearLayout
@@ -17,13 +17,13 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:gravity="center"
-            android:layout_marginBottom="24dp">
+            android:layout_marginBottom="@dimen/espaciado_xl">
 
             <!-- Avatar circular con iniciales -->
             <FrameLayout
                 android:layout_width="120dp"
                 android:layout_height="120dp"
-                android:layout_marginBottom="16dp">
+                android:layout_marginBottom="@dimen/espaciado_base">
 
                 <View
                     android:id="@+id/avatarBackground"
@@ -48,9 +48,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Nombre Apellido"
-                android:textSize="24sp"
-                android:textStyle="bold"
-                android:textColor="@color/txtPrincipal" />
+                android:textAppearance="@style/AparienciaTexto.App.Encabezado.Defecto" />
 
             <!-- Username -->
             <TextView
@@ -58,9 +56,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@erabiltzailea"
-                android:textSize="16sp"
+                android:textAppearance="@style/AparienciaTexto.App.Etiqueta.Defecto"
                 android:textColor="@color/txtSecundario"
-                android:layout_marginTop="4dp" />
+                android:layout_marginTop="@dimen/espaciado_xs" />
 
             <!-- Fecha de registro -->
             <TextView
@@ -68,9 +66,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="2024tik kidea"
-                android:textSize="14sp"
-                android:textColor="@color/txtSecundario"
-                android:layout_marginTop="4dp" />
+                android:textAppearance="@style/AparienciaTexto.App.Caption"
+                android:layout_marginTop="@dimen/espaciado_xs" />
 
         </LinearLayout>
 
@@ -80,17 +77,16 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:background="@drawable/bg_stats_card"
-            android:padding="20dp"
-            android:layout_marginBottom="16dp">
+            android:padding="@dimen/espaciado_lg"
+            android:layout_marginBottom="@dimen/espaciado_base">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/profile_stats_title"
-                android:textSize="18sp"
+                android:textAppearance="@style/AparienciaTexto.App.Cuerpo.Defecto"
                 android:textStyle="bold"
-                android:textColor="@color/txtPrincipal"
-                android:layout_marginBottom="16dp" />
+                android:layout_marginBottom="@dimen/espaciado_base" />
 
             <!-- Grid de estadísticas -->
             <LinearLayout
@@ -105,7 +101,7 @@
                     android:layout_weight="1"
                     android:orientation="vertical"
                     android:gravity="center"
-                    android:padding="12dp"
+                    android:padding="@dimen/espaciado_md"
                     android:background="@drawable/bg_stat_item">
 
                     <ImageView
@@ -119,21 +115,19 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="0"
-                        android:textSize="24sp"
-                        android:textStyle="bold"
-                        android:textColor="@color/btnPrincipal"
-                        android:layout_marginTop="4dp" />
+                        android:textAppearance="@style/AparienciaTexto.App.Encabezado.Primario"
+                        android:layout_marginTop="@dimen/espaciado_xs" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/profile_top_score"
-                        android:textSize="12sp"
+                        android:textSize="@dimen/texto_pequeno"
                         android:textColor="@color/txtSecundario" />
                 </LinearLayout>
 
                 <View
-                    android:layout_width="12dp"
+                    android:layout_width="@dimen/espaciado_md"
                     android:layout_height="0dp" />
 
                 <!-- Actividades completadas -->
@@ -143,7 +137,7 @@
                     android:layout_weight="1"
                     android:orientation="vertical"
                     android:gravity="center"
-                    android:padding="12dp"
+                    android:padding="@dimen/espaciado_md"
                     android:background="@drawable/bg_stat_item">
 
                     <ImageView
@@ -157,21 +151,21 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="0"
-                        android:textSize="24sp"
+                        android:textSize="@dimen/texto_encabezado"
                         android:textStyle="bold"
                         android:textColor="@color/btnSecundario"
-                        android:layout_marginTop="4dp" />
+                        android:layout_marginTop="@dimen/espaciado_xs" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/profile_activities"
-                        android:textSize="12sp"
+                        android:textSize="@dimen/texto_pequeno"
                         android:textColor="@color/txtSecundario" />
                 </LinearLayout>
 
                 <View
-                    android:layout_width="12dp"
+                    android:layout_width="@dimen/espaciado_md"
                     android:layout_height="0dp" />
 
                 <!-- Racha -->
@@ -181,7 +175,7 @@
                     android:layout_weight="1"
                     android:orientation="vertical"
                     android:gravity="center"
-                    android:padding="12dp"
+                    android:padding="@dimen/espaciado_md"
                     android:background="@drawable/bg_stat_item">
 
                     <ImageView
@@ -195,16 +189,16 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="1"
-                        android:textSize="24sp"
+                        android:textSize="@dimen/texto_encabezado"
                         android:textStyle="bold"
                         android:textColor="@color/error"
-                        android:layout_marginTop="4dp" />
+                        android:layout_marginTop="@dimen/espaciado_xs" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/profile_streak"
-                        android:textSize="12sp"
+                        android:textSize="@dimen/texto_pequeno"
                         android:textColor="@color/txtSecundario" />
                 </LinearLayout>
 
@@ -218,17 +212,16 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:background="@drawable/bg_stats_card"
-            android:padding="20dp"
-            android:layout_marginBottom="24dp">
+            android:padding="@dimen/espaciado_lg"
+            android:layout_marginBottom="@dimen/espaciado_xl">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/profile_achievements_title"
-                android:textSize="18sp"
+                android:textAppearance="@style/AparienciaTexto.App.Cuerpo.Defecto"
                 android:textStyle="bold"
-                android:textColor="@color/txtPrincipal"
-                android:layout_marginBottom="16dp" />
+                android:layout_marginBottom="@dimen/espaciado_base" />
 
             <!-- Logros en horizontal scroll -->
             <HorizontalScrollView
@@ -249,7 +242,7 @@
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
                         android:gravity="center"
-                        android:padding="8dp"
+                        android:padding="@dimen/espaciado_sm"
                         android:alpha="0.4">
 
                         <ImageView
@@ -265,7 +258,7 @@
                             android:textSize="11sp"
                             android:textColor="@color/txtSecundario"
                             android:gravity="center"
-                            android:layout_marginTop="4dp" />
+                            android:layout_marginTop="@dimen/espaciado_xs" />
                     </LinearLayout>
 
                     <!-- Logro 2: Bunkers -->
@@ -275,7 +268,7 @@
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
                         android:gravity="center"
-                        android:padding="8dp"
+                        android:padding="@dimen/espaciado_sm"
                         android:alpha="0.4">
 
                         <ImageView
@@ -291,7 +284,7 @@
                             android:textSize="11sp"
                             android:textColor="@color/txtSecundario"
                             android:gravity="center"
-                            android:layout_marginTop="4dp" />
+                            android:layout_marginTop="@dimen/espaciado_xs" />
                     </LinearLayout>
 
                     <!-- Logro 3: Picasso -->
@@ -301,7 +294,7 @@
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
                         android:gravity="center"
-                        android:padding="8dp"
+                        android:padding="@dimen/espaciado_sm"
                         android:alpha="0.4">
 
                         <ImageView
@@ -317,7 +310,7 @@
                             android:textSize="11sp"
                             android:textColor="@color/txtSecundario"
                             android:gravity="center"
-                            android:layout_marginTop="4dp" />
+                            android:layout_marginTop="@dimen/espaciado_xs" />
                     </LinearLayout>
 
                     <!-- Logro 4: Plaza -->
@@ -327,7 +320,7 @@
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
                         android:gravity="center"
-                        android:padding="8dp"
+                        android:padding="@dimen/espaciado_sm"
                         android:alpha="0.4">
 
                         <ImageView
@@ -343,7 +336,7 @@
                             android:textSize="11sp"
                             android:textColor="@color/txtSecundario"
                             android:gravity="center"
-                            android:layout_marginTop="4dp" />
+                            android:layout_marginTop="@dimen/espaciado_xs" />
                     </LinearLayout>
 
                     <!-- Logro 5: Frontón -->
@@ -353,7 +346,7 @@
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
                         android:gravity="center"
-                        android:padding="8dp"
+                        android:padding="@dimen/espaciado_sm"
                         android:alpha="0.4">
 
                         <ImageView
@@ -369,7 +362,7 @@
                             android:textSize="11sp"
                             android:textColor="@color/txtSecundario"
                             android:gravity="center"
-                            android:layout_marginTop="4dp" />
+                            android:layout_marginTop="@dimen/espaciado_xs" />
                     </LinearLayout>
 
                 </LinearLayout>
@@ -384,7 +377,7 @@
             android:layout_width="match_parent"
             android:layout_height="72dp"
             android:text="@string/profile_edit_button"
-            android:layout_marginBottom="12dp" />
+            android:layout_marginBottom="@dimen/espaciado_md" />
 
         <!-- Botón Cerrar Sesión -->
         <Button
@@ -393,7 +386,7 @@
             android:layout_width="match_parent"
             android:layout_height="72dp"
             android:text="@string/profile_logout_button"
-            android:layout_marginBottom="24dp" />
+            android:layout_marginBottom="@dimen/espaciado_xl" />
 
     </LinearLayout>
 

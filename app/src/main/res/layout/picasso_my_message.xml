@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F5F5F5"
+    android:background="@color/backgroundLight"
     tools:context=".picasso.MyMessageActivity">
 
     <!-- Título -->
@@ -12,14 +12,12 @@
         android:id="@+id/titleText"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
+        android:layout_marginStart="@dimen/espaciado_base"
+        android:layout_marginTop="@dimen/espaciado_base"
+        android:layout_marginEnd="@dimen/espaciado_base"
         android:text="@string/my_message_title"
         android:textAlignment="center"
-        android:textColor="@color/btnPrincipal"
-        android:textSize="24sp"
-        android:textStyle="bold"
+        android:textAppearance="@style/AparienciaTexto.App.Encabezado.Primario"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -29,13 +27,12 @@
         android:id="@+id/instructionsText"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="24dp"
+        android:layout_marginStart="@dimen/espaciado_xl"
+        android:layout_marginTop="@dimen/espaciado_base"
+        android:layout_marginEnd="@dimen/espaciado_xl"
         android:text="@string/my_message_instructions"
         android:textAlignment="center"
-        android:textColor="#546E7A"
-        android:textSize="18sp"
+        android:textAppearance="@style/AparienciaTexto.App.Cuerpo.Defecto"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/titleText" />
@@ -45,11 +42,11 @@
         android:id="@+id/messageCard"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="24dp"
-        android:layout_marginEnd="24dp"
-        app:cardCornerRadius="16dp"
-        app:cardElevation="8dp"
+        android:layout_marginStart="@dimen/espaciado_xl"
+        android:layout_marginTop="@dimen/espaciado_xl"
+        android:layout_marginEnd="@dimen/espaciado_xl"
+        app:cardCornerRadius="@dimen/radio_esquina_lg"
+        app:cardElevation="@dimen/radio_esquina_sm"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/instructionsText">
@@ -58,7 +55,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="16dp">
+            android:padding="@dimen/espaciado_base">
 
             <!-- Inicio del mensaje -->
             <TextView
@@ -66,37 +63,34 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/my_message_start"
-                android:textColor="#2C3E50"
-                android:textSize="18sp"
-                android:textStyle="bold" />
+                android:textAppearance="@style/AparienciaTexto.App.Cuerpo.Defecto" />
 
             <!-- Campo de texto para el mensaje -->
             <EditText
                 android:id="@+id/messageInput"
                 android:layout_width="match_parent"
                 android:layout_height="150dp"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="@dimen/espaciado_sm"
                 android:autofillHints=""
                 android:background="@drawable/edit_text_background"
                 android:gravity="top|start"
                 android:hint="@string/my_message_hint"
                 android:inputType="textMultiLine"
                 android:maxLength="200"
-                android:padding="12dp"
-                android:textColor="#000000"
-                android:textColorHint="#B0BEC5"
-                android:textSize="16sp" />
+                android:padding="@dimen/espaciado_md"
+                android:textColor="@color/black"
+                android:textColorHint="@color/grayLight"
+                android:textAppearance="@style/AparienciaTexto.App.Etiqueta.Defecto" />
 
             <!-- Contador de caracteres -->
             <TextView
                 android:id="@+id/characterCount"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
+                android:layout_marginTop="@dimen/espaciado_xs"
                 android:text="@string/my_message_char_count"
                 android:textAlignment="textEnd"
-                android:textColor="#90A4AE"
-                android:textSize="14sp" />
+                android:textAppearance="@style/AparienciaTexto.App.Caption" />
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 
@@ -105,9 +99,9 @@
         android:id="@+id/actionButtonsLayout"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="24dp"
-        android:layout_marginEnd="24dp"
+        android:layout_marginStart="@dimen/espaciado_xl"
+        android:layout_marginTop="@dimen/espaciado_xl"
+        android:layout_marginEnd="@dimen/espaciado_xl"
         android:gravity="center"
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
@@ -118,24 +112,20 @@
             android:id="@+id/btnBack"
             style="@style/EstiloBotonSecundario"
             android:layout_width="0dp"
-            android:layout_marginEnd="8dp"
+            android:layout_marginEnd="@dimen/espaciado_sm"
             android:layout_weight="1"
             android:minHeight="60dp"
             android:text="@string/itzuli"
-            android:enabled="false"
-            android:textSize="16sp"
-            android:textStyle="bold" />
+            android:enabled="false" />
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/sendButton"
             style="@style/EstiloBotonPrimario"
             android:layout_width="0dp"
-            android:layout_marginStart="8dp"
+            android:layout_marginStart="@dimen/espaciado_sm"
             android:layout_weight="1"
             android:minHeight="60dp"
-            android:text="@string/my_message_send"
-            android:textSize="16sp"
-            android:textStyle="bold" />
+            android:text="@string/my_message_send" />
     </LinearLayout>
 
     <!-- Área para mostrar mensajes de otros estudiantes -->
@@ -143,12 +133,12 @@
         android:id="@+id/messagesCard"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="24dp"
-        android:layout_marginEnd="24dp"
-        android:layout_marginBottom="24dp"
-        app:cardCornerRadius="16dp"
-        app:cardElevation="8dp"
+        android:layout_marginStart="@dimen/espaciado_xl"
+        android:layout_marginTop="@dimen/espaciado_xl"
+        android:layout_marginEnd="@dimen/espaciado_xl"
+        android:layout_marginBottom="@dimen/espaciado_xl"
+        app:cardCornerRadius="@dimen/radio_esquina_lg"
+        app:cardElevation="@dimen/radio_esquina_sm"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -158,22 +148,20 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
-            android:padding="16dp">
+            android:padding="@dimen/espaciado_base">
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/my_message_messages_title"
                 android:textAlignment="center"
-                android:textColor="#2C3E50"
-                android:textSize="18sp"
-                android:textStyle="bold" />
+                android:textAppearance="@style/AparienciaTexto.App.Cuerpo.Defecto" />
 
             <!-- ScrollView para los mensajes -->
             <ScrollView
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_marginTop="12dp"
+                android:layout_marginTop="@dimen/espaciado_md"
                 android:layout_weight="1">
 
                 <LinearLayout

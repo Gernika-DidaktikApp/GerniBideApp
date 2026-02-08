@@ -23,4 +23,23 @@
     <color name="valuePeace">#6BCDBF</color>
     <color name="btnCompletado">#6BCDBF</color>
     <color name="btnCompletadoShadow">#4BA89A</color>
+
+    <!-- Colores adicionales comunes -->
+    <color name="backgroundLight">#F5F5F5</color>
+    <color name="overlay">#80000000</color>
+    <color name="grayMedium">#FF666666</color>
+    <color name="grayLight">#B0BEC5</color>
+    <color name="yellow">#FFFF00</color>
+    <color name="yellowLight">#FFEB3B</color>
+    <color name="greenSuccess">#2E7D32</color>
+
+    <!-- Colores de categorías de sonido (Bunkers) -->
+    <color name="categoryBombardeos">#F44336</color>
+    <color name="categoryRefugio">#2196F3</color>
+
+    <!-- Paleta de colores para actividad de pintura (Picasso) -->
+    <color name="paletteBlue">#4FC3F7</color>
+    <color name="paletteGreen">#66BB6A</color>
+    <color name="paletteYellow">#FFEB3B</color>
+    <color name="palettePink">#F48FB1</color>
 </resources>

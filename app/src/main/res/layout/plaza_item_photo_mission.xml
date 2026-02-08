@@ -3,15 +3,15 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="8dp"
-    app:cardCornerRadius="8dp"
-    app:cardElevation="2dp">
+    android:layout_margin="@dimen/espaciado_sm"
+    app:cardCornerRadius="@dimen/radio_esquina_sm"
+    app:cardElevation="@dimen/espaciado_xs">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="8dp">
+        android:padding="@dimen/espaciado_sm">
 
         <!-- Foto subida -->
         <ImageView
@@ -26,10 +26,9 @@
             android:id="@+id/tvEtiqueta"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="@dimen/espaciado_sm"
             android:text="@string/tradizioa"
-            android:textSize="16sp"
-            android:textStyle="bold"
+            android:textAppearance="@style/AparienciaTexto.App.Etiqueta"
             android:textColor="@color/btnPrincipal"
             android:gravity="center" />
 

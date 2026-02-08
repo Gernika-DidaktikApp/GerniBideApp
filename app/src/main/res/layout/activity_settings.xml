@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="24dp"
+    android:padding="@dimen/espaciado_xl"
     android:background="@color/base">
 
     <LinearLayout
@@ -15,29 +15,25 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp">
+            android:layout_marginTop="@dimen/espaciado_lg">
 
             <!-- Título principal de la pantalla de ajustes -->
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/ezarpenak"
-                android:textSize="28sp"
-                android:textStyle="bold"
-                android:textColor="@color/btnPrincipal"
+                android:textAppearance="@style/AparienciaTexto.App.TituloMediano"
                 android:gravity="center"
-                android:layout_marginBottom="40dp" />
+                android:layout_marginBottom="@dimen/espaciado_xxl" />
 
             <!-- Icono botón Acerca de -->
             <ImageButton
                 android:id="@+id/btnAbout"
-                android:layout_width="48dp"
-                android:layout_height="48dp"
+                style="@style/EstiloImageButtonMediano"
                 android:layout_alignParentEnd="true"
                 android:src="@android:drawable/ic_dialog_info"
-                android:background="?attr/selectableItemBackgroundBorderless"
                 android:contentDescription="@string/honi_buruz"
-                app:tint="#FF666666" />
+                app:tint="@color/grayMedium" />
 
         </RelativeLayout>
 
@@ -47,16 +43,16 @@
             android:layout_height="98dp"
             android:orientation="horizontal"
             android:gravity="center_vertical"
-            android:layout_marginBottom="16dp"
-            android:padding="16dp"
+            android:layout_marginBottom="@dimen/espaciado_base"
+            android:padding="@dimen/espaciado_base"
             android:background="@drawable/border_only">
 
             <ImageView
-                android:layout_width="24dp"
-                android:layout_height="24dp"
+                android:layout_width="@dimen/espaciado_xl"
+                android:layout_height="@dimen/espaciado_xl"
                 android:contentDescription="@string/ikono_soinua"
                 android:src="@android:drawable/ic_lock_silent_mode_off"
-                android:layout_marginEnd="16dp"
+                android:layout_marginEnd="@dimen/espaciado_base"
                 app:tint="?attr/colorOnSurface" />
 
             <LinearLayout
@@ -69,7 +65,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/soinuarekin"
-                    android:textSize="18sp"
+                    android:textAppearance="@style/AparienciaTexto.App.Cuerpo.Defecto"
                     android:textStyle="bold"
                     android:layout_marginBottom="2dp" />
 
@@ -77,8 +73,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/desaktibatu_soinua"
-                    android:textSize="14sp"
-                    android:textColor="@android:color/darker_gray" />
+                    android:textAppearance="@style/AparienciaTexto.App.Caption" />
             </LinearLayout>
 
             <androidx.appcompat.widget.SwitchCompat
@@ -94,16 +89,16 @@
             android:layout_height="98dp"
             android:orientation="horizontal"
             android:gravity="center_vertical"
-            android:layout_marginBottom="16dp"
-            android:padding="16dp"
+            android:layout_marginBottom="@dimen/espaciado_base"
+            android:padding="@dimen/espaciado_base"
             android:background="@drawable/border_only">
 
             <ImageView
-                android:layout_width="24dp"
-                android:layout_height="24dp"
+                android:layout_width="@dimen/espaciado_xl"
+                android:layout_height="@dimen/espaciado_xl"
                 android:contentDescription="@string/ikono_letra_tamaina"
                 android:src="@android:drawable/ic_menu_sort_by_size"
-                android:layout_marginEnd="16dp"
+                android:layout_marginEnd="@dimen/espaciado_base"
                 app:tint="?attr/colorOnSurface" />
 
             <LinearLayout
@@ -124,8 +119,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/aukeratu_tamaina"
-                    android:textSize="14sp"
-                    android:textColor="@android:color/darker_gray" />
+                    android:textAppearance="@style/AparienciaTexto.App.Caption" />
             </LinearLayout>
 
             <Spinner
@@ -141,16 +135,16 @@
             android:layout_height="98dp"
             android:orientation="horizontal"
             android:gravity="center_vertical"
-            android:layout_marginBottom="16dp"
-            android:padding="16dp"
+            android:layout_marginBottom="@dimen/espaciado_base"
+            android:padding="@dimen/espaciado_base"
             android:background="@drawable/border_only">
 
             <ImageView
-                android:layout_width="24dp"
-                android:layout_height="24dp"
+                android:layout_width="@dimen/espaciado_xl"
+                android:layout_height="@dimen/espaciado_xl"
                 android:contentDescription="@string/ikono_daltonismo"
                 android:src="@android:drawable/ic_menu_edit"
-                android:layout_marginEnd="16dp"
+                android:layout_marginEnd="@dimen/espaciado_base"
                 app:tint="?attr/colorOnSurface" />
 
             <LinearLayout
@@ -171,8 +165,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/cambiar_contraste_mensaje"
-                    android:textSize="14sp"
-                    android:textColor="@android:color/darker_gray"/>
+                    android:textAppearance="@style/AparienciaTexto.App.Caption"/>
             </LinearLayout>
 
             <androidx.appcompat.widget.SwitchCompat
@@ -187,16 +180,16 @@
             android:layout_height="98dp"
             android:orientation="horizontal"
             android:gravity="center_vertical"
-            android:layout_marginBottom="16dp"
-            android:padding="16dp"
+            android:layout_marginBottom="@dimen/espaciado_base"
+            android:padding="@dimen/espaciado_base"
             android:background="@drawable/border_only">
 
             <ImageView
-                android:layout_width="24dp"
-                android:layout_height="24dp"
+                android:layout_width="@dimen/espaciado_xl"
+                android:layout_height="@dimen/espaciado_xl"
                 android:contentDescription="@string/ikono_hizkuntza"
                 android:src="@android:drawable/ic_menu_mapmode"
-                android:layout_marginEnd="16dp"
+                android:layout_marginEnd="@dimen/espaciado_base"
                 app:tint="?attr/colorOnSurface" />
 
             <LinearLayout
@@ -217,8 +210,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/euskara_edo_gaztelania"
-                    android:textSize="14sp"
-                    android:textColor="@android:color/darker_gray"/>
+                    android:textAppearance="@style/AparienciaTexto.App.Caption"/>
             </LinearLayout>
 
             <Spinner
@@ -236,7 +228,7 @@
             android:layout_height="72dp"
             android:text="@string/ezarpenak_gorde"
             android:textSize="18sp"
-            android:layout_marginTop="20dp"/>
+            android:layout_marginTop="@dimen/espaciado_lg"/>
 
     </LinearLayout>
 
