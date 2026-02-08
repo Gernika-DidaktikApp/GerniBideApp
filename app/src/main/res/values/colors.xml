@@ -23,6 +23,8 @@
     <color name="valuePeace">#6BCDBF</color>
     <color name="btnCompletado">#6BCDBF</color>
     <color name="btnCompletadoShadow">#4BA89A</color>
+    <color name="btnFABSecundario">#FFFFFFFF</color>
+    <color name="btnFABSecundarioShadow">#CCCCCC</color>
 
     <!-- Colores adicionales comunes -->
     <color name="backgroundLight">#F5F5F5</color>
