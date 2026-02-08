@@ -1,7 +1,25 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme. -->
-    <style name="Base.Theme.GernikApp" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize your dark theme here. -->
-        <!-- <item name="colorPrimary">@color/my_dark_primary</item> -->
+    <!-- Tema para modo daltónico -->
+    <!-- Usa tema Light porque el fondo es claro, solo cambia los colores para accesibilidad -->
+    <style name="Base.Theme.GernikApp" parent="Theme.Material3.Light.NoActionBar">
+        <!-- Colores primarios -->
+        <item name="colorPrimary">@color/btnPrincipal</item>
+        <item name="colorOnPrimary">@color/white</item>
+
+        <!-- Colores de superficie (fondos) -->
+        <item name="colorSurface">@color/base</item>
+        <item name="colorOnSurface">@color/txtPrincipal</item>
+
+        <!-- Colores de fondo -->
+        <item name="android:colorBackground">@color/base</item>
+        <item name="colorOnBackground">@color/txtPrincipal</item>
+
+        <!-- Colores secundarios -->
+        <item name="colorSecondary">@color/btnSecundario</item>
+        <item name="colorOnSecondary">@color/white</item>
+
+        <!-- Colores de estado -->
+        <item name="colorError">@color/error</item>
+        <item name="colorOnError">@color/white</item>
     </style>
 </resources>

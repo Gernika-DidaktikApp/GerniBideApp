@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Paleta accesible para daltonismo -->
+    <!-- Mantiene fondos y textos originales, optimiza solo botones y feedback -->
+
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+
+    <!-- Fondo: MANTENER ORIGINAL para preservar contraste de textos -->
+    <color name="base">#E4F2EA</color>
+
+    <!-- Botón principal: azul oscuro vibrante (distinguible para daltónicos) -->
+    <color name="btnPrincipal">#0277BD</color>
+    <color name="btnPrincipalShadow">#01579B</color>
+
+    <!-- Botón secundario: naranja intenso (contrasta con azul) -->
+    <color name="btnSecundario">#F57C00</color>
+    <color name="btnSecundarioShadow">#E65100</color>
+
+    <!-- Feedback: Correcto = Cyan saturado (éxito claro) -->
+    <color name="correcto">#00ACC1</color>
+
+    <!-- Feedback: Error = Rojo intenso (alerta clara) -->
+    <color name="error">#E53935</color>
+
+    <!-- Feedback: Aviso = Amarillo dorado (atención) -->
+    <color name="aviso">#FBC02D</color>
+
+    <!-- Textos: MANTENER ORIGINALES para máxima legibilidad -->
+    <color name="txtPrincipal">#39455F</color>
+    <color name="txtSecundario">#525C77</color>
+
+    <!-- Árbol: azul-verde (distinguible sin perder naturalidad) -->
+    <color name="verdeArbol">#00897B</color>
+
+    <!-- Tronco: MANTENER ORIGINAL -->
+    <color name="marronTronco">#A87457</color>
+
+    <!-- Botones deshabilitados: MANTENER ORIGINALES -->
+    <color name="btnDisabled">#CCCCCC</color>
+    <color name="btnDisabledShadow">#999999</color>
+
+    <!-- Valores educativos: colores distinguibles -->
+    <color name="valueFriendship">#FFB74D</color>
+    <color name="valueFreedom">#0277BD</color>
+    <color name="valueSolidarity">#8E24AA</color>
+    <color name="valueRespect">#00897B</color>
+    <color name="valuePeace">#00ACC1</color>
+
+    <!-- Botón completado: cyan (éxito visible) -->
+    <color name="btnCompletado">#00ACC1</color>
+    <color name="btnCompletadoShadow">#00838F</color>
+
+    <!-- FAB secundarios: MANTENER ORIGINALES -->
+    <color name="btnFABSecundario">#FFFFFFFF</color>
+    <color name="btnFABSecundarioShadow">#CCCCCC</color>
+
+    <!-- Colores adicionales: MANTENER ORIGINALES -->
+    <color name="backgroundLight">#F5F5F5</color>
+    <color name="overlay">#80000000</color>
+    <color name="grayMedium">#FF666666</color>
+    <color name="grayLight">#B0BEC5</color>
+    <color name="yellow">#FFFF00</color>
+    <color name="yellowLight">#FFEB3B</color>
+    <color name="greenSuccess">#2E7D32</color>
+
+    <!-- Categorías Bunkers: rojo vs azul intenso (máxima distinguibilidad) -->
+    <color name="categoryBombardeos">#D32F2F</color>
+    <color name="categoryRefugio">#1976D2</color>
+
+    <!-- Paleta Picasso: MANTENER ORIGINALES -->
+    <color name="paletteBlue">#4FC3F7</color>
+    <color name="paletteGreen">#66BB6A</color>
+    <color name="paletteYellow">#FFEB3B</color>
+    <color name="palettePink">#F48FB1</color>
+</resources>
