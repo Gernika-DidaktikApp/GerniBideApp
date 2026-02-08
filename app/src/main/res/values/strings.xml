@@ -38,7 +38,7 @@
 
     <!-- Plaza Gernika Module -->
     <!-- Pantalla de Video -->
-    <string name="plaza_titulo">Gernikaren Plaza</string>
+    <string name="plaza_titulo">Gernikako Plaza nagusia</string>
     <string name="siguiente">Hurrengoa</string>
     <string name="play_pause">Erreproduzitu/Pausatu</string>
 
@@ -49,7 +49,7 @@
 
     <!-- Pantalla Arrastrar Productos -->
     <string name="arrastra_productos_titulo">Produktuak beren postuan jarri</string>
-    <string name="arrastra_instrucciones">Arrastatu produktu bakoitza dagokion postuan</string>
+    <string name="arrastra_instrucciones">Jarri produktu bakoitza dagokion postuan</string>
     <string name="puesto_lacteos">Esnekiak</string>
     <string name="puesto_verduras">Barazkiak</string>
     <string name="puesto_panaderia">Ogia</string>
@@ -71,8 +71,8 @@
     <string name="producto_pastela">Pastela</string>
     <string name="producto_eztia">Eztia</string>
     <string name="producto_polena">Polena</string>
-    <string name="producto_esku_lanak">Zuaren atzamartzak</string>
-    <string name="producto_ontziak">Burdinezko ontziak</string>
+    <string name="producto_esku_lanak">Egurrezko esku lanak</string>
+    <string name="producto_ontziak">Buztinezko ontziak</string>
     <string name="producto_zestak">Zestak</string>
 
     <!-- Pantalla de Versos -->
@@ -105,10 +105,10 @@
     <string name="error_empty_response">Zerbitzariaren erantzun hutsa</string>
 
     <!-- Mapa -->
-    <string name="map_marker_title_arbola">Gernikaren Arbola eta Juntetxea</string>
+    <string name="map_marker_title_arbola">Gernikaren Arbola eta Batzaretxea</string>
     <string name="map_marker_title_bunker">Astrako bunkereak</string>
     <string name="map_marker_title_guernica">Picasso-ren \"Guernika\"</string>
-    <string name="map_marker_title_plaza">Gernikaren merkatu plaza</string>
+    <string name="map_marker_title_plaza">Gernikako merkatu plaza</string>
     <string name="map_marker_title_frontoi">Frontoia Jai-Alai</string>
     <string name="map_dialog_message">%s-ra iritsi zara.\n¿Sartu nahi duzu?</string>
     <string name="map_dialog_button_enter">Sartu</string>
@@ -122,10 +122,10 @@
     <string name="map_button_go_to_activity">Jarduera bisitatu</string>
 
     <!-- Descripciones de ubicaciones -->
-    <string name="map_description_arbola">Gernikaren Arbola euskal herriko ikurrik nagusienetakoa da. Bere azpian elkartzen ziren legegintzaren biltzarrak. Horretaz gain, euskaldunen askatasunaren sinboloa da.</string>
+    <string name="map_description_arbola">Gernikako Arbola euskal herriko ikurrik nagusienetakoa da. Bere azpian elkartzen ziren legegintzaren biltzarrak. Horretaz gain, euskaldunen askatasunaren sinboloa da.</string>
     <string name="map_description_bunker">Astrako bunkereak Gerracivilaren lekukoak dira. 1937ko bonbardaketaren garaian, herritarrek zuhaitz gisa erabili zituzten.</string>
     <string name="map_description_guernica">Pablo Picasso-k margotutako Guernika gerra zibilaren aurkako arte-protesta da, mundu osoan ezaguna.</string>
-    <string name="map_description_plaza">Gernikaren merkatu plaza herriko bihotza da. Astelehen bakoitzean nekazariak hemen saltzen dute beren produktuak.</string>
+    <string name="map_description_plaza">Gernikako merkatu plaza herriko bihotza da. Astelehen bakoitzean nekazariak hemen saltzen dute bere produktuak.</string>
     <string name="map_description_frontoi">Frontoi Jai-Alai munduko handienetakoa da, non zesta puntara jokatzen den, euskal kirola.</string>
 
     <!-- Menu FAB -->
@@ -143,11 +143,11 @@
     <string name="picasso_guernica_description">Guernika</string>
 
     <!-- Color Peace -->
-    <string name="color_peace_title">Bakea margotu</string>
+    <string name="color_peace_title">Bakea margotzen</string>
     <string name="color_peace_instructions">Marraztu hatzekin, bi hatzekin pixkatu handitu/txikitzeko eta mugitu</string>
     <string name="color_peace_clear">Ezabatu</string>
     <string name="color_peace_finish">Bukatu</string>
-    <string name="color_peace_dialog_title">¡Perfektoa!</string>
+    <string name="color_peace_dialog_title">¡Ederki!</string>
     <string name="color_peace_dialog_message">¡Zure bake-irudia sortu duzu! Orain ikusi dezakezu.</string>
     <string name="color_peace_dialog_button">Ikusi</string>
     <string name="color_peace_save_error">Irudia gordetzean errorea</string>
@@ -161,17 +161,17 @@
 
     <!-- Result -->
     <string name="result_title">Zure obra</string>
-    <string name="result_subtitle">¡Perfektoa! Hemen duzu zure koloreko \"Guernika\"</string>
+    <string name="result_subtitle">¡Ederto! Hemen duzu zure koloreko \"Guernika\"</string>
     <string name="result_image_description">Koloreko Guernika</string>
     <string name="result_share">Partekatu</string>
     <string name="result_close">Itxi</string>
 
     <!-- View and Interpret -->
     <string name="view_interpret_title">Begira eta asmatu</string>
-    <string name="view_interpret_element_description">Guernikaren elementua</string>
+    <string name="view_interpret_element_description">Guernikako elementua</string>
     <string name="view_interpret_next">Hurrengoa</string>
     <string name="view_interpret_wrong_answer">Zuzena den erantzuna: %1$s\n%2$s</string>
-    <string name="view_interpret_results_title">¡Perfektoa!</string>
+    <string name="view_interpret_results_title">¡Ederto!</string>
     <string name="view_interpret_results_message">Puntuazioa: %1$d/%2$d\n%3$s</string>
     <string name="view_interpret_results_finish">Bukatu</string>
     <string name="view_interpret_load_title">Aurretik egindako proba</string>
@@ -426,7 +426,7 @@
     <string name="app_informazioa">Aplikazioaren informazioa</string>
 
     <!-- AboutActivity -->
-    <string name="about_description">Gernikaren historia eta kultura interaktiboki ikasteko aplikazioa.</string>
+    <string name="about_description">Gernikako historia eta kultura interaktiboki ikasteko aplikazioa.</string>
     <string name="desarrollado_por">Garatzaileak</string>
     <string name="didaktikapp">DidaktikApp</string>
     <string name="autores">Arantxa, Erlantz, Telmo eta Wara</string>
