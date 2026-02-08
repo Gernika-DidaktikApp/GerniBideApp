@@ -1,11 +1,14 @@
 package es.didaktikapp.gernikapp.picasso
 
+import android.content.Intent
 import android.graphics.BitmapFactory
 import es.didaktikapp.gernikapp.BaseMenuActivity
 import es.didaktikapp.gernikapp.LogManager
 import es.didaktikapp.gernikapp.R
 import es.didaktikapp.gernikapp.databinding.PicassoResultBinding
 import es.didaktikapp.gernikapp.utils.BitmapUtils
+import es.didaktikapp.gernikapp.utils.Constants
+import java.io.File
 
 /**
  * Activity que muestra el resultado final del Guernica coloreado por el usuario.
@@ -75,18 +78,39 @@ class ResultActivity : BaseMenuActivity() {
 
     /**
      * Configura los listeners de los botones de la interfaz.
-     * - btnBack: Cierra la actividad
+     * - btnBack: Vuelve a MainActivity de Picasso limpiando el stack
      * - btnShare: Funcionalidad pendiente de implementar
      */
     private fun setupClickListeners() {
         binding.btnBack.setOnClickListener {
-            finish()
             LogManager.write(this@ResultActivity, "Usuario volvió desde ResultActivity")
+            // Navegar a MainActivity de Picasso y limpiar el stack
+            val intent = Intent(this, MainActivity::class.java).apply {
+                flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
+            }
+            startActivity(intent)
+            finish()
         }
 
         binding.btnShare.setOnClickListener {
-            // TODO: Implementar compartir imagen
-            LogManager.write(this@ResultActivity, "Botón compartir pulsado")
+            LogManager.write(this@ResultActivity, "Usuario solicitó volver a empezar")
+            // Borrar la imagen guardada para permitir volver a pintar
+            deleteSavedPainting()
+            // Navegar de vuelta a ColorPeaceActivity
+            startActivity(Intent(this, ColorPeaceActivity::class.java))
+            finish()
+        }
+    }
+
+    /**
+     * Elimina la imagen guardada del almacenamiento interno.
+     * Permite al usuario volver a pintar desde cero.
+     */
+    private fun deleteSavedPainting() {
+        val file = File(filesDir, Constants.Files.GUERNICA_IMAGE_FILENAME)
+        if (file.exists()) {
+            val deleted = file.delete()
+            LogManager.write(this@ResultActivity, "Imagen guardada eliminada: $deleted")
         }
     }
 }

@@ -91,7 +91,7 @@
             android:layout_height="60dp"
             android:layout_margin="@dimen/espaciado_xs"
             android:background="@drawable/color_circle"
-            android:backgroundTint="@color/white"
+            android:backgroundTint="@color/paletteEraser"
             android:clickable="true"
             android:focusable="true" />
     </LinearLayout>

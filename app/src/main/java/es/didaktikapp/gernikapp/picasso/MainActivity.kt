@@ -42,12 +42,17 @@ class MainActivity : BaseMenuActivity() {
 
     /**
      * Actualiza el aspecto visual de los botones de actividades completadas.
-     * Lee el estado de progreso y aplica el fondo correspondiente.
+     * Lee el estado de progreso desde SharedPreferences y aplica el fondo correspondiente.
      */
     private fun updateCompletedActivities() {
         LogManager.write(this@MainActivity, "Actualizando actividades completadas en Picasso")
 
         val prefs = getSharedPreferences("picasso_progress", MODE_PRIVATE)
+
+        if (prefs.getBoolean("color_peace_completed", false)) {
+            binding.btnKolorezBakea.background =
+                ContextCompat.getDrawable(this, R.drawable.bg_boton_completado)
+        }
 
         if (prefs.getBoolean("view_interpret_completed", false)) {
             binding.btnIkusiEtaAsmatu.background =

@@ -92,7 +92,8 @@
         <!-- Actividades de picasso -->
         <activity
             android:name=".picasso.ColorPeaceActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:resizeableActivity="true" />
         <activity
             android:name=".picasso.MyMessageActivity"
             android:exported="false" />
@@ -101,7 +102,8 @@
             android:exported="false" />
         <activity
             android:name=".picasso.ResultActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:resizeableActivity="true" />
         <activity
             android:name=".picasso.ViewInterpretActivity"
             android:exported="false" />

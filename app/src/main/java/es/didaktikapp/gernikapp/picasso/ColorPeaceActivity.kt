@@ -1,7 +1,6 @@
 package es.didaktikapp.gernikapp.picasso
 
 import android.content.Intent
-import android.content.pm.ActivityInfo
 import android.graphics.BitmapFactory
 import android.graphics.Color
 import android.os.Bundle
@@ -9,6 +8,7 @@ import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import androidx.core.content.edit
 import androidx.lifecycle.lifecycleScope
 import es.didaktikapp.gernikapp.BaseMenuActivity
 import es.didaktikapp.gernikapp.LogManager
@@ -60,21 +60,17 @@ class ColorPeaceActivity : BaseMenuActivity() {
     private lateinit var gameRepository: GameRepository
     private lateinit var tokenManager: TokenManager
     private var actividadProgresoId: String? = null
-    private var originalOrientation: Int = ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED
 
     // Colores disponibles
     private val colorBlue = Color.parseColor("#4FC3F7")
     private val colorGreen = Color.parseColor("#66BB6A")
     private val colorYellow = Color.parseColor("#FFEB3B")
     private val colorPink = Color.parseColor("#F48FB1")
-    private val colorWhite = Color.parseColor("#FFFFFF")
+    private val colorEraser = Color.parseColor("#E0E0E0")  // Gris claro - funciona como borrador
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        // Guardar la orientación original antes de forzar landscape
-        originalOrientation = requestedOrientation
-        // Forzar orientación landscape
-        requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
-        super.onCreate(savedInstanceState)
+    companion object {
+        private const val PROGRESS_PREFS = "picasso_progress"
+        private const val KEY_COLOR_PEACE_COMPLETED = "color_peace_completed"
     }
 
     override fun onContentInflated() {
@@ -89,26 +85,31 @@ class ColorPeaceActivity : BaseMenuActivity() {
         checkForSavedPainting()
     }
 
-    override fun onDestroy() {
-        // Restaurar la orientación original al salir
-        requestedOrientation = originalOrientation
-        super.onDestroy()
-    }
 
     /**
      * Verifica si existe una imagen guardada previamente y muestra el modo correspondiente.
-     * - Si existe imagen: modo vista previa
-     * - Si no existe: modo pintar
+     * - Si está completada Y tiene imagen guardada: redirige directamente a ResultActivity
+     * - Si existe imagen pero no completada: modo vista previa
+     * - Si no existe imagen: modo pintar (incluso si está completada, para permitir repintar)
      *
      * @see PaintCanvasView.hasSavedImage
      */
     private fun checkForSavedPainting() {
-        if (PaintCanvasView.hasSavedImage(this)) {
-            // Mostrar modo vista previa
+        val progressPrefs = getSharedPreferences(PROGRESS_PREFS, MODE_PRIVATE)
+        val isCompleted = progressPrefs.getBoolean(KEY_COLOR_PEACE_COMPLETED, false)
+        val hasSavedImage = PaintCanvasView.hasSavedImage(this)
+
+        if (isCompleted && hasSavedImage) {
+            // Si ya está completada Y tiene imagen, ir directamente a ResultActivity
+            LogManager.write(this@ColorPeaceActivity, "Actividad completada detectada, redirigiendo a ResultActivity")
+            startActivity(Intent(this, ResultActivity::class.java))
+            finish()
+        } else if (hasSavedImage) {
+            // Mostrar modo vista previa (tiene imagen pero no completada)
             LogManager.write(this@ColorPeaceActivity, "Modo vista previa detectado (imagen guardada encontrada)")
             showPreviewMode()
         } else {
-            // Mostrar modo pintar
+            // Mostrar modo pintar (sin imagen - permite repintar incluso si ya completó antes)
             LogManager.write(this@ColorPeaceActivity, "Modo pintar activado (sin imagen guardada)")
             showPaintMode()
         }
@@ -284,8 +285,8 @@ class ColorPeaceActivity : BaseMenuActivity() {
         }
 
         binding.colorWhite.setOnClickListener {
-            binding.paintCanvas.currentColor = colorWhite
-            LogManager.write(this@ColorPeaceActivity, "Color seleccionado: WHITE")
+            binding.paintCanvas.currentColor = colorEraser
+            LogManager.write(this@ColorPeaceActivity, "Color seleccionado: ERASER (gris claro)")
             highlightSelectedColor(it)
         }
     }
@@ -319,7 +320,8 @@ class ColorPeaceActivity : BaseMenuActivity() {
 
     /**
      * Guarda la pintura actual en almacenamiento interno y finaliza la actividad.
-     * Si el guardado es exitoso, completa el evento en la API y muestra diálogo de confirmación.
+     * Si el guardado es exitoso, completa el evento en la API (solo si no estaba completada)
+     * y muestra diálogo de confirmación.
      * Si falla, muestra un mensaje de error.
      *
      * @see PaintCanvasView.saveToInternalStorage
@@ -330,8 +332,26 @@ class ColorPeaceActivity : BaseMenuActivity() {
 
         if (saved) {
             LogManager.write(this@ColorPeaceActivity, "Pintura guardada correctamente")
-            completarActividad()
-            showCompletionDialog()
+
+            val progressPrefs = getSharedPreferences(PROGRESS_PREFS, MODE_PRIVATE)
+            val wasAlreadyCompleted = progressPrefs.getBoolean(KEY_COLOR_PEACE_COMPLETED, false)
+
+            // Marcar actividad como completada en SharedPreferences
+            progressPrefs.edit {
+                putBoolean(KEY_COLOR_PEACE_COMPLETED, true)
+            }
+
+            lifecycleScope.launch {
+                // Solo completar en API si no estaba completada previamente
+                if (!wasAlreadyCompleted) {
+                    LogManager.write(this@ColorPeaceActivity, "Primera vez completando, llamando a API")
+                    completarActividad()
+                } else {
+                    LogManager.write(this@ColorPeaceActivity, "Ya estaba completada, no se llama a API")
+                }
+                // Mostrar diálogo en ambos casos
+                showCompletionDialog()
+            }
         } else {
             LogManager.write(this@ColorPeaceActivity, "Error al guardar la pintura")
             Toast.makeText(
@@ -388,24 +408,23 @@ class ColorPeaceActivity : BaseMenuActivity() {
     /**
      * Completa el evento en la API del juego.
      * Requiere un actividadProgresoId válido obtenido de iniciarActividad().
+     * Esta función es suspend y debe llamarse desde una coroutine.
      *
      * @see iniciarActividad
      * Puntuación enviada: 100.0 (actividad completada)
      */
-    private fun completarActividad() {
+    private suspend fun completarActividad() {
         val estadoId = actividadProgresoId ?: return
-        lifecycleScope.launch {
-            when (val result = gameRepository.completarActividad(estadoId, 100.0)) {
-                is Resource.Success -> {
-                    Log.d("ColorPeace", "Completado")
-                    LogManager.write(this@ColorPeaceActivity, "API completarActividad PICASSO_COLOR_PEACE")
-                }
-                is Resource.Error -> {
-                    Log.e("ColorPeace", "Error: ${result.message}")
-                    LogManager.write(this@ColorPeaceActivity, "Error completarActividad PICASSO_COLOR_PEACE: ${result.message}")
-                }
-                is Resource.Loading -> { }
+        when (val result = gameRepository.completarActividad(estadoId, 100.0)) {
+            is Resource.Success -> {
+                Log.d("ColorPeace", "Completado")
+                LogManager.write(this@ColorPeaceActivity, "API completarActividad PICASSO_COLOR_PEACE")
             }
+            is Resource.Error -> {
+                Log.e("ColorPeace", "Error: ${result.message}")
+                LogManager.write(this@ColorPeaceActivity, "Error completarActividad PICASSO_COLOR_PEACE: ${result.message}")
+            }
+            is Resource.Loading -> { }
         }
     }
 }
