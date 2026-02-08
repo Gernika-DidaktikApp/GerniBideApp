@@ -1,9 +1,11 @@
 package es.didaktikapp.gernikapp.picasso
 
 import android.content.Intent
+import android.content.pm.ActivityInfo
 import android.content.res.ColorStateList
 import android.graphics.BitmapFactory
 import android.graphics.Color
+import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.Toast
@@ -34,6 +36,7 @@ import java.io.File
  * @property gameRepository Repositorio para gestionar eventos del juego
  * @property tokenManager Gestor de tokens JWT y juegoId
  * @property actividadProgresoId ID del estado del evento actual (puede ser null)
+ * @property originalOrientation Orientación original para restaurar al salir
  * @property colorBlue Color azul de la paleta (#4FC3F7)
  * @property colorGreen Color verde de la paleta (#66BB6A)
  * @property colorYellow Color amarillo de la paleta (#FFEB3B)
@@ -45,6 +48,7 @@ import java.io.File
  * - Usa PaintCanvasView para el canvas de pintura con zoom y pan
  * - Guarda resultado en Constants.Files.GUERNICA_IMAGE_FILENAME
  * - Inicia evento automáticamente con Puntos.Picasso.COLOR_PEACE
+ * - Fuerza orientación landscape durante la actividad
  *
  * @see PaintCanvasView
  * @see ResultActivity
@@ -56,6 +60,7 @@ class ColorPeaceActivity : BaseMenuActivity() {
     private lateinit var gameRepository: GameRepository
     private lateinit var tokenManager: TokenManager
     private var actividadProgresoId: String? = null
+    private var originalOrientation: Int = ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED
 
     // Colores disponibles
     private val colorBlue = Color.parseColor("#4FC3F7")
@@ -63,6 +68,14 @@ class ColorPeaceActivity : BaseMenuActivity() {
     private val colorYellow = Color.parseColor("#FFEB3B")
     private val colorPink = Color.parseColor("#F48FB1")
     private val colorWhite = Color.parseColor("#FFFFFF")
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        // Guardar la orientación original antes de forzar landscape
+        originalOrientation = requestedOrientation
+        // Forzar orientación landscape
+        requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
+        super.onCreate(savedInstanceState)
+    }
 
     override fun onContentInflated() {
         gameRepository = GameRepository(this)
@@ -72,6 +85,12 @@ class ColorPeaceActivity : BaseMenuActivity() {
         setupColorListeners()
         setupPaintableBounds()
         checkForSavedPainting()
+    }
+
+    override fun onDestroy() {
+        // Restaurar la orientación original al salir
+        requestedOrientation = originalOrientation
+        super.onDestroy()
     }
 
     /**
