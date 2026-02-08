@@ -55,7 +55,7 @@
                 android:id="@+id/tvUsername"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@erabiltzailea"
+                android:text="\@erabiltzailea"
                 android:textAppearance="@style/AparienciaTexto.App.Etiqueta.Defecto"
                 android:textColor="@color/txtSecundario"
                 android:layout_marginTop="@dimen/espaciado_xs" />
