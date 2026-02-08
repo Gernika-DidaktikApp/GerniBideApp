@@ -99,7 +99,6 @@ dependencies {
 
     // RecyclerView
     implementation("androidx.recyclerview:recyclerview:1.3.2")
-    implementation(libs.androidx.room.external.antlr)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

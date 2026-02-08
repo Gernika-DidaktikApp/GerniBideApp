@@ -3,7 +3,6 @@ package es.didaktikapp.gernikapp.bunkers
 import es.didaktikapp.gernikapp.R
 import es.didaktikapp.gernikapp.BaseMenuActivity
 
-import android.content.Context
 import android.util.Log
 import android.view.View
 import android.widget.Button
@@ -14,6 +13,8 @@ import es.didaktikapp.gernikapp.data.repository.GameRepository
 import es.didaktikapp.gernikapp.utils.Constants.Puntos
 import es.didaktikapp.gernikapp.utils.Resource
 import kotlinx.coroutines.launch
+import androidx.core.content.edit
+import es.didaktikapp.gernikapp.LogManager
 
 /**
  * Activity de **Reflexión Emocional** donde el usuario selecciona **1 emoción** de 4 opciones.
@@ -64,6 +65,8 @@ class ReflectionActivity : BaseMenuActivity() {
      * 5. Habilita `btnBack` al completar
      */
     override fun onContentInflated() {
+        LogManager.write(this@ReflectionActivity, "ReflectionActivity iniciada")
+
         gameRepository = GameRepository(this)
         tokenManager = TokenManager(this)
 
@@ -71,7 +74,7 @@ class ReflectionActivity : BaseMenuActivity() {
 
         val tvFeedback: TextView = findViewById(R.id.tvFeedback)
         val btnBack: Button = findViewById(R.id.btnBack)
-        val prefs = getSharedPreferences("bunkers_progress", Context.MODE_PRIVATE)
+        val prefs = getSharedPreferences("bunkers_progress", MODE_PRIVATE)
 
         // Si ya estaba completada, habilitar botón de retorno
         if (prefs.getBoolean("reflection_completed", false)) {
@@ -87,19 +90,21 @@ class ReflectionActivity : BaseMenuActivity() {
          */
         val emojiButtons = listOf(
             findViewById<View>(R.id.btnBeldurra),
-            findViewById<View>(R.id.btnTristura),
-            findViewById<View>(R.id.btnLasaitasuna),
-            findViewById<View>(R.id.btnItxaropena)
+            findViewById(R.id.btnTristura),
+            findViewById(R.id.btnLasaitasuna),
+            findViewById(R.id.btnItxaropena)
         )
 
         emojiButtons.forEach { button ->
             button.setOnClickListener {
+                LogManager.write(this@ReflectionActivity, "Emoción seleccionada: ${button.resources.getResourceEntryName(button.id)}")
+
                 // Mostrar feedback textual
                 tvFeedback.visibility = View.VISIBLE
 
                 // Marcar como completada y habilitar botón
                 btnBack.isEnabled = true
-                prefs.edit().putBoolean("reflection_completed", true).apply()
+                prefs.edit { putBoolean("reflection_completed", true) }
                 completarActividad()
 
                 /**
@@ -119,6 +124,7 @@ class ReflectionActivity : BaseMenuActivity() {
         }
 
         btnBack.setOnClickListener {
+            LogManager.write(this@ReflectionActivity, "Usuario salió de ReflectionActivity")
             finish()
         }
     }
@@ -135,8 +141,14 @@ class ReflectionActivity : BaseMenuActivity() {
                 Puntos.Bunkers.ID,
                 Puntos.Bunkers.REFLECTION
             )) {
-                is Resource.Success -> actividadProgresoId = result.data.id
-                is Resource.Error -> Log.e("Reflection", "Error: ${result.message}")
+                is Resource.Success -> {
+                    actividadProgresoId = result.data.id
+                    LogManager.write(this@ReflectionActivity, "API iniciarActividad BUNKERS_REFLECTION id=$actividadProgresoId")
+                }
+                is Resource.Error -> {
+                    Log.e("Reflection", "Error: ${result.message}")
+                    LogManager.write(this@ReflectionActivity, "Error iniciarActividad BUNKERS_REFLECTION: ${result.message}")
+                }
                 is Resource.Loading -> { }
             }
         }
@@ -150,8 +162,14 @@ class ReflectionActivity : BaseMenuActivity() {
         val estadoId = actividadProgresoId ?: return
         lifecycleScope.launch {
             when (val result = gameRepository.completarActividad(estadoId, 100.0)) {
-                is Resource.Success -> Log.d("Reflection", "Completado")
-                is Resource.Error -> Log.e("Reflection", "Error: ${result.message}")
+                is Resource.Success -> {
+                    Log.d("Reflection", "Completado")
+                    LogManager.write(this@ReflectionActivity, "API completarActividad BUNKERS_REFLECTION puntuación=100")
+                }
+                is Resource.Error -> {
+                    Log.e("Reflection", "Error: ${result.message}")
+                    LogManager.write(this@ReflectionActivity, "Error completarActividad BUNKERS_REFLECTION: ${result.message}")
+                }
                 is Resource.Loading -> { }
             }
         }

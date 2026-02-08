@@ -23,6 +23,7 @@ import es.didaktikapp.gernikapp.utils.Resource
 import kotlinx.coroutines.launch
 import kotlin.random.Random
 import androidx.core.content.edit
+import es.didaktikapp.gernikapp.LogManager
 
 /**
  * Activity de puzzle de **6 piezas** (2x3) donde el usuario arma la imagen `arbola_eta_batzar_etxea`.
@@ -101,6 +102,8 @@ class PuzzleActivity : BaseMenuActivity() {
      * 5. **Espera a que `guideImage` se mida** → `setupPuzzle()`
      */
     override fun onContentInflated() {
+        LogManager.write(this@PuzzleActivity, "PuzzleActivity iniciada")
+
         gameRepository = GameRepository(this)
         tokenManager = TokenManager(this)
 
@@ -139,6 +142,8 @@ class PuzzleActivity : BaseMenuActivity() {
      * 5. Configura `OnTouchListener` para cada pieza
      */
     private fun setupPuzzle() {
+        LogManager.write(this@PuzzleActivity, "Generando puzzle de 6 piezas")
+
         val originalBitmap = BitmapFactory.decodeResource(resources, R.drawable.arbola_eta_batzar_etxea)
 
         val imageRect = getImageViewRect(guideImage)
@@ -223,6 +228,7 @@ class PuzzleActivity : BaseMenuActivity() {
 
                         // SNAP: Si está dentro del radio de 150px
                         if (distance < 150) {
+                            LogManager.write(this@PuzzleActivity, "Pieza colocada correctamente en posición (${piece.targetX}, ${piece.targetY})")
                             v.x = piece.targetX
                             v.y = piece.targetY
                             isPlaced = true
@@ -265,6 +271,7 @@ class PuzzleActivity : BaseMenuActivity() {
     private fun checkVictory() {
         piecesPlaced++
         if (piecesPlaced == totalPieces) {
+            LogManager.write(this@PuzzleActivity, "Puzzle completado con éxito")
             tvVictory.visibility = View.VISIBLE
             btnBack.visibility = View.VISIBLE
             btnBack.isEnabled = true
@@ -335,9 +342,11 @@ class PuzzleActivity : BaseMenuActivity() {
                 is Resource.Success -> {
                     actividadProgresoId = result.data.id
                     Log.d("Puzzle", "Evento iniciado: $actividadProgresoId")
+                    LogManager.write(this@PuzzleActivity, "API iniciarActividad ARBOL_PUZZLE id=$actividadProgresoId")
                 }
                 is Resource.Error -> {
                     Log.e("Puzzle", "Error al iniciar evento: ${result.message}")
+                    LogManager.write(this@PuzzleActivity, "Error iniciarActividad ARBOL_PUZZLE: ${result.message}")
                 }
                 is Resource.Loading -> { }
             }
@@ -363,9 +372,11 @@ class PuzzleActivity : BaseMenuActivity() {
             )) {
                 is Resource.Success -> {
                     Log.d("Puzzle", "Evento completado con puntuación: 100")
+                    LogManager.write(this@PuzzleActivity, "API completarActividad ARBOL_PUZZLE puntuación=100")
                 }
                 is Resource.Error -> {
                     Log.e("Puzzle", "Error al completar evento: ${result.message}")
+                    LogManager.write(this@PuzzleActivity, "Error completarActividad ARBOL_PUZZLE: ${result.message}")
                 }
                 is Resource.Loading -> { }
             }

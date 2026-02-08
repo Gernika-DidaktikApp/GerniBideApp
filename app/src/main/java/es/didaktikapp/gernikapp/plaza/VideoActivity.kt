@@ -1,6 +1,5 @@
 package es.didaktikapp.gernikapp.plaza
 
-import android.content.Context
 import android.graphics.drawable.TransitionDrawable
 import android.os.Handler
 import android.os.Looper
@@ -23,6 +22,8 @@ import es.didaktikapp.gernikapp.utils.Resource
 import kotlinx.coroutines.launch
 import java.util.Locale
 import androidx.core.net.toUri
+import androidx.core.content.edit
+import es.didaktikapp.gernikapp.LogManager
 
 /**
  * Activity de reproducción del video informativo sobre la plaza de Gernika.
@@ -45,6 +46,8 @@ class VideoActivity : BaseMenuActivity() {
     override fun getContentLayoutId() = R.layout.plaza_video
 
     override fun onContentInflated() {
+        LogManager.write(this@VideoActivity, "VideoActivity iniciada")
+
         gameRepository = GameRepository(this)
         tokenManager = TokenManager(this)
 
@@ -56,7 +59,7 @@ class VideoActivity : BaseMenuActivity() {
         progressBar = findViewById(R.id.progressBar)
 
         // Check if activity was previously completed
-        val prefs = getSharedPreferences("plaza_progress", Context.MODE_PRIVATE)
+        val prefs = getSharedPreferences("plaza_progress", MODE_PRIVATE)
         if (prefs.getBoolean("video_completed", false)) {
             btnBack.isEnabled = true
         }
@@ -76,6 +79,7 @@ class VideoActivity : BaseMenuActivity() {
         progressBar.isVisible = true
 
         videoView.setOnPreparedListener {
+            LogManager.write(this@VideoActivity, "Video preparado, duración: ${videoView.duration} ms")
             progressBar.isVisible = false
             seekBar.max = videoView.duration
             updateTimeDisplay()
@@ -86,13 +90,14 @@ class VideoActivity : BaseMenuActivity() {
 
         // Habilitar botón cuando el video termine
         videoView.setOnCompletionListener {
+            LogManager.write(this@VideoActivity, "Vídeo completado por el usuario")
             enableButtonWithTransition()
             updatePlayPauseButton()
             completarActividad()
 
             // Save progress
-            val prefs = getSharedPreferences("plaza_progress", Context.MODE_PRIVATE)
-            prefs.edit().putBoolean("video_completed", true).apply()
+            val prefs = getSharedPreferences("plaza_progress", MODE_PRIVATE)
+            prefs.edit { putBoolean("video_completed", true) }
         }
 
         videoView.setOnErrorListener { _, _, _ ->
@@ -105,6 +110,7 @@ class VideoActivity : BaseMenuActivity() {
     private fun setupVideoControls() {
         // Botón Play/Pause
         btnPlayPause.setOnClickListener {
+            LogManager.write( this@VideoActivity, if (videoView.isPlaying) "Vídeo pausado por el usuario" else "Vídeo reanudado por el usuario" )
             if (videoView.isPlaying) {
                 videoView.pause()
             } else {
@@ -118,6 +124,7 @@ class VideoActivity : BaseMenuActivity() {
         seekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
                 if (fromUser) {
+                    LogManager.write(this@VideoActivity, "SeekBar movida por el usuario a $progress ms")
                     videoView.seekTo(progress)
                     updateTimeDisplay()
                 }
@@ -160,6 +167,7 @@ class VideoActivity : BaseMenuActivity() {
 
     private fun setupButtons() {
         btnBack.setOnClickListener {
+            LogManager.write(this@VideoActivity, "Usuario salió de VideoActivity")
             finish()
         }
     }
@@ -192,8 +200,14 @@ class VideoActivity : BaseMenuActivity() {
         val juegoId = tokenManager.getJuegoId() ?: return
         lifecycleScope.launch {
             when (val result = gameRepository.iniciarActividad(juegoId, Puntos.Plaza.ID, Puntos.Plaza.VIDEO)) {
-                is Resource.Success -> actividadProgresoId = result.data.id
-                is Resource.Error -> Log.e("Video", "Error: ${result.message}")
+                is Resource.Success -> {
+                    actividadProgresoId = result.data.id
+                    LogManager.write(this@VideoActivity, "API iniciarActividad PLAZA_VIDEO id=$actividadProgresoId")
+                }
+                is Resource.Error -> {
+                    Log.e("Video", "Error: ${result.message}")
+                    LogManager.write(this@VideoActivity, "Error iniciarActividad PLAZA_VIDEO: ${result.message}")
+                }
                 is Resource.Loading -> { }
             }
         }
@@ -203,8 +217,14 @@ class VideoActivity : BaseMenuActivity() {
         val estadoId = actividadProgresoId ?: return
         lifecycleScope.launch {
             when (val result = gameRepository.completarActividad(estadoId, 100.0)) {
-                is Resource.Success -> Log.d("Video", "Completado")
-                is Resource.Error -> Log.e("Video", "Error: ${result.message}")
+                is Resource.Success -> {
+                    Log.d("Video", "Completado")
+                    LogManager.write(this@VideoActivity, "API completarActividad PLAZA_VIDEO puntuación=100")
+                }
+                is Resource.Error -> {
+                    Log.e("Video", "Error: ${result.message}")
+                    LogManager.write(this@VideoActivity, "Error completarActividad PLAZA_VIDEO: ${result.message}")
+                }
                 is Resource.Loading -> { }
             }
         }

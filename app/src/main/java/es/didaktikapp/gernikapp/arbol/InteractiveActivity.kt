@@ -18,6 +18,7 @@ import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
 import es.didaktikapp.gernikapp.BaseMenuActivity
+import es.didaktikapp.gernikapp.LogManager
 import es.didaktikapp.gernikapp.R
 import es.didaktikapp.gernikapp.data.local.TokenManager
 import es.didaktikapp.gernikapp.data.repository.GameRepository
@@ -95,6 +96,8 @@ class InteractiveActivity : BaseMenuActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.arbol_interactive)
 
+        LogManager.write(this@InteractiveActivity, "InteractiveActivity iniciada")
+
         gameRepository = GameRepository(this)
         tokenManager = TokenManager(this)
 
@@ -110,6 +113,7 @@ class InteractiveActivity : BaseMenuActivity() {
         }
 
         findViewById<View>(R.id.btnFinish).setOnClickListener {
+            LogManager.write(this@InteractiveActivity, "Actividad Árbol finalizada por el usuario")
             completarActividad()
             finish()
         }
@@ -155,6 +159,7 @@ class InteractiveActivity : BaseMenuActivity() {
      */
     private fun addValueToTree(text: String, color: Int, initialSlot: Int) {
         val textView = TextView(this).apply {
+            LogManager.write(this@InteractiveActivity, "Valor añadido al árbol: $text (slot $initialSlot)")
             this.text = text
             this.setTextColor(color)
             this.textSize = 13f
@@ -236,6 +241,8 @@ class InteractiveActivity : BaseMenuActivity() {
                         }
 
                         moveWordToSlot(v, currentSlot)
+
+                        LogManager.write( this@InteractiveActivity, "Valor colocado en slot $currentSlot" )
                     }
                 }
                 return true
@@ -328,6 +335,10 @@ class InteractiveActivity : BaseMenuActivity() {
             val result = gameRepository.iniciarActividad(juegoId, Puntos.Arbol.ID, Puntos.Arbol.MY_TREE)
             if (result is Resource.Success) {
                 actividadProgresoId = result.data.id
+                LogManager.write(this@InteractiveActivity, "API iniciarActividad ARBOL_MY_TREE id=$actividadProgresoId")
+            }
+            if (result is Resource.Error) {
+                LogManager.write(this@InteractiveActivity, "Error iniciarActividad ARBOL_MY_TREE: ${result.message}")
             }
         }
     }

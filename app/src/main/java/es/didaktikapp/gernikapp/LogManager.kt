@@ -26,6 +26,10 @@ object LogManager {
     fun write(context: Context, message: String) {
         val file = File(context.filesDir, "app_logs.txt")
         val timestamp = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()).format(Date())
-        file.appendText("[$timestamp] $message\n")
+        val line = "[$timestamp] $message"
+        // Guardar en archivo
+        file.appendText("$line\n")
+        // Mostrar en Logcat (tag:DIDAKTIKAPP)
+        android.util.Log.d("DIDAKTIKAPP", line)
     }
 }
