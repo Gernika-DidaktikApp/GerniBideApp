@@ -34,7 +34,7 @@
                 android:layout_alignParentEnd="true"
                 android:src="@android:drawable/ic_dialog_info"
                 android:contentDescription="@string/honi_buruz"
-                app:tint="@color/grayMedium" />
+                app:tint="@color/btnSecundario" />
 
         </RelativeLayout>
 
@@ -49,12 +49,12 @@
             android:background="@drawable/border_only">
 
             <ImageView
-                android:layout_width="@dimen/espaciado_xl"
-                android:layout_height="@dimen/espaciado_xl"
+                android:layout_width="@dimen/imagen_boton_mediano"
+                android:layout_height="@dimen/imagen_boton_mediano"
                 android:contentDescription="@string/ikono_soinua"
                 android:src="@android:drawable/ic_lock_silent_mode_off"
                 android:layout_marginEnd="@dimen/espaciado_base"
-                app:tint="?attr/colorOnSurface" />
+                app:tint="@color/btnSecundario" />
 
             <LinearLayout
                 android:layout_width="0dp"
@@ -81,7 +81,9 @@
                 android:id="@+id/switchMute"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:checked="true" />
+                android:checked="true"
+                app:thumbTint="@color/btnPrincipal"
+                app:trackTint="@color/btnPrincipal" />
         </LinearLayout>
 
         <!-- Tarjeta: selección del tamaño de la letra de la app -->
@@ -95,12 +97,12 @@
             android:background="@drawable/border_only">
 
             <ImageView
-                android:layout_width="@dimen/espaciado_xl"
-                android:layout_height="@dimen/espaciado_xl"
+                android:layout_width="@dimen/imagen_boton_mediano"
+                android:layout_height="@dimen/imagen_boton_mediano"
                 android:contentDescription="@string/ikono_letra_tamaina"
                 android:src="@android:drawable/ic_menu_sort_by_size"
                 android:layout_marginEnd="@dimen/espaciado_base"
-                app:tint="?attr/colorOnSurface" />
+                app:tint="@color/btnSecundario" />
 
             <LinearLayout
                 android:layout_width="0dp"
@@ -127,7 +129,8 @@
                 android:id="@+id/spinnerTextSize"
                 android:layout_width="wrap_content"
                 android:layout_height="44dp"
-                android:entries="@array/text_sizes" />
+                android:entries="@array/text_sizes"
+                android:backgroundTint="@color/btnSecundario" />
         </LinearLayout>
 
         <!-- Tarjeta: activar/desactivar el contraste de la app -->
@@ -141,12 +144,12 @@
             android:background="@drawable/border_only">
 
             <ImageView
-                android:layout_width="@dimen/espaciado_xl"
-                android:layout_height="@dimen/espaciado_xl"
+                android:layout_width="@dimen/imagen_boton_mediano"
+                android:layout_height="@dimen/imagen_boton_mediano"
                 android:contentDescription="@string/ikono_daltonismo"
                 android:src="@android:drawable/ic_menu_edit"
                 android:layout_marginEnd="@dimen/espaciado_base"
-                app:tint="?attr/colorOnSurface" />
+                app:tint="@color/btnSecundario" />
 
             <LinearLayout
                 android:layout_width="0dp"
@@ -172,7 +175,9 @@
             <androidx.appcompat.widget.SwitchCompat
                 android:id="@+id/switchDaltonismo"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content"
+                app:thumbTint="@color/btnPrincipal"
+                app:trackTint="@color/btnPrincipal" />
         </LinearLayout>
 
         <!-- Tarjeta: selección de idioma de la aplicación -->
@@ -186,12 +191,12 @@
             android:background="@drawable/border_only">
 
             <ImageView
-                android:layout_width="@dimen/espaciado_xl"
-                android:layout_height="@dimen/espaciado_xl"
+                android:layout_width="@dimen/imagen_boton_mediano"
+                android:layout_height="@dimen/imagen_boton_mediano"
                 android:contentDescription="@string/ikono_hizkuntza"
                 android:src="@android:drawable/ic_menu_mapmode"
                 android:layout_marginEnd="@dimen/espaciado_base"
-                app:tint="?attr/colorOnSurface" />
+                app:tint="@color/btnSecundario" />
 
             <LinearLayout
                 android:layout_width="0dp"
@@ -218,7 +223,8 @@
                 android:id="@+id/spinnerLanguage"
                 android:layout_width="wrap_content"
                 android:layout_height="44dp"
-                android:entries="@array/languages" />
+                android:entries="@array/languages"
+                android:backgroundTint="@color/btnSecundario" />
         </LinearLayout>
 
         <!-- Botón para guardar los ajustes seleccionados -->

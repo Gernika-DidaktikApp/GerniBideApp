@@ -228,13 +228,22 @@
             <HorizontalScrollView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:scrollbars="horizontal">
+                android:scrollbars="none"
+                android:clipToPadding="false"
+                android:paddingStart="@dimen/espaciado_xs"
+                android:paddingEnd="@dimen/espaciado_xs"
+                android:fadingEdge="horizontal"
+                android:requiresFadingEdge="horizontal"
+                android:fadingEdgeLength="32dp">
 
                 <LinearLayout
                     android:id="@+id/achievementsContainer"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:layout_gravity="center_horizontal"
+                    android:paddingStart="@dimen/espaciado_md"
+                    android:paddingEnd="@dimen/espaciado_md">
 
                     <!-- Logro 1: Árbol -->
                     <LinearLayout
