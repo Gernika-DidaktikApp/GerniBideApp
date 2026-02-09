@@ -8,6 +8,7 @@ import android.view.animation.AccelerateInterpolator
 import android.view.animation.OvershootInterpolator
 import android.widget.FrameLayout
 import android.widget.ImageButton
+import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 
@@ -92,6 +93,7 @@ abstract class BaseMenuActivity : AppCompatActivity() {
         }
 
         setupMenuListeners()
+        setupBackHandler()
         onContentInflated()
     }
 
@@ -262,13 +264,18 @@ abstract class BaseMenuActivity : AppCompatActivity() {
         isNavigating = false
     }
 
-    @Deprecated("Deprecated in Java")
-    override fun onBackPressed() {
-        if (isMenuOpen) {
-            closeMenu()
-        } else {
-            super.onBackPressed()
-        }
+    private fun setupBackHandler() {
+        onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                if (isMenuOpen) {
+                    closeMenu()
+                } else {
+                    isEnabled = false
+                    onBackPressedDispatcher.onBackPressed()
+                    isEnabled = true
+                }
+            }
+        })
     }
 
     /**
