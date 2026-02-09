@@ -62,7 +62,8 @@
         <item name="android:layout_width">@dimen/imagen_boton_grande</item>
         <item name="android:layout_height">@dimen/imagen_boton_grande</item>
         <item name="android:background">@drawable/bg_boton_secundario</item>
-        <item name="android:scaleType">center</item>
+        <item name="android:padding">@dimen/espaciado_md</item>
+        <item name="android:scaleType">fitCenter</item>
     </style>
 
     <!-- ImageButtons grandes (120dp - botones de emoji) -->
