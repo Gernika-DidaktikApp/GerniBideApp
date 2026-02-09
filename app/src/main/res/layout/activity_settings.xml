@@ -22,6 +22,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/ezarpenak"
+                android:textColor="@color/btnSecundario"
                 android:textAppearance="@style/AparienciaTexto.App.TituloMediano"
                 android:gravity="center"
                 android:layout_marginBottom="@dimen/espaciado_xxl" />

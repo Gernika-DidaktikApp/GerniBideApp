@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/fondo3">
@@ -14,9 +13,10 @@
         <!-- Contenedor del vídeo con esquinas redondeadas -->
         <FrameLayout
             android:id="@+id/videoContainer"
-            android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:layout_marginTop="130dp"
+            android:layout_width="@dimen/video_width"
+            android:layout_height="@dimen/video_height"
+            android:layout_marginTop="@dimen/video_top_margin"
+            android:layout_gravity="center_horizontal"
             android:background="@drawable/bg_video_container"
             android:clipToOutline="true">
 
@@ -30,8 +30,9 @@
         <!-- Controles de video integrados -->
         <LinearLayout
             android:id="@+id/videoControls"
-            android:layout_width="match_parent"
+            android:layout_width="@dimen/video_width"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
             android:layout_marginBottom="@dimen/espaciado_base"
             android:background="@drawable/bg_video_controls"
             android:gravity="center_vertical"

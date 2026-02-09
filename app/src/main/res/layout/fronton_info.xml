@@ -1,89 +1,99 @@
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/fondo2">
 
+    <!-- Contenedor del vídeo con esquinas redondeadas -->
+    <FrameLayout
+        android:id="@+id/videoContainer"
+        android:layout_width="@dimen/video_width"
+        android:layout_height="@dimen/video_height"
+        android:layout_marginTop="@dimen/video_top_margin"
+        android:background="@drawable/bg_video_container"
+        android:clipToOutline="true"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <VideoView
+            android:id="@+id/videoFronton"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+    </FrameLayout>
+
+    <!-- Controles de video integrados -->
     <LinearLayout
-        android:orientation="vertical"
-        android:padding="@dimen/espaciado_xl"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:id="@+id/videoControls"
+        android:layout_width="@dimen/video_width"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_video_controls"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingVertical="@dimen/espaciado_md"
+        android:paddingHorizontal="@dimen/espaciado_md"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/videoContainer">
 
-        <!-- Contenedor del vídeo con esquinas redondeadas -->
-        <FrameLayout
-            android:id="@+id/videoContainer"
-            android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:layout_marginTop="@dimen/espaciado_base"
-            android:background="@drawable/bg_video_container"
-            android:clipToOutline="true">
+        <ImageButton
+            android:id="@+id/btnPlayPause"
+            style="@style/EstiloImageButtonMediaControl"
+            android:contentDescription="@string/play_pause"
+            android:src="@android:drawable/ic_media_play" />
 
-            <VideoView
-                android:id="@+id/videoFronton"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
-
-        </FrameLayout>
-
-        <!-- Controles de video integrados -->
-        <LinearLayout
-            android:id="@+id/videoControls"
-            android:layout_width="match_parent"
+        <SeekBar
+            android:id="@+id/seekBar"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:background="@drawable/bg_video_controls"
-            android:gravity="center_vertical"
-            android:orientation="horizontal"
-            android:paddingVertical="@dimen/espaciado_md"
-            android:paddingHorizontal="@dimen/espaciado_md">
+            android:layout_weight="1"
+            android:layout_marginStart="@dimen/espaciado_sm"
+            android:layout_marginEnd="@dimen/espaciado_sm"
+            android:progressTint="@color/btnPrincipalShadow"
+            android:thumbTint="@color/white" />
 
-            <ImageButton
-                android:id="@+id/btnPlayPause"
-                style="@style/EstiloImageButtonMediaControl"
-                android:contentDescription="@string/play_pause"
-                android:src="@android:drawable/ic_media_play" />
-
-            <SeekBar
-                android:id="@+id/seekBar"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:layout_marginStart="@dimen/espaciado_sm"
-                android:layout_marginEnd="@dimen/espaciado_sm"
-                android:progressTint="@color/btnPrincipalShadow"
-                android:thumbTint="@color/white" />
-
-            <TextView
-                android:id="@+id/tvTime"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/_0_00_0_00"
-                android:textAppearance="@style/AparienciaTexto.App.Caption"
-                android:textColor="@color/white"
-                android:textStyle="bold"
-                android:minWidth="70dp"
-                android:gravity="end" />
-
-        </LinearLayout>
-
-        <!-- Texto del vídeo descriptivo -->
         <TextView
-            android:id="@+id/videoDescripcion"
-            android:text="@string/gernikako_jai_alai_frontoia_munduko_handienetakoa_eta_garrantzitsuenetakoa_da_hemen_zesta_puntara_jokatzen_da_munduan_zehar_banatuta_dauden_zesta_puntako_frontoi_askori_eman_die_izena_aurrean_dugun_honek_zestalariak_elkarlanean_aritzen_dira_eta_errespetua_dute_oinarri_kirolaren_bidez_askotariko_balioak_ikasi_eta_transmititzen_direlarik"
-            android:textAppearance="@style/AparienciaTexto.App.Cuerpo.Defecto"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/espaciado_base"/>
-
-        <!-- Botón para volver (deshabilitado hasta ver el vídeo) -->
-        <Button
-            android:id="@+id/btnBack"
-            style="@style/EstiloBotonSecundario"
+            android:id="@+id/tvTime"
             android:layout_width="wrap_content"
-            android:text="@string/itzuli"
-            android:enabled="false"
-            android:layout_marginTop="@dimen/espaciado_base" />
+            android:layout_height="wrap_content"
+            android:text="@string/_0_00_0_00"
+            android:textAppearance="@style/AparienciaTexto.App.Caption"
+            android:textColor="@color/white"
+            android:textStyle="bold"
+            android:minWidth="70dp"
+            android:gravity="end" />
 
     </LinearLayout>
 
-</ScrollView>
+    <!-- Texto del vídeo descriptivo -->
+    <TextView
+        android:id="@+id/videoDescripcion"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/espaciado_xl"
+        android:layout_marginTop="@dimen/espaciado_base"
+        android:layout_marginEnd="@dimen/espaciado_xl"
+        android:text="@string/gernikako_jai_alai_frontoia_munduko_handienetakoa_eta_garrantzitsuenetakoa_da_hemen_zesta_puntara_jokatzen_da_munduan_zehar_banatuta_dauden_zesta_puntako_frontoi_askori_eman_die_izena_aurrean_dugun_honek_zestalariak_elkarlanean_aritzen_dira_eta_errespetua_dute_oinarri_kirolaren_bidez_askotariko_balioak_ikasi_eta_transmititzen_direlarik"
+        android:textAppearance="@style/AparienciaTexto.App.Cuerpo.Defecto"
+        android:lineSpacingExtra="@dimen/espaciado_xs"
+        android:justificationMode="inter_word"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/videoControls"
+        app:layout_constraintWidth_max="@dimen/text_content_max_width" />
+
+    <!-- Botón para volver (deshabilitado hasta ver el vídeo) -->
+    <Button
+        android:id="@+id/btnBack"
+        style="@style/EstiloBotonSecundario"
+        android:layout_width="wrap_content"
+        android:text="@string/itzuli"
+        android:layout_margin="@dimen/espaciado_xl"
+        android:enabled="false"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

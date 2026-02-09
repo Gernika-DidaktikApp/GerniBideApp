@@ -50,4 +50,7 @@
     <dimen name="video_width">320dp</dimen>
     <dimen name="video_height">180dp</dimen>
     <dimen name="video_top_margin">130dp</dimen>
+
+    <!-- Ancho máximo de contenido de texto -->
+    <dimen name="text_content_max_width">400dp</dimen>
 </resources>
