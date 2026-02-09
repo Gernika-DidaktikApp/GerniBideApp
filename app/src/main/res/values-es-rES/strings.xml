@@ -360,9 +360,16 @@
 
     <!-- Bunkers Module -->
     <string name="bunkerrak">Búnkeres</string>
-    <string name="_1_soinu_jokoa">1. Juego de Sonidos</string>
-    <string name="_2_bake_murala">2. Mural de Paz</string>
-    <string name="_3_hausnarketa">3. Reflexión</string>
+    <string name="video_bunkers">1. Vídeo</string>
+    <string name="_1_soinu_jokoa">2. Juego de Sonidos</string>
+    <string name="_2_bake_murala">3. Mural de Paz</string>
+    <string name="_3_hausnarketa">4. Reflexión</string>
+    <string name="video_descriptivo_bunker">El 26 de abril de 1937, Gernika fue bombardeada durante la Guerra Civil Española. Las calles del pueblo quedaron entre el polvo y el humo, y la gente buscó refugio en los búnkeres mientras caían las bombas. Los refugios están repartidos por todo el municipio; en total son cuatro. En ellos, en la oscuridad y el miedo, encontraron fuerza apoyándose unos en otros. Hoy en día, los refugios son lugares de memoria.</string>
+
+    <string name="sentimiento_miedo">Sentimiento de miedo</string>
+    <string name="sentimiento_tristeza">Sentimiento de tristeza</string>
+    <string name="sentimiento_tranquilidad">Sentimiento de tranquilidad</string>
+    <string name="sentimiento_esperanza">Sentimiento de esperanza</string>
 
     <!-- My Tree -->
     <string name="my_tree_question">¿Qué valor representaría tu árbol?</string>

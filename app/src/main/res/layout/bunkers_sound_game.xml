@@ -8,6 +8,7 @@
     android:background="@drawable/fondo6"
     tools:context=".bunkers.SoundGameActivity">
 
+    <!-- Titulo del juego -->
     <TextView
         android:id="@+id/tvTitle"
         android:layout_width="wrap_content"
@@ -20,6 +21,7 @@
         app:layout_constraintBottom_toTopOf="@+id/tvStars"
         app:layout_constraintVertical_chainStyle="packed" />
 
+    <!-- Estrellas obtenidas -->
     <TextView
         android:id="@+id/tvStars"
         android:layout_width="wrap_content"
@@ -32,6 +34,7 @@
         app:layout_constraintTop_toBottomOf="@+id/tvTitle"
         app:layout_constraintBottom_toTopOf="@+id/soundGrid" />
 
+    <!-- Bloque de los botones de audios -->
     <LinearLayout
         android:id="@+id/soundGrid"
         android:layout_width="wrap_content"
@@ -111,6 +114,7 @@
         app:layout_constraintTop_toBottomOf="@+id/soundGrid"
         app:layout_constraintBottom_toTopOf="@+id/categoryControls" />
 
+    <!-- Seleccion de sentimiento -->
     <LinearLayout
         android:id="@+id/categoryControls"
         android:layout_width="wrap_content"
@@ -144,6 +148,7 @@
             tools:ignore="ButtonStyle" />
     </LinearLayout>
 
+    <!-- Texto final -->
     <TextView
         android:id="@+id/tvHistoryMessage"
         android:layout_width="wrap_content"
@@ -157,6 +162,7 @@
         app:layout_constraintTop_toBottomOf="@+id/categoryControls"
         app:layout_constraintBottom_toBottomOf="parent" />
 
+    <!-- Botón para volver atras -->
     <Button
         android:id="@+id/btnBack"
         style="@style/EstiloBotonSecundario"

@@ -78,6 +78,12 @@ class MainActivity : BaseMenuActivity() {
 
         val prefs = getSharedPreferences("bunkers_progress", MODE_PRIVATE)
 
+        // Vídeo completado
+        if (prefs.getBoolean("video_bunker_completed", false)) {
+            binding.btnVideoBunker.background =
+                ContextCompat.getDrawable(this, R.drawable.bg_boton_completado)
+        }
+
         // Mural de la Paz completado
         if (prefs.getBoolean("peace_mural_completed", false)) {
             binding.btnPeaceMural.background =
@@ -113,6 +119,11 @@ class MainActivity : BaseMenuActivity() {
      * | `btnReflection` | `ReflectionActivity` |
      */
     private fun setupClickListeners() {
+        binding.btnVideoBunker.setOnClickListener {
+            LogManager.write(this@MainActivity, "Navegando a VideoBunkerActivity")
+            startActivity(Intent(this, VideoBunkerActivity::class.java))
+        }
+
         binding.btnSoundGame.setOnClickListener {
             LogManager.write(this@MainActivity, "Navegando a SoundGameActivity")
             startActivity(Intent(this, SoundGameActivity::class.java))

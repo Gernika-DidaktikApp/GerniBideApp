@@ -7,6 +7,7 @@
     android:background="@color/backgroundLight"
     tools:context=".bunkers.PeaceMuralActivity">
 
+    <!-- Pregunta inicial -->
     <TextView
         android:id="@+id/tvMuralTitle"
         android:layout_width="wrap_content"
@@ -19,6 +20,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <!-- Scroll con las diferentes opciones a seleccionar -->
     <HorizontalScrollView
         android:id="@+id/wordSelectionScroll"
         android:layout_width="match_parent"
@@ -29,7 +31,7 @@
         app:layout_constraintTop_toBottomOf="@+id/tvMuralTitle">
 
         <LinearLayout
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:gravity="center">
@@ -76,6 +78,7 @@
         </LinearLayout>
     </HorizontalScrollView>
 
+    <!-- Mural con las palabras seleccionadas -->
     <FrameLayout
         android:id="@+id/muralContainer"
         android:layout_width="match_parent"
@@ -84,16 +87,6 @@
         android:background="@color/white"
         app:layout_constraintBottom_toTopOf="@+id/btnBack"
         app:layout_constraintTop_toBottomOf="@+id/wordSelectionScroll" />
-
-    <ImageButton
-        android:id="@+id/btnMute"
-        style="@style/EstiloImageButtonSecundario"
-        android:layout_width="@dimen/imagen_boton_mediano"
-        android:layout_height="@dimen/imagen_boton_mediano"
-        android:layout_margin="@dimen/espaciado_base"
-        android:src="@drawable/ic_pause"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
         android:id="@+id/tvFinalCongrats"
@@ -108,6 +101,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
+    <!-- Botón para volver a atras -->
     <Button
         android:id="@+id/btnBack"
         style="@style/EstiloBotonSecundario"
