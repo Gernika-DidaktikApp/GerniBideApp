@@ -433,4 +433,15 @@
     <string name="plaza_activity_2">2. Mercado</string>
     <string name="plaza_activity_3">3. Versos</string>
 
+    <!-- User Edit -->
+    <string name="error_cargar_datos">Error al cargar los datos</string>
+    <string name="error_actualizar">Error al actualizar</string>
+    <string name="clase_id_requerido">ID de clase requerido</string>
+
+    <!-- Settings -->
+    <string name="daltonismo_modua">Modo daltonismo</string>
+    <string name="daltonismo_azalpena">Activar paleta de colores más accesible para personas con daltonismo</string>
+    <string name="honi_buruz">Acerca de</string>
+    <string name="app_informazioa">Información de la aplicación</string>
+
 </resources>
