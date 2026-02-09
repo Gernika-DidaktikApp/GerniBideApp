@@ -25,12 +25,14 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/espaciado_md"
         android:padding="@dimen/espaciado_sm"
+        android:fillViewport="true"
         app:layout_constraintTop_toBottomOf="@+id/tvTreeTitle">
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:gravity="center">
 
             <Button
                 android:id="@+id/btnAmistadVal"
@@ -101,20 +103,22 @@
         android:id="@+id/btnBack"
         style="@style/EstiloBotonSecundario"
         android:layout_width="wrap_content"
+        android:layout_marginEnd="@dimen/espaciado_sm"
         android:layout_marginBottom="@dimen/espaciado_base"
         android:text="@string/itzuli"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/btnFinish" />
+        app:layout_constraintEnd_toStartOf="@+id/btnFinish"
+        app:layout_constraintHorizontal_chainStyle="packed" />
 
     <Button
         android:id="@+id/btnFinish"
         style="@style/EstiloBotonPrimario"
         android:layout_width="wrap_content"
-        android:layout_gravity="bottom|end"
-        android:layout_margin="@dimen/espaciado_base"
+        android:layout_marginBottom="@dimen/espaciado_base"
         android:text="@string/color_peace_finish"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/btnBack"
         app:layout_constraintEnd_toEndOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

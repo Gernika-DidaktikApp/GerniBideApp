@@ -17,14 +17,16 @@
         <!-- Contenedor de la imagen con esquinas redondeadas -->
         <FrameLayout
             android:id="@+id/imageContainer"
-            android:layout_width="359dp"
-            android:layout_height="447dp"
-            android:layout_marginTop="@dimen/espaciado_xl"
+            android:layout_width="@dimen/media_container_width"
+            android:layout_height="@dimen/media_container_height"
             android:background="@drawable/bg_video_container"
             android:clipToOutline="true"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/audioControls"
+            android:textColor="@color/btnSecundario"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintVertical_chainStyle="packed">
 
             <ImageView
                 android:id="@+id/ivIntro"
@@ -37,16 +39,17 @@
 
         <LinearLayout
             android:id="@+id/audioControls"
-            android:layout_width="359dp"
+            android:layout_width="@dimen/media_container_width"
             android:layout_height="wrap_content"
             android:background="@drawable/bg_video_controls"
             android:gravity="center_vertical"
             android:orientation="horizontal"
             android:paddingVertical="@dimen/espaciado_md"
             android:paddingHorizontal="@dimen/espaciado_md"
+            app:layout_constraintTop_toBottomOf="@+id/imageContainer"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/imageContainer">
+            app:layout_constraintStart_toStartOf="parent">
 
             <ImageButton
                 android:id="@+id/btnPlayPause"
@@ -72,7 +75,7 @@
                 android:textColor="@color/white"
                 android:textAppearance="@style/AparienciaTexto.App.Caption"
                 android:textStyle="bold"
-                android:minWidth="70dp"
+                android:minWidth="@dimen/time_display_min_width"
                 android:gravity="end" />
 
         </LinearLayout>
@@ -84,6 +87,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:visibility="gone"
+        android:fillViewport="true"
         app:layout_constraintBottom_toTopOf="@+id/btnVolver"
         app:layout_constraintTop_toTopOf="parent"
         android:layout_marginBottom="@dimen/espaciado_base">
@@ -92,6 +96,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
+            android:gravity="center_vertical"
             android:padding="@dimen/espaciado_xl">
 
             <TextView
@@ -171,7 +176,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/ondo_egin_duzu_orain_zure_arbola_sortzera_goaz"
                 android:textAlignment="center"
-                android:textAppearance="@style/AparienciaTexto.App.Cuerpo.Defecto"
+                android:textAppearance="@style/AparienciaTexto.App.Encabezado"
                 android:textStyle="bold"
                 android:textColor="@color/correcto"
                 android:visibility="gone"

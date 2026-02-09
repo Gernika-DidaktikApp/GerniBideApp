@@ -238,14 +238,13 @@ class AudioQuizActivity : BaseMenuActivity() {
                 questionAnswered = true
                 if (id == correctId) {
                     LogManager.write(this@AudioQuizActivity, "Respuesta correcta en Árbol (pregunta respondida)")
-                    button.setBackgroundColor(ContextCompat.getColor(this, R.color.correcto))
+                    (button as Button).backgroundTintList = ContextCompat.getColorStateList(this, R.color.correcto)
                     correctAnswers++
                 } else {
                     LogManager.write(this@AudioQuizActivity, "Respuesta incorrecta en Árbol (pregunta respondida)")
-                    button.setBackgroundColor(ContextCompat.getColor(this, R.color.error))
-                    findViewById<Button>(correctId).setBackgroundColor(
-                        ContextCompat.getColor(this, R.color.correcto)
-                    )
+                    (button as Button).backgroundTintList = ContextCompat.getColorStateList(this, R.color.error)
+                    findViewById<Button>(correctId).backgroundTintList =
+                        ContextCompat.getColorStateList(this, R.color.correcto)
                 }
                 checkCompletion()
             }
