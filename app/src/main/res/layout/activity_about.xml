@@ -14,11 +14,11 @@
 
         <!-- Logo/App Icon -->
         <ImageView
-            android:layout_width="110dp"
-            android:layout_height="110dp"
+            android:layout_width="141dp"
+            android:layout_height="149dp"
+            android:layout_marginBottom="@dimen/espaciado_xl"
             android:contentDescription="@string/logo_descripcion"
-            android:src="@mipmap/ic_gernibide_launcher"
-            android:layout_marginBottom="@dimen/espaciado_xl"/>
+            android:src="@mipmap/ic_gernibide_launcher" />
 
         <!-- Nombre App + Versión -->
         <TextView

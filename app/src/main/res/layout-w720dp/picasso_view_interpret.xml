@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/backgroundLight"
+    tools:context=".picasso.ViewInterpretActivity">
+
+    <!-- Título -->
+    <TextView
+        android:id="@+id/titleText"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/espaciado_base"
+        android:layout_marginTop="@dimen/espaciado_base"
+        android:layout_marginEnd="@dimen/espaciado_base"
+        android:text="@string/view_interpret_title"
+        android:textAlignment="center"
+        android:textAppearance="@style/AparienciaTexto.App.Encabezado.Primario"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <!-- Indicador de progreso -->
+    <TextView
+        android:id="@+id/progressText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/espaciado_sm"
+        android:text="1/6"
+        android:textAppearance="@style/AparienciaTexto.App.Cuerpo.Defecto"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/titleText" />
+
+    <!-- Guideline vertical al 50% para dividir en dos columnas -->
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline_vertical"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.5" />
+
+    <!-- COLUMNA IZQUIERDA: Imagen del elemento -->
+    <androidx.cardview.widget.CardView
+        android:id="@+id/imageCard"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="@dimen/espaciado_xl"
+        android:layout_marginTop="@dimen/espaciado_xl"
+        android:layout_marginEnd="@dimen/espaciado_base"
+        android:layout_marginBottom="@dimen/espaciado_xl"
+        app:cardCornerRadius="@dimen/radio_esquina_lg"
+        app:cardElevation="@dimen/radio_esquina_sm"
+        app:layout_constraintBottom_toTopOf="@id/nextButton"
+        app:layout_constraintEnd_toStartOf="@id/guideline_vertical"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/progressText">
+
+        <ImageView
+            android:id="@+id/elementImage"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:adjustViewBounds="true"
+            android:contentDescription="@string/view_interpret_element_description"
+            android:scaleType="fitCenter"
+            tools:src="@drawable/picasso_zaldia" />
+    </androidx.cardview.widget.CardView>
+
+    <!-- COLUMNA DERECHA: Contenedor scrolleable para pregunta y opciones -->
+    <ScrollView
+        android:id="@+id/scrollView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="@dimen/espaciado_base"
+        android:layout_marginTop="@dimen/espaciado_xl"
+        android:layout_marginEnd="@dimen/espaciado_xl"
+        android:layout_marginBottom="@dimen/espaciado_xl"
+        android:fillViewport="true"
+        app:layout_constraintBottom_toTopOf="@id/nextButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/guideline_vertical"
+        app:layout_constraintTop_toBottomOf="@id/progressText">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="vertical">
+
+            <!-- Pregunta -->
+            <TextView
+                android:id="@+id/questionText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/espaciado_xl"
+                android:textAlignment="center"
+                android:textAppearance="@style/AparienciaTexto.App.TituloMediano"
+                tools:text="¿Qué representa esta imagen?" />
+
+            <!-- Opciones de respuesta -->
+            <LinearLayout
+                android:id="@+id/optionsLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/option1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/espaciado_md"
+                    android:background="@drawable/bg_opcion_normal"
+                    android:minHeight="60dp"
+                    android:paddingStart="@dimen/espaciado_base"
+                    android:paddingEnd="@dimen/espaciado_base"
+                    android:textAlignment="textStart"
+                    android:textAppearance="@style/AparienciaTexto.App.Etiqueta.Defecto"
+                    tools:text="Opción 1" />
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/option2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/espaciado_md"
+                    android:background="@drawable/bg_opcion_normal"
+                    android:minHeight="60dp"
+                    android:paddingStart="@dimen/espaciado_base"
+                    android:paddingEnd="@dimen/espaciado_base"
+                    android:textAlignment="textStart"
+                    android:textAppearance="@style/AparienciaTexto.App.Etiqueta.Defecto"
+                    tools:text="Opción 2" />
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/option3"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/espaciado_md"
+                    android:background="@drawable/bg_opcion_normal"
+                    android:minHeight="60dp"
+                    android:paddingStart="@dimen/espaciado_base"
+                    android:paddingEnd="@dimen/espaciado_base"
+                    android:textAlignment="textStart"
+                    android:textAppearance="@style/AparienciaTexto.App.Etiqueta.Defecto"
+                    tools:text="Opción 3" />
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/option4"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bg_opcion_normal"
+                    android:minHeight="60dp"
+                    android:paddingStart="@dimen/espaciado_base"
+                    android:paddingEnd="@dimen/espaciado_base"
+                    android:textAlignment="textStart"
+                    android:textAppearance="@style/AparienciaTexto.App.Etiqueta.Defecto"
+                    tools:text="Opción 4" />
+            </LinearLayout>
+
+            <!-- Área de feedback -->
+            <TextView
+                android:id="@+id/feedbackText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/espaciado_base"
+                android:textAlignment="center"
+                android:textAppearance="@style/AparienciaTexto.App.Etiqueta.Defecto"
+                android:textColor="@color/greenSuccess"
+                android:visibility="gone"
+                tools:text="¡Correcto! El caballo representa la fuerza del pueblo"
+                tools:visibility="visible" />
+
+        </LinearLayout>
+    </ScrollView>
+
+    <!-- Botón siguiente -->
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/nextButton"
+        style="@style/EstiloBotonPrimario"
+        android:layout_width="0dp"
+        android:layout_marginStart="@dimen/espaciado_xl"
+        android:layout_marginEnd="@dimen/espaciado_xl"
+        android:layout_marginBottom="@dimen/espaciado_md"
+        android:text="@string/view_interpret_next"
+        android:visibility="gone"
+        app:layout_constraintBottom_toTopOf="@id/btnBack"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <!-- Botón volver (oculto hasta completar) -->
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnBack"
+        style="@style/EstiloBotonSecundario"
+        android:layout_width="0dp"
+        android:layout_marginStart="@dimen/espaciado_xl"
+        android:layout_marginEnd="@dimen/espaciado_xl"
+        android:layout_marginBottom="@dimen/espaciado_xl"
+        android:text="@string/itzuli"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
