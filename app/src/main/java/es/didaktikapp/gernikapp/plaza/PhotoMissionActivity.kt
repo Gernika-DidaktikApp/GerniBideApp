@@ -145,6 +145,9 @@ class PhotoMissionActivity : BaseMenuActivity() {
 
         btnBack.setOnClickListener {
             LogManager.write(this@PhotoMissionActivity, "Usuario salió de PhotoMissionActivity")
+            val intent = android.content.Intent(this, MainActivity::class.java)
+            intent.flags = android.content.Intent.FLAG_ACTIVITY_CLEAR_TOP or android.content.Intent.FLAG_ACTIVITY_SINGLE_TOP
+            startActivity(intent)
             finish()
         }
     }

@@ -402,6 +402,9 @@ class DragProductsActivity : BaseMenuActivity() {
     private fun setupButtons() {
         btnBack.setOnClickListener {
             LogManager.write(this@DragProductsActivity, "Usuario salió de DragProductsActivity")
+            val intent = android.content.Intent(this, MainActivity::class.java)
+            intent.flags = android.content.Intent.FLAG_ACTIVITY_CLEAR_TOP or android.content.Intent.FLAG_ACTIVITY_SINGLE_TOP
+            startActivity(intent)
             finish()
         }
     }

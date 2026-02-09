@@ -105,6 +105,9 @@ class PeaceMuralActivity : BaseMenuActivity() {
             LogManager.write(this@PeaceMuralActivity, "Usuario salió de PeaceMuralActivity")
             mediaPlayer?.stop()
             mediaPlayer?.release()
+            val intent = android.content.Intent(this, MainActivity::class.java)
+            intent.flags = android.content.Intent.FLAG_ACTIVITY_CLEAR_TOP or android.content.Intent.FLAG_ACTIVITY_SINGLE_TOP
+            startActivity(intent)
             finish()
         }
     }

@@ -180,6 +180,9 @@ class ViewInterpretActivity : BaseMenuActivity() {
         }
 
         binding.btnBack.setOnClickListener {
+            val intent = android.content.Intent(this, MainActivity::class.java)
+            intent.flags = android.content.Intent.FLAG_ACTIVITY_CLEAR_TOP or android.content.Intent.FLAG_ACTIVITY_SINGLE_TOP
+            startActivity(intent)
             finish()
         }
     }
@@ -481,6 +484,9 @@ class ViewInterpretActivity : BaseMenuActivity() {
             .setMessage(getString(R.string.view_interpret_results_message, correctAnswers, questions.size, stars))
             .setPositiveButton(getString(R.string.view_interpret_results_finish)) { dialog, _ ->
                 dialog.dismiss()
+                val intent = android.content.Intent(this, MainActivity::class.java)
+                intent.flags = android.content.Intent.FLAG_ACTIVITY_CLEAR_TOP or android.content.Intent.FLAG_ACTIVITY_SINGLE_TOP
+                startActivity(intent)
                 finish()
             }
             .setCancelable(false)

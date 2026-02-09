@@ -124,6 +124,9 @@ class DancingBallActivity : BaseMenuActivity() {
         backCallback = object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
                 if (gameOverDialog.isVisible) {
+                    val intent = android.content.Intent(this@DancingBallActivity, MainActivity::class.java)
+                    intent.flags = android.content.Intent.FLAG_ACTIVITY_CLEAR_TOP or android.content.Intent.FLAG_ACTIVITY_SINGLE_TOP
+                    startActivity(intent)
                     finish()
                 } else {
                     gameOver()
@@ -185,6 +188,9 @@ class DancingBallActivity : BaseMenuActivity() {
             reiniciarJuego()
         }
         btnBack.setOnClickListener {
+            val intent = android.content.Intent(this, MainActivity::class.java)
+            intent.flags = android.content.Intent.FLAG_ACTIVITY_CLEAR_TOP or android.content.Intent.FLAG_ACTIVITY_SINGLE_TOP
+            startActivity(intent)
             finish()
         }
     }

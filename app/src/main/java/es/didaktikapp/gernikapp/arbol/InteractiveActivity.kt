@@ -112,7 +112,10 @@ class InteractiveActivity : BaseMenuActivity() {
 
         // Botones de navegación
         findViewById<View>(R.id.btnBack).setOnClickListener {
-            onBackPressedDispatcher.onBackPressed()
+            val intent = android.content.Intent(this, MainActivity::class.java)
+            intent.flags = android.content.Intent.FLAG_ACTIVITY_CLEAR_TOP or android.content.Intent.FLAG_ACTIVITY_SINGLE_TOP
+            startActivity(intent)
+            finish()
         }
 
         findViewById<View>(R.id.btnFinish).setOnClickListener {
@@ -124,6 +127,9 @@ class InteractiveActivity : BaseMenuActivity() {
             }
             ZoneCompletionActivity.launchIfComplete(this, ZoneConfig.ARBOL)
             completarActividad()
+            val intent = android.content.Intent(this, MainActivity::class.java)
+            intent.flags = android.content.Intent.FLAG_ACTIVITY_CLEAR_TOP or android.content.Intent.FLAG_ACTIVITY_SINGLE_TOP
+            startActivity(intent)
             finish()
         }
 

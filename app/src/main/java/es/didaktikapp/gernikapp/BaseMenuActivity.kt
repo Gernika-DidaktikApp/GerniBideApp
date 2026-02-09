@@ -36,6 +36,7 @@ import androidx.coordinatorlayout.widget.CoordinatorLayout
 abstract class BaseMenuActivity : AppCompatActivity() {
 
     private var isMenuOpen = false
+    private var isNavigating = false
 
     // Views del menú
     private lateinit var fabOverlay: View
@@ -114,19 +115,31 @@ abstract class BaseMenuActivity : AppCompatActivity() {
         fabOverlay.setOnClickListener { closeMenu() }
 
         fabHome.setOnClickListener {
+            if (isNavigating) return@setOnClickListener
+            isNavigating = true
             closeMenu()
             startActivity(Intent(this, MapaActivity::class.java))
             finish()
         }
 
         fabSettings.setOnClickListener {
+            if (isNavigating) return@setOnClickListener
+            if (this is SettingsActivity) { closeMenu(); return@setOnClickListener }
+            isNavigating = true
             closeMenu()
-            startActivity(Intent(this, SettingsActivity::class.java))
+            startActivity(Intent(this, SettingsActivity::class.java).apply {
+                flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
+            })
         }
 
         fabProfile.setOnClickListener {
+            if (isNavigating) return@setOnClickListener
+            if (this is ProfileActivity) { closeMenu(); return@setOnClickListener }
+            isNavigating = true
             closeMenu()
-            startActivity(Intent(this, ProfileActivity::class.java))
+            startActivity(Intent(this, ProfileActivity::class.java).apply {
+                flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
+            })
         }
     }
 
@@ -242,6 +255,11 @@ abstract class BaseMenuActivity : AppCompatActivity() {
             .setStartDelay(delay)
             .withEndAction { fab.visibility = View.INVISIBLE }
             .start()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        isNavigating = false
     }
 
     @Deprecated("Deprecated in Java")

@@ -131,6 +131,9 @@ class ReflectionActivity : BaseMenuActivity() {
 
         btnBack.setOnClickListener {
             LogManager.write(this@ReflectionActivity, "Usuario salió de ReflectionActivity")
+            val intent = android.content.Intent(this, MainActivity::class.java)
+            intent.flags = android.content.Intent.FLAG_ACTIVITY_CLEAR_TOP or android.content.Intent.FLAG_ACTIVITY_SINGLE_TOP
+            startActivity(intent)
             finish()
         }
     }
