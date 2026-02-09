@@ -25,7 +25,7 @@ import es.didaktikapp.gernikapp.data.repository.GameRepository
 import es.didaktikapp.gernikapp.plaza.adapters.PhotoMissionAdapter
 import es.didaktikapp.gernikapp.plaza.models.EtiquetaFoto
 import es.didaktikapp.gernikapp.plaza.models.FotoGaleria
-import es.didaktikapp.gernikapp.plaza.models.FotoRespuestaContenido
+import es.didaktikapp.gernikapp.plaza.models.PhotoAnswerContent
 import es.didaktikapp.gernikapp.ZoneCompletionActivity
 import es.didaktikapp.gernikapp.utils.Constants.Puntos
 import es.didaktikapp.gernikapp.utils.ZoneConfig
@@ -426,7 +426,7 @@ class PhotoMissionActivity : BaseMenuActivity() {
 
         try {
             // Parsear JSON usando Moshi (más seguro que regex)
-            val jsonAdapter = moshi.adapter(FotoRespuestaContenido::class.java)
+            val jsonAdapter = moshi.adapter(PhotoAnswerContent::class.java)
             val fotoRespuesta = jsonAdapter.fromJson(respuestaContenido)
 
             if (fotoRespuesta != null) {

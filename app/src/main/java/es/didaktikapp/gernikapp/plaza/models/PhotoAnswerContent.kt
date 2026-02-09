@@ -11,7 +11,7 @@ import com.squareup.moshi.JsonClass
  * @property etiqueta Etiqueta de la foto (TRADIZIOA, KOMUNITATEA, BIZIKIDETZA)
  */
 @JsonClass(generateAdapter = true)
-data class FotoRespuestaContenido(
+data class PhotoAnswerContent(
     @Json(name = "url")
     val url: String,
 

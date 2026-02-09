@@ -1,6 +1,5 @@
 package es.didaktikapp.gernikapp
 
-import android.content.Context
 import android.content.Intent
 import android.util.Log
 import android.widget.Button
@@ -18,18 +17,21 @@ import java.util.Locale
 /**
  * Pantalla de perfil del usuario con estilo gamificado.
  * Muestra estadísticas, logros y opciones de cuenta.
+ * @author Wara Pacheco
+ * @version 1.0
  */
 class ProfileActivity : BaseMenuActivity() {
 
-    /**  */
+    /** Constantes de la clase. */
     companion object {
+        /** Tag para logging de depuración. */
         private const val TAG = "ProfileActivity"
     }
 
-    /**  */
+    /** Gestor de tokens JWT y datos de sesión del usuario. */
     private lateinit var tokenManager: TokenManager
 
-    /**  */
+    /** Repositorio para operaciones de usuario (perfil, estadísticas). */
     private lateinit var userRepository: UserRepository
 
     // Views
@@ -50,12 +52,16 @@ class ProfileActivity : BaseMenuActivity() {
     private lateinit var achievementPlaza: LinearLayout
     private lateinit var achievementFronton: LinearLayout
 
-    /**  */
+    /**
+     * Devuelve el ID del layout para esta actividad.
+     *
+     * @return ID del recurso de layout.
+     */
     override fun getContentLayoutId() = R.layout.activity_profile
 
     /**
-     *
-     *
+     * Inicializa la actividad después de inflar el layout.
+     * Configura los managers, inicializa las vistas, listeners y carga el perfil del usuario.
      */
     override fun onContentInflated() {
         tokenManager = TokenManager(this)
@@ -75,8 +81,8 @@ class ProfileActivity : BaseMenuActivity() {
     }
 
     /**
-     *
-     *
+     * Inicializa las referencias a las vistas del layout.
+     * Incluye textos de información del usuario, estadísticas y logros de módulos.
      */
     private fun initViews() {
         tvAvatarInitials = findViewById(R.id.tvAvatarInitials)
@@ -98,8 +104,8 @@ class ProfileActivity : BaseMenuActivity() {
     }
 
     /**
-     *
-     *
+     * Configura los listeners de los botones.
+     * Editar perfil y cerrar sesión.
      */
     private fun setupListeners() {
         btnEditProfile.setOnClickListener {
@@ -112,8 +118,9 @@ class ProfileActivity : BaseMenuActivity() {
     }
 
     /**
-     *
-     *
+     * Carga el perfil completo del usuario desde la API.
+     * Primero muestra datos locales (username) y luego obtiene información completa de la API.
+     * Tras cargar el perfil, invoca [loadUserStats] para obtener estadísticas y logros.
      */
     private fun loadUserProfile() {
         Log.d(TAG, "📱 Cargando perfil de usuario...")
@@ -152,9 +159,10 @@ class ProfileActivity : BaseMenuActivity() {
     }
 
     /**
+     * Carga las estadísticas del usuario desde la API.
+     * Incluye actividades completadas, racha de días y módulos completados.
      *
-     *
-     * @param userId
+     * @param userId ID del usuario para obtener estadísticas.
      */
     private fun loadUserStats(userId: String) {
         Log.d(TAG, "📊 Cargando estadísticas para usuario: $userId")
@@ -183,10 +191,10 @@ class ProfileActivity : BaseMenuActivity() {
     }
 
     /**
+     * Actualiza las vistas con las estadísticas del usuario.
      *
-     *
-     * @param activitiesCompleted
-     * @param streak
+     * @param activitiesCompleted Número total de actividades completadas.
+     * @param streak Número de días de racha consecutiva.
      */
     private fun updateStats(activitiesCompleted: Int, streak: Int) {
         tvActivitiesCompleted.text = activitiesCompleted.toString()
@@ -194,9 +202,10 @@ class ProfileActivity : BaseMenuActivity() {
     }
 
     /**
+     * Desbloquea visualmente los logros de los módulos completados.
+     * Mapea los nombres de módulos devueltos por la API a IDs de achievements locales.
      *
-     *
-     * @param modulosCompletados
+     * @param modulosCompletados Lista de nombres de módulos completados desde la API.
      */
     private fun unlockCompletedModules(modulosCompletados: List<String>) {
         // Mapeo de nombres de módulos de la API a IDs de achievements
@@ -223,13 +232,13 @@ class ProfileActivity : BaseMenuActivity() {
     }
 
     /**
+     * Actualiza todas las vistas con los datos del perfil del usuario.
      *
-     *
-     * @param nombre
-     * @param apellido
-     * @param username
-     * @param topScore
-     * @param creationDate
+     * @param nombre Nombre del usuario.
+     * @param apellido Apellido del usuario.
+     * @param username Nombre de usuario único.
+     * @param topScore Puntuación máxima alcanzada.
+     * @param creationDate Fecha de creación de la cuenta en formato ISO.
      */
     private fun updateUI(
         nombre: String,
@@ -247,10 +256,11 @@ class ProfileActivity : BaseMenuActivity() {
     }
 
     /**
+     * Actualiza las iniciales del avatar del usuario.
+     * Usa la primera letra del nombre y del apellido. Si no hay apellido, usa la segunda letra del nombre.
      *
-     *
-     * @param nombre
-     * @param apellido
+     * @param nombre Nombre del usuario.
+     * @param apellido Apellido del usuario (puede estar vacío).
      */
     private fun updateAvatarInitials(nombre: String, apellido: String) {
         val initial1 = nombre.firstOrNull()?.uppercaseChar() ?: '?'
@@ -259,9 +269,10 @@ class ProfileActivity : BaseMenuActivity() {
     }
 
     /**
+     * Actualiza la fecha de registro del usuario ("Miembro desde XXXX").
+     * Parsea el formato ISO de la fecha y extrae el año.
      *
-     *
-     * @param creationDate
+     * @param creationDate Fecha de creación de cuenta en formato ISO (yyyy-MM-dd'T'HH:mm:ss).
      */
     private fun updateMemberSince(creationDate: String?) {
         if (creationDate.isNullOrEmpty()) {
@@ -283,7 +294,10 @@ class ProfileActivity : BaseMenuActivity() {
     }
 
     /**
-     * Activa visualmente un logro (cuando el usuario completa una zona).
+     * Activa visualmente un logro mostrándolo con animación de fade-in.
+     * Se llama cuando el usuario completa un módulo temático.
+     *
+     * @param achievementId ID del logro a desbloquear ("arbol", "bunkers", "picasso", "plaza", "fronton").
      */
     fun unlockAchievement(achievementId: String) {
         val view = when (achievementId) {
@@ -302,8 +316,8 @@ class ProfileActivity : BaseMenuActivity() {
     }
 
     /**
-     *
-     *
+     * Muestra un diálogo de confirmación para cerrar sesión.
+     * Si el usuario confirma, llama a [performLogout].
      */
     private fun showLogoutConfirmation() {
         android.app.AlertDialog.Builder(this)
@@ -317,8 +331,8 @@ class ProfileActivity : BaseMenuActivity() {
     }
 
     /**
-     *
-     *
+     * Cierra la sesión del usuario.
+     * Limpia el token y datos de sesión, muestra un Toast y redirige al LoginActivity.
      */
     private fun performLogout() {
         tokenManager.clearSession()
@@ -334,8 +348,8 @@ class ProfileActivity : BaseMenuActivity() {
     }
 
     /**
-     *
-     *
+     * Recarga el perfil del usuario al volver a la actividad.
+     * Útil para reflejar cambios realizados en [UserEditActivity].
      */
     override fun onResume() {
         super.onResume()
