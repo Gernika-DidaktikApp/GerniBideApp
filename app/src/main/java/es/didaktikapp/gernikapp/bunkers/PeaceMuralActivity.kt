@@ -14,6 +14,7 @@ import android.widget.FrameLayout
 import android.widget.ImageButton
 import android.widget.TextView
 import androidx.lifecycle.lifecycleScope
+import es.didaktikapp.gernikapp.LogManager
 import es.didaktikapp.gernikapp.data.local.TokenManager
 import es.didaktikapp.gernikapp.data.repository.GameRepository
 import es.didaktikapp.gernikapp.ZoneCompletionActivity
@@ -85,6 +86,8 @@ class PeaceMuralActivity : BaseMenuActivity() {
      * 5. Configurar botones + música
      */
     override fun onContentInflated() {
+        LogManager.write(this@PeaceMuralActivity, "PeaceMuralActivity iniciada")
+
         gameRepository = GameRepository(this)
         tokenManager = TokenManager(this)
 
@@ -104,6 +107,7 @@ class PeaceMuralActivity : BaseMenuActivity() {
         setupMusic()
 
         btnBack.setOnClickListener {
+            LogManager.write(this@PeaceMuralActivity, "Usuario salió de PeaceMuralActivity")
             mediaPlayer?.stop()
             mediaPlayer?.release()
             finish()
@@ -172,6 +176,9 @@ class PeaceMuralActivity : BaseMenuActivity() {
         buttons.forEach { id ->
             findViewById<Button>(id).setOnClickListener {
                 val text = (it as Button).text.toString()
+
+                LogManager.write(this@PeaceMuralActivity, "Palabra añadida al mural: $text")
+
                 addWordToMural(text, isNew = true)
                 tvFinalCongrats.visibility = View.VISIBLE
 
@@ -253,6 +260,8 @@ class PeaceMuralActivity : BaseMenuActivity() {
      * @param y Posición Y absoluta
      */
     private fun saveWord(text: String, x: Float, y: Float) {
+        LogManager.write(this@PeaceMuralActivity, "Guardando palabra '$text' en posición ($x, $y)")
+
         val currentData = sharedPrefs.getString("mural_data", "") ?: ""
         val newData = if (currentData.isEmpty()) "$text|$x|$y" else "$currentData;$text|$x|$y"
         sharedPrefs.edit().putString("mural_data", newData).apply()
@@ -264,6 +273,9 @@ class PeaceMuralActivity : BaseMenuActivity() {
      */
     private fun loadMural() {
         val currentData = sharedPrefs.getString("mural_data", "") ?: ""
+
+        LogManager.write(this@PeaceMuralActivity, "Cargando mural guardado: ${currentData.length} caracteres")
+
         if (currentData.isNotEmpty()) {
             currentData.split(";").forEach { entry ->
                 val parts = entry.split("|")
@@ -290,8 +302,14 @@ class PeaceMuralActivity : BaseMenuActivity() {
         val juegoId = tokenManager.getJuegoId() ?: return
         lifecycleScope.launch {
             when (val result = gameRepository.iniciarActividad(juegoId, Puntos.Bunkers.ID, Puntos.Bunkers.PEACE_MURAL)) {
-                is Resource.Success -> actividadProgresoId = result.data.id
-                is Resource.Error -> Log.e("PeaceMural", "Error: ${result.message}")
+                is Resource.Success -> {
+                    actividadProgresoId = result.data.id
+                    LogManager.write(this@PeaceMuralActivity, "API iniciarActividad BUNKERS_PEACE_MURAL id=$actividadProgresoId")
+                }
+                is Resource.Error -> {
+                    Log.e("PeaceMural", "Error: ${result.message}")
+                    LogManager.write(this@PeaceMuralActivity, "Error iniciarActividad BUNKERS_PEACE_MURAL: ${result.message}")
+                }
                 is Resource.Loading -> { }
             }
         }
@@ -304,8 +322,14 @@ class PeaceMuralActivity : BaseMenuActivity() {
         val estadoId = actividadProgresoId ?: return
         lifecycleScope.launch {
             when (val result = gameRepository.completarActividad(estadoId, 100.0)) {
-                is Resource.Success -> Log.d("PeaceMural", "Completado")
-                is Resource.Error -> Log.e("PeaceMural", "Error: ${result.message}")
+                is Resource.Success -> {
+                    Log.d("PeaceMural", "Completado")
+                    LogManager.write(this@PeaceMuralActivity, "API completarActividad BUNKERS_PEACE_MURAL puntuación=100")
+                }
+                is Resource.Error -> {
+                    Log.e("PeaceMural", "Error: ${result.message}")
+                    LogManager.write(this@PeaceMuralActivity, "Error completarActividad BUNKERS_PEACE_MURAL: ${result.message}")
+                }
                 is Resource.Loading -> { }
             }
         }

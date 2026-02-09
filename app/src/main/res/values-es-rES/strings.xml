@@ -159,7 +159,7 @@
     <string name="result_title">Tu obra</string>
     <string name="result_subtitle">¡Perfecto! Aquí tienes tu \"Guernica\" de colores</string>
     <string name="result_image_description">Guernica de colores</string>
-    <string name="result_share">Compartir</string>
+    <string name="result_share">Volver a empezar</string>
     <string name="result_close">Cerrar</string>
 
     <!-- View and Interpret -->

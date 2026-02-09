@@ -1,7 +1,6 @@
 package es.didaktikapp.gernikapp.plaza
 
 import android.content.ClipData
-import android.content.Context
 import android.graphics.Outline
 import android.media.MediaPlayer
 import android.util.Log
@@ -17,6 +16,7 @@ import androidx.appcompat.widget.AppCompatImageView
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
 import es.didaktikapp.gernikapp.BaseMenuActivity
+import es.didaktikapp.gernikapp.LogManager
 import es.didaktikapp.gernikapp.R
 import es.didaktikapp.gernikapp.data.local.TokenManager
 import es.didaktikapp.gernikapp.data.repository.GameRepository
@@ -27,6 +27,7 @@ import es.didaktikapp.gernikapp.utils.Constants.Puntos
 import es.didaktikapp.gernikapp.utils.Resource
 import es.didaktikapp.gernikapp.utils.ZoneConfig
 import kotlinx.coroutines.launch
+import androidx.core.content.edit
 
 /**
  * Activity del juego de arrastrar productos a sus puestos correspondientes en el mercado.
@@ -46,13 +47,15 @@ class DragProductsActivity : BaseMenuActivity() {
     override fun getContentLayoutId() = R.layout.plaza_drag_products
 
     override fun onContentInflated() {
+        LogManager.write(this@DragProductsActivity, "DragProductsActivity iniciada")
+
         gameRepository = GameRepository(this)
         tokenManager = TokenManager(this)
 
         gridProductos = findViewById(R.id.gridProductos)
         btnBack = findViewById(R.id.btnBack)
 
-        val prefs = getSharedPreferences("plaza_progress", Context.MODE_PRIVATE)
+        val prefs = getSharedPreferences("plaza_progress", MODE_PRIVATE)
         if (prefs.getBoolean("drag_products_completed", false)) {
             btnBack.isEnabled = true
         }
@@ -131,6 +134,8 @@ class DragProductsActivity : BaseMenuActivity() {
         products.add(Product(12, "Egurrezko Lanak", "Egurrezko Lanak", R.drawable.plaza_egurrezko_esku_lanak, ProductCategory.ARTESANIA))
         products.add(Product(13, "Burdinazko Ontziak", "Burdinazko Ontziak", R.drawable.plaza_buztinezko_ontziak, ProductCategory.ARTESANIA))
         products.add(Product(14, "Zestak", "Zestak", R.drawable.plaza_zestak, ProductCategory.ARTESANIA))
+
+        LogManager.write(this@DragProductsActivity, "Productos inicializados: ${products.size} items")
     }
 
     private fun crearVistaProductos() {
@@ -254,6 +259,8 @@ class DragProductsActivity : BaseMenuActivity() {
         val imageView = imageContainer.getChildAt(0) as AppCompatImageView
         val product = imageView.tag as Product
 
+        LogManager.write(this@DragProductsActivity, "Drag iniciado para producto: ${product.nombreEuskera}")
+
         val clipData = ClipData.newPlainText("producto", product.id.toString())
         val shadowBuilder = View.DragShadowBuilder(imageView)
 
@@ -304,24 +311,30 @@ class DragProductsActivity : BaseMenuActivity() {
                 val product = imageView.tag as Product
 
                 if (product.categoria == categoriaEsperada) {
+                    LogManager.write(this@DragProductsActivity, "Producto correcto: ${product.nombreEuskera} → $categoriaEsperada")
+
                     // Respuesta correcta
                     mostrarFeedbackCorrecto(view)
                     container.visibility = View.INVISIBLE // Mantener el espacio en el grid
                     productosColocados++
 
                     if (productosColocados >= products.size) {
+                        LogManager.write(this@DragProductsActivity, "Juego completado: ${productosColocados}/${products.size} productos colocados")
+
                         btnBack.isEnabled = true
                         // Guardar progreso
-                        val prefs = getSharedPreferences("plaza_progress", Context.MODE_PRIVATE)
-                        prefs.edit()
-                            .putBoolean("drag_products_completed", true)
-                            .putFloat("drag_products_score", 100f)
-                            .apply()
+                        val prefs = getSharedPreferences("plaza_progress", MODE_PRIVATE)
+                        prefs.edit {
+                            putBoolean("drag_products_completed", true)
+                            putFloat("drag_products_score", 100f)
+                        }
                         ZoneCompletionActivity.launchIfComplete(this@DragProductsActivity, ZoneConfig.PLAZA)
                         completarActividad()
                         mostrarMensajeCompletado()
                     }
                 } else {
+                    LogManager.write(this@DragProductsActivity, "Producto incorrecto: ${product.nombreEuskera} → puesto $categoriaEsperada")
+
                     // Respuesta incorrecta
                     mostrarFeedbackIncorrecto(view)
                     container.visibility = View.VISIBLE
@@ -381,6 +394,7 @@ class DragProductsActivity : BaseMenuActivity() {
 
     private fun setupButtons() {
         btnBack.setOnClickListener {
+            LogManager.write(this@DragProductsActivity, "Usuario salió de DragProductsActivity")
             finish()
         }
     }
@@ -389,8 +403,14 @@ class DragProductsActivity : BaseMenuActivity() {
         val juegoId = tokenManager.getJuegoId() ?: return
         lifecycleScope.launch {
             when (val result = gameRepository.iniciarActividad(juegoId, Puntos.Plaza.ID, Puntos.Plaza.DRAG_PRODUCTS)) {
-                is Resource.Success -> actividadProgresoId = result.data.id
-                is Resource.Error -> Log.e("DragProducts", "Error: ${result.message}")
+                is Resource.Success -> {
+                    actividadProgresoId = result.data.id
+                    LogManager.write(this@DragProductsActivity, "API iniciarActividad PLAZA_DRAG_PRODUCTS id=$actividadProgresoId")
+                }
+                is Resource.Error -> {
+                    Log.e("DragProducts", "Error: ${result.message}")
+                    LogManager.write(this@DragProductsActivity, "Error iniciarActividad PLAZA_DRAG_PRODUCTS: ${result.message}")
+                }
                 is Resource.Loading -> { }
             }
         }
@@ -400,8 +420,14 @@ class DragProductsActivity : BaseMenuActivity() {
         val estadoId = actividadProgresoId ?: return
         lifecycleScope.launch {
             when (val result = gameRepository.completarActividad(estadoId, 100.0)) {
-                is Resource.Success -> Log.d("DragProducts", "Completado")
-                is Resource.Error -> Log.e("DragProducts", "Error: ${result.message}")
+                is Resource.Success -> {
+                    Log.d("DragProducts", "Completado")
+                    LogManager.write(this@DragProductsActivity, "API completarActividad PLAZA_DRAG_PRODUCTS puntuación=100")
+                }
+                is Resource.Error -> {
+                    Log.e("DragProducts", "Error: ${result.message}")
+                    LogManager.write(this@DragProductsActivity, "Error completarActividad PLAZA_DRAG_PRODUCTS: ${result.message}")
+                }
                 is Resource.Loading -> { }
             }
         }

@@ -9,11 +9,12 @@ import android.graphics.Matrix
 import android.graphics.Paint
 import android.graphics.Path
 import android.graphics.PorterDuff
+import android.graphics.PorterDuffXfermode
 import android.util.AttributeSet
-import android.view.GestureDetector
 import android.view.MotionEvent
 import android.view.ScaleGestureDetector
 import android.view.View
+import es.didaktikapp.gernikapp.LogManager
 import es.didaktikapp.gernikapp.utils.Constants
 import java.io.File
 import java.io.FileOutputStream
@@ -21,16 +22,16 @@ import kotlin.math.max
 import kotlin.math.min
 
 /**
- * Custom View para pintar sobre un canvas con soporte de zoom y pan.
+ * Custom View para pintar sobre un canvas con soporte de zoom.
  * Permite al usuario dibujar con diferentes colores sobre un área delimitada.
  *
  * Características:
  * - Pintura con trazos suaves usando curvas cuadráticas
  * - Zoom con gestos de pellizco (pinch-to-zoom)
- * - Pan con gestos de arrastre
  * - Delimitación de área pintable
  * - Guardado y carga de imágenes
  * - Soporte para múltiples colores con transparencia
+ * - Borrador con color gris claro
  *
  * @property paintBitmap Bitmap donde se almacenan los trazos pintados
  * @property bitmapCanvas Canvas del bitmap para dibujar
@@ -38,12 +39,9 @@ import kotlin.math.min
  * @property currentPath Path actual siendo dibujado
  * @property currentPaint Paint con la configuración actual de pintura
  * @property currentColor Color actual seleccionado (puede modificarse externamente)
- * @property matrix Matrix para transformaciones de zoom y pan
  * @property scaleFactor Factor de escala actual del zoom (1.0 = sin zoom)
- * @property translateX Desplazamiento horizontal del canvas
- * @property translateY Desplazamiento vertical del canvas
  * @property scaleGestureDetector Detector de gestos de zoom
- * @property gestureDetector Detector de gestos de scroll/pan
+ * @property isEraserMode Indica si está en modo borrador
  * @property paintableLeft Límite izquierdo del área pintable
  * @property paintableTop Límite superior del área pintable
  * @property paintableRight Límite derecho del área pintable
@@ -81,29 +79,36 @@ class PaintCanvasView @JvmOverloads constructor(
     var currentColor: Int = Color.parseColor("#4FC3F7")
         set(value) {
             field = value
+            val eraserColor = Color.parseColor("#E0E0E0")
+            isEraserMode = (value == eraserColor)
+
             currentPaint = Paint().apply {
                 isAntiAlias = true
                 strokeWidth = Constants.Paint.STROKE_WIDTH
                 style = Paint.Style.STROKE
                 strokeJoin = Paint.Join.ROUND
                 strokeCap = Paint.Cap.ROUND
-                color = value
-                alpha = Constants.Paint.ALPHA_VALUE
+
+                // Si es borrador, usar modo CLEAR para borrar el bitmap
+                if (isEraserMode) {
+                    xfermode = PorterDuffXfermode(PorterDuff.Mode.CLEAR)
+                } else {
+                    color = value
+                    alpha = Constants.Paint.ALPHA_VALUE
+                }
             }
         }
 
-    // Zoom y pan
+    // Zoom (sin pan/movimiento)
     private val matrix = Matrix()
     private var scaleFactor = 1f
-    private var translateX = 0f
-    private var translateY = 0f
 
     private val scaleGestureDetector = ScaleGestureDetector(context, ScaleListener())
-    private val gestureDetector = GestureDetector(context, ScrollListener())
 
     private var lastTouchX = 0f
     private var lastTouchY = 0f
     private var isPainting = false
+    private var isEraserMode = false
 
     // Límites del área pintable
     private var paintableLeft = 0f
@@ -121,6 +126,8 @@ class PaintCanvasView @JvmOverloads constructor(
      */
     private fun initializePaintBitmap() {
         if (width > 0 && height > 0) {
+            LogManager.write(context, "PaintCanvasView inicializado: ${width}x${height}")
+
             paintBitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
             bitmapCanvas = Canvas(paintBitmap!!)
             bitmapCanvas?.drawColor(Color.TRANSPARENT)
@@ -143,6 +150,8 @@ class PaintCanvasView @JvmOverloads constructor(
      * @param bottom Coordenada Y inferior del área pintable
      */
     fun setPaintableBounds(left: Float, top: Float, right: Float, bottom: Float) {
+        LogManager.write(context, "Límites pintables: L=$left T=$top R=$right B=$bottom")
+
         paintableLeft = left
         paintableTop = top
         paintableRight = right
@@ -159,7 +168,7 @@ class PaintCanvasView @JvmOverloads constructor(
     }
 
     /**
-     * Dibuja el canvas con todos los trazos y aplica las transformaciones de zoom/pan.
+     * Dibuja el canvas con todos los trazos y aplica las transformaciones de zoom.
      *
      * @param canvas Canvas del View donde se dibuja
      */
@@ -167,7 +176,6 @@ class PaintCanvasView @JvmOverloads constructor(
         super.onDraw(canvas)
 
         canvas.save()
-        canvas.translate(translateX, translateY)
         canvas.scale(scaleFactor, scaleFactor)
 
         // Dibujar todos los paths guardados
@@ -176,18 +184,32 @@ class PaintCanvasView @JvmOverloads constructor(
         }
 
         // Dibujar el path actual
-        canvas.drawPath(currentPath, currentPaint)
+        if (isEraserMode) {
+            // Mostrar el trazo del borrador en blanco para que sea visible
+            val previewPaint = Paint().apply {
+                isAntiAlias = true
+                strokeWidth = Constants.Paint.STROKE_WIDTH
+                style = Paint.Style.STROKE
+                strokeJoin = Paint.Join.ROUND
+                strokeCap = Paint.Cap.ROUND
+                color = Color.WHITE
+                alpha = 200  // Semi-transparente para que se vea bien
+            }
+            canvas.drawPath(currentPath, previewPaint)
+        } else {
+            canvas.drawPath(currentPath, currentPaint)
+        }
 
         canvas.restore()
     }
 
     /**
-     * Maneja eventos táctiles para pintar, hacer zoom y pan.
+     * Maneja eventos táctiles para pintar y hacer zoom.
      *
      * Comportamiento:
-     * - Un dedo: Pinta si está dentro del área pintable, o hace pan si no
-     * - Dos dedos o más: Zoom con pellizco y pan
-     * - Convierte coordenadas de pantalla a coordenadas del canvas considerando zoom/pan
+     * - Un dedo: Pinta si está dentro del área pintable
+     * - Dos dedos o más: Zoom con pellizco (no se puede pintar)
+     * - Convierte coordenadas de pantalla a coordenadas del canvas considerando zoom
      * - Valida que el toque esté dentro del área pintable antes de pintar
      *
      * Estados de ACTION:
@@ -201,17 +223,15 @@ class PaintCanvasView @JvmOverloads constructor(
     override fun onTouchEvent(event: MotionEvent): Boolean {
         scaleGestureDetector.onTouchEvent(event)
 
-        // Si hay más de un dedo, es zoom/pan, no pintar
+        // Si hay más de un dedo, es zoom, no pintar
         if (event.pointerCount > 1) {
             isPainting = false
             return true
         }
 
-        gestureDetector.onTouchEvent(event)
-
         // Transformar las coordenadas del toque al espacio del canvas
-        val touchX = (event.x - translateX) / scaleFactor
-        val touchY = (event.y - translateY) / scaleFactor
+        val touchX = event.x / scaleFactor
+        val touchY = event.y / scaleFactor
 
         // Verificar si el toque está dentro del área pintable
         val isInBounds = touchX >= paintableLeft && touchX <= paintableRight &&
@@ -268,31 +288,12 @@ class PaintCanvasView @JvmOverloads constructor(
     }
 
     /**
-     * Listener para gestos de scroll/pan (arrastre).
-     * Solo aplica el desplazamiento si hay más de un dedo o no se está pintando.
-     */
-    private inner class ScrollListener : GestureDetector.SimpleOnGestureListener() {
-        override fun onScroll(
-            e1: MotionEvent?,
-            e2: MotionEvent,
-            distanceX: Float,
-            distanceY: Float
-        ): Boolean {
-            if (e2.pointerCount > 1 || !isPainting) {
-                translateX -= distanceX
-                translateY -= distanceY
-                invalidate()
-                return true
-            }
-            return false
-        }
-    }
-
-    /**
      * Limpia todo el canvas borrando todos los trazos.
      * Resetea el bitmap a transparente y limpia la lista de paths.
      */
     fun clearCanvas() {
+        LogManager.write(context, "Canvas limpiado por el usuario")
+
         paintBitmap?.let {
             bitmapCanvas?.drawColor(Color.TRANSPARENT, PorterDuff.Mode.CLEAR)
             invalidate()
@@ -364,13 +365,17 @@ class PaintCanvasView @JvmOverloads constructor(
      */
     fun saveToInternalStorage(context: Context, filename: String = "guernica_coloreado.png"): Boolean {
         return try {
+            LogManager.write(context, "Guardando pintura en $filename")
+
             val bitmap = getBitmap()
             val file = File(context.filesDir, filename)
             FileOutputStream(file).use { out ->
                 bitmap.compress(Bitmap.CompressFormat.PNG, 100, out)
             }
+            LogManager.write(context, "Pintura guardada correctamente")
             true
         } catch (e: Exception) {
+            LogManager.write(context, "Error al guardar pintura: ${e.message}")
             e.printStackTrace()
             false
         }

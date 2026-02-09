@@ -42,6 +42,8 @@ class SettingsActivity : BaseMenuActivity() {
         binding = ActivitySettingsBinding.bind(contentContainer.getChildAt(0))
         initViews()
 
+        LogManager.write(this@SettingsActivity, "SettingsActivity iniciada")
+
         contentContainer.post {
             loadSettings()
             if (!listenersSetup) {
@@ -98,18 +100,22 @@ class SettingsActivity : BaseMenuActivity() {
         binding.switchDaltonismo.setOnCheckedChangeListener { _, isChecked ->
             prefs.edit { putBoolean("daltonismo", isChecked) }
             SettingsManager.applyDaltonismo(isChecked)
+            LogManager.write(this@SettingsActivity, "Daltonismo cambiado a: $isChecked")
         }
 
         // Mute
         binding.switchMute.setOnCheckedChangeListener { _, isChecked ->
             prefs.edit { putBoolean("mute", isChecked) }
             setAppMuteState(this@SettingsActivity, isChecked)
+            LogManager.write(this@SettingsActivity, "Mute cambiado a: $isChecked")
         }
 
         // Spinner TextSize
         binding.spinnerTextSize.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                 if (isInitialLoad || position == prefs.getInt("text_size", 1)) return
+
+                LogManager.write(this@SettingsActivity, "TextSize cambiado a: $position")
 
                 prefs.edit { putInt("text_size", position) }
                 SettingsManager.applyTextSize(this@SettingsActivity, position)
@@ -121,6 +127,8 @@ class SettingsActivity : BaseMenuActivity() {
         binding.spinnerLanguage.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                 if (isInitialLoad || position == prefs.getInt("language", 0)) return
+
+                LogManager.write(this@SettingsActivity, "Idioma cambiado a: $position")
 
                 prefs.edit { putInt("language", position) }
                 SettingsManager.applyLanguage(this@SettingsActivity, position)
@@ -134,11 +142,13 @@ class SettingsActivity : BaseMenuActivity() {
             SettingsManager.applyAll(this)
             Toast.makeText(this, getString(R.string.ezarpenak_gordeta), Toast.LENGTH_SHORT).show()
             recreate()
+            LogManager.write(this@SettingsActivity, "Configuración guardada por el usuario")
         }
 
         // Acerca de
         binding.btnAbout.setOnClickListener {
             startActivity(Intent(this, AboutActivity::class.java))
+            LogManager.write(this@SettingsActivity, "Usuario abrió AboutActivity desde Settings")
         }
     }
 

@@ -44,4 +44,5 @@
     <color name="paletteGreen">#66BB6A</color>
     <color name="paletteYellow">#FFEB3B</color>
     <color name="palettePink">#F48FB1</color>
+    <color name="paletteEraser">#E0E0E0</color>
 </resources>

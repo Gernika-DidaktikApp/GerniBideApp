@@ -96,7 +96,7 @@ abstract class BaseMenuActivity : AppCompatActivity() {
 
     /**
      * Llamado después de que el contenido de la activity hija ha sido inflado.
-     * Las activities hijas pueden sobreescribir este método para inicializar sus views.
+     * Las activities hijas pueden sobreescribir este metodo para inicializar sus views.
      */
     protected open fun onContentInflated() {}
 

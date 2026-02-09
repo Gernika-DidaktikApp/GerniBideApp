@@ -1,10 +1,10 @@
 package es.didaktikapp.gernikapp.arbol
 
-import android.content.Context
 import android.content.Intent
 import android.view.View
 import androidx.core.content.ContextCompat
 import es.didaktikapp.gernikapp.BaseMenuActivity
+import es.didaktikapp.gernikapp.LogManager
 import es.didaktikapp.gernikapp.R
 import es.didaktikapp.gernikapp.ZoneCompletionActivity
 import es.didaktikapp.gernikapp.databinding.ArbolMainBinding
@@ -37,6 +37,8 @@ class MainActivity : BaseMenuActivity() {
      * Se ejecuta automáticamente tras `setContentView()` de la clase base.
      */
     override fun onContentInflated() {
+        LogManager.write(this@MainActivity, "ArbolMainActivity iniciada")
+
         binding = ArbolMainBinding.inflate(layoutInflater, contentContainer, true)
         setupClickListeners()
     }
@@ -65,7 +67,9 @@ class MainActivity : BaseMenuActivity() {
      * **Drawable aplicado:** `R.drawable.bg_boton_completado`
      */
     private fun updateCompletedActivities() {
-        val prefs = getSharedPreferences("arbol_progress", Context.MODE_PRIVATE)
+        LogManager.write(this@MainActivity, "Actualizando actividades completadas del módulo Árbol")
+
+        val prefs = getSharedPreferences("arbol_progress", MODE_PRIVATE)
 
         // Audio Quiz completado
         if (prefs.getBoolean("audio_quiz_completed", false)) {
@@ -101,14 +105,17 @@ class MainActivity : BaseMenuActivity() {
      */
     private fun setupClickListeners() {
         binding.btnAudioQuiz.setOnClickListener {
+            LogManager.write(this@MainActivity, "Navegando a AudioQuizActivity")
             startActivity(Intent(this, AudioQuizActivity::class.java))
         }
 
         binding.btnPuzzle.setOnClickListener {
+            LogManager.write(this@MainActivity, "Navegando a PuzzleActivity")
             startActivity(Intent(this, PuzzleActivity::class.java))
         }
 
         binding.btnInteractive.setOnClickListener {
+            LogManager.write(this@MainActivity, "Navegando a InteractiveActivity")
             startActivity(Intent(this, InteractiveActivity::class.java))
         }
 

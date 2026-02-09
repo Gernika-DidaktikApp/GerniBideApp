@@ -129,7 +129,7 @@ object Constants {
      * Configuración de pintura
      */
     object Paint {
-        const val STROKE_WIDTH = 8f
+        const val STROKE_WIDTH = 15f
         const val ALPHA_VALUE = 100
         const val MIN_ZOOM = 0.5f
         const val MAX_ZOOM = 5.0f

@@ -1,12 +1,10 @@
 package es.didaktikapp.gernikapp.arbol
 
-import android.content.Context
 import android.graphics.PointF
 import android.graphics.Rect
 import android.graphics.Typeface
 import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
-import android.util.Log
 import android.view.Gravity
 import android.view.MotionEvent
 import android.view.View
@@ -20,6 +18,7 @@ import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
 import es.didaktikapp.gernikapp.BaseMenuActivity
+import es.didaktikapp.gernikapp.LogManager
 import es.didaktikapp.gernikapp.R
 import es.didaktikapp.gernikapp.ZoneCompletionActivity
 import es.didaktikapp.gernikapp.data.local.TokenManager
@@ -29,6 +28,7 @@ import es.didaktikapp.gernikapp.utils.Resource
 import es.didaktikapp.gernikapp.utils.ZoneConfig
 import kotlinx.coroutines.launch
 import kotlin.math.hypot
+import androidx.core.content.edit
 
 
 /**
@@ -99,6 +99,8 @@ class InteractiveActivity : BaseMenuActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.arbol_interactive)
 
+        LogManager.write(this@InteractiveActivity, "InteractiveActivity iniciada")
+
         gameRepository = GameRepository(this)
         tokenManager = TokenManager(this)
 
@@ -114,11 +116,12 @@ class InteractiveActivity : BaseMenuActivity() {
         }
 
         findViewById<View>(R.id.btnFinish).setOnClickListener {
-            val prefs = getSharedPreferences("arbol_progress", Context.MODE_PRIVATE)
-            prefs.edit()
-                .putBoolean("interactive_completed", true)
-                .putFloat("interactive_score", 100f)
-                .apply()
+            LogManager.write(this@InteractiveActivity, "Actividad Árbol finalizada por el usuario")
+            val prefs = getSharedPreferences("arbol_progress", MODE_PRIVATE)
+            prefs.edit {
+                putBoolean("interactive_completed", true)
+                putFloat("interactive_score", 100f)
+            }
             ZoneCompletionActivity.launchIfComplete(this, ZoneConfig.ARBOL)
             completarActividad()
             finish()
@@ -165,6 +168,7 @@ class InteractiveActivity : BaseMenuActivity() {
      */
     private fun addValueToTree(text: String, color: Int, initialSlot: Int) {
         val textView = TextView(this).apply {
+            LogManager.write(this@InteractiveActivity, "Valor añadido al árbol: $text (slot $initialSlot)")
             this.text = text
             this.setTextColor(color)
             this.textSize = 13f
@@ -231,7 +235,7 @@ class InteractiveActivity : BaseMenuActivity() {
                         // Buscar slot más cercano disponible
                         for (i in slotPercentages.indices) {
                             val slotPos = getSlotCoords(slotPercentages[i], imgRect)
-                            val dist = hypot((v.x + v.width / 2 - slotPos.x), (v.y + v.height / 2 - slotPos.y)).toFloat()
+                            val dist = hypot((v.x + v.width / 2 - slotPos.x), (v.y + v.height / 2 - slotPos.y))
 
                             // Solo considerar slots libres o el propio
                             if (dist < minDistance && (occupiedSlots[i] == null || occupiedSlots[i] == v)) {
@@ -246,6 +250,8 @@ class InteractiveActivity : BaseMenuActivity() {
                         }
 
                         moveWordToSlot(v, currentSlot)
+
+                        LogManager.write( this@InteractiveActivity, "Valor colocado en slot $currentSlot" )
                     }
                 }
                 return true
@@ -338,6 +344,10 @@ class InteractiveActivity : BaseMenuActivity() {
             val result = gameRepository.iniciarActividad(juegoId, Puntos.Arbol.ID, Puntos.Arbol.MY_TREE)
             if (result is Resource.Success) {
                 actividadProgresoId = result.data.id
+                LogManager.write(this@InteractiveActivity, "API iniciarActividad ARBOL_MY_TREE id=$actividadProgresoId")
+            }
+            if (result is Resource.Error) {
+                LogManager.write(this@InteractiveActivity, "Error iniciarActividad ARBOL_MY_TREE: ${result.message}")
             }
         }
     }

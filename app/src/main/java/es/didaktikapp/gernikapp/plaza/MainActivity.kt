@@ -1,10 +1,10 @@
 package es.didaktikapp.gernikapp.plaza
 
-import android.content.Context
 import android.content.Intent
 import android.view.View
 import androidx.core.content.ContextCompat
 import es.didaktikapp.gernikapp.BaseMenuActivity
+import es.didaktikapp.gernikapp.LogManager
 import es.didaktikapp.gernikapp.R
 import es.didaktikapp.gernikapp.ZoneCompletionActivity
 import es.didaktikapp.gernikapp.databinding.PlazaMainBinding
@@ -18,6 +18,8 @@ class MainActivity : BaseMenuActivity() {
     private lateinit var binding: PlazaMainBinding
 
     override fun onContentInflated() {
+        LogManager.write(this@MainActivity, "PlazaMainActivity iniciada")
+
         binding = PlazaMainBinding.inflate(layoutInflater, contentContainer, true)
         setupClickListeners()
     }
@@ -28,7 +30,9 @@ class MainActivity : BaseMenuActivity() {
     }
 
     private fun updateCompletedActivities() {
-        val prefs = getSharedPreferences("plaza_progress", Context.MODE_PRIVATE)
+        LogManager.write(this@MainActivity, "Actualizando actividades completadas del módulo Plaza")
+
+        val prefs = getSharedPreferences("plaza_progress", MODE_PRIVATE)
 
         if (prefs.getBoolean("video_completed", false)) {
             binding.btnVideo.background =
@@ -58,18 +62,22 @@ class MainActivity : BaseMenuActivity() {
 
     private fun setupClickListeners() {
         binding.btnVideo.setOnClickListener {
+            LogManager.write(this@MainActivity, "Navegando a VideoActivity")
             startActivity(Intent(this, VideoActivity::class.java))
         }
 
         binding.btnMercado.setOnClickListener {
+            LogManager.write(this@MainActivity, "Navegando a DragProductsActivity")
             startActivity(Intent(this, DragProductsActivity::class.java))
         }
 
         binding.btnVersos.setOnClickListener {
+            LogManager.write(this@MainActivity, "Navegando a VerseGameActivity")
             startActivity(Intent(this, VerseGameActivity::class.java))
         }
 
         binding.btnFotos.setOnClickListener {
+            LogManager.write(this@MainActivity, "Navegando a PhotoMissionActivity")
             startActivity(Intent(this, PhotoMissionActivity::class.java))
         }
 

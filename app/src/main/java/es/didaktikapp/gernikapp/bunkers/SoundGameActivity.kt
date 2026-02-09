@@ -3,7 +3,6 @@ package es.didaktikapp.gernikapp.bunkers
 import es.didaktikapp.gernikapp.R
 import es.didaktikapp.gernikapp.BaseMenuActivity
 
-import android.content.Context
 import android.content.res.ColorStateList
 import android.media.MediaPlayer
 import android.util.Log
@@ -20,6 +19,8 @@ import es.didaktikapp.gernikapp.utils.Constants.Puntos
 import es.didaktikapp.gernikapp.utils.Resource
 import es.didaktikapp.gernikapp.utils.ZoneConfig
 import kotlinx.coroutines.launch
+import androidx.core.content.edit
+import es.didaktikapp.gernikapp.LogManager
 
 /**
  * **Juego de Identificación de Sonidos** de la Guerra Civil Española (5 sonidos).
@@ -124,6 +125,8 @@ class SoundGameActivity : BaseMenuActivity() {
      * 4. **Configurar 2 botones de categoría**
      */
     override fun onContentInflated() {
+        LogManager.write(this@SoundGameActivity, "SoundGameActivity iniciada")
+
         gameRepository = GameRepository(this)
         tokenManager = TokenManager(this)
 
@@ -136,7 +139,7 @@ class SoundGameActivity : BaseMenuActivity() {
 
         iniciarActividad()
 
-        val prefs = getSharedPreferences("bunkers_progress", Context.MODE_PRIVATE)
+        val prefs = getSharedPreferences("bunkers_progress", MODE_PRIVATE)
         if (prefs.getBoolean("sound_game_completed", false)) {
             btnBack.isEnabled = true
         }
@@ -145,6 +148,7 @@ class SoundGameActivity : BaseMenuActivity() {
         setupCategoryButtons()
 
         btnBack.setOnClickListener {
+            LogManager.write(this@SoundGameActivity, "Usuario salió de SoundGameActivity")
             finish()
         }
     }
@@ -166,6 +170,7 @@ class SoundGameActivity : BaseMenuActivity() {
         buttons.forEach { id ->
             findViewById<ImageButton>(id).setOnClickListener {
                 currentSoundId = id
+                LogManager.write(this@SoundGameActivity, "Sonido seleccionado: $id")
                 playSound(id)
 
                 // Resaltar sonido activo
@@ -190,11 +195,14 @@ class SoundGameActivity : BaseMenuActivity() {
      * @param id ID del botón de sonido
      */
     private fun playSound(id: Int) {
+        LogManager.write(this@SoundGameActivity, "Reproduciendo sonido para botón $id")
+
         mediaPlayer?.stop()
         mediaPlayer?.release()
 
         val resId = soundResources[id] ?: return
         if (resId != -1) {
+            LogManager.write(this@SoundGameActivity, "Sonido especial: silencio")
             mediaPlayer = MediaPlayer.create(this, resId)
             mediaPlayer?.start()
         } else {
@@ -249,6 +257,8 @@ class SoundGameActivity : BaseMenuActivity() {
         val correctCategory = soundCategories[currentSoundId]!!
         val isCorrect = category == correctCategory
 
+        LogManager.write( this@SoundGameActivity, "Respuesta para sonido $currentSoundId → categoría seleccionada=$category, correcta=$correctCategory, acierto=$isCorrect" )
+
         if (isCorrect) {
             stars++
             tvStars.text = "⭐ $stars / $totalSounds"
@@ -280,15 +290,16 @@ class SoundGameActivity : BaseMenuActivity() {
 
         // Completar juego (5/5 sonidos)
         if (answeredSounds >= totalSounds) {
+            LogManager.write(this@SoundGameActivity, "Juego de sonidos completado con $stars aciertos")
             tvHistoryMessage.visibility = View.VISIBLE
             btnBack.isEnabled = true
 
             val score = stars * 100f
-            val prefs = getSharedPreferences("bunkers_progress", Context.MODE_PRIVATE)
-            prefs.edit()
-                .putBoolean("sound_game_completed", true)
-                .putFloat("sound_game_score", score)
-                .apply()
+            val prefs = getSharedPreferences("bunkers_progress", MODE_PRIVATE)
+            prefs.edit {
+                putBoolean("sound_game_completed", true)
+                putFloat("sound_game_score", score)
+            }
             ZoneCompletionActivity.launchIfComplete(this, ZoneConfig.BUNKERS)
 
             completarActividad()
@@ -313,8 +324,14 @@ class SoundGameActivity : BaseMenuActivity() {
             when (val result = gameRepository.iniciarActividad(
                 juegoId, Puntos.Bunkers.ID, Puntos.Bunkers.SOUND_GAME
             )) {
-                is Resource.Success -> actividadProgresoId = result.data.id
-                is Resource.Error -> Log.e("SoundGame", "Error: ${result.message}")
+                is Resource.Success -> {
+                    actividadProgresoId = result.data.id
+                    LogManager.write(this@SoundGameActivity, "API iniciarActividad BUNKERS_SOUND_GAME id=$actividadProgresoId")
+                }
+                is Resource.Error -> {
+                    Log.e("SoundGame", "Error: ${result.message}")
+                    LogManager.write(this@SoundGameActivity, "Error iniciarActividad BUNKERS_SOUND_GAME: ${result.message}")
+                }
                 is Resource.Loading -> { }
             }
         }
@@ -332,8 +349,14 @@ class SoundGameActivity : BaseMenuActivity() {
         val estadoId = actividadProgresoId ?: return
         lifecycleScope.launch {
             when (val result = gameRepository.completarActividad(estadoId, stars * 100.0)) {
-                is Resource.Success -> Log.d("SoundGame", "Completado: ${stars * 100}")
-                is Resource.Error -> Log.e("SoundGame", "Error: ${result.message}")
+                is Resource.Success -> {
+                    Log.d("SoundGame", "Completado: ${stars * 100}")
+                    LogManager.write(this@SoundGameActivity, "API completarActividad BUNKERS_SOUND_GAME puntuación=${stars * 100}")
+                }
+                is Resource.Error -> {
+                    Log.e("SoundGame", "Error: ${result.message}")
+                    LogManager.write(this@SoundGameActivity, "Error completarActividad BUNKERS_SOUND_GAME: ${result.message}")
+                }
                 is Resource.Loading -> { }
             }
         }

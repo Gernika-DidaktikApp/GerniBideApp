@@ -1,6 +1,5 @@
 package es.didaktikapp.gernikapp.fronton
 
-import android.content.Context
 import android.content.Intent
 import android.view.View
 import androidx.core.content.ContextCompat
@@ -10,22 +9,43 @@ import es.didaktikapp.gernikapp.ZoneCompletionActivity
 import es.didaktikapp.gernikapp.databinding.FrontonMainBinding
 import es.didaktikapp.gernikapp.utils.ZoneConfig
 
+/**
+ * Actividad principal del módulo *Frontón*.
+ *
+ * Esta pantalla actúa como menú de selección para las distintas actividades
+ * educativas del Frontón Jai Alai de Gernika.
+ *
+ * @author Erlantz
+ * @version 1.0
+ */
 class MainActivity : BaseMenuActivity() {
 
+    /** Binding generado para acceder a las vistas del layout. */
     private lateinit var binding: FrontonMainBinding
 
+    /**
+     * Infla el contenido y configura los listeners de los botones.
+     */
     override fun onContentInflated() {
         binding = FrontonMainBinding.inflate(layoutInflater, contentContainer, true)
         setupClickListeners()
     }
 
+    /**
+     * Se ejecuta al volver a la actividad.
+     * Actualiza el estado visual de los botones según el progreso guardado.
+     */
     override fun onResume() {
         super.onResume()
         updateCompletedActivities()
     }
 
+    /**
+     * Actualiza el estilo de los botones según si cada actividad
+     * del módulo Frontón ha sido completada.
+     */
     private fun updateCompletedActivities() {
-        val prefs = getSharedPreferences("fronton_progress", Context.MODE_PRIVATE)
+        val prefs = getSharedPreferences("fronton_progress", MODE_PRIVATE)
 
         if (prefs.getBoolean("info_completed", false)) {
             binding.btnFrontonInfo.background =
@@ -53,6 +73,10 @@ class MainActivity : BaseMenuActivity() {
         }
     }
 
+    /**
+     * Configura los listeners de los botones para navegar
+     * a las distintas actividades del módulo Frontón.
+     */
     private fun setupClickListeners() {
         binding.btnFrontonInfo.setOnClickListener {
             startActivity(Intent(this, InfoActivity::class.java))

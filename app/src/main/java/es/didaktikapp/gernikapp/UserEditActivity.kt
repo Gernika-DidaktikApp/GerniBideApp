@@ -14,15 +14,29 @@ import kotlinx.coroutines.launch
 
 /**
  * Activity para la edición de datos de usuario.
+ *
+ * @author
+ * @version
  */
 class UserEditActivity : BaseMenuActivity() {
 
+    /**  */
     private lateinit var binding: ActivityUserEditBinding
+
+    /**  */
     private lateinit var tokenManager: TokenManager
+
+    /**  */
     private lateinit var userRepository: UserRepository
 
+    /**
+     *
+     *
+     */
     override fun onContentInflated() {
         binding = ActivityUserEditBinding.inflate(layoutInflater, contentContainer, true)
+
+        LogManager.write(this@UserEditActivity, "UserEditActivity iniciada")
 
         tokenManager = TokenManager(this)
         userRepository = UserRepository(this)
@@ -34,18 +48,22 @@ class UserEditActivity : BaseMenuActivity() {
         loadUserDataFromApi()
     }
 
+    /**
+     *
+     *
+     */
     private fun loadUserDataFromApi() {
         lifecycleScope.launch {
             when (val result = userRepository.getUserProfile()) {
                 is Resource.Success -> {
-                    result.data?.let { user ->
-                        populateFields(user)
-                    }
+                    populateFields(result.data)
                 }
                 is Resource.Error -> {
+                    LogManager.write( this@UserEditActivity, "Error cargando datos de usuario: ${result.message}" )
+
                     Toast.makeText(
                         this@UserEditActivity,
-                        result.message ?: getString(R.string.error_cargar_datos),
+                        result.message,
                         Toast.LENGTH_SHORT
                     ).show()
                 }
@@ -54,6 +72,11 @@ class UserEditActivity : BaseMenuActivity() {
         }
     }
 
+    /**
+     *
+     *
+     * @param user
+     */
     private fun populateFields(user: UserResponse) {
         binding.editTextUsername.setText(user.username)
         binding.editTextNombre.setText(user.nombre)
@@ -67,6 +90,10 @@ class UserEditActivity : BaseMenuActivity() {
         }
     }
 
+    /**
+     *
+     *
+     */
     private fun setupClaseToggle() {
         binding.checkBoxClase.setOnCheckedChangeListener { _, isChecked ->
             binding.editTextIdClase.visibility = if (isChecked) View.VISIBLE else View.GONE
@@ -76,6 +103,10 @@ class UserEditActivity : BaseMenuActivity() {
         }
     }
 
+    /**
+     *
+     *
+     */
     private fun setupSaveButton() {
         binding.btnGuardar.setOnClickListener {
             if (validateFields()) {
@@ -84,6 +115,10 @@ class UserEditActivity : BaseMenuActivity() {
         }
     }
 
+    /**
+     *
+     *
+     */
     private fun saveUserData() {
         // Obtener valores actualizados
         val username = binding.editTextUsername.text.toString().trim()
@@ -108,6 +143,11 @@ class UserEditActivity : BaseMenuActivity() {
         lifecycleScope.launch {
             when (val result = userRepository.updateUserProfile(updateRequest)) {
                 is Resource.Success -> {
+                    LogManager.write(
+                        this@UserEditActivity,
+                        "Perfil actualizado correctamente para usuario: $username"
+                    )
+
                     // Actualizar username en TokenManager
                     tokenManager.saveUsername(username)
 
@@ -123,9 +163,14 @@ class UserEditActivity : BaseMenuActivity() {
                     finish()
                 }
                 is Resource.Error -> {
+                    LogManager.write(
+                        this@UserEditActivity,
+                        "Error actualizando perfil: ${result.message}"
+                    )
+
                     Toast.makeText(
                         this@UserEditActivity,
-                        result.message ?: getString(R.string.error_actualizar),
+                        result.message,
                         Toast.LENGTH_SHORT
                     ).show()
                 }
@@ -134,6 +179,10 @@ class UserEditActivity : BaseMenuActivity() {
         }
     }
 
+    /**
+     *
+     *
+     */
     private fun setupInputFilters() {
         // Username: solo letras y números
         binding.editTextUsername.filters = arrayOf(InputFilter { source, _, _, _, _, _ ->
@@ -148,6 +197,11 @@ class UserEditActivity : BaseMenuActivity() {
         binding.editTextApellido.filters = arrayOf(alphaFilter)
     }
 
+    /**
+     *
+     *
+     * @return
+     */
     private fun validateFields(): Boolean {
         var isValid = true
 

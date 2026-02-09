@@ -1,6 +1,5 @@
 package es.didaktikapp.gernikapp.plaza
 
-import android.content.Context
 import android.util.Log
 import android.widget.Button
 import android.widget.RadioButton
@@ -12,6 +11,7 @@ import androidx.core.content.edit
 import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
 import es.didaktikapp.gernikapp.BaseMenuActivity
+import es.didaktikapp.gernikapp.LogManager
 import es.didaktikapp.gernikapp.R
 import es.didaktikapp.gernikapp.data.local.TokenManager
 import es.didaktikapp.gernikapp.data.repository.GameRepository
@@ -47,6 +47,8 @@ class VerseGameActivity : BaseMenuActivity() {
     override fun getContentLayoutId() = R.layout.plaza_verse_game
 
     override fun onContentInflated() {
+        LogManager.write(this@VerseGameActivity, "VerseGameActivity iniciada")
+
         gameRepository = GameRepository(this)
         tokenManager = TokenManager(this)
 
@@ -69,7 +71,7 @@ class VerseGameActivity : BaseMenuActivity() {
         btnBack = findViewById(R.id.btnBack)
 
         // Check if activity was previously completed
-        val prefs = getSharedPreferences("plaza_progress", Context.MODE_PRIVATE)
+        val prefs = getSharedPreferences("plaza_progress", MODE_PRIVATE)
         if (prefs.getBoolean("verse_game_completed", false)) {
             btnBack.isEnabled = true
         }
@@ -135,6 +137,7 @@ class VerseGameActivity : BaseMenuActivity() {
         }
 
         btnBack.setOnClickListener {
+            LogManager.write(this@VerseGameActivity, "Usuario salió de VerseGameActivity")
             finish()
         }
     }
@@ -153,17 +156,23 @@ class VerseGameActivity : BaseMenuActivity() {
             else -> -1
         }
 
+        LogManager.write( this@VerseGameActivity, "Respuesta seleccionada: $selectedIndex (correcta=${pregunta.respuestaCorrecta})" )
+
         if (selectedIndex == pregunta.respuestaCorrecta) {
+            LogManager.write(this@VerseGameActivity, "Respuesta correcta")
             aciertos++
             tvAciertos.text = getString(R.string.verse_game_aciertos, aciertos, preguntas.size)
             mostrarFeedbackCorrecto(selectedId)
         } else {
+            LogManager.write(this@VerseGameActivity, "Respuesta incorrecta")
             mostrarFeedbackIncorrecto(selectedId)
             resaltarRespuestaCorrecta(pregunta.respuestaCorrecta)
         }
 
         habilitarOpciones(false)
         btnComprobar.isVisible = false
+
+        LogManager.write(this@VerseGameActivity, "Avanzando a la siguiente pregunta")
 
         preguntaActual++
         if (preguntaActual < preguntas.size) {
@@ -213,13 +222,14 @@ class VerseGameActivity : BaseMenuActivity() {
     }
 
     private fun mostrarResultadoFinal() {
+        LogManager.write( this@VerseGameActivity, "Juego completado con $aciertos aciertos de ${preguntas.size}" )
         tvAciertos.text = getString(R.string.verse_game_aciertos, aciertos, preguntas.size)
         btnBack.isEnabled = true
         completarActividad()
 
         // Save progress
         val score = aciertos * 100f
-        val prefs = getSharedPreferences("plaza_progress", Context.MODE_PRIVATE)
+        val prefs = getSharedPreferences("plaza_progress", MODE_PRIVATE)
         prefs.edit {
             putBoolean("verse_game_completed", true)
             putFloat("verse_game_score", score)
@@ -231,8 +241,14 @@ class VerseGameActivity : BaseMenuActivity() {
         val juegoId = tokenManager.getJuegoId() ?: return
         lifecycleScope.launch {
             when (val result = gameRepository.iniciarActividad(juegoId, Puntos.Plaza.ID, Puntos.Plaza.VERSE_GAME)) {
-                is Resource.Success -> actividadProgresoId = result.data.id
-                is Resource.Error -> Log.e("VerseGame", "Error: ${result.message}")
+                is Resource.Success -> {
+                    actividadProgresoId = result.data.id
+                    LogManager.write(this@VerseGameActivity, "API iniciarActividad PLAZA_VERSE_GAME id=$actividadProgresoId")
+                }
+                is Resource.Error -> {
+                    Log.e("VerseGame", "Error: ${result.message}")
+                    LogManager.write(this@VerseGameActivity, "Error iniciarActividad PLAZA_VERSE_GAME: ${result.message}")
+                }
                 is Resource.Loading -> { }
             }
         }
@@ -242,8 +258,14 @@ class VerseGameActivity : BaseMenuActivity() {
         val estadoId = actividadProgresoId ?: return
         lifecycleScope.launch {
             when (val result = gameRepository.completarActividad(estadoId, (aciertos * 100).toDouble())) {
-                is Resource.Success -> Log.d("VerseGame", "Completado")
-                is Resource.Error -> Log.e("VerseGame", "Error: ${result.message}")
+                is Resource.Success -> {
+                    Log.d("VerseGame", "Completado")
+                    LogManager.write(this@VerseGameActivity, "API completarActividad PLAZA_VERSE_GAME puntuación=${aciertos * 100}")
+                }
+                is Resource.Error -> {
+                    Log.e("VerseGame", "Error: ${result.message}")
+                    LogManager.write(this@VerseGameActivity, "Error completarActividad PLAZA_VERSE_GAME: ${result.message}")
+                }
                 is Resource.Loading -> { }
             }
         }

@@ -9,7 +9,6 @@ import android.view.View
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.ProgressBar
-import android.widget.RadioButton
 import android.widget.RadioGroup
 import android.widget.TextView
 import android.widget.Toast
@@ -32,8 +31,10 @@ import es.didaktikapp.gernikapp.utils.Constants.Puntos
 import es.didaktikapp.gernikapp.utils.ZoneConfig
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
+import es.didaktikapp.gernikapp.LogManager
 import es.didaktikapp.gernikapp.utils.Resource
 import kotlinx.coroutines.launch
+import androidx.core.content.edit
 
 /**
  * Activity de la misión fotográfica donde los usuarios toman fotos y las etiquetan.
@@ -87,6 +88,7 @@ class PhotoMissionActivity : BaseMenuActivity() {
         if (result.resultCode == RESULT_OK) {
             val imageBitmap = result.data?.extras?.get("data") as? Bitmap
             if (imageBitmap != null) {
+                LogManager.write(this@PhotoMissionActivity, "Foto tomada correctamente")
                 fotoActual = imageBitmap
                 mostrarVistaPrevia(imageBitmap)
             }
@@ -96,6 +98,8 @@ class PhotoMissionActivity : BaseMenuActivity() {
     override fun getContentLayoutId() = R.layout.plaza_photo_mission
 
     override fun onContentInflated() {
+        LogManager.write(this@PhotoMissionActivity, "PhotoMissionActivity iniciada")
+
         gameRepository = GameRepository(this)
         cloudinaryRepository = CloudinaryRepository(this)
         tokenManager = TokenManager(this)
@@ -133,6 +137,7 @@ class PhotoMissionActivity : BaseMenuActivity() {
         }
 
         btnBack.setOnClickListener {
+            LogManager.write(this@PhotoMissionActivity, "Usuario salió de PhotoMissionActivity")
             finish()
         }
     }
@@ -176,6 +181,8 @@ class PhotoMissionActivity : BaseMenuActivity() {
             isUploading = true
             mostrarCargando(true)
 
+            LogManager.write(this@PhotoMissionActivity, "Iniciando subida a Cloudinary…")
+
             when (val result = cloudinaryRepository.subirImagen(fotoActual!!)) {
                 is Resource.Success -> {
                     val imageUrl = result.data
@@ -215,6 +222,8 @@ class PhotoMissionActivity : BaseMenuActivity() {
                     ).show()
                 }
                 is Resource.Error -> {
+                    LogManager.write(this@PhotoMissionActivity, "Error subiendo imagen: ${result.message}")
+
                     // Error en la subida
                     Log.e(TAG, "❌ Error subiendo imagen: ${result.message}")
                     Toast.makeText(
@@ -330,8 +339,9 @@ class PhotoMissionActivity : BaseMenuActivity() {
 
                 // Guardar el ID del progreso
                 val prefs = getSharedPreferences(PREFS_NAME, MODE_PRIVATE)
-                prefs.edit().putString(KEY_ACTIVIDAD_PROGRESO_ID, result.data.id).apply()
+                prefs.edit { putString(KEY_ACTIVIDAD_PROGRESO_ID, result.data.id) }
 
+                LogManager.write(this@PhotoMissionActivity, "Nuevo progreso creado: ${result.data.id}")
                 Log.d(TAG, "✅ Nuevo progreso creado: ${result.data.id}, Estado: ${result.data.estado}")
 
                 // Si la actividad ya está completada (no debería), cargar la foto
@@ -369,6 +379,7 @@ class PhotoMissionActivity : BaseMenuActivity() {
                 }
                 else -> {
                     // Actividad en progreso: usar endpoint de completar
+                    LogManager.write(this@PhotoMissionActivity, "Completando actividad por primera vez…")
                     Log.d(TAG, "🏁 Completando actividad por primera vez...")
                     gameRepository.completarActividad(estadoId, 100.0, respuestaJson)
                 }
@@ -378,10 +389,12 @@ class PhotoMissionActivity : BaseMenuActivity() {
                 is Resource.Success -> {
                     // Actualizar el estado local
                     actividadEstado = result.data.estado
+                    LogManager.write(this@PhotoMissionActivity, "Actividad guardada correctamente: $respuestaJson")
                     Log.d(TAG, "✅ Actividad guardada exitosamente: $respuestaJson")
                     Log.d(TAG, "✅ Nuevo estado: ${result.data.estado}")
                 }
                 is Resource.Error -> {
+                    LogManager.write(this@PhotoMissionActivity, "Error guardando actividad: ${result.message}")
                     Log.e(TAG, "❌ Error guardando actividad: ${result.message}")
                     Toast.makeText(
                         this@PhotoMissionActivity,

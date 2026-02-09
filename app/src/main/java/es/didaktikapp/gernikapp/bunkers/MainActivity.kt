@@ -1,10 +1,10 @@
 package es.didaktikapp.gernikapp.bunkers
 
-import android.content.Context
 import android.content.Intent
 import android.view.View
 import androidx.core.content.ContextCompat
 import es.didaktikapp.gernikapp.BaseMenuActivity
+import es.didaktikapp.gernikapp.LogManager
 import es.didaktikapp.gernikapp.R
 import es.didaktikapp.gernikapp.ZoneCompletionActivity
 import es.didaktikapp.gernikapp.databinding.BunkersMainBinding
@@ -42,6 +42,8 @@ class MainActivity : BaseMenuActivity() {
      * Se ejecuta automáticamente tras `setContentView()` de la clase base.
      */
     override fun onContentInflated() {
+        LogManager.write(this@MainActivity, "BunkersMainActivity iniciada")
+
         binding = BunkersMainBinding.inflate(layoutInflater, contentContainer, true)
         setupClickListeners()
     }
@@ -72,7 +74,9 @@ class MainActivity : BaseMenuActivity() {
      * **Drawable aplicado:** `R.drawable.bg_boton_completado`
      */
     private fun updateCompletedActivities() {
-        val prefs = getSharedPreferences("bunkers_progress", Context.MODE_PRIVATE)
+        LogManager.write(this@MainActivity, "Actualizando actividades completadas del módulo Bunkers")
+
+        val prefs = getSharedPreferences("bunkers_progress", MODE_PRIVATE)
 
         // Mural de la Paz completado
         if (prefs.getBoolean("peace_mural_completed", false)) {
@@ -110,14 +114,17 @@ class MainActivity : BaseMenuActivity() {
      */
     private fun setupClickListeners() {
         binding.btnSoundGame.setOnClickListener {
+            LogManager.write(this@MainActivity, "Navegando a SoundGameActivity")
             startActivity(Intent(this, SoundGameActivity::class.java))
         }
 
         binding.btnPeaceMural.setOnClickListener {
+            LogManager.write(this@MainActivity, "Navegando a PeaceMuralActivity")
             startActivity(Intent(this, PeaceMuralActivity::class.java))
         }
 
         binding.btnReflection.setOnClickListener {
+            LogManager.write(this@MainActivity, "Navegando a ReflectionActivity")
             startActivity(Intent(this, ReflectionActivity::class.java))
         }
 

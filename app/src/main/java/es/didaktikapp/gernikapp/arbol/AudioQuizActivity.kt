@@ -3,7 +3,6 @@ package es.didaktikapp.gernikapp.arbol
 import es.didaktikapp.gernikapp.R
 import es.didaktikapp.gernikapp.BaseMenuActivity
 
-import android.content.Context
 import android.media.MediaPlayer
 import android.os.Handler
 import android.os.Looper
@@ -15,6 +14,7 @@ import android.widget.SeekBar
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
+import es.didaktikapp.gernikapp.LogManager
 import es.didaktikapp.gernikapp.data.local.TokenManager
 import es.didaktikapp.gernikapp.data.repository.GameRepository
 import es.didaktikapp.gernikapp.ZoneCompletionActivity
@@ -22,6 +22,7 @@ import es.didaktikapp.gernikapp.utils.Constants.Puntos
 import es.didaktikapp.gernikapp.utils.Resource
 import es.didaktikapp.gernikapp.utils.ZoneConfig
 import kotlinx.coroutines.launch
+import androidx.core.content.edit
 
 /**
  * Activity que gestiona un cuestionario de audio dentro del módulo "Árbol" del juego.
@@ -99,6 +100,8 @@ class AudioQuizActivity : BaseMenuActivity() {
      * y el comportamiento del cuestionario.
      */
     override fun onContentInflated() {
+        LogManager.write(this@AudioQuizActivity, "AudioQuizActivity iniciada")
+
         // Inicializar repositorios
         gameRepository = GameRepository(this)
         tokenManager = TokenManager(this)
@@ -119,11 +122,13 @@ class AudioQuizActivity : BaseMenuActivity() {
         mediaPlayer.isLooping = false
         seekBar.max = mediaPlayer.duration
         mediaPlayer.start()
+        LogManager.write(this@AudioQuizActivity, "Audio educativo del Árbol iniciado")
         updatePlayPauseButton()
 
         // Mostrar quiz al terminar el audio
         mediaPlayer.setOnCompletionListener {
             updatePlayPauseButton()
+            LogManager.write(this, "Audio educativo del Árbol finalizado, mostrando quiz")
             showQuiz()
         }
 
@@ -232,9 +237,11 @@ class AudioQuizActivity : BaseMenuActivity() {
 
                 questionAnswered = true
                 if (id == correctId) {
+                    LogManager.write(this@AudioQuizActivity, "Respuesta correcta en Árbol (pregunta respondida)")
                     button.setBackgroundColor(ContextCompat.getColor(this, R.color.correcto))
                     correctAnswers++
                 } else {
+                    LogManager.write(this@AudioQuizActivity, "Respuesta incorrecta en Árbol (pregunta respondida)")
                     button.setBackgroundColor(ContextCompat.getColor(this, R.color.error))
                     findViewById<Button>(correctId).setBackgroundColor(
                         ContextCompat.getColor(this, R.color.correcto)
@@ -253,15 +260,16 @@ class AudioQuizActivity : BaseMenuActivity() {
     private fun checkCompletion() {
         answeredCount++
         if (answeredCount == totalQuestions) {
+            LogManager.write(this@AudioQuizActivity, "Quiz del Árbol completado con $correctAnswers respuestas correctas")
             tvCongrats.visibility = View.VISIBLE
             btnVolver.isEnabled = true
 
             val score = correctAnswers * 100f
-            val prefs = getSharedPreferences("arbol_progress", Context.MODE_PRIVATE)
-            prefs.edit()
-                .putBoolean("audio_quiz_completed", true)
-                .putFloat("audio_quiz_score", score)
-                .apply()
+            val prefs = getSharedPreferences("arbol_progress", MODE_PRIVATE)
+            prefs.edit {
+                putBoolean("audio_quiz_completed", true)
+                putFloat("audio_quiz_score", score)
+            }
             ZoneCompletionActivity.launchIfComplete(this, ZoneConfig.ARBOL)
 
             completarActividad()
@@ -289,9 +297,11 @@ class AudioQuizActivity : BaseMenuActivity() {
                 is Resource.Success -> {
                     actividadProgresoId = result.data.id
                     Log.d("AudioQuiz", "Evento iniciado: $actividadProgresoId")
+                    LogManager.write(this@AudioQuizActivity, "API iniciarActividad Árbol AUDIO_QUIZ: id=$actividadProgresoId")
                 }
                 is Resource.Error -> {
                     Log.e("AudioQuiz", "Error al iniciar evento: ${result.message}")
+                    LogManager.write(this@AudioQuizActivity, "Error iniciarActividad Árbol: ${result.message}")
                 }
                 is Resource.Loading -> { }
             }
@@ -320,9 +330,11 @@ class AudioQuizActivity : BaseMenuActivity() {
             )) {
                 is Resource.Success -> {
                     Log.d("AudioQuiz", "Evento completado con puntuación: $puntuacion")
+                    LogManager.write(this@AudioQuizActivity, "API completarActividad Árbol con puntuación $puntuacion")
                 }
                 is Resource.Error -> {
                     Log.e("AudioQuiz", "Error al completar evento: ${result.message}")
+                    LogManager.write(this@AudioQuizActivity, "Error completarActividad Árbol: ${result.message}")
                 }
                 is Resource.Loading -> { }
             }
