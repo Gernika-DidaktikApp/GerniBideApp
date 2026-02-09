@@ -234,7 +234,7 @@
     <!-- My Message -->
     <string name="my_message_title">Nire mezua mundua</string>
     <string name="my_message_instructions">Idatzi zure bakeko mezua:</string>
-    <string name="my_message_start">Niri bakea nahi niontzait…</string>
+    <string name="my_message_start">Nik bakea nahi dut…</string>
     <string name="my_message_hint">Idatzi hemen zure mezua…</string>
     <string name="my_message_char_count">0/200</string>
     <string name="my_message_char_count_format">%d/200</string>
