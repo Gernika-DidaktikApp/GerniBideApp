@@ -456,11 +456,18 @@
     <string name="_1_audio_quiz">1. Audio Quiz</string>
     <string name="_2_puzzle">2. Puzzle</string>
     <string name="_3_nire_arbola">3. Nire Arbola</string>
-    <string name="bunkerrak">Bunkerrak</string>
-    <string name="_1_soinu_jokoa">1. Soinu Jokoa</string>
-    <string name="_2_bake_murala">2. Bake Murala</string>
-    <string name="_3_hausnarketa">3. Hausnarketa</string>
 
+    <string name="bunkerrak">Bunkerrak</string>
+    <string name="video_bunkers">1. Videoa</string>
+    <string name="_1_soinu_jokoa">2. Soinu Jokoa</string>
+    <string name="_2_bake_murala">3. Bake Murala</string>
+    <string name="_3_hausnarketa">4. Hausnarketa</string>
+    <string name="video_descriptivo_bunker">1937ko apirilaren 26an, Gernika bonbardatu zuten  Espainiako Gerra Zibila gertatzen ari zenean. Herriko kaleak hauts eta ke artean geratu ziren, eta jendeak bonbak erortzen zeudela babeslekuetan bilatu zuen aterpea. Babeslekuak herrian zehar banatuta daude, lau dira guztira. Haietan, iluntasunean eta beldurrean, elkarri eutsiz aurkitu zuten indarra. Gaur egun, babeslekuak oroimenaren tokiak dira.</string>
+
+    <string name="sentimiento_miedo">Beldurraren sentimendua</string>
+    <string name="sentimiento_tristeza">Tristuraren sentimendua</string>
+    <string name="sentimiento_tranquilidad">Lasaitasunaren sentimendua</string>
+    <string name="sentimiento_esperanza">Itxaropenaren sentimendua</string>
 
 </resources>
 

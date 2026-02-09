@@ -9,6 +9,7 @@
     android:padding="@dimen/espaciado_xl"
     tools:context=".bunkers.MainActivity">
 
+    <!-- Titulo de Bunkers -->
     <TextView
         android:id="@+id/tvTitulo"
         android:layout_width="wrap_content"
@@ -21,18 +22,32 @@
         app:layout_constraintBottom_toTopOf="@id/btnSoundGame"
         app:layout_constraintVertical_chainStyle="packed" />
 
+    <!-- Boton al video -->
+    <Button
+        android:id="@+id/btnVideoBunker"
+        style="@style/EstiloBotonPrimario"
+        android:layout_width="0dp"
+        android:text="@string/video_bunkers"
+        android:layout_marginTop="@dimen/espaciado_xxl"
+        android:layout_marginBottom="@dimen/espaciado_md"
+        app:layout_constraintTop_toBottomOf="@id/tvTitulo"
+        app:layout_constraintBottom_toTopOf="@id/btnSoundGame"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <!-- Boton al soinu jokoa -->
     <Button
         android:id="@+id/btnSoundGame"
         style="@style/EstiloBotonPrimario"
         android:layout_width="0dp"
         android:text="@string/_1_soinu_jokoa"
-        android:layout_marginTop="@dimen/espaciado_xxl"
         android:layout_marginBottom="@dimen/espaciado_md"
-        app:layout_constraintTop_toBottomOf="@id/tvTitulo"
+        app:layout_constraintTop_toBottomOf="@id/btnVideoBunker"
         app:layout_constraintBottom_toTopOf="@id/btnPeaceMural"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
+    <!-- Boton al bake murala -->
     <Button
         android:id="@+id/btnPeaceMural"
         style="@style/EstiloBotonPrimario"
@@ -44,6 +59,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
+    <!-- Boton al hausnarketa -->
     <Button
         android:id="@+id/btnReflection"
         style="@style/EstiloBotonPrimario"
@@ -54,6 +70,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
+    <!-- Boton para ver la puntuación -->
     <Button
         android:id="@+id/btnPuntuazioa"
         style="@style/EstiloBotonPrimario"

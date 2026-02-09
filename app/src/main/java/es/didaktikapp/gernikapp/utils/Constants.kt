@@ -42,6 +42,7 @@ object Constants {
             const val SOUND_GAME = "20f2c2d5-6f7f-4e91-a8bb-f28be9fa5748"      // Soinu Jokoa
             const val PEACE_MURAL = "6e74c7c5-6ad7-4714-bc8d-de2484291692"     // Bake murala
             const val REFLECTION = "03ddf94d-6be0-4e54-a76d-824f596a0c98"      // Hausnarketa
+            const val VIDEO_BUNKER = "1e981c52-4a46-4511-a5c5-f0f2ecab088d"    // Vídeo Bunkers
         }
 
         object Picasso {

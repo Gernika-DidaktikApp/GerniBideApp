@@ -1,0 +1,88 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/fondo2">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:padding="@dimen/espaciado_xl"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <!-- Contenedor del vídeo con esquinas redondeadas -->
+        <FrameLayout
+            android:id="@+id/videoContainer"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:layout_marginTop="@dimen/espaciado_base"
+            android:background="@drawable/bg_video_container"
+            android:clipToOutline="true">
+
+            <VideoView
+                android:id="@+id/videoFronton"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+        </FrameLayout>
+
+        <!-- Controles de video integrados -->
+        <LinearLayout
+            android:id="@+id/videoControls"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_video_controls"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingVertical="@dimen/espaciado_md"
+            android:paddingHorizontal="@dimen/espaciado_md">
+
+            <ImageButton
+                android:id="@+id/btnPlayPause"
+                style="@style/EstiloImageButtonMediaControl"
+                android:contentDescription="@string/play_pause"
+                android:src="@android:drawable/ic_media_play" />
+
+            <SeekBar
+                android:id="@+id/seekBar"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginStart="@dimen/espaciado_sm"
+                android:layout_marginEnd="@dimen/espaciado_sm"
+                android:progressTint="@color/btnPrincipalShadow"
+                android:thumbTint="@color/white" />
+
+            <TextView
+                android:id="@+id/tvTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/_0_00_0_00"
+                android:textAppearance="@style/AparienciaTexto.App.Caption"
+                android:textColor="@color/white"
+                android:textStyle="bold"
+                android:minWidth="70dp"
+                android:gravity="end" />
+
+        </LinearLayout>
+
+        <!-- Texto del vídeo descriptivo -->
+        <TextView
+            android:id="@+id/videoDescripcion"
+            android:text="@string/video_descriptivo_bunker"
+            android:textAppearance="@style/AparienciaTexto.App.Cuerpo.Defecto"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/espaciado_base"/>
+
+        <!-- Botón para volver (deshabilitado hasta ver el vídeo) -->
+        <Button
+            android:id="@+id/btnBack"
+            style="@style/EstiloBotonSecundario"
+            android:layout_width="wrap_content"
+            android:text="@string/itzuli"
+            android:enabled="false"
+            android:layout_marginTop="@dimen/espaciado_base" />
+
+    </LinearLayout>
+
+</ScrollView>

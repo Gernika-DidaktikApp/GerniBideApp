@@ -11,7 +11,6 @@ import android.view.animation.AnimationSet
 import android.view.animation.ScaleAnimation
 import android.widget.Button
 import android.widget.FrameLayout
-import android.widget.ImageButton
 import android.widget.TextView
 import androidx.lifecycle.lifecycleScope
 import es.didaktikapp.gernikapp.LogManager
@@ -62,9 +61,6 @@ class PeaceMuralActivity : BaseMenuActivity() {
     /** Reproductor de música de fondo en bucle continuo. */
     private var mediaPlayer: MediaPlayer? = null
 
-    /** Estado del control de volumen (true = silenciado). */
-    private var isMuted = false
-
     /** Repositorios para comunicación con la API del juego. */
     private lateinit var gameRepository: GameRepository
     private lateinit var tokenManager: TokenManager
@@ -104,7 +100,6 @@ class PeaceMuralActivity : BaseMenuActivity() {
 
         loadMural()
         setupWordButtons()
-        setupMusic()
 
         btnBack.setOnClickListener {
             LogManager.write(this@PeaceMuralActivity, "Usuario salió de PeaceMuralActivity")
@@ -112,40 +107,6 @@ class PeaceMuralActivity : BaseMenuActivity() {
             mediaPlayer?.release()
             finish()
         }
-
-        findViewById<ImageButton>(R.id.btnMute).setOnClickListener {
-            toggleMute(it as ImageButton)
-        }
-    }
-
-    /**
-     * Inicia la **música de fondo** en bucle infinito.
-     * Archivo: `R.raw.babeslekuak_bideoaren_audioa`
-     */
-    private fun setupMusic() {
-        mediaPlayer = MediaPlayer.create(this, R.raw.babeslekuak_bideoaren_audioa)
-        mediaPlayer?.isLooping = true
-        mediaPlayer?.start()
-    }
-
-    /**
-     * Alterna **mute/unmute** de la música de fondo.
-     *
-     * **Estados visuales:**
-     * - **Silenciado**: `ic_play` + volumen 0.0f
-     * - **Activo**: `ic_pause` + volumen 1.0f
-     *
-     * @param btn ImageButton del control de volumen
-     */
-    private fun toggleMute(btn: ImageButton) {
-        if (isMuted) {
-            mediaPlayer?.setVolume(1.0f, 1.0f)
-            btn.setImageResource(R.drawable.ic_pause)
-        } else {
-            mediaPlayer?.setVolume(0.0f, 0.0f)
-            btn.setImageResource(R.drawable.ic_play)
-        }
-        isMuted = !isMuted
     }
 
     /**
