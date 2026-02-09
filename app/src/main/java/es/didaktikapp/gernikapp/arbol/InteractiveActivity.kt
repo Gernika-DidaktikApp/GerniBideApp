@@ -65,31 +65,32 @@ class InteractiveActivity : BaseMenuActivity() {
     private var actividadProgresoId: String? = null
 
     /**
-     * Coordenadas porcentuales exactas de los 13 óvalos blancos en la imagen `arbola_image.jpg`.
-     *
-     * **Orden de las posiciones:**
-     * 1. Superior Central (50%, 9.5%)
-     * 2-3. Fila 2: Izquierda (27%, 19%) | Derecha (73%, 19%)
-     * 4-6. Fila 3: Izq (19%, 32%) | Centro (50%, 35%) | Der (81%, 32%)
-     * 7-9. Fila 4: Izq (20%, 46%) | Centro (50%, 48%) | Der (80%, 46%)
-     * 10-11. Fila 5: Izq (32%, 55%) | Der (68%, 55%)
-     * 12. Fila 6: Centro Bajo (50%, 60%)
-     * 13. Raíces/Césped (50%, 93%)
+     * Coordenadas porcentuales exactas de los 14 óvalos decorativos en `arbola_image.jpg`.
+     * * **Estructura del árbol (de arriba a abajo):**
+     * 1.  Cúspide: Superior Central (50%, 9.5%)
+     * 2.  Eje Central Superior: Justo debajo de la cúspide (50%, 22.5%)
+     * 3-4. Fila 2 (Lateral): Izquierda (27%, 19%) | Derecha (73%, 19%)
+     * 5-7. Fila 3 (Ancha): Izquierda (19%, 32%) | Centro (50%, 35%) | Derecha (81%, 32%)
+     * 8-10. Fila 4 (Media): Izquierda (20%, 46%) | Centro (50%, 48%) | Derecha (80%, 46%)
+     * 11-12. Fila 5 (Baja): Izquierda (32%, 55%) | Derecha (68%, 55%)
+     * 13. Base de la Copa: Centro Bajo sobre el tronco (50%, 60%)
+     * 14. Raíz: Óvalo independiente en el césped (50%, 93%)
      */
     private val slotPercentages = listOf(
-        PointF(50f, 9.5f),  // Superior Central
-        PointF(27f, 19f),   // Fila 2 - Izquierda
-        PointF(73f, 19f),   // Fila 2 - Derecha
-        PointF(19f, 32f),   // Fila 3 - Izquierda
-        PointF(50f, 35f),   // Fila 3 - Centro
-        PointF(81f, 32f),   // Fila 3 - Derecha
-        PointF(20f, 46f),   // Fila 4 - Izquierda
-        PointF(50f, 48f),   // Fila 4 - Centro
-        PointF(80f, 46f),   // Fila 4 - Derecha
-        PointF(32f, 55f),   // Fila 5 - Izquierda
-        PointF(68f, 55f),   // Fila 5 - Derecha
-        PointF(50f, 60f),   // Fila 6 - Centro Bajo
-        PointF(50f, 93f)    // Óvalo Raíces (Césped)
+        PointF(50f, 9.5f),  // 1. Superior Central (Punta)
+        PointF(50f, 22.5f), // 2. NUEVO: Central Alto (Justo debajo del 1)
+        PointF(27f, 19f),   // 3. Fila 2 - Izquierda
+        PointF(73f, 19f),   // 4. Fila 2 - Derecha
+        PointF(19f, 32f),   // 5. Fila 3 - Izquierda
+        PointF(50f, 35f),   // 6. Fila 3 - Centro
+        PointF(81f, 32f),   // 7. Fila 3 - Derecha
+        PointF(20f, 46f),   // 8. Fila 4 - Izquierda
+        PointF(50f, 48f),   // 9. Fila 4 - Centro
+        PointF(80f, 46f),   // 10. Fila 4 - Derecha
+        PointF(32f, 55f),   // 11. Fila 5 - Izquierda
+        PointF(68f, 55f),   // 12. Fila 5 - Derecha
+        PointF(50f, 60f),   // 13. Fila 6 - Centro Bajo
+        PointF(50f, 93f)    // 14. Óvalo Raíces (Césped)
     )
 
     /** Mapa que rastrea qué View ocupa cada slot (null = libre). */
