@@ -14,11 +14,11 @@
     <dimen name="boton_altura">72dp</dimen>
     <dimen name="boton_padding_horizontal">32dp</dimen>
 
-    <!-- Tamaños de ImageButton -->
-    <dimen name="imagen_boton_pequeno">40dp</dimen>
-    <dimen name="imagen_boton_mediano">48dp</dimen>
-    <dimen name="imagen_boton_grande">80dp</dimen>
-    <dimen name="imagen_boton_xlarge">120dp</dimen>
+    <!-- Tamaños de ImageButton (Tablets 10") -->
+    <dimen name="imagen_boton_pequeno">52dp</dimen>
+    <dimen name="imagen_boton_mediano">64dp</dimen>
+    <dimen name="imagen_boton_grande">112dp</dimen>
+    <dimen name="imagen_boton_xlarge">180dp</dimen>
 
     <!-- Tamaños de FAB -->
     <dimen name="fab_mini_ancho">48dp</dimen>
@@ -41,21 +41,21 @@
     <dimen name="texto_caption">14sp</dimen>
     <dimen name="texto_pequeno">12sp</dimen>
 
-    <!-- Contenedores multimedia -->
-    <dimen name="media_container_width">360dp</dimen>
-    <dimen name="media_container_height">450dp</dimen>
+    <!-- Contenedores multimedia (Tablets 10") -->
+    <dimen name="media_container_width">540dp</dimen>
+    <dimen name="media_container_height">675dp</dimen>
     <dimen name="time_display_min_width">80dp</dimen>
 
-    <!-- Video container (ratio 16:9) -->
-    <dimen name="video_width">320dp</dimen>
-    <dimen name="video_height">180dp</dimen>
-    <dimen name="video_top_margin">130dp</dimen>
+    <!-- Video container (Tablets 10", ratio 16:9) -->
+    <dimen name="video_width">640dp</dimen>
+    <dimen name="video_height">360dp</dimen>
+    <dimen name="video_top_margin">170dp</dimen>
 
-    <!-- Ancho máximo de contenido de texto -->
-    <dimen name="text_content_max_width">400dp</dimen>
+    <!-- Ancho máximo de contenido de texto (Tablets 10") -->
+    <dimen name="text_content_max_width">720dp</dimen>
 
-    <!-- Plaza: Puestos del mercado -->
-    <dimen name="plaza_puesto_height">75dp</dimen>
-    <dimen name="plaza_puesto_icon_size">35dp</dimen>
-    <dimen name="plaza_producto_size">70dp</dimen>
+    <!-- Plaza: Puestos del mercado (Tablets 10") -->
+    <dimen name="plaza_puesto_height">120dp</dimen>
+    <dimen name="plaza_puesto_icon_size">64dp</dimen>
+    <dimen name="plaza_producto_size">110dp</dimen>
 </resources>

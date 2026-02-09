@@ -20,10 +20,8 @@
 
     <FrameLayout
         android:id="@+id/videoContainer"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/espaciado_base"
-        android:layout_marginEnd="@dimen/espaciado_base"
+        android:layout_width="@dimen/video_width"
+        android:layout_height="@dimen/video_height"
         android:layout_marginTop="@dimen/espaciado_base"
         android:background="@drawable/bg_video_container"
         android:clipToOutline="true"
@@ -47,10 +45,8 @@
 
     <LinearLayout
         android:id="@+id/videoControls"
-        android:layout_width="0dp"
+        android:layout_width="@dimen/video_width"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/espaciado_base"
-        android:layout_marginEnd="@dimen/espaciado_base"
         android:background="@drawable/bg_video_controls"
         android:gravity="center_vertical"
         android:orientation="horizontal"
@@ -92,16 +88,17 @@
         android:id="@+id/textView"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/espaciado_base"
+        android:layout_marginStart="@dimen/espaciado_xl"
         android:layout_marginTop="@dimen/espaciado_base"
-        android:layout_marginEnd="@dimen/espaciado_base"
+        android:layout_marginEnd="@dimen/espaciado_xl"
         android:text="@string/plaza_txt_video"
         android:textAppearance="@style/AparienciaTexto.App.Cuerpo.Defecto"
         android:lineSpacingExtra="@dimen/espaciado_xs"
         android:justificationMode="inter_word"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/videoControls" />
+        app:layout_constraintTop_toBottomOf="@+id/videoControls"
+        app:layout_constraintWidth_max="@dimen/text_content_max_width" />
 
     <Button
         android:id="@+id/btnBack"
