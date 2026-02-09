@@ -11,6 +11,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.cardview.widget.CardView
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
 import es.didaktikapp.gernikapp.BaseMenuActivity
 import es.didaktikapp.gernikapp.LogManager
@@ -302,7 +303,7 @@ class MyMessageActivity : BaseMenuActivity() {
             )
             text = "\"$message\""
             textSize = 14f
-            setTextColor(Color.parseColor("#1976D2"))
+            setTextColor(ContextCompat.getColor(this@MyMessageActivity, R.color.btnSecundario))
             setPadding(dpToPx(24), dpToPx(16), dpToPx(24), dpToPx(16))
             gravity = Gravity.START
         }
@@ -323,7 +324,7 @@ class MyMessageActivity : BaseMenuActivity() {
             )
             text = getString(R.string.my_message_empty_state)
             textSize = 16f
-            setTextColor(Color.parseColor("#90A4AE"))
+            setTextColor(ContextCompat.getColor(this@MyMessageActivity, R.color.grayLight))
             gravity = Gravity.CENTER
             setPadding(dpToPx(24), dpToPx(48), dpToPx(24), dpToPx(48))
         }

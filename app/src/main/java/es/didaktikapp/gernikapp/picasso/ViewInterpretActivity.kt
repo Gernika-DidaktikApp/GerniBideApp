@@ -7,6 +7,7 @@ import android.util.Log
 import android.view.View
 import android.widget.Button
 import androidx.appcompat.app.AlertDialog
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
 import es.didaktikapp.gernikapp.BaseMenuActivity
 import es.didaktikapp.gernikapp.LogManager
@@ -355,7 +356,7 @@ class ViewInterpretActivity : BaseMenuActivity() {
         options.forEach { button ->
             button.isEnabled = true
             button.setBackgroundResource(R.drawable.bg_opcion_normal)
-            button.setTextColor(Color.parseColor("#39455F")) // txtPrincipal
+            button.setTextColor(ContextCompat.getColor(this, R.color.txtPrincipal))
         }
     }
 
@@ -384,16 +385,16 @@ class ViewInterpretActivity : BaseMenuActivity() {
         if (selectedIndex == question.correctAnswerIndex) {
             // Respuesta correcta
             selectedButton.setBackgroundResource(R.drawable.bg_opcion_correcta)
-            selectedButton.setTextColor(Color.parseColor("#2E7D32"))
+            selectedButton.setTextColor(ContextCompat.getColor(this, R.color.greenSuccess))
             correctAnswers++
         } else {
             // Respuesta incorrecta
             selectedButton.setBackgroundResource(R.drawable.bg_opcion_incorrecta)
-            selectedButton.setTextColor(Color.parseColor("#D84315"))
+            selectedButton.setTextColor(ContextCompat.getColor(this, R.color.categoryBombardeos))
 
             // Mostrar la respuesta correcta
             options[question.correctAnswerIndex].setBackgroundResource(R.drawable.bg_opcion_correcta)
-            options[question.correctAnswerIndex].setTextColor(Color.parseColor("#2E7D32"))
+            options[question.correctAnswerIndex].setTextColor(ContextCompat.getColor(this, R.color.greenSuccess))
         }
 
         // Mostrar botón siguiente

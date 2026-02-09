@@ -36,6 +36,12 @@
     <string name="error_de_conexion">Konexio errorea</string>
     <string name="registro_exitoso">¡Erabiltzailea erregistratuta!</string>
 
+    <!-- Errores de registro -->
+    <string name="error_usuario_existe">Erabiltzaile izena dagoeneko existitzen da</string>
+    <string name="error_credenciales_invalidas">Kredentzial baliogabeak</string>
+    <string name="error_datos_invalidos">Datu baliogabeak</string>
+    <string name="error_servidor">Zerbitzariaren errorea (%d)</string>
+
     <!-- Plaza Gernika Module -->
     <!-- Pantalla de Video -->
     <string name="plaza_titulo">Gernikako Plaza nagusia</string>
@@ -445,6 +451,15 @@
 
     <string name="cifp_ciudad_jardin">CIFP Ciudad Jardín LHII</string>
     <string name="ehu">Euskal Herriko Unibertsitatea (UPV/EHU)</string>
+
+    <string name="gernikako_arbola">Gernikako Arbola</string>
+    <string name="_1_audio_quiz">1. Audio Quiz</string>
+    <string name="_2_puzzle">2. Puzzle</string>
+    <string name="_3_nire_arbola">3. Nire Arbola</string>
+    <string name="bunkerrak">Bunkerrak</string>
+    <string name="_1_soinu_jokoa">1. Soinu Jokoa</string>
+    <string name="_2_bake_murala">2. Bake Murala</string>
+    <string name="_3_hausnarketa">3. Hausnarketa</string>
 
 
 </resources>

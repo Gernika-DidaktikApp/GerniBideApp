@@ -25,7 +25,6 @@ import es.didaktikapp.gernikapp.utils.ZoneConfig
  * - Requiere SharedPreferences "picasso_progress" para el estado de actividades completadas
  * - Hereda de BaseMenuActivity para incluir el menú flotante FAB
  *
- *
  * @author Wara Pacheco
  * @version 1.0
  */

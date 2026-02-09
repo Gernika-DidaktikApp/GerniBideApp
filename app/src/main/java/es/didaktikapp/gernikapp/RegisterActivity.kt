@@ -136,10 +136,10 @@ class RegisterActivity : AppCompatActivity() {
 
                         } else {
                             val errorMsg = when (response.code()) {
-                                400 -> "Nombre de usuario ya existe"
-                                401 -> "Credenciales inválidas"
-                                422 -> "Datos inválidos"
-                                else -> "Error del servidor (${response.code()})"
+                                400 -> getString(R.string.error_usuario_existe)
+                                401 -> getString(R.string.error_credenciales_invalidas)
+                                422 -> getString(R.string.error_datos_invalidos)
+                                else -> getString(R.string.error_servidor, response.code())
                             }
                             LogManager.write(this@RegisterActivity, "Error en registro: $errorMsg")
 
