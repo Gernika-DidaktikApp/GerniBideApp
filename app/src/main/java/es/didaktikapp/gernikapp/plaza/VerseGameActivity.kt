@@ -34,8 +34,6 @@ import kotlinx.coroutines.launch
 class VerseGameActivity : BaseMenuActivity() {
 
     private lateinit var tvVersoInicial: TextView
-    private lateinit var tvProgreso: TextView
-    private lateinit var tvAciertos: TextView
     private lateinit var radioGroup: RadioGroup
     private lateinit var rbOpcion1: RadioButton
     private lateinit var rbOpcion2: RadioButton
@@ -67,8 +65,6 @@ class VerseGameActivity : BaseMenuActivity() {
 
     private fun inicializarVistas() {
         tvVersoInicial = findViewById(R.id.tvVersoInicial)
-        tvProgreso = findViewById(R.id.tvProgreso)
-        tvAciertos = findViewById(R.id.tvAciertos)
         radioGroup = findViewById(R.id.radioGroupOpciones)
         rbOpcion1 = findViewById(R.id.rbOpcion1)
         rbOpcion2 = findViewById(R.id.rbOpcion2)
@@ -96,30 +92,6 @@ class VerseGameActivity : BaseMenuActivity() {
                 0
             )
         )
-        preguntas.add(
-            VerseQuestion(
-                2,
-                "Produktu ederrak\nbaserritik ekarrita...",
-                listOf(
-                    "dendan erosten ditut",
-                    "plazara saltzen dira",
-                    "etxean gordetzen dira"
-                ),
-                1
-            )
-        )
-        preguntas.add(
-            VerseQuestion(
-                3,
-                "Gazta eta piperrak\neztia eta ogia...",
-                listOf(
-                    "kalean aurkitzen dira",
-                    "merkatuan ikusten dira",
-                    "mendian hazten dira"
-                ),
-                1
-            )
-        )
     }
 
     private fun mostrarPregunta() {
@@ -129,7 +101,6 @@ class VerseGameActivity : BaseMenuActivity() {
             rbOpcion1.text = pregunta.opciones[0]
             rbOpcion2.text = pregunta.opciones[1]
             rbOpcion3.text = pregunta.opciones[2]
-            tvProgreso.text = getString(R.string.verse_game_progress, preguntaActual + 1, preguntas.size)
 
             radioGroup.clearCheck()
             habilitarOpciones(true)
@@ -167,7 +138,6 @@ class VerseGameActivity : BaseMenuActivity() {
         if (selectedIndex == pregunta.respuestaCorrecta) {
             LogManager.write(this@VerseGameActivity, "Respuesta correcta")
             aciertos++
-            tvAciertos.text = getString(R.string.verse_game_aciertos, aciertos, preguntas.size)
             mostrarFeedbackCorrecto(selectedId)
         } else {
             LogManager.write(this@VerseGameActivity, "Respuesta incorrecta")
@@ -229,7 +199,6 @@ class VerseGameActivity : BaseMenuActivity() {
 
     private fun mostrarResultadoFinal() {
         LogManager.write( this@VerseGameActivity, "Juego completado con $aciertos aciertos de ${preguntas.size}" )
-        tvAciertos.text = getString(R.string.verse_game_aciertos, aciertos, preguntas.size)
         btnBack.isEnabled = true
         completarActividad()
 

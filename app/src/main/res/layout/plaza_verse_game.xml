@@ -18,17 +18,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/tvProgreso"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/espaciado_xxxl"
-        android:text="@string/_1_3"
-        android:textAppearance="@style/AparienciaTexto.App.Etiqueta.Defecto"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tvTitulo" />
-
     <androidx.cardview.widget.CardView
         android:id="@+id/cardVerso"
         android:layout_width="wrap_content"
@@ -36,7 +25,7 @@
         android:layout_marginTop="@dimen/espaciado_xl"
         app:cardCornerRadius="@dimen/radio_esquina_md"
         app:cardElevation="@dimen/espaciado_md"
-        app:layout_constraintTop_toBottomOf="@id/tvProgreso"
+        app:layout_constraintTop_toBottomOf="@id/tvTitulo"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
 
@@ -104,17 +93,6 @@
         android:text="@string/comprobar"
         android:layout_marginTop="@dimen/espaciado_xl"
         app:layout_constraintTop_toBottomOf="@id/radioGroupOpciones"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
-
-    <TextView
-        android:id="@+id/tvAciertos"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/aciertos"
-        android:textAppearance="@style/AparienciaTexto.App.Encabezado.Defecto"
-        android:layout_marginTop="@dimen/espaciado_base"
-        app:layout_constraintTop_toBottomOf="@id/btnComprobar"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
