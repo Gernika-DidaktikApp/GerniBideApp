@@ -12,6 +12,16 @@ import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 import java.util.concurrent.TimeUnit
 
+/**
+ * Cliente Retrofit singleton que gestiona la configuración de red de la aplicación.
+ * Configura OkHttp con interceptores de autenticación y logging,
+ * y provee la instancia de [ApiService] para realizar peticiones a la API.
+ *
+ * @author Wara Pacheco
+ * @version 1.0
+ * @see ApiService
+ * @see AuthInterceptor
+ */
 object RetrofitClient {
 
     private var retrofit: Retrofit? = null

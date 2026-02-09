@@ -28,7 +28,12 @@ import androidx.core.content.edit
 import es.didaktikapp.gernikapp.LogManager
 
 /**
- * Activity de reproducción del video informativo sobre la plaza de Gernika.
+ * Actividad de reproducción del vídeo informativo sobre la plaza de Gernika.
+ * Incluye controles personalizados de reproducción (play/pause, barra de progreso)
+ * y registra el progreso del usuario en la API al completar la visualización.
+ *
+ * @author Arantxa Main
+ * @version 1.0
  */
 class VideoActivity : BaseMenuActivity() {
 

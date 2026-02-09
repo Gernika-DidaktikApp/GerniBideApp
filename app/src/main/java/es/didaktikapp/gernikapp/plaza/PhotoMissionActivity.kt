@@ -37,7 +37,14 @@ import kotlinx.coroutines.launch
 import androidx.core.content.edit
 
 /**
- * Activity de la misión fotográfica donde los usuarios toman fotos y las etiquetan.
+ * Actividad de la misión fotográfica donde los usuarios toman fotos y las etiquetan.
+ * Permite capturar imágenes con la cámara, asignarles una etiqueta descriptiva
+ * y subirlas a Cloudinary, mostrando una galería con las fotos tomadas.
+ *
+ * @author Arantxa Main
+ * @version 1.0
+ * @see PhotoMissionAdapter
+ * @see CloudinaryRepository
  */
 class PhotoMissionActivity : BaseMenuActivity() {
 

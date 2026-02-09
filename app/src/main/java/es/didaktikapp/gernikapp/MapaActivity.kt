@@ -24,41 +24,41 @@ import es.didaktikapp.gernikapp.picasso.MainActivity as PicassoMainActivity
 import es.didaktikapp.gernikapp.plaza.MainActivity as PlazaMainActivity
 
 /**
+ * Pantalla principal del mapa interactivo de Gernika.
+ * Muestra los puntos de interés del recorrido mediante marcadores de Google Maps
+ * y permite al usuario seleccionar una zona para acceder a sus actividades.
  *
- *
- * @author
- * @version
+ * @author Wara Pacheco, Arantxa Main, Erlantz
+ * @version 1.0
+ * @see OnMapReadyCallback
  */
 class MapaActivity : BaseMenuActivity(), OnMapReadyCallback {
 
-    /**  */
+    /** Binding de la vista del mapa. */
     private lateinit var binding: ActivityMapaBinding
 
-    /**  */
+    /** Instancia del mapa de Google. */
     private lateinit var nMap: GoogleMap
 
-    /**  */
+    /** Comportamiento del BottomSheet con información de la zona seleccionada. */
     private lateinit var bottomSheetBehavior: BottomSheetBehavior<*>
 
-    /**  */
+    /** Icono de la zona mostrado en el BottomSheet. */
     private lateinit var ivBottomSheetIcon: ImageView
 
-    /**  */
+    /** Título de la zona mostrado en el BottomSheet. */
     private lateinit var tvBottomSheetTitle: TextView
 
-    /**  */
+    /** Descripción de la zona mostrada en el BottomSheet. */
     private lateinit var tvBottomSheetDescription: TextView
 
-    /**  */
+    /** Botón para navegar a la actividad de la zona seleccionada. */
     private lateinit var btnGoToActivity: Button
 
-    /**  */
+    /** Nombre de la ubicación seleccionada actualmente en el mapa. */
     private var selectedLocation: String? = null
 
-    /**
-     *
-     *
-     */
+    /** Inicializa las vistas, el mapa y el BottomSheet. */
     override fun onContentInflated() {
         binding = ActivityMapaBinding.inflate(layoutInflater, contentContainer, true)
 
@@ -92,9 +92,10 @@ class MapaActivity : BaseMenuActivity(), OnMapReadyCallback {
     }
 
     /**
+     * Callback cuando el mapa de Google está listo.
+     * Configura la cámara, los marcadores de cada zona y los listeners de interacción.
      *
-     *
-     * @param googleMap
+     * @param googleMap Instancia del mapa de Google ya inicializada.
      */
     override fun onMapReady(googleMap: GoogleMap) {
         nMap = googleMap
@@ -167,10 +168,10 @@ class MapaActivity : BaseMenuActivity(), OnMapReadyCallback {
     private var selectedTag: String? = null
 
     /**
+     * Actualiza el contenido del BottomSheet con la información de la zona seleccionada.
      *
-     *
-     * @param titulo
-     * @param tag
+     * @param titulo Nombre de la zona seleccionada.
+     * @param tag Identificador interno del marcador.
      */
     private fun actualizarBottomSheet(titulo: String, tag: String?) {
         tvBottomSheetTitle.text = titulo
@@ -213,8 +214,7 @@ class MapaActivity : BaseMenuActivity(), OnMapReadyCallback {
     }
 
     /**
-     *
-     *
+     * Restablece el BottomSheet a su estado inicial sin ninguna zona seleccionada.
      */
     private fun resetBottomSheet() {
         tvBottomSheetTitle.text = getString(R.string.map_bottom_sheet_default_title)
@@ -227,11 +227,11 @@ class MapaActivity : BaseMenuActivity(), OnMapReadyCallback {
     }
 
     /**
+     * Gestiona la respuesta del usuario a la solicitud de permisos de ubicación.
      *
-     *
-     * @param requestCode
-     * @param permissions
-     * @param grantResults
+     * @param requestCode Código de la solicitud de permiso.
+     * @param permissions Permisos solicitados.
+     * @param grantResults Resultados de la solicitud.
      */
     override fun onRequestPermissionsResult(
         requestCode: Int,

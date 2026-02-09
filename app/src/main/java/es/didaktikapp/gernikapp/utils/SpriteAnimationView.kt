@@ -12,6 +12,17 @@ import android.util.AttributeSet
 import android.view.View
 import es.didaktikapp.gernikapp.R
 
+/**
+ * Vista personalizada que reproduce una animación a partir de una hoja de sprites (sprite sheet).
+ * Recorre los fotogramas de la imagen en secuencia para crear la ilusión de movimiento
+ * de la mascota de la aplicación.
+ *
+ * @author Arantxa Main
+ * @version 1.0
+ * @param context Contexto de la aplicación.
+ * @param attrs Atributos XML opcionales.
+ * @param defStyleAttr Estilo por defecto opcional.
+ */
 class SpriteAnimationView @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,

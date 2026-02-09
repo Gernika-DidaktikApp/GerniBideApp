@@ -13,26 +13,26 @@ import es.didaktikapp.gernikapp.utils.Resource
 import kotlinx.coroutines.launch
 
 /**
- * Activity para la edición de datos de usuario.
+ * Pantalla de edición de datos del usuario.
+ * Permite modificar nombre, apellido, clase y otros datos del perfil,
+ * validando la entrada y enviando los cambios a la API.
  *
- * @author
- * @version
+ * @author Wara Pacheco
+ * @version 1.0
+ * @see UserRepository
  */
 class UserEditActivity : BaseMenuActivity() {
 
-    /**  */
+    /** Binding de la vista de edición de usuario. */
     private lateinit var binding: ActivityUserEditBinding
 
-    /**  */
+    /** Gestor de tokens de autenticación. */
     private lateinit var tokenManager: TokenManager
 
-    /**  */
+    /** Repositorio para operaciones de usuario contra la API. */
     private lateinit var userRepository: UserRepository
 
-    /**
-     *
-     *
-     */
+    /** Inicializa las vistas, filtros de entrada y carga los datos del usuario. */
     override fun onContentInflated() {
         binding = ActivityUserEditBinding.inflate(layoutInflater, contentContainer, true)
 

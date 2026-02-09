@@ -23,7 +23,13 @@ import es.didaktikapp.gernikapp.utils.ZoneConfig
 import kotlinx.coroutines.launch
 
 /**
- * Activity del juego de completar versos tradicionales.
+ * Actividad del juego de completar versos tradicionales vascos (bertsoak).
+ * Presenta versos con opciones de respuesta múltiple y el usuario debe
+ * seleccionar la continuación correcta de cada verso.
+ *
+ * @author Arantxa Main
+ * @version 1.0
+ * @see VerseQuestion
  */
 class VerseGameActivity : BaseMenuActivity() {
 

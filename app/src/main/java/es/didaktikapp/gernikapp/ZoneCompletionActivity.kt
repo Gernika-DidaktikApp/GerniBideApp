@@ -10,6 +10,16 @@ import es.didaktikapp.gernikapp.utils.SpriteAnimationView
 import es.didaktikapp.gernikapp.utils.ZoneConfig
 import es.didaktikapp.gernikapp.utils.ZoneInfo
 
+/**
+ * Pantalla de resumen al completar una zona del recorrido.
+ * Muestra las puntuaciones obtenidas en cada actividad de la zona,
+ * la puntuación total y un mensaje según el rendimiento del usuario.
+ *
+ * @author Arantxa Main
+ * @version 1.0
+ * @see ZoneConfig
+ * @see ZoneInfo
+ */
 class ZoneCompletionActivity : BaseMenuActivity() {
 
     override fun getContentLayoutId() = R.layout.activity_zone_completion

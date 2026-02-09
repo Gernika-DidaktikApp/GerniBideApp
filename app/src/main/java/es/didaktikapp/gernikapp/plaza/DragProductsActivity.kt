@@ -30,7 +30,14 @@ import kotlinx.coroutines.launch
 import androidx.core.content.edit
 
 /**
- * Activity del juego de arrastrar productos a sus puestos correspondientes en el mercado.
+ * Actividad del juego de arrastrar productos a sus puestos correspondientes en el mercado.
+ * El usuario debe clasificar los productos arrastrándolos a la categoría correcta,
+ * obteniendo puntuación según los aciertos.
+ *
+ * @author Arantxa Main
+ * @version 1.0
+ * @see Product
+ * @see ProductCategory
  */
 class DragProductsActivity : BaseMenuActivity() {
 

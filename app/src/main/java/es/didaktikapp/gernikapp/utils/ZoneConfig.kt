@@ -1,17 +1,45 @@
 package es.didaktikapp.gernikapp.utils
 
+/**
+ * Configuración de una actividad dentro de una zona del recorrido.
+ * Contiene las claves de SharedPreferences para el estado de completado y la puntuación.
+ *
+ * @author Arantxa Main
+ * @version 1.0
+ * @property completedKey Clave de SharedPreferences que indica si la actividad fue completada.
+ * @property scoreKey Clave de SharedPreferences que almacena la puntuación obtenida.
+ * @property displayName Nombre visible de la actividad en la pantalla de resumen.
+ */
 data class ActivityConfig(
     val completedKey: String,
     val scoreKey: String,
     val displayName: String
 )
 
+/**
+ * Información de una zona del recorrido, incluyendo su nombre y la lista de actividades que contiene.
+ *
+ * @author Arantxa Main
+ * @version 1.0
+ * @property prefsName Nombre del archivo de SharedPreferences de la zona.
+ * @property zoneName Nombre visible de la zona.
+ * @property activities Lista de actividades que componen la zona.
+ */
 data class ZoneInfo(
     val prefsName: String,
     val zoneName: String,
     val activities: List<ActivityConfig>
 )
 
+/**
+ * Objeto de configuración central que define todas las zonas del recorrido
+ * (Árbol, Búnkers, Picasso, Plaza y Frontón) y sus actividades asociadas.
+ *
+ * @author Arantxa Main
+ * @version 1.0
+ * @see ActivityConfig
+ * @see ZoneInfo
+ */
 object ZoneConfig {
 
     val ARBOL = ZoneInfo(

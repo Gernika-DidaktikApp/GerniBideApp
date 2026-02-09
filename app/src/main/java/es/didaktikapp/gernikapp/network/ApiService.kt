@@ -23,7 +23,11 @@ import retrofit2.http.Path
 
 /**
  * Interface de Retrofit para los endpoints de la API.
- * Cada método corresponde a un endpoint definido en ApiConfig.
+ * Cada método corresponde a un endpoint definido en [ApiConfig].
+ *
+ * @author Wara Pacheco
+ * @version 1.0
+ * @see ApiConfig
  */
 interface ApiService {
 
