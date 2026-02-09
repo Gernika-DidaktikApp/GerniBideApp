@@ -61,6 +61,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/_0_00_0_00"
                 android:textAppearance="@style/AparienciaTexto.App.Caption"
+                android:textColor="@color/white"
                 android:textStyle="bold"
                 android:minWidth="70dp"
                 android:gravity="end" />
