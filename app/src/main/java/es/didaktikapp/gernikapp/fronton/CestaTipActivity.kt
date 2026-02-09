@@ -17,8 +17,10 @@ import es.didaktikapp.gernikapp.BaseMenuActivity
 import es.didaktikapp.gernikapp.R
 import es.didaktikapp.gernikapp.data.local.TokenManager
 import es.didaktikapp.gernikapp.data.repository.GameRepository
+import es.didaktikapp.gernikapp.ZoneCompletionActivity
 import es.didaktikapp.gernikapp.utils.Constants.Puntos
 import es.didaktikapp.gernikapp.utils.Resource
+import es.didaktikapp.gernikapp.utils.ZoneConfig
 import kotlinx.coroutines.launch
 import java.util.Locale
 
@@ -121,7 +123,11 @@ class CestaTipActivity : BaseMenuActivity() {
                 }
 
                 btnBack.isEnabled = true
-                prefs.edit().putBoolean("cesta_tip_completed", true).apply()
+                prefs.edit()
+                    .putBoolean("cesta_tip_completed", true)
+                    .putFloat("cesta_tip_score", 100f)
+                    .apply()
+                ZoneCompletionActivity.launchIfComplete(this@CestaTipActivity, ZoneConfig.FRONTON)
                 completarActividad()
 
             } else {

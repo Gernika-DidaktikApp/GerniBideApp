@@ -18,8 +18,10 @@ import es.didaktikapp.gernikapp.data.repository.GameRepository
 import es.didaktikapp.gernikapp.databinding.PicassoColorPeaceBinding
 import es.didaktikapp.gernikapp.utils.BitmapUtils
 import es.didaktikapp.gernikapp.utils.Constants
+import es.didaktikapp.gernikapp.ZoneCompletionActivity
 import es.didaktikapp.gernikapp.utils.Constants.Puntos
 import es.didaktikapp.gernikapp.utils.Resource
+import es.didaktikapp.gernikapp.utils.ZoneConfig
 import kotlinx.coroutines.launch
 import java.io.File
 
@@ -320,6 +322,12 @@ class ColorPeaceActivity : BaseMenuActivity() {
         val saved = binding.paintCanvas.saveToInternalStorage(this)
 
         if (saved) {
+            val prefs = getSharedPreferences("picasso_progress", MODE_PRIVATE)
+            prefs.edit()
+                .putBoolean("color_peace_completed", true)
+                .putFloat("color_peace_score", 100f)
+                .apply()
+            ZoneCompletionActivity.launchIfComplete(this, ZoneConfig.PICASSO)
             completarActividad()
             showCompletionDialog()
         } else {

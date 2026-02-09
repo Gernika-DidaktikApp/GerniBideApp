@@ -13,8 +13,10 @@ import es.didaktikapp.gernikapp.R
 import es.didaktikapp.gernikapp.data.local.TokenManager
 import es.didaktikapp.gernikapp.data.repository.GameRepository
 import es.didaktikapp.gernikapp.databinding.PicassoViewInterpretBinding
+import es.didaktikapp.gernikapp.ZoneCompletionActivity
 import es.didaktikapp.gernikapp.utils.Constants.Puntos
 import es.didaktikapp.gernikapp.utils.Resource
+import es.didaktikapp.gernikapp.utils.ZoneConfig
 import kotlinx.coroutines.launch
 
 /**
@@ -444,8 +446,13 @@ class ViewInterpretActivity : BaseMenuActivity() {
 
         // Mostrar botón y guardar progreso de actividad completada
         binding.btnBack.visibility = View.VISIBLE
+        val score = correctAnswers * 100f
         val progressPrefs = getSharedPreferences("picasso_progress", MODE_PRIVATE)
-        progressPrefs.edit().putBoolean("view_interpret_completed", true).apply()
+        progressPrefs.edit()
+            .putBoolean("view_interpret_completed", true)
+            .putFloat("view_interpret_score", score)
+            .apply()
+        ZoneCompletionActivity.launchIfComplete(this, ZoneConfig.PICASSO)
 
         completarActividad()
 

@@ -16,8 +16,10 @@ import es.didaktikapp.gernikapp.R
 import es.didaktikapp.gernikapp.data.local.TokenManager
 import es.didaktikapp.gernikapp.data.repository.GameRepository
 import es.didaktikapp.gernikapp.plaza.models.VerseQuestion
+import es.didaktikapp.gernikapp.ZoneCompletionActivity
 import es.didaktikapp.gernikapp.utils.Constants.Puntos
 import es.didaktikapp.gernikapp.utils.Resource
+import es.didaktikapp.gernikapp.utils.ZoneConfig
 import kotlinx.coroutines.launch
 
 /**
@@ -216,8 +218,13 @@ class VerseGameActivity : BaseMenuActivity() {
         completarActividad()
 
         // Save progress
+        val score = aciertos * 100f
         val prefs = getSharedPreferences("plaza_progress", Context.MODE_PRIVATE)
-        prefs.edit { putBoolean("verse_game_completed", true) }
+        prefs.edit {
+            putBoolean("verse_game_completed", true)
+            putFloat("verse_game_score", score)
+        }
+        ZoneCompletionActivity.launchIfComplete(this, ZoneConfig.PLAZA)
     }
 
     private fun iniciarActividad() {

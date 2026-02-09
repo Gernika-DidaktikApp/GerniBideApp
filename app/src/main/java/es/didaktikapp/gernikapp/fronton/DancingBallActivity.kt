@@ -19,8 +19,10 @@ import es.didaktikapp.gernikapp.R
 import es.didaktikapp.gernikapp.BaseMenuActivity
 import es.didaktikapp.gernikapp.data.local.TokenManager
 import es.didaktikapp.gernikapp.data.repository.GameRepository
+import es.didaktikapp.gernikapp.ZoneCompletionActivity
 import es.didaktikapp.gernikapp.utils.Constants.Puntos
 import es.didaktikapp.gernikapp.utils.Resource
+import es.didaktikapp.gernikapp.utils.ZoneConfig
 import androidx.activity.OnBackPressedCallback
 import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
@@ -229,8 +231,13 @@ class DancingBallActivity : BaseMenuActivity() {
         gameOverDialog.visibility = View.VISIBLE
 
         // Guardar progreso
+        val score = puntos * 100f
         val prefs = getSharedPreferences("fronton_progress", Context.MODE_PRIVATE)
-        prefs.edit().putBoolean("dancing_ball_completed", true).apply()
+        prefs.edit()
+            .putBoolean("dancing_ball_completed", true)
+            .putFloat("dancing_ball_score", score)
+            .apply()
+        ZoneCompletionActivity.launchIfComplete(this, ZoneConfig.FRONTON)
         completarActividad()
     }
 

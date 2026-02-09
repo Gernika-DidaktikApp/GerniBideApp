@@ -15,8 +15,10 @@ import es.didaktikapp.gernikapp.BaseMenuActivity
 import es.didaktikapp.gernikapp.R
 import es.didaktikapp.gernikapp.data.local.TokenManager
 import es.didaktikapp.gernikapp.data.repository.GameRepository
+import es.didaktikapp.gernikapp.ZoneCompletionActivity
 import es.didaktikapp.gernikapp.utils.Constants.Puntos
 import es.didaktikapp.gernikapp.utils.Resource
+import es.didaktikapp.gernikapp.utils.ZoneConfig
 import kotlinx.coroutines.launch
 import java.util.Locale
 
@@ -72,7 +74,11 @@ class InfoActivity : BaseMenuActivity() {
 
             // Habilitar botón y guardar progreso al completar el vídeo
             btnBack.isEnabled = true
-            prefs.edit().putBoolean("info_completed", true).apply()
+            prefs.edit()
+                .putBoolean("info_completed", true)
+                .putFloat("info_score", 100f)
+                .apply()
+            ZoneCompletionActivity.launchIfComplete(this@InfoActivity, ZoneConfig.FRONTON)
             completarActividad()
         }
 

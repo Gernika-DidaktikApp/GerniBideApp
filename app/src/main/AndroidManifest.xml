@@ -54,6 +54,9 @@
         <activity
             android:name=".AboutActivity"
             android:exported="false" />
+        <activity
+            android:name=".ZoneCompletionActivity"
+            android:exported="false" />
 
         <!-- Actividades del fronton -->
         <activity

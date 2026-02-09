@@ -11,8 +11,10 @@ import android.widget.TextView
 import androidx.lifecycle.lifecycleScope
 import es.didaktikapp.gernikapp.data.local.TokenManager
 import es.didaktikapp.gernikapp.data.repository.GameRepository
+import es.didaktikapp.gernikapp.ZoneCompletionActivity
 import es.didaktikapp.gernikapp.utils.Constants.Puntos
 import es.didaktikapp.gernikapp.utils.Resource
+import es.didaktikapp.gernikapp.utils.ZoneConfig
 import kotlinx.coroutines.launch
 
 /**
@@ -99,7 +101,11 @@ class ReflectionActivity : BaseMenuActivity() {
 
                 // Marcar como completada y habilitar botón
                 btnBack.isEnabled = true
-                prefs.edit().putBoolean("reflection_completed", true).apply()
+                prefs.edit()
+                    .putBoolean("reflection_completed", true)
+                    .putFloat("reflection_score", 100f)
+                    .apply()
+                ZoneCompletionActivity.launchIfComplete(this@ReflectionActivity, ZoneConfig.BUNKERS)
                 completarActividad()
 
                 /**

@@ -17,8 +17,10 @@ import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
 import es.didaktikapp.gernikapp.data.local.TokenManager
 import es.didaktikapp.gernikapp.data.repository.GameRepository
+import es.didaktikapp.gernikapp.ZoneCompletionActivity
 import es.didaktikapp.gernikapp.utils.Constants.Puntos
 import es.didaktikapp.gernikapp.utils.Resource
+import es.didaktikapp.gernikapp.utils.ZoneConfig
 import kotlinx.coroutines.launch
 
 /**
@@ -254,8 +256,13 @@ class AudioQuizActivity : BaseMenuActivity() {
             tvCongrats.visibility = View.VISIBLE
             btnVolver.isEnabled = true
 
+            val score = correctAnswers * 100f
             val prefs = getSharedPreferences("arbol_progress", Context.MODE_PRIVATE)
-            prefs.edit().putBoolean("audio_quiz_completed", true).apply()
+            prefs.edit()
+                .putBoolean("audio_quiz_completed", true)
+                .putFloat("audio_quiz_score", score)
+                .apply()
+            ZoneCompletionActivity.launchIfComplete(this, ZoneConfig.ARBOL)
 
             completarActividad()
         }

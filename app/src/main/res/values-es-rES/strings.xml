@@ -318,6 +318,14 @@
     <string name="version_app">v1.0.0</string>
     <string name="copyright">© 2026 DidaktikApp</string>
     <string name="itxi">Cerrar</string>
+
+    <!-- Zone Completion -->
+    <string name="zone_msg_excellent">¡Excelente!</string>
+    <string name="zone_msg_good">¡Buen trabajo!</string>
+    <string name="zone_msg_try_again">¡Buen intento!</string>
+    <string name="zone_total_score">Puntuación total</string>
+    <string name="zone_continue">Continuar</string>
+
     <string name="cifp_ciudad_jardin">CIFP Ciudad Jardín LHII</string>
     <string name="ehu">Universidad del País Vasco (UPV/EHU)</string>
 

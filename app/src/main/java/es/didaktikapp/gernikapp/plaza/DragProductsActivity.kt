@@ -22,8 +22,10 @@ import es.didaktikapp.gernikapp.data.local.TokenManager
 import es.didaktikapp.gernikapp.data.repository.GameRepository
 import es.didaktikapp.gernikapp.plaza.models.Product
 import es.didaktikapp.gernikapp.plaza.models.ProductCategory
+import es.didaktikapp.gernikapp.ZoneCompletionActivity
 import es.didaktikapp.gernikapp.utils.Constants.Puntos
 import es.didaktikapp.gernikapp.utils.Resource
+import es.didaktikapp.gernikapp.utils.ZoneConfig
 import kotlinx.coroutines.launch
 
 /**
@@ -311,7 +313,11 @@ class DragProductsActivity : BaseMenuActivity() {
                         btnBack.isEnabled = true
                         // Guardar progreso
                         val prefs = getSharedPreferences("plaza_progress", Context.MODE_PRIVATE)
-                        prefs.edit().putBoolean("drag_products_completed", true).apply()
+                        prefs.edit()
+                            .putBoolean("drag_products_completed", true)
+                            .putFloat("drag_products_score", 100f)
+                            .apply()
+                        ZoneCompletionActivity.launchIfComplete(this@DragProductsActivity, ZoneConfig.PLAZA)
                         completarActividad()
                         mostrarMensajeCompletado()
                     }

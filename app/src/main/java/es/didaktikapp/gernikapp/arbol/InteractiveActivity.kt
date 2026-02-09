@@ -21,10 +21,12 @@ import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
 import es.didaktikapp.gernikapp.BaseMenuActivity
 import es.didaktikapp.gernikapp.R
+import es.didaktikapp.gernikapp.ZoneCompletionActivity
 import es.didaktikapp.gernikapp.data.local.TokenManager
 import es.didaktikapp.gernikapp.data.repository.GameRepository
 import es.didaktikapp.gernikapp.utils.Constants.Puntos
 import es.didaktikapp.gernikapp.utils.Resource
+import es.didaktikapp.gernikapp.utils.ZoneConfig
 import kotlinx.coroutines.launch
 import kotlin.math.hypot
 
@@ -112,6 +114,12 @@ class InteractiveActivity : BaseMenuActivity() {
         }
 
         findViewById<View>(R.id.btnFinish).setOnClickListener {
+            val prefs = getSharedPreferences("arbol_progress", Context.MODE_PRIVATE)
+            prefs.edit()
+                .putBoolean("interactive_completed", true)
+                .putFloat("interactive_score", 100f)
+                .apply()
+            ZoneCompletionActivity.launchIfComplete(this, ZoneConfig.ARBOL)
             completarActividad()
             finish()
         }

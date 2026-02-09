@@ -18,8 +18,10 @@ import es.didaktikapp.gernikapp.BaseMenuActivity
 import es.didaktikapp.gernikapp.R
 import es.didaktikapp.gernikapp.data.local.TokenManager
 import es.didaktikapp.gernikapp.data.repository.GameRepository
+import es.didaktikapp.gernikapp.ZoneCompletionActivity
 import es.didaktikapp.gernikapp.utils.Constants.Puntos
 import es.didaktikapp.gernikapp.utils.Resource
+import es.didaktikapp.gernikapp.utils.ZoneConfig
 import kotlinx.coroutines.launch
 
 /**
@@ -97,7 +99,11 @@ class ValuesGroupActivity : BaseMenuActivity() {
         btnFinalizar.setOnClickListener {
             mensajeFinal.visibility = View.VISIBLE
             btnBack.isEnabled = true
-            prefs.edit().putBoolean("values_group_completed", true).apply()
+            prefs.edit()
+                .putBoolean("values_group_completed", true)
+                .putFloat("values_group_score", 100f)
+                .apply()
+            ZoneCompletionActivity.launchIfComplete(this@ValuesGroupActivity, ZoneConfig.FRONTON)
             completarActividad()
         }
     }

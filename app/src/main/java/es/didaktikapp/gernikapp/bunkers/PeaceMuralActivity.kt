@@ -16,8 +16,10 @@ import android.widget.TextView
 import androidx.lifecycle.lifecycleScope
 import es.didaktikapp.gernikapp.data.local.TokenManager
 import es.didaktikapp.gernikapp.data.repository.GameRepository
+import es.didaktikapp.gernikapp.ZoneCompletionActivity
 import es.didaktikapp.gernikapp.utils.Constants.Puntos
 import es.didaktikapp.gernikapp.utils.Resource
+import es.didaktikapp.gernikapp.utils.ZoneConfig
 import kotlinx.coroutines.launch
 import kotlin.random.Random
 
@@ -175,7 +177,11 @@ class PeaceMuralActivity : BaseMenuActivity() {
 
                 // Marcar como completada
                 btnBack.isEnabled = true
-                progressPrefs.edit().putBoolean("peace_mural_completed", true).apply()
+                progressPrefs.edit()
+                    .putBoolean("peace_mural_completed", true)
+                    .putFloat("peace_mural_score", 100f)
+                    .apply()
+                ZoneCompletionActivity.launchIfComplete(this, ZoneConfig.BUNKERS)
                 completarActividad()
             }
         }

@@ -18,8 +18,10 @@ import es.didaktikapp.gernikapp.data.local.TokenManager
 import es.didaktikapp.gernikapp.data.repository.GameRepository
 import es.didaktikapp.gernikapp.databinding.PicassoMyMessageBinding
 import es.didaktikapp.gernikapp.utils.Constants
+import es.didaktikapp.gernikapp.ZoneCompletionActivity
 import es.didaktikapp.gernikapp.utils.Constants.Puntos
 import es.didaktikapp.gernikapp.utils.Resource
+import es.didaktikapp.gernikapp.utils.ZoneConfig
 import kotlinx.coroutines.launch
 import java.io.File
 
@@ -185,7 +187,11 @@ class MyMessageActivity : BaseMenuActivity() {
         // Habilitar botón y guardar progreso
         binding.btnBack.isEnabled = true
         val progressPrefs = getSharedPreferences(PROGRESS_PREFS, MODE_PRIVATE)
-        progressPrefs.edit().putBoolean(KEY_MY_MESSAGE_COMPLETED, true).apply()
+        progressPrefs.edit()
+            .putBoolean(KEY_MY_MESSAGE_COMPLETED, true)
+            .putFloat("my_message_score", 100f)
+            .apply()
+        ZoneCompletionActivity.launchIfComplete(this, ZoneConfig.PICASSO)
         completarActividad()
 
         // Limpiar input

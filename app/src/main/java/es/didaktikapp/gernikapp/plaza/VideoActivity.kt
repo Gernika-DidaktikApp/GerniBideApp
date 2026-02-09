@@ -18,8 +18,10 @@ import es.didaktikapp.gernikapp.BaseMenuActivity
 import es.didaktikapp.gernikapp.R
 import es.didaktikapp.gernikapp.data.local.TokenManager
 import es.didaktikapp.gernikapp.data.repository.GameRepository
+import es.didaktikapp.gernikapp.ZoneCompletionActivity
 import es.didaktikapp.gernikapp.utils.Constants.Puntos
 import es.didaktikapp.gernikapp.utils.Resource
+import es.didaktikapp.gernikapp.utils.ZoneConfig
 import kotlinx.coroutines.launch
 import java.util.Locale
 import androidx.core.net.toUri
@@ -92,7 +94,11 @@ class VideoActivity : BaseMenuActivity() {
 
             // Save progress
             val prefs = getSharedPreferences("plaza_progress", Context.MODE_PRIVATE)
-            prefs.edit().putBoolean("video_completed", true).apply()
+            prefs.edit()
+                .putBoolean("video_completed", true)
+                .putFloat("video_score", 100f)
+                .apply()
+            ZoneCompletionActivity.launchIfComplete(this@VideoActivity, ZoneConfig.PLAZA)
         }
 
         videoView.setOnErrorListener { _, _, _ ->

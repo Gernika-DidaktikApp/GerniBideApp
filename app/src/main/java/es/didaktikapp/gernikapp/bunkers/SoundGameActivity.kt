@@ -15,8 +15,10 @@ import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
 import es.didaktikapp.gernikapp.data.local.TokenManager
 import es.didaktikapp.gernikapp.data.repository.GameRepository
+import es.didaktikapp.gernikapp.ZoneCompletionActivity
 import es.didaktikapp.gernikapp.utils.Constants.Puntos
 import es.didaktikapp.gernikapp.utils.Resource
+import es.didaktikapp.gernikapp.utils.ZoneConfig
 import kotlinx.coroutines.launch
 
 /**
@@ -281,8 +283,13 @@ class SoundGameActivity : BaseMenuActivity() {
             tvHistoryMessage.visibility = View.VISIBLE
             btnBack.isEnabled = true
 
+            val score = stars * 100f
             val prefs = getSharedPreferences("bunkers_progress", Context.MODE_PRIVATE)
-            prefs.edit().putBoolean("sound_game_completed", true).apply()
+            prefs.edit()
+                .putBoolean("sound_game_completed", true)
+                .putFloat("sound_game_score", score)
+                .apply()
+            ZoneCompletionActivity.launchIfComplete(this, ZoneConfig.BUNKERS)
 
             completarActividad()
         }

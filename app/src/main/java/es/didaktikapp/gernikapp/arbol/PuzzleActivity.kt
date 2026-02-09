@@ -19,8 +19,10 @@ import android.widget.TextView
 import androidx.lifecycle.lifecycleScope
 import es.didaktikapp.gernikapp.data.local.TokenManager
 import es.didaktikapp.gernikapp.data.repository.GameRepository
+import es.didaktikapp.gernikapp.ZoneCompletionActivity
 import es.didaktikapp.gernikapp.utils.Constants.Puntos
 import es.didaktikapp.gernikapp.utils.Resource
+import es.didaktikapp.gernikapp.utils.ZoneConfig
 import kotlinx.coroutines.launch
 import kotlin.random.Random
 
@@ -272,7 +274,11 @@ class PuzzleActivity : BaseMenuActivity() {
 
             // Persistir progreso local
             val prefs = getSharedPreferences("arbol_progress", Context.MODE_PRIVATE)
-            prefs.edit().putBoolean("puzzle_completed", true).apply()
+            prefs.edit()
+                .putBoolean("puzzle_completed", true)
+                .putFloat("puzzle_score", 100f)
+                .apply()
+            ZoneCompletionActivity.launchIfComplete(this, ZoneConfig.ARBOL)
 
             completarActividad()
         }

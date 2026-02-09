@@ -27,7 +27,9 @@ import es.didaktikapp.gernikapp.plaza.adapters.PhotoMissionAdapter
 import es.didaktikapp.gernikapp.plaza.models.EtiquetaFoto
 import es.didaktikapp.gernikapp.plaza.models.FotoGaleria
 import es.didaktikapp.gernikapp.plaza.models.FotoRespuestaContenido
+import es.didaktikapp.gernikapp.ZoneCompletionActivity
 import es.didaktikapp.gernikapp.utils.Constants.Puntos
+import es.didaktikapp.gernikapp.utils.ZoneConfig
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import es.didaktikapp.gernikapp.utils.Resource
@@ -190,8 +192,14 @@ class PhotoMissionActivity : BaseMenuActivity() {
                     adapter.notifyItemInserted(0)
                     rvGaleria.scrollToPosition(0)
 
-                    // Enable back button
+                    // Enable back button and save progress
                     btnBack.isEnabled = true
+                    val plazaPrefs = getSharedPreferences("plaza_progress", MODE_PRIVATE)
+                    plazaPrefs.edit()
+                        .putBoolean("photo_mission_completed", true)
+                        .putFloat("photo_mission_score", 100f)
+                        .apply()
+                    ZoneCompletionActivity.launchIfComplete(this@PhotoMissionActivity, ZoneConfig.PLAZA)
 
                     // Completar actividad con URL de imagen y etiqueta en formato JSON
                     val respuestaJson = """{"url":"$imageUrl","etiqueta":"${etiqueta.name}"}"""
