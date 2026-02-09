@@ -441,6 +441,7 @@
     <string name="zone_msg_try_again">Saiatu berriro!</string>
     <string name="zone_total_score">Puntuazio totala</string>
     <string name="zone_continue">Jarraitu</string>
+    <string name="zone_view_scores">Puntuazioa ikusi</string>
 
     <string name="cifp_ciudad_jardin">CIFP Ciudad Jardín LHII</string>
     <string name="ehu">Euskal Herriko Unibertsitatea (UPV/EHU)</string>

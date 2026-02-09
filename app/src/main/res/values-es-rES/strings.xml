@@ -325,6 +325,7 @@
     <string name="zone_msg_try_again">¡Buen intento!</string>
     <string name="zone_total_score">Puntuación total</string>
     <string name="zone_continue">Continuar</string>
+    <string name="zone_view_scores">Ver puntuación</string>
 
     <string name="cifp_ciudad_jardin">CIFP Ciudad Jardín LHII</string>
     <string name="ehu">Universidad del País Vasco (UPV/EHU)</string>

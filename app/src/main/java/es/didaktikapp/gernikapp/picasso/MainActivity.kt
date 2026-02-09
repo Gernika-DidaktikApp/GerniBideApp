@@ -2,10 +2,13 @@ package es.didaktikapp.gernikapp.picasso
 
 import android.content.Context
 import android.content.Intent
+import android.view.View
 import androidx.core.content.ContextCompat
 import es.didaktikapp.gernikapp.BaseMenuActivity
 import es.didaktikapp.gernikapp.R
+import es.didaktikapp.gernikapp.ZoneCompletionActivity
 import es.didaktikapp.gernikapp.databinding.PicassoMainBinding
+import es.didaktikapp.gernikapp.utils.ZoneConfig
 
 /**
  * Activity principal del módulo Picasso - Guernica.
@@ -54,6 +57,11 @@ class MainActivity : BaseMenuActivity() {
             binding.btnNireMezua.background =
                 ContextCompat.getDrawable(this, R.drawable.bg_boton_completado)
         }
+
+        // Mostrar botón de puntuación si la zona está completa
+        if (ZoneCompletionActivity.isZoneComplete(this, ZoneConfig.PICASSO)) {
+            binding.btnPuntuazioa.visibility = View.VISIBLE
+        }
     }
 
     /**
@@ -71,6 +79,12 @@ class MainActivity : BaseMenuActivity() {
 
         binding.btnNireMezua.setOnClickListener {
             startActivity(Intent(this, MyMessageActivity::class.java))
+        }
+
+        binding.btnPuntuazioa.setOnClickListener {
+            startActivity(Intent(this, ZoneCompletionActivity::class.java).apply {
+                putExtra("zone_prefs_name", ZoneConfig.PICASSO.prefsName)
+            })
         }
     }
 }

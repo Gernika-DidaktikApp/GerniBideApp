@@ -2,10 +2,13 @@ package es.didaktikapp.gernikapp.arbol
 
 import android.content.Context
 import android.content.Intent
+import android.view.View
 import androidx.core.content.ContextCompat
 import es.didaktikapp.gernikapp.BaseMenuActivity
 import es.didaktikapp.gernikapp.R
+import es.didaktikapp.gernikapp.ZoneCompletionActivity
 import es.didaktikapp.gernikapp.databinding.ArbolMainBinding
+import es.didaktikapp.gernikapp.utils.ZoneConfig
 
 /**
  * Activity principal del módulo "Árbol" que actúa como **menú de navegación**.
@@ -81,6 +84,11 @@ class MainActivity : BaseMenuActivity() {
             binding.btnInteractive.background =
                 ContextCompat.getDrawable(this, R.drawable.bg_boton_completado)
         }
+
+        // Mostrar botón de puntuación si la zona está completa
+        if (ZoneCompletionActivity.isZoneComplete(this, ZoneConfig.ARBOL)) {
+            binding.btnPuntuazioa.visibility = View.VISIBLE
+        }
     }
 
     /**
@@ -102,6 +110,12 @@ class MainActivity : BaseMenuActivity() {
 
         binding.btnInteractive.setOnClickListener {
             startActivity(Intent(this, InteractiveActivity::class.java))
+        }
+
+        binding.btnPuntuazioa.setOnClickListener {
+            startActivity(Intent(this, ZoneCompletionActivity::class.java).apply {
+                putExtra("zone_prefs_name", ZoneConfig.ARBOL.prefsName)
+            })
         }
     }
 }

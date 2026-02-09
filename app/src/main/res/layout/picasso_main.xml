@@ -50,6 +50,18 @@
         android:layout_width="0dp"
         android:text="@string/picasso_activity_3"
         app:layout_constraintTop_toBottomOf="@id/btnIkusiEtaAsmatu"
+        app:layout_constraintBottom_toTopOf="@id/btnPuntuazioa"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <Button
+        android:id="@+id/btnPuntuazioa"
+        style="@style/EstiloBotonPrimario"
+        android:layout_width="0dp"
+        android:layout_marginTop="@dimen/espaciado_md"
+        android:text="@string/zone_view_scores"
+        android:visibility="gone"
+        app:layout_constraintTop_toBottomOf="@id/btnNireMezua"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
