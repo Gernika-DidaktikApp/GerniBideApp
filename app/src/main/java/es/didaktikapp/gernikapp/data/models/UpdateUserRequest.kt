@@ -28,5 +28,8 @@ data class UpdateUserRequest(
     val password: String? = null,
 
     @Json(name = "id_clase")
-    val idClase: String? = null
+    val idClase: String? = null,
+
+    @Json(name = "top_score")
+    val topScore: Int? = null
 )

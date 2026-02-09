@@ -123,7 +123,8 @@
                         android:layout_height="wrap_content"
                         android:text="@string/profile_top_score"
                         android:textSize="@dimen/texto_pequeno"
-                        android:textColor="@color/txtSecundario" />
+                        android:textColor="@color/txtSecundario"
+                        android:gravity="center" />
                 </LinearLayout>
 
                 <View

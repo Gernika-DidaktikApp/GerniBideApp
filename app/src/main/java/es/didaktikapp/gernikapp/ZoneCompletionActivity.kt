@@ -2,13 +2,19 @@ package es.didaktikapp.gernikapp
 
 import android.content.Context
 import android.content.Intent
+import android.util.Log
 import android.view.LayoutInflater
 import android.widget.Button
 import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.lifecycle.lifecycleScope
+import es.didaktikapp.gernikapp.data.models.UpdateUserRequest
+import es.didaktikapp.gernikapp.data.repository.UserRepository
+import es.didaktikapp.gernikapp.utils.Resource
 import es.didaktikapp.gernikapp.utils.SpriteAnimationView
 import es.didaktikapp.gernikapp.utils.ZoneConfig
 import es.didaktikapp.gernikapp.utils.ZoneInfo
+import kotlinx.coroutines.launch
 
 /**
  * Pantalla de resumen al completar una zona del recorrido.
@@ -71,6 +77,9 @@ class ZoneCompletionActivity : BaseMenuActivity() {
 
         spriteView.startAnimation()
 
+        // Actualizar puntuación máxima en el servidor
+        updateTopScore()
+
         btnContinue.setOnClickListener {
             val intent = Intent(this, MapaActivity::class.java)
             intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
@@ -79,7 +88,53 @@ class ZoneCompletionActivity : BaseMenuActivity() {
         }
     }
 
+    /**
+     * Calcula la puntuación total de todas las zonas y actualiza el top_score
+     * en el servidor si la puntuación actual es mayor que la registrada.
+     */
+    private fun updateTopScore() {
+        var globalTotal = 0f
+        for (zone in ZoneConfig.ALL_ZONES) {
+            val zonePrefs = getSharedPreferences(zone.prefsName, Context.MODE_PRIVATE)
+            for (activity in zone.activities) {
+                globalTotal += zonePrefs.getFloat(activity.scoreKey, 0f)
+            }
+        }
+
+        val currentTotal = globalTotal.toInt()
+        if (currentTotal <= 0) return
+
+        val userRepository = UserRepository(this)
+
+        lifecycleScope.launch {
+            // Obtener el top_score actual del usuario
+            when (val profileResult = userRepository.getUserProfile()) {
+                is Resource.Success -> {
+                    val currentTopScore = profileResult.data.topScore
+                    if (currentTotal > currentTopScore) {
+                        // Actualizar solo si la puntuación actual supera la máxima
+                        val updateRequest = UpdateUserRequest(topScore = currentTotal)
+                        when (val updateResult = userRepository.updateUserProfile(updateRequest)) {
+                            is Resource.Success -> {
+                                Log.d(TAG, "Top score actualizado: $currentTopScore -> $currentTotal")
+                            }
+                            is Resource.Error -> {
+                                Log.e(TAG, "Error actualizando top score: ${updateResult.message}")
+                            }
+                            is Resource.Loading -> { /* No-op */ }
+                        }
+                    }
+                }
+                is Resource.Error -> {
+                    Log.e(TAG, "Error obteniendo perfil para top score: ${profileResult.message}")
+                }
+                is Resource.Loading -> { /* No-op */ }
+            }
+        }
+    }
+
     companion object {
+        private const val TAG = "ZoneCompletionActivity"
         private const val EXTRA_ZONE_PREFS_NAME = "zone_prefs_name"
 
         fun isZoneComplete(context: Context, zone: ZoneInfo): Boolean {
