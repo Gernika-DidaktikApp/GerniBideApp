@@ -51,7 +51,7 @@ object SyncManager {
     /**
      * Sincroniza los datos del perfil completo con SharedPreferences locales.
      *
-     * Este método es el punto de entrada principal del SyncManager. Procesa la respuesta
+     * Este metodo es el punto de entrada principal del SyncManager. Procesa la respuesta
      * del endpoint `/perfil-progreso` y la distribuye en las SharedPreferences correspondientes.
      *
      * **Proceso de sincronización:**
@@ -271,7 +271,7 @@ object SyncManager {
     /**
      * Limpia todos los datos de progreso local almacenados en SharedPreferences.
      *
-     * Este método se debe llamar al cerrar sesión para eliminar todo rastro del
+     * Este metodo se debe llamar al cerrar sesión para eliminar el rastro del
      * progreso del usuario anterior. Limpia todas las SharedPreferences relacionadas
      * con el juego.
      *

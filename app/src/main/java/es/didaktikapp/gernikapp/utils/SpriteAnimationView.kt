@@ -29,22 +29,46 @@ class SpriteAnimationView @JvmOverloads constructor(
     defStyleAttr: Int = 0
 ) : View(context, attrs, defStyleAttr) {
 
+    /** Bitmap que contiene el sprite sheet completo. */
     private var spriteSheet: Bitmap? = null
+
+    /** Paint optimizado para dibujar bitmaps suavizados. */
     private val paint = Paint(Paint.FILTER_BITMAP_FLAG)
+
+    /** Rectángulo que define el área del fotograma dentro del sprite sheet. */
     private val srcRect = Rect()
+
+    /** Rectángulo destino donde se dibuja el fotograma escalado al tamaño del View. */
     private val dstRect = Rect()
 
+    /** Número de columnas del sprite sheet. */
     private val columns = 6
+
+    /** Número de filas del sprite sheet. */
     private val rows = 6
+
+    /** Número total de fotogramas de la animación. */
     private val totalFrames = 36
+
+    /** Índice del fotograma actual. */
     private var currentFrame = 0
 
+    /** Ancho de cada fotograma dentro del sprite sheet. */
     private var frameWidth = 0
+
+    /** Alto de cada fotograma dentro del sprite sheet. */
     private var frameHeight = 0
 
+    /** Handler que gestiona la actualización periódica de la animación. */
     private val handler = Handler(Looper.getMainLooper())
+
+    /** Tiempo entre fotogramas (en milisegundos). */
     private val frameDelay = 80L
 
+    /**
+     * Runnable que avanza al siguiente fotograma y vuelve a ejecutarse
+     * después del tiempo indicado en [frameDelay].
+     */
     private val animRunnable = object : Runnable {
         override fun run() {
             currentFrame = (currentFrame + 1) % totalFrames
@@ -57,6 +81,9 @@ class SpriteAnimationView @JvmOverloads constructor(
         loadSpriteSheet()
     }
 
+    /**
+     * Carga el sprite sheet desde recursos y calcula el tamaño de cada fotograma.
+     */
     private fun loadSpriteSheet() {
         val options = BitmapFactory.Options().apply {
             inScaled = false
@@ -68,16 +95,27 @@ class SpriteAnimationView @JvmOverloads constructor(
         }
     }
 
+    /**
+     * Inicia la animación desde el primer fotograma.
+     * Reinicia el índice y programa el runnable.
+     */
     fun startAnimation() {
         handler.removeCallbacks(animRunnable)
         currentFrame = 0
         handler.post(animRunnable)
     }
 
+    /**
+     * Detiene la animación cancelando el runnable.
+     */
     fun stopAnimation() {
         handler.removeCallbacks(animRunnable)
     }
 
+    /**
+     * Dibuja el fotograma actual en el canvas.
+     * Calcula la fila y columna correspondientes dentro del sprite sheet.
+     */
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
         val sheet = spriteSheet ?: return
@@ -96,6 +134,9 @@ class SpriteAnimationView @JvmOverloads constructor(
         canvas.drawBitmap(sheet, srcRect, dstRect, paint)
     }
 
+    /**
+     * Limpia callbacks pendientes cuando la vista se elimina de la ventana.
+     */
     override fun onDetachedFromWindow() {
         super.onDetachedFromWindow()
         handler.removeCallbacks(animRunnable)
