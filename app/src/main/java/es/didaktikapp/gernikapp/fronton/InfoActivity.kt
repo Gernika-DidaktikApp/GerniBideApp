@@ -29,7 +29,7 @@ import es.didaktikapp.gernikapp.LogManager
  * Muestra un vídeo educativo sobre el Frontón Jai Alai de Gernika y registra
  * el progreso del usuario tanto localmente como en la API.
  *
- * @author Erlantz
+ * @author Erlantz García
  * @version 1.0
  */
 class InfoActivity : BaseMenuActivity() {

@@ -29,7 +29,7 @@ import es.didaktikapp.gernikapp.LogManager
  * Actividad del módulo *Frontón* donde el alumnado crea valores del grupo
  * mediante “burbujas” dinámicas (tags) que se añaden visualmente a un contenedor.
  *
- * @author Erlantz
+ * @author Erlantz García
  * @version 1.0
  */
 class ValuesGroupActivity : BaseMenuActivity() {

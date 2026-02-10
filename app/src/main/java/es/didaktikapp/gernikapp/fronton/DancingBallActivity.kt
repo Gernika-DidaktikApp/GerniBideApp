@@ -33,7 +33,7 @@ import es.didaktikapp.gernikapp.LogManager
  * Minijuego del módulo *Frontón* donde el jugador debe golpear una pelota
  * con la zesta para sumar puntos.
  *
- * @author Erlantz
+ * @author Erlantz García
  * @version 1.0
  */
 class DancingBallActivity : BaseMenuActivity() {

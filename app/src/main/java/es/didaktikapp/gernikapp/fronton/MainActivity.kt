@@ -15,7 +15,7 @@ import es.didaktikapp.gernikapp.utils.ZoneConfig
  * Esta pantalla actúa como menú de selección para las distintas actividades
  * educativas del Frontón Jai Alai de Gernika.
  *
- * @author Erlantz
+ * @author Erlantz García
  * @version 1.0
  */
 class MainActivity : BaseMenuActivity() {

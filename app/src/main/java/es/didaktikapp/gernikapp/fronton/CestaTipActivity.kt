@@ -29,7 +29,7 @@ import es.didaktikapp.gernikapp.LogManager
  * Actividad del módulo *Frontón* que muestra un vídeo educativo y un pequeño
  * cuestionario tipo test relacionado con el contenido visualizado.
  *
- * @author Erlantz
+ * @author Erlantz García
  * @version 1.0
  */
 class CestaTipActivity : BaseMenuActivity() {
