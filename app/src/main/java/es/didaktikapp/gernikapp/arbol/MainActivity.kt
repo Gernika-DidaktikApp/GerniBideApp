@@ -26,7 +26,7 @@ import es.didaktikapp.gernikapp.utils.ZoneConfig
  * 3. Completa actividad → Vuelve al menú con botón marcado como completado
  *
  * @author Telmo Castillo
- * @since 2026
+ * @version 1.0
  */
 class MainActivity : BaseMenuActivity() {
 

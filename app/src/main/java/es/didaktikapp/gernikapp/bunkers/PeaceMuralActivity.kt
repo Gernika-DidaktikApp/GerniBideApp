@@ -39,7 +39,7 @@ import kotlin.random.Random
  * - **Integración API** completa (iniciar/completar evento)
  *
  * @author Telmo Castillo
- * @since 2026
+ * @version 1.0
  */
 class PeaceMuralActivity : BaseMenuActivity() {
 

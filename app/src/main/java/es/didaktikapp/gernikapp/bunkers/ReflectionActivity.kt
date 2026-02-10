@@ -42,7 +42,7 @@ import es.didaktikapp.gernikapp.LogManager
  * - **Estado restaurado** si ya estaba completado
  *
  * @author Telmo Castillo
- * @since 2026
+ * @version 1.0
  */
 class ReflectionActivity : BaseMenuActivity() {
 
@@ -115,8 +115,8 @@ class ReflectionActivity : BaseMenuActivity() {
 
                 /**
                  * **Feedback visual dinámico:**
-                 * ✅ **Seleccionado**: alpha=1.0f, scale=1.1x
-                 * ❌ **Resto**: alpha=0.5f, scale=0.9x
+                 * **Seleccionado**: alpha=1.0f, scale=1.1x
+                 * **Resto**: alpha=0.5f, scale=0.9x
                  */
                 emojiButtons.forEach {
                     it.alpha = 0.5f

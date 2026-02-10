@@ -36,7 +36,7 @@ import androidx.core.content.edit
  * - Se calcula y guarda la puntuación en el servidor al finalizar.
  *
  * @author Telmo Castillo
- * @since 2026
+ * @version 1.0
  */
 class AudioQuizActivity : BaseMenuActivity() {
 

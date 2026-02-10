@@ -47,7 +47,7 @@ import androidx.core.content.edit
  * en los óvalos blancos de la imagen del árbol. El sistema detecta automáticamente el hueco más cercano.
  *
  * @author Telmo Castillo
- * @since 2026
+ * @version 1.0
  */
 class InteractiveActivity : BaseMenuActivity() {
 

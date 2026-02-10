@@ -43,7 +43,7 @@ import es.didaktikapp.gernikapp.LogManager
  * - Progreso persistente en `SharedPreferences`
  *
  * @author Telmo Castillo
- * @since 2026
+ * @version 1.0
  */
 class PuzzleActivity : BaseMenuActivity() {
 

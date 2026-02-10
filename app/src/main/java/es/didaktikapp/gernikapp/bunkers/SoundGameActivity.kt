@@ -42,7 +42,7 @@ import es.didaktikapp.gernikapp.LogManager
  * 5. **Victoria**: 5 sonidos respondidos
  *
  * @author Telmo Castillo
- * @since 2026
+ * @version 1.0
  */
 class SoundGameActivity : BaseMenuActivity() {
 

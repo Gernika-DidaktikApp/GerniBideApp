@@ -26,7 +26,7 @@ import es.didaktikapp.gernikapp.LogManager
  * Reproduce un vídeo educativo y registra el progreso del usuario
  * tanto localmente como en la API.
  *
- * @author Erlantz
+ * @author Erlantz García
  * @version 1.0
  */
 class VideoBunkerActivity : BaseMenuActivity() {
