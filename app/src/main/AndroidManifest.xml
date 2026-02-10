@@ -27,7 +27,7 @@
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="@string/google_maps_key" /> <!-- Actividades principales -->
+            android:value="${GOOGLE_MAPS_API_KEY}" /> <!-- Actividades principales -->
         <activity
             android:name=".LoginActivity"
             android:exported="true"
