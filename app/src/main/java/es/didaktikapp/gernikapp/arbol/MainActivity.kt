@@ -1,6 +1,7 @@
 package es.didaktikapp.gernikapp.arbol
 
 import android.content.Intent
+import android.util.Log
 import android.view.View
 import androidx.core.content.ContextCompat
 import es.didaktikapp.gernikapp.BaseMenuActivity
@@ -28,6 +29,10 @@ import es.didaktikapp.gernikapp.utils.ZoneConfig
  * @since 2026
  */
 class MainActivity : BaseMenuActivity() {
+
+    companion object {
+        private const val TAG = "ArbolMainActivity"
+    }
 
     /** Binding de vista generado para el layout `arbol_main.xml`. */
     private lateinit var binding: ArbolMainBinding
@@ -72,21 +77,30 @@ class MainActivity : BaseMenuActivity() {
         val prefs = getSharedPreferences("arbol_progress", MODE_PRIVATE)
 
         // Audio Quiz completado
-        if (prefs.getBoolean("audio_quiz_completed", false)) {
+        val audioQuizCompleted = prefs.getBoolean("audio_quiz_completed", false)
+        Log.d(TAG, "audio_quiz_completed = $audioQuizCompleted")
+        if (audioQuizCompleted) {
             binding.btnAudioQuiz.background =
                 ContextCompat.getDrawable(this, R.drawable.bg_boton_completado)
         }
 
         // Puzzle completado
-        if (prefs.getBoolean("puzzle_completed", false)) {
+        val puzzleCompleted = prefs.getBoolean("puzzle_completed", false)
+        Log.d(TAG, "puzzle_completed = $puzzleCompleted")
+        if (puzzleCompleted) {
             binding.btnPuzzle.background =
                 ContextCompat.getDrawable(this, R.drawable.bg_boton_completado)
         }
 
         // Árbol Interactivo completado
-        if (prefs.getBoolean("interactive_completed", false)) {
+        val interactiveCompleted = prefs.getBoolean("interactive_completed", false)
+        Log.d(TAG, "interactive_completed = $interactiveCompleted")
+        if (interactiveCompleted) {
             binding.btnInteractive.background =
                 ContextCompat.getDrawable(this, R.drawable.bg_boton_completado)
+            Log.d(TAG, "✅ Botón Interactive marcado como completado")
+        } else {
+            Log.d(TAG, "❌ Botón Interactive NO está completado")
         }
 
         // Mostrar botón de puntuación si la zona está completa

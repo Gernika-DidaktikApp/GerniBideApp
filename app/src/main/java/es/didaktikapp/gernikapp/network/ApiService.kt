@@ -14,6 +14,7 @@ import es.didaktikapp.gernikapp.data.models.RegisterResponse
 import es.didaktikapp.gernikapp.data.models.UpdateUserRequest
 import es.didaktikapp.gernikapp.data.models.UserResponse
 import es.didaktikapp.gernikapp.data.models.UserStatsResponse
+import es.didaktikapp.gernikapp.data.models.PerfilProgresoResponse
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET
@@ -91,6 +92,19 @@ interface ApiService {
     suspend fun getUserStats(
         @Path("usuario_id") usuarioId: String
     ): Response<UserStatsResponse>
+
+    /**
+     * Obtiene el perfil completo y progreso detallado del usuario.
+     * Incluye todas las actividades (completadas y no completadas).
+     * Requiere autenticación (token JWT).
+     *
+     * @param usuarioId ID del usuario
+     * @return Response con perfil y progreso completo
+     */
+    @GET(ApiConfig.USER_PERFIL_PROGRESO)
+    suspend fun getPerfilProgreso(
+        @Path("usuario_id") usuarioId: String
+    ): Response<PerfilProgresoResponse>
 
     // ============ PARTIDAS ============
 

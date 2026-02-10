@@ -9,8 +9,10 @@ import androidx.lifecycle.lifecycleScope
 import es.didaktikapp.gernikapp.data.local.TokenManager
 import es.didaktikapp.gernikapp.data.repository.AuthRepository
 import es.didaktikapp.gernikapp.data.repository.GameRepository
+import es.didaktikapp.gernikapp.data.repository.UserRepository
 import es.didaktikapp.gernikapp.databinding.ActivityLoginBinding
 import es.didaktikapp.gernikapp.utils.Resource
+import es.didaktikapp.gernikapp.utils.SyncManager
 import kotlinx.coroutines.launch
 
 /**
@@ -44,6 +46,9 @@ class LoginActivity : AppCompatActivity() {
     private lateinit var gameRepository: GameRepository
 
     /**  */
+    private lateinit var userRepository: UserRepository
+
+    /**  */
     private lateinit var tokenManager: TokenManager
 
     /**  */
@@ -64,6 +69,7 @@ class LoginActivity : AppCompatActivity() {
 
         authRepository = AuthRepository(this)
         gameRepository = GameRepository(this)
+        userRepository = UserRepository(this)
         tokenManager = TokenManager(this)
 
         LogManager.write(this@LoginActivity, "LoginActivity iniciada")
@@ -130,7 +136,7 @@ class LoginActivity : AppCompatActivity() {
 
     /**
      * Ejecuta el proceso de login.
-     * Si es exitoso, crea automáticamente una partida.
+     * Si es exitoso, sincroniza el progreso del usuario y crea automáticamente una partida.
      *
      * @param username Nombre de usuario
      * @param password Contraseña
@@ -148,6 +154,9 @@ class LoginActivity : AppCompatActivity() {
                         getString(R.string.login_welcome, username),
                         Toast.LENGTH_SHORT
                     ).show()
+
+                    // Sincronizar progreso del servidor
+                    syncUserProgress()
 
                     // Crear partida después del login exitoso
                     crearPartida()
@@ -169,6 +178,44 @@ class LoginActivity : AppCompatActivity() {
                     // Ya está en loading
                 }
             }
+        }
+    }
+
+    /**
+     * Sincroniza el progreso del usuario del servidor a SharedPreferences locales.
+     *
+     * Este método se ejecuta después del login exitoso para recuperar
+     * el progreso del usuario desde el servidor y sincronizarlo localmente.
+     *
+     * Si falla la sincronización, no bloquea el flujo - continúa con datos locales.
+     */
+    private suspend fun syncUserProgress() {
+        when (val result = userRepository.getPerfilProgreso()) {
+            is Resource.Success -> {
+                // Sincronizar datos del servidor a SharedPreferences
+                SyncManager.syncPerfilProgreso(this@LoginActivity, result.data)
+
+                LogManager.write(this@LoginActivity, "✅ Progreso sincronizado: ${result.data.estadisticas.actividadesCompletadas} actividades")
+
+                if (BuildConfig.DEBUG) {
+                    Log.d(TAG, "📊 Progreso del usuario:")
+                    Log.d(TAG, "  - TopScore: ${result.data.usuario.topScore}")
+                    Log.d(TAG, "  - Actividades: ${result.data.estadisticas.actividadesCompletadas}/${result.data.estadisticas.totalActividadesDisponibles}")
+                    Log.d(TAG, "  - Racha: ${result.data.estadisticas.rachaDias} días")
+                    Log.d(TAG, "  - Puntos: ${result.data.estadisticas.totalPuntosAcumulados}")
+                }
+            }
+
+            is Resource.Error -> {
+                // No bloquear el flujo si falla la sincronización
+                LogManager.write(this@LoginActivity, "⚠️ No se pudo sincronizar progreso: ${result.message}")
+                Log.w(TAG, "Sincronización fallida, usando datos locales: ${result.message}")
+
+                // Opcional: Mostrar notificación al usuario
+                // Toast.makeText(this, "No se pudo sincronizar progreso", Toast.LENGTH_SHORT).show()
+            }
+
+            is Resource.Loading -> { /* Ya manejado */ }
         }
     }
 

@@ -264,7 +264,7 @@ class SoundGameActivity : BaseMenuActivity() {
 
         if (isCorrect) {
             stars++
-            tvStars.text = "⭐ $stars / $totalSounds"
+            tvStars.text = getString(R.string.sound_game_stars, stars, totalSounds)
         }
 
         // Deshabilitar sonido respondido

@@ -159,7 +159,7 @@ class ProfileActivity : BaseMenuActivity() {
     }
 
     /**
-     * Carga las estadísticas del usuario desde la API.
+     * Carga las estadísticas del usuario desde la API usando el endpoint de perfil-progreso.
      * Incluye actividades completadas, racha de días y módulos completados.
      *
      * @param userId ID del usuario para obtener estadísticas.
@@ -170,13 +170,21 @@ class ProfileActivity : BaseMenuActivity() {
         LogManager.write(this@ProfileActivity, "Cargando estadísticas para usuario: $userId")
 
         lifecycleScope.launch {
-            when (val result = userRepository.getUserStats(userId)) {
+            when (val result = userRepository.getPerfilProgreso()) {
                 is Resource.Success -> {
-                    result.data.let { stats ->
-                        Log.d(TAG, "✅ Estadísticas cargadas: ${stats.actividadesCompletadas} actividades, ${stats.rachaDias} días racha")
-                        LogManager.write(this@ProfileActivity, "Estadísticas cargadas: ${stats.actividadesCompletadas} actividades, ${stats.rachaDias} días racha")
-                        updateStats(stats.actividadesCompletadas, stats.rachaDias)
-                        unlockCompletedModules(stats.modulosCompletados)
+                    result.data.let { perfil ->
+                        Log.d(TAG, "✅ Estadísticas cargadas: ${perfil.estadisticas.actividadesCompletadas} actividades, ${perfil.estadisticas.rachaDias} días racha")
+                        LogManager.write(this@ProfileActivity, "Estadísticas cargadas: ${perfil.estadisticas.actividadesCompletadas} actividades, ${perfil.estadisticas.rachaDias} días racha")
+                        updateStats(perfil.estadisticas.actividadesCompletadas, perfil.estadisticas.rachaDias)
+
+                        // Actualizar topScore desde el perfil
+                        tvTopScore.text = perfil.usuario.topScore.toString()
+
+                        // Desbloquear módulos completados (puntos al 100%)
+                        val modulosCompletados = perfil.puntos
+                            .filter { it.estado == "completado" }
+                            .map { it.nombrePunto }
+                        unlockCompletedModules(modulosCompletados)
                     }
                 }
                 is Resource.Error -> {
@@ -213,15 +221,20 @@ class ProfileActivity : BaseMenuActivity() {
             "Árbol del Gernika" to "arbol",
             "Árbol de Gernika" to "arbol",
             "Arbol" to "arbol",
+            "arbol" to "arbol",
             "Museo de la Paz" to "bunkers",
             "Bunkers" to "bunkers",
+            "bunkers" to "bunkers",
             "Refugios" to "bunkers",
             "Picasso" to "picasso",
+            "picasso" to "picasso",
             "Guernica" to "picasso",
             "Plaza" to "plaza",
             "Plaza Gernika" to "plaza",
+            "mercado" to "plaza",
             "Frontón" to "fronton",
             "Fronton" to "fronton",
+            "fronton" to "fronton",
             "Pelota Vasca" to "fronton"
         )
 

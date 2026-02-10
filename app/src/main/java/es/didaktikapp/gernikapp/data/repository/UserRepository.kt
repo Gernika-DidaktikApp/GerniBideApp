@@ -1,7 +1,9 @@
 package es.didaktikapp.gernikapp.data.repository
 
 import android.content.Context
+import es.didaktikapp.gernikapp.LogManager
 import es.didaktikapp.gernikapp.data.local.TokenManager
+import es.didaktikapp.gernikapp.data.models.PerfilProgresoResponse
 import es.didaktikapp.gernikapp.data.models.UpdateUserRequest
 import es.didaktikapp.gernikapp.data.models.UserResponse
 import es.didaktikapp.gernikapp.data.models.UserStatsResponse
@@ -62,6 +64,28 @@ class UserRepository(context: Context) : BaseRepository(context) {
     suspend fun getUserStats(usuarioId: String): Resource<UserStatsResponse> {
         return safeApiCall(
             apiCall = { apiService.getUserStats(usuarioId) }
+        )
+    }
+
+    /**
+     * Obtiene el perfil completo del usuario con progreso detallado.
+     * Incluye todas las actividades por módulo y sus estados.
+     *
+     * @return Resource con el perfil y progreso completo del usuario
+     */
+    suspend fun getPerfilProgreso(): Resource<PerfilProgresoResponse> {
+        val userId = tokenManager.getUserId()
+
+        if (userId == null) {
+            return Resource.Error("No hay sesión activa")
+        }
+
+        return safeApiCall(
+            apiCall = { apiService.getPerfilProgreso(userId) },
+            onSuccess = { response ->
+                LogManager.write(context, "Perfil y progreso obtenido correctamente")
+                response
+            }
         )
     }
 }

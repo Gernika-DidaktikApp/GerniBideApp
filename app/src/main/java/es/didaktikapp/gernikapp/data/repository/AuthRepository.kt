@@ -3,6 +3,7 @@ package es.didaktikapp.gernikapp.data.repository
 import android.content.Context
 import android.util.Log
 import es.didaktikapp.gernikapp.BuildConfig
+import es.didaktikapp.gernikapp.LogManager
 import es.didaktikapp.gernikapp.data.local.TokenManager
 import es.didaktikapp.gernikapp.data.models.HealthResponse
 import es.didaktikapp.gernikapp.data.models.LoginRequest
@@ -11,6 +12,7 @@ import es.didaktikapp.gernikapp.data.models.RegisterRequest
 import es.didaktikapp.gernikapp.data.models.RegisterResponse
 import es.didaktikapp.gernikapp.network.RetrofitClient
 import es.didaktikapp.gernikapp.utils.Resource
+import es.didaktikapp.gernikapp.utils.SyncManager
 
 /**
  * Repository para operaciones de autenticación.
@@ -121,10 +123,26 @@ class AuthRepository(context: Context) : BaseRepository(context) {
 
     /**
      * Cierra la sesión actual.
-     * Elimina el token y datos del usuario.
+     * Elimina el token, datos del usuario, progreso local y TODAS las configuraciones.
      */
     fun logout() {
+        // 1. Limpiar sesión (token, userId, juegoId)
         tokenManager.clearSession()
+
+        // 2. Limpiar progreso de módulos
+        SyncManager.clearAllProgress(context)
+
+        // 3. Limpiar configuraciones de la app
+        context.getSharedPreferences("GernikAppSettings", Context.MODE_PRIVATE)
+            .edit()
+            .clear()
+            .apply()
+
+        if (BuildConfig.DEBUG) {
+            Log.d(TAG, "🧹 Logout completo - Todos los SharedPreferences limpiados")
+        }
+
+        LogManager.write(context, "Sesión cerrada y TODOS los datos locales limpiados")
     }
 
     /**

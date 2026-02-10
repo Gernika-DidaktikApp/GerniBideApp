@@ -5,6 +5,8 @@ import android.graphics.Rect
 import android.graphics.Typeface
 import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
+import android.util.Log
+import android.widget.Toast
 import android.view.Gravity
 import android.view.MotionEvent
 import android.view.View
@@ -48,6 +50,10 @@ import androidx.core.content.edit
  * @since 2026
  */
 class InteractiveActivity : BaseMenuActivity() {
+
+    companion object {
+        private const val TAG = "InteractiveActivity"
+    }
 
     /** Contenedor principal donde se posicionan las palabras arrastrables. */
     private lateinit var treeContainer: FrameLayout
@@ -108,6 +114,9 @@ class InteractiveActivity : BaseMenuActivity() {
         treeContainer = findViewById(R.id.treeContainer)
         treeImage = findViewById(R.id.treeImage)
 
+        // Ocultar botón de finalizar hasta que todas las piezas estén colocadas
+        findViewById<View>(R.id.btnFinish).visibility = View.GONE
+
         // Configurar botones de valores arrastrables
         setupWordButtons()
 
@@ -126,6 +135,7 @@ class InteractiveActivity : BaseMenuActivity() {
                 putBoolean("interactive_completed", true)
                 putFloat("interactive_score", 100f)
             }
+            Log.d(TAG, "✅ Guardado: interactive_completed = true, interactive_score = 100.0")
             ZoneCompletionActivity.launchIfComplete(this, ZoneConfig.ARBOL)
             completarActividad()
             val intent = android.content.Intent(this, MainActivity::class.java)
@@ -161,6 +171,7 @@ class InteractiveActivity : BaseMenuActivity() {
 
                 if (targetSlot != null) {
                     addValueToTree(text, color, targetSlot)
+                    checkAllValuesPlaced()
                 }
             }
         }
@@ -259,6 +270,7 @@ class InteractiveActivity : BaseMenuActivity() {
                         moveWordToSlot(v, currentSlot)
 
                         LogManager.write( this@InteractiveActivity, "Valor colocado en slot $currentSlot" )
+                        checkAllValuesPlaced()
                     }
                 }
                 return true
@@ -340,6 +352,28 @@ class InteractiveActivity : BaseMenuActivity() {
         animSet.addAnimation(scale)
         animSet.addAnimation(fade)
         view.startAnimation(animSet)
+    }
+
+    /**
+     * Verifica si los 5 valores han sido colocados en el árbol.
+     * Si todos están colocados, muestra el botón de finalizar.
+     */
+    private fun checkAllValuesPlaced() {
+        val placedCount = occupiedSlots.count { it.value != null }
+
+        if (placedCount == 5) {
+            Log.d(TAG, "✅ Todos los 5 valores colocados en el árbol")
+            LogManager.write(this@InteractiveActivity, "Todos los valores del árbol han sido colocados")
+
+            // Mostrar botón de finalizar
+            findViewById<View>(R.id.btnFinish).visibility = View.VISIBLE
+
+            Toast.makeText(
+                this,
+                getString(R.string.my_tree_complete),
+                Toast.LENGTH_LONG
+            ).show()
+        }
     }
 
     /**

@@ -39,6 +39,9 @@ object ApiConfig {
     /** GET - Obtener estadísticas del usuario (requiere auth) */
     const val USER_STATS = "/api/v1/usuarios/{usuario_id}/estadisticas"
 
+    /** GET - Obtener perfil completo con progreso detallado de todas las actividades (requiere auth) */
+    const val USER_PERFIL_PROGRESO = "/api/v1/usuarios/{usuario_id}/perfil-progreso"
+
     // ============ PROGRESO DE ACTIVIDADES ============
     /** POST - Iniciar actividad dentro de un punto */
     const val ACTIVIDAD_PROGRESO_INICIAR = "/api/v1/actividad-progreso/iniciar"

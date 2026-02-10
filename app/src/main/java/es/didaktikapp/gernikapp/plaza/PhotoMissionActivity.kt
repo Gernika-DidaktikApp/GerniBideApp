@@ -220,6 +220,8 @@ class PhotoMissionActivity : BaseMenuActivity() {
 
                     // Completar actividad con URL de imagen y etiqueta en formato JSON
                     val respuestaJson = """{"url":"$imageUrl","etiqueta":"${etiqueta.name}"}"""
+                    Log.d(TAG, "📤 Intentando completar actividad con progreso_id: $actividadProgresoId")
+                    LogManager.write(this@PhotoMissionActivity, "Foto subida a Cloudinary, completando actividad...")
                     completarActividad(respuestaJson)
 
                     // Resetear vista
@@ -375,7 +377,13 @@ class PhotoMissionActivity : BaseMenuActivity() {
      * @param respuestaJson JSON con URL de Cloudinary y etiqueta: {"url":"...", "etiqueta":"..."}
      */
     private fun completarActividad(respuestaJson: String) {
-        val estadoId = actividadProgresoId ?: return
+        val estadoId = actividadProgresoId
+        if (estadoId == null) {
+            Log.e(TAG, "❌ ERROR CRÍTICO: actividadProgresoId es NULL, no se puede completar")
+            LogManager.write(this@PhotoMissionActivity, "ERROR: No se puede completar - actividadProgresoId es null")
+            Toast.makeText(this, getString(R.string.photo_mission_error_guardar_progreso), Toast.LENGTH_LONG).show()
+            return
+        }
         lifecycleScope.launch {
             // Usar el endpoint correcto según el estado actual
             val result = when (actividadEstado) {
