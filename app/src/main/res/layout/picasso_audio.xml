@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/fondo2">
+
+    <!-- Contenedor de la imagen con esquinas redondeadas -->
+    <FrameLayout
+        android:id="@+id/imageContainer"
+        android:layout_width="@dimen/video_width"
+        android:layout_height="@dimen/video_height"
+        android:background="@drawable/bg_video_container"
+        android:clipToOutline="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.25">
+
+        <ImageView
+            android:id="@+id/ivPicasso"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            android:contentDescription="@string/picasso_kuadro_desc" />
+    </FrameLayout>
+
+    <!-- Controles de audio -->
+    <LinearLayout
+        android:id="@+id/audioControls"
+        android:layout_width="@dimen/video_width"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_video_controls"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingVertical="@dimen/espaciado_md"
+        android:paddingHorizontal="@dimen/espaciado_md"
+        app:layout_constraintTop_toBottomOf="@id/imageContainer"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <ImageButton
+            android:id="@+id/btnPlayPause"
+            style="@style/EstiloImageButtonMediaControl"
+            android:src="@android:drawable/ic_media_play"
+            android:contentDescription="@string/play_pause" />
+
+        <SeekBar
+            android:id="@+id/seekBarAudio"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginStart="@dimen/espaciado_sm"
+            android:layout_marginEnd="@dimen/espaciado_sm"
+            android:progressTint="@color/btnPrincipalShadow"
+            android:thumbTint="@color/white" />
+
+        <TextView
+            android:id="@+id/tvTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/_0_00_0_00"
+            android:textAppearance="@style/AparienciaTexto.App.Caption"
+            android:textColor="@color/white"
+            android:textStyle="bold"
+            android:minWidth="@dimen/time_display_min_width"
+            android:gravity="end" />
+    </LinearLayout>
+
+    <!-- Texto descriptivo -->
+    <TextView
+        android:id="@+id/tvDescripcion"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/espaciado_xl"
+        android:layout_marginTop="@dimen/espaciado_base"
+        android:layout_marginEnd="@dimen/espaciado_xl"
+        android:text="@string/picasso_audio_texto_ayuda"
+        android:textAppearance="@style/AparienciaTexto.App.Cuerpo.Defecto"
+        android:lineSpacingExtra="@dimen/espaciado_xs"
+        android:justificationMode="inter_word"
+        app:layout_constraintTop_toBottomOf="@id/audioControls"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintWidth_max="@dimen/text_content_max_width" />
+
+    <!-- Botón para volver -->
+    <Button
+        android:id="@+id/btnBack"
+        style="@style/EstiloBotonSecundario"
+        android:layout_width="wrap_content"
+        android:text="@string/itzuli"
+        android:layout_margin="@dimen/espaciado_xl"
+        android:enabled="false"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -7,6 +7,7 @@
     android:background="@drawable/fondo5"
     tools:context=".arbol.InteractiveActivity">
 
+    <!-- Pregunta inicial de la actividad -->
     <TextView
         android:id="@+id/tvTreeTitle"
         android:layout_width="wrap_content"
@@ -19,6 +20,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <!-- Scroll con todos los valores -->
     <HorizontalScrollView
         android:id="@+id/wordSelectionScroll"
         android:layout_width="match_parent"
@@ -29,11 +31,12 @@
         app:layout_constraintTop_toBottomOf="@+id/tvTreeTitle">
 
         <LinearLayout
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:gravity="center">
 
+            <!-- Botón Adiskidetasuna -->
             <Button
                 android:id="@+id/btnAmistadVal"
                 android:layout_width="wrap_content"
@@ -43,6 +46,7 @@
                 android:text="@string/value_friendship"
                 android:textColor="@color/white" />
 
+            <!-- Botón Askatasuna -->
             <Button
                 android:id="@+id/btnLibertadVal"
                 android:layout_width="wrap_content"
@@ -52,6 +56,7 @@
                 android:text="@string/value_freedom"
                 android:textColor="@color/white" />
 
+            <!-- Botón Elkartasuna -->
             <Button
                 android:id="@+id/btnSolidaridadVal"
                 android:layout_width="wrap_content"
@@ -61,6 +66,7 @@
                 android:text="@string/value_solidarity"
                 android:textColor="@color/white" />
 
+            <!-- Botón Errespetua -->
             <Button
                 android:id="@+id/btnRespetoVal"
                 android:layout_width="wrap_content"
@@ -70,6 +76,7 @@
                 android:text="@string/value_respect"
                 android:textColor="@color/white" />
 
+            <!-- Botón Bakea -->
             <Button
                 android:id="@+id/btnPazVal"
                 android:layout_width="wrap_content"
@@ -81,6 +88,7 @@
         </LinearLayout>
     </HorizontalScrollView>
 
+    <!-- Contenedor con la imagen del arbol con los espacios para añadir los valores -->
     <FrameLayout
         android:id="@+id/treeContainer"
         android:layout_width="match_parent"
@@ -98,9 +106,9 @@
             android:scaleType="fitCenter"
             android:src="@drawable/arbola_image" />
 
-        <!-- Draggable TextViews will be added here dynamically -->
     </FrameLayout>
 
+    <!-- Botón para volver hacia atras -->
     <Button
         android:id="@+id/btnBack"
         style="@style/EstiloBotonSecundario"
@@ -113,6 +121,7 @@
         app:layout_constraintEnd_toStartOf="@+id/btnFinish"
         app:layout_constraintHorizontal_chainStyle="packed" />
 
+    <!-- Botón para terminar la actividad -->
     <Button
         android:id="@+id/btnFinish"
         style="@style/EstiloBotonPrimario"

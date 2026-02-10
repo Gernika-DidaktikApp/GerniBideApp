@@ -9,6 +9,7 @@
     android:padding="@dimen/espaciado_xl"
     tools:context=".picasso.MainActivity">
 
+    <!-- Título de Picasso -->
     <TextView
         android:id="@+id/tvTitulo"
         android:layout_width="wrap_content"
@@ -16,23 +17,37 @@
         android:text="@string/picasso_title"
         android:textAppearance="@style/AparienciaTexto.App.TituloGrande.Primario"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/btnKolorezBakea"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/btnVideoPicasso"
         app:layout_constraintVertical_chainStyle="packed" />
 
+    <!-- Botón al audio de Picasso -->
+    <Button
+        android:id="@+id/btnVideoPicasso"
+        style="@style/EstiloBotonPrimario"
+        android:layout_width="0dp"
+        android:text="@string/picasso_audioa"
+        android:layout_marginTop="@dimen/espaciado_xxl"
+        android:layout_marginBottom="@dimen/espaciado_md"
+        app:layout_constraintTop_toBottomOf="@id/tvTitulo"
+        app:layout_constraintBottom_toTopOf="@id/btnKolorezBakea"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <!-- Botón actividad 1 -->
     <Button
         android:id="@+id/btnKolorezBakea"
         style="@style/EstiloBotonPrimario"
         android:layout_width="0dp"
         android:text="@string/picasso_activity_1"
-        android:layout_marginTop="@dimen/espaciado_xxl"
         android:layout_marginBottom="@dimen/espaciado_md"
-        app:layout_constraintTop_toBottomOf="@id/tvTitulo"
+        app:layout_constraintTop_toBottomOf="@id/btnVideoPicasso"
         app:layout_constraintBottom_toTopOf="@id/btnIkusiEtaAsmatu"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
+    <!-- Botón actividad 2 -->
     <Button
         android:id="@+id/btnIkusiEtaAsmatu"
         style="@style/EstiloBotonPrimario"
@@ -44,16 +59,19 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
+    <!-- Botón actividad 3 -->
     <Button
         android:id="@+id/btnNireMezua"
         style="@style/EstiloBotonPrimario"
         android:layout_width="0dp"
         android:text="@string/picasso_activity_3"
+        android:layout_marginBottom="@dimen/espaciado_md"
         app:layout_constraintTop_toBottomOf="@id/btnIkusiEtaAsmatu"
         app:layout_constraintBottom_toTopOf="@id/btnPuntuazioa"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
+    <!-- Botón puntuación -->
     <Button
         android:id="@+id/btnPuntuazioa"
         style="@style/EstiloBotonPrimario"

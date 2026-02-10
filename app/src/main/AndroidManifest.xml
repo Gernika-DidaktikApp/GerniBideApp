@@ -21,12 +21,13 @@
         android:roundIcon="@mipmap/ic_gernibide_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.GernikApp">
+        <activity
+            android:name=".picasso.VideoPicassoActivity"
+            android:exported="false" />
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="@string/google_maps_key" />
-
-        <!-- Actividades principales -->
+            android:value="@string/google_maps_key" /> <!-- Actividades principales -->
         <activity
             android:name=".LoginActivity"
             android:exported="true"
@@ -64,9 +65,7 @@
         <activity
             android:name=".ZoneCompletionActivity"
             android:exported="false"
-            android:screenOrientation="portrait" />
-
-        <!-- Actividades del fronton -->
+            android:screenOrientation="portrait" /> <!-- Actividades del fronton -->
         <activity
             android:name=".fronton.CestaTipActivity"
             android:exported="false"
@@ -86,9 +85,7 @@
         <activity
             android:name=".fronton.ValuesGroupActivity"
             android:exported="false"
-            android:screenOrientation="portrait" />
-
-        <!-- Actividades de la Plaza Gernika -->
+            android:screenOrientation="portrait" /> <!-- Actividades de la Plaza Gernika -->
         <activity
             android:name=".plaza.DragProductsActivity"
             android:exported="false"
@@ -108,9 +105,7 @@
         <activity
             android:name=".plaza.VerseGameActivity"
             android:exported="false"
-            android:screenOrientation="portrait" />
-
-        <!-- Actividades de picasso -->
+            android:screenOrientation="portrait" /> <!-- Actividades de picasso -->
         <activity
             android:name=".picasso.ColorPeaceActivity"
             android:exported="false"
@@ -132,9 +127,7 @@
         <activity
             android:name=".picasso.ViewInterpretActivity"
             android:exported="false"
-            android:screenOrientation="portrait" />
-
-        <!-- Actividades de arbol -->
+            android:screenOrientation="portrait" /> <!-- Actividades de arbol -->
         <activity
             android:name=".arbol.MainActivity"
             android:exported="false"
@@ -150,13 +143,11 @@
         <activity
             android:name=".arbol.PuzzleActivity"
             android:exported="false"
-            android:screenOrientation="portrait" />
-
-        <!-- Actividades de bunkers -->
+            android:screenOrientation="portrait" /> <!-- Actividades de bunkers -->
         <activity
             android:name=".bunkers.VideoBunkerActivity"
             android:exported="false"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".bunkers.MainActivity"
             android:exported="false"
