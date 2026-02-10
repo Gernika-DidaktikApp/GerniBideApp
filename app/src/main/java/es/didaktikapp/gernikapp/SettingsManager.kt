@@ -9,7 +9,7 @@ import java.util.Locale
 /**
  * Singleton que gestiona TODOS los ajustes de la aplicación GernikApp.
  *
- * @author Erlantz
+ * @author Erlantz García
  * @version 1.0
  */
 object SettingsManager {

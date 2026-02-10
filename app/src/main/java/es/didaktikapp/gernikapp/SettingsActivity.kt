@@ -13,7 +13,7 @@ import androidx.core.content.edit
 /**
  * Activity para la configuración de la aplicación.
  *
- * @author Erlantz
+ * @author Erlantz García
  * @version 1.0
  */
 class SettingsActivity : BaseMenuActivity() {
@@ -65,7 +65,7 @@ class SettingsActivity : BaseMenuActivity() {
      * Guarda los volúmenes originales del sistema en SharedPreferences.
      */
     private fun saveOriginalVolumes() {
-        val audioManager = getSystemService(Context.AUDIO_SERVICE) as AudioManager
+        val audioManager = getSystemService(AUDIO_SERVICE) as AudioManager
         if (!prefs.contains("original_music_volume")) {
             prefs.edit {
                 putInt("original_music_volume", audioManager.getStreamVolume(AudioManager.STREAM_MUSIC))
@@ -172,7 +172,7 @@ class SettingsActivity : BaseMenuActivity() {
      * @param muted `true` para silenciar, `false` para restaurar sonido
      */
     private fun setAppMuteState(context: Context, muted: Boolean) {
-        val audioManager = context.getSystemService(Context.AUDIO_SERVICE) as AudioManager
+        val audioManager = context.getSystemService(AUDIO_SERVICE) as AudioManager
 
         if (muted) {
             audioManager.setStreamMute(AudioManager.STREAM_MUSIC, true)

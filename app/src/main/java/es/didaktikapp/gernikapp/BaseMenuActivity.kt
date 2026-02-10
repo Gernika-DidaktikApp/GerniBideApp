@@ -36,20 +36,37 @@ import androidx.coordinatorlayout.widget.CoordinatorLayout
  */
 abstract class BaseMenuActivity : AppCompatActivity() {
 
+    /** Indica si el menú flotante está actualmente abierto. */
     private var isMenuOpen = false
+
+    /** Evita múltiples navegaciones simultáneas mientras se cambia de pantalla. */
     private var isNavigating = false
 
-    // Views del menú
+    /** Capa oscura que aparece detrás del menú cuando está abierto. */
     private lateinit var fabOverlay: View
+
+    /** Botón principal del menú (abre/cierra el abanico). */
     private lateinit var fabMain: ImageButton
+
+    /** Botón del menú que navega a la pantalla Home (MapaActivity). */
     private lateinit var fabHome: ImageButton
+
+    /** Botón del menú que navega a la pantalla de Ajustes. */
     private lateinit var fabSettings: ImageButton
+
+    /** Botón del menú que navega al Perfil del usuario. */
     private lateinit var fabProfile: ImageButton
 
-    // Configuración del abanico
-    private val fanRadius = 80f // dp
+    /** Radio del abanico en dp: distancia a la que se desplazan los mini FABs. */
+    private val fanRadius = 80f
+
+    /**  Ángulo del botón Home dentro del abanico (180° = izquierda). */
     private val angleHome = 180f
+
+    /** Ángulo del botón Settings dentro del abanico (225° = abajo-izquierda). */
     private val angleSettings = 225f
+
+    /** Ángulo del botón Profile dentro del abanico (270° = abajo). */
     private val angleProfile = 270f
 
     /**
@@ -259,11 +276,19 @@ abstract class BaseMenuActivity : AppCompatActivity() {
             .start()
     }
 
+    /**
+     * Se ejecuta cada vez que la activity vuelve a primer plano.
+     */
     override fun onResume() {
         super.onResume()
         isNavigating = false
     }
 
+    /**
+     * Maneja el botón atrás:
+     * - Si el menú está abierto, lo cierra
+     * - Si no, deja que Android gestione el back normal
+     */
     private fun setupBackHandler() {
         onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {

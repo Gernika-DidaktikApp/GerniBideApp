@@ -49,8 +49,7 @@ class UserEditActivity : BaseMenuActivity() {
     }
 
     /**
-     *
-     *
+     * Obtiene los datos del usuario desde la API y los muestra en el formulario.
      */
     private fun loadUserDataFromApi() {
         lifecycleScope.launch {
@@ -73,9 +72,9 @@ class UserEditActivity : BaseMenuActivity() {
     }
 
     /**
+     * Rellena los campos del formulario con los datos del usuario.
      *
-     *
-     * @param user
+     * @param user Datos del usuario obtenidos de la API.
      */
     private fun populateFields(user: UserResponse) {
         binding.editTextUsername.setText(user.username)
@@ -91,8 +90,9 @@ class UserEditActivity : BaseMenuActivity() {
     }
 
     /**
-     *
-     *
+     * Configura el comportamiento del checkbox de clase.
+     * Si está activado, muestra el campo de ID de clase.
+     * Si se desactiva, limpia y oculta el campo.
      */
     private fun setupClaseToggle() {
         binding.checkBoxClase.setOnCheckedChangeListener { _, isChecked ->
@@ -104,8 +104,8 @@ class UserEditActivity : BaseMenuActivity() {
     }
 
     /**
-     *
-     *
+     * Configura el botón de guardar.
+     * Antes de enviar los datos, valida los campos.
      */
     private fun setupSaveButton() {
         binding.btnGuardar.setOnClickListener {
@@ -116,8 +116,7 @@ class UserEditActivity : BaseMenuActivity() {
     }
 
     /**
-     *
-     *
+     * Envía los datos actualizados del usuario a la API.
      */
     private fun saveUserData() {
         // Obtener valores actualizados
@@ -180,8 +179,7 @@ class UserEditActivity : BaseMenuActivity() {
     }
 
     /**
-     *
-     *
+     * Configura filtros de entrada para validar caracteres permitidos.
      */
     private fun setupInputFilters() {
         // Username: solo letras y números
@@ -198,9 +196,9 @@ class UserEditActivity : BaseMenuActivity() {
     }
 
     /**
+     * Valida los campos del formulario antes de guardar.
      *
-     *
-     * @return
+     * @return true si todos los campos son válidos, false si hay errores.
      */
     private fun validateFields(): Boolean {
         var isValid = true

@@ -5,7 +5,7 @@ import es.didaktikapp.gernikapp.databinding.ActivityAboutBinding
 /**
  * Activity que muestra información "Acerca de" de la aplicación GernikApp.
  *
- * @author Erlantz
+ * @author Erlantz García
  * @version 1.0
  */
 class AboutActivity : BaseMenuActivity() {

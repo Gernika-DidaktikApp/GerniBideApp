@@ -17,7 +17,7 @@ import retrofit2.HttpException
 /**
  * Activity para el registro de nuevos usuarios en la aplicación.
  *
- * @author Erlantz
+ * @author Erlantz García
  * @version 1.0
  * @see AppCompatActivity
  * @see R.layout.activity_register

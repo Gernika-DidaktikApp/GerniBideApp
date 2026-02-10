@@ -12,7 +12,7 @@ import java.util.Locale
  * Este objeto permite escribir líneas de log persistentes en un archivo interno
  * (`app_logs.txt`) ubicado en el directorio privado de la aplicación.
  *
- * @author Erlantz
+ * @author Erlantz García
  * @version 1.0
  */
 object LogManager {

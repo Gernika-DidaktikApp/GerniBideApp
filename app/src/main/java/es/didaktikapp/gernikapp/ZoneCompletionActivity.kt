@@ -28,8 +28,12 @@ import kotlinx.coroutines.launch
  */
 class ZoneCompletionActivity : BaseMenuActivity() {
 
+    /** Layout asociado a esta pantalla. */
     override fun getContentLayoutId() = R.layout.activity_zone_completion
 
+    /**
+     * Inicializa la pantalla una vez inflado el layout.
+     */
     override fun onContentInflated() {
         val prefsName = intent.getStringExtra(EXTRA_ZONE_PREFS_NAME) ?: run {
             finish()
@@ -41,7 +45,7 @@ class ZoneCompletionActivity : BaseMenuActivity() {
             return
         }
 
-        val prefs = getSharedPreferences(prefsName, Context.MODE_PRIVATE)
+        val prefs = getSharedPreferences(prefsName, MODE_PRIVATE)
 
         val tvMessage = findViewById<TextView>(R.id.tvMessage)
         val tvZoneName = findViewById<TextView>(R.id.tvZoneName)
@@ -95,7 +99,7 @@ class ZoneCompletionActivity : BaseMenuActivity() {
     private fun updateTopScore() {
         var globalTotal = 0f
         for (zone in ZoneConfig.ALL_ZONES) {
-            val zonePrefs = getSharedPreferences(zone.prefsName, Context.MODE_PRIVATE)
+            val zonePrefs = getSharedPreferences(zone.prefsName, MODE_PRIVATE)
             for (activity in zone.activities) {
                 globalTotal += zonePrefs.getFloat(activity.scoreKey, 0f)
             }
@@ -134,16 +138,27 @@ class ZoneCompletionActivity : BaseMenuActivity() {
     }
 
     companion object {
+        /** Tag para logs de depuración. */
         private const val TAG = "ZoneCompletionActivity"
+
+        /** Clave del Intent para identificar las preferencias de la zona. */
         private const val EXTRA_ZONE_PREFS_NAME = "zone_prefs_name"
 
+        /**
+         * Comprueba si una zona está completamente terminada.
+         * Revisa si todas las actividades tienen su flag "completed" en true.
+         */
         fun isZoneComplete(context: Context, zone: ZoneInfo): Boolean {
-            val prefs = context.getSharedPreferences(zone.prefsName, Context.MODE_PRIVATE)
+            val prefs = context.getSharedPreferences(zone.prefsName, MODE_PRIVATE)
             return zone.activities.all { prefs.getBoolean(it.completedKey, false) }
         }
 
+        /**
+         * Lanza esta Activity solo si la zona está completa y aún no se ha mostrado el resumen.
+         * Evita mostrar la pantalla más de una vez por zona.
+         */
         fun launchIfComplete(context: Context, zone: ZoneInfo) {
-            val prefs = context.getSharedPreferences(zone.prefsName, Context.MODE_PRIVATE)
+            val prefs = context.getSharedPreferences(zone.prefsName, MODE_PRIVATE)
             val shownKey = "zone_completion_shown"
             if (prefs.getBoolean(shownKey, false)) return
             if (!isZoneComplete(context, zone)) return

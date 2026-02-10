@@ -36,30 +36,32 @@ import kotlinx.coroutines.launch
  */
 class LoginActivity : AppCompatActivity() {
 
-    /**  */
+    /** ViewBinding para acceder a las vistas del layout de login. */
     private lateinit var binding: ActivityLoginBinding
 
-    /**  */
+    /** Repository encargado de gestionar la autenticación (login, logout, tokens). */
     private lateinit var authRepository: AuthRepository
 
-    /**  */
+    /** Repository responsable de obtener o crear partidas activas del usuario. */
     private lateinit var gameRepository: GameRepository
 
-    /**  */
+    /** Repository que gestiona la obtención y sincronización del perfil del usuario. */
     private lateinit var userRepository: UserRepository
 
-    /**  */
+    /** Gestor de sesión: almacena tokens, IDs y estado persistente del usuario. */
     private lateinit var tokenManager: TokenManager
 
-    /**  */
+    /** Tag para logs de depuración específicos de esta Activity. */
     companion object {
         private const val TAG = "LoginActivity"
     }
 
     /**
-     *
-     *
-     * @param savedInstanceState
+     * Metodo principal de inicialización de la Activity.
+     * - Infla el layout
+     * - Inicializa repositorios y gestores
+     * - Comprueba si existe sesión activa
+     * - Configura listeners del formulario
      */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -192,7 +194,7 @@ class LoginActivity : AppCompatActivity() {
     /**
      * Sincroniza el progreso del usuario del servidor a SharedPreferences locales.
      *
-     * Este método se ejecuta después del login exitoso para recuperar
+     * Este metodo se ejecuta después del login exitoso para recuperar
      * el progreso del usuario desde el servidor y sincronizarlo localmente.
      *
      * Si falla la sincronización, no bloquea el flujo - continúa con datos locales.

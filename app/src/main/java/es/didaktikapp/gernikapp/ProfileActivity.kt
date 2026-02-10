@@ -17,6 +17,7 @@ import java.util.Locale
 /**
  * Pantalla de perfil del usuario con estilo gamificado.
  * Muestra estadísticas, logros y opciones de cuenta.
+ *
  * @author Wara Pacheco
  * @version 1.0
  */
@@ -34,22 +35,46 @@ class ProfileActivity : BaseMenuActivity() {
     /** Repositorio para operaciones de usuario (perfil, estadísticas). */
     private lateinit var userRepository: UserRepository
 
-    // Views
+    /** Iniciales del usuario mostradas dentro del avatar circular. */
     private lateinit var tvAvatarInitials: TextView
+
+    /** Nombre completo del usuario (nombre + apellido). */
     private lateinit var tvFullName: TextView
+
+    /** Nombre de usuario. */
     private lateinit var tvUsername: TextView
+
+    /** Fecha en la que el usuario creó su cuenta. */
     private lateinit var tvMemberSince: TextView
+
+    /** Puntuación máxima alcanzada por el usuario en la aplicación. */
     private lateinit var tvTopScore: TextView
+
+    /** Número total de actividades completadas por el usuario. */
     private lateinit var tvActivitiesCompleted: TextView
+
+    /** Racha de días consecutivos usando la app. */
     private lateinit var tvStreak: TextView
+
+    /** Botón para acceder a la pantalla de edición de perfil. */
     private lateinit var btnEditProfile: Button
+
+    /** Botón para cerrar sesión y volver al login. */
     private lateinit var btnLogout: Button
 
-    // Logros
+    /** Logro visual asociado al módulo del Árbol de Gernika. */
     private lateinit var achievementArbol: LinearLayout
+
+    /** Logro visual asociado al módulo de los Búnkers / Refugios. */
     private lateinit var achievementBunkers: LinearLayout
+
+    /** Logro visual asociado al módulo Picasso / Guernica. */
     private lateinit var achievementPicasso: LinearLayout
+
+    /** Logro visual asociado al módulo de la Plaza / Mercado. */
     private lateinit var achievementPlaza: LinearLayout
+
+    /** Logro visual asociado al módulo del Frontón / Pelota Vasca. */
     private lateinit var achievementFronton: LinearLayout
 
     /**

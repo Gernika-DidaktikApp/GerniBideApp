@@ -28,7 +28,7 @@ import es.didaktikapp.gernikapp.plaza.MainActivity as PlazaMainActivity
  * Muestra los puntos de interés del recorrido mediante marcadores de Google Maps
  * y permite al usuario seleccionar una zona para acceder a sus actividades.
  *
- * @author Wara Pacheco, Arantxa Main, Erlantz
+ * @author Wara Pacheco, Arantxa Main, Erlantz García
  * @version 1.0
  * @see OnMapReadyCallback
  */
