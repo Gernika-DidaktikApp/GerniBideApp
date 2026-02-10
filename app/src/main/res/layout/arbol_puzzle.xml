@@ -12,7 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <!-- Guide Image (more visible for children) -->
+        <!-- Imagen del puezzle de fondo -->
         <ImageView
             android:id="@+id/guideImage"
             android:layout_width="match_parent"
@@ -23,6 +23,7 @@
 
     </FrameLayout>
 
+    <!-- Frase final al terminar el puzzle -->
     <TextView
         android:id="@+id/tvVictory"
         android:layout_width="0dp"
@@ -41,6 +42,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintVertical_bias="0.25" />
 
+    <!-- Botón para volver atras -->
     <Button
         android:id="@+id/btnBack"
         style="@style/EstiloBotonSecundario"

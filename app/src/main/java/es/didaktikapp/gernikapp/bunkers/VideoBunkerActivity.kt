@@ -62,7 +62,7 @@ class VideoBunkerActivity : BaseMenuActivity() {
     private var isTracking = false
 
     /** Layout asociado a esta actividad. */
-    override fun getContentLayoutId() = R.layout.bunkers_video_bunker
+    override fun getContentLayoutId() = R.layout.bunkers_video
 
     /**
      * Inicializa la actividad:

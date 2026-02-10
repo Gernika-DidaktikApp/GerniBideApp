@@ -146,10 +146,14 @@
     <!-- Picasso -->
     <string name="picasso_title">Guernica de Picasso</string>
     <string name="picasso_subtitle">Actividades</string>
-    <string name="picasso_activity_1">1. Colorea la paz</string>
-    <string name="picasso_activity_2">2. Observa y adivina</string>
-    <string name="picasso_activity_3">3. Mi mensaje para el mundo</string>
+    <string name="picasso_audioa">1. Audio</string>
+    <string name="picasso_activity_1">2. Colorea la paz</string>
+    <string name="picasso_activity_2">3. Observa y adivina</string>
+    <string name="picasso_activity_3">4. Mi mensaje para el mundo</string>
     <string name="picasso_guernica_description">Guernica</string>
+    <string name="picasso_kuadro_desc">Cuadro de Picasso</string>
+    <string name="picasso_audio_texto_ayuda">Picasso no estuvo en Gernika, pero el bombardeo conmovió profundamente su corazón. A raíz de aquel ataque, pintó el dolor de todo un pueblo, y ese es el cuadro que tenemos delante. La obra lanzó un grito al mundo: “¡No a la guerra!”. Hoy en día es un símbolo de paz y dignidad humana. El arte nos muestra que incluso del dolor puede nacer la esperanza.</string>
+
 
     <!-- Color Peace -->
     <string name="color_peace_title">Colorea la paz</string>
@@ -364,6 +368,8 @@
     <string name="_1_audio_quiz">1. Quiz de Audio</string>
     <string name="_2_puzzle">2. Puzzle</string>
     <string name="_3_nire_arbola">3. Mi Árbol</string>
+
+    <string name="video_arbol_texto">Soy el Árbol de Gernika. Llevo muchos siglos aquí, reuniendo a los vizcaínos bajo mi sombra. El edificio que veis a mi lado es la Casa de Juntas, donde se han tomado decisiones muy importantes. Los representantes de los pueblos se reunían, cada uno contaba los problemas de su localidad y juntos tomaban decisiones. Hoy en día, soy un símbolo de libertad y unidad, y me conocen en todo el mundo. ¿Vosotros también me ayudaréis a cuidar estos valores en mis ramas?</string>
 
     <!-- Bunkers Module -->
     <string name="bunkerrak">Búnkeres</string>

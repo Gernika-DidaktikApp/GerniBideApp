@@ -150,10 +150,13 @@
     <!-- Picasso -->
     <string name="picasso_title">Picasso-ren Guernika</string>
     <string name="picasso_subtitle">Jarduerak</string>
-    <string name="picasso_activity_1">1. Bakea margotu</string>
-    <string name="picasso_activity_2">2. Begira eta asmatu</string>
-    <string name="picasso_activity_3">3. Nire mezua mundua</string>
+    <string name="picasso_audioa">1. Audioa</string>
+    <string name="picasso_activity_1">2. Bakea margotu</string>
+    <string name="picasso_activity_2">3. Begira eta asmatu</string>
+    <string name="picasso_activity_3">4. Nire mezua mundua</string>
     <string name="picasso_guernica_description">Guernika</string>
+    <string name="picasso_kuadro_desc">Picasso-ren kuadroa</string>
+    <string name="picasso_audio_texto_ayuda">Picasso ez zen Gernikan egon, baina bonbardaketak, haren bihotza hunkitu zuen. Bonbardaketaren ondorioz, herri oso baten mina margotu zuen eta hori da, aurrez aurre dugun koadroa. Koadroak munduari oihu egin zion: ‘Gerrarik ez!’. Gaur egun, bakearen eta giza duintasunaren sinbolo da. Arteak, minetik ere itxaropena sor daitekeela erakusten digu.</string>
 
     <!-- Color Peace -->
     <string name="color_peace_title">Bakea margotzen</string>
@@ -454,7 +457,7 @@
     <string name="zone_msg_excellent">Bikain!</string>
     <string name="zone_msg_good">Ondo!</string>
     <string name="zone_msg_try_again">Saiatu berriro!</string>
-    <string name="zone_total_score">Puntuazio totala</string>
+    <string name="zone_total_score">Puntuazio osoa</string>
     <string name="zone_continue">Jarraitu</string>
     <string name="zone_view_scores">Puntuazioa ikusi</string>
 
@@ -463,8 +466,10 @@
 
     <string name="gernikako_arbola">Gernikako Arbola</string>
     <string name="_1_audio_quiz">1. Audio Quiz</string>
-    <string name="_2_puzzle">2. Puzzle</string>
+    <string name="_2_puzzle">2. Puzzlea</string>
     <string name="_3_nire_arbola">3. Nire Arbola</string>
+
+    <string name="video_arbol_texto">Gernikako Arbola nauzue. Mende asko daramatzat hemen, bizkaitarrak nire itzalpean biltzen. Nire aldamenean ikusten duzuen eraikina, Batzar Etxea da eta bertan, erabaki garrantzitsuak hartu izan dira. Herrietako ordezkariak elkartu, bakoitzak bere herriko arazoak kontatu eta elkarrekin erabakiak hartzen dituzte. Gaur egun, askatasunaren eta batasunaren sinboloa naiz, eta mundu osoan ezagutzen naute. Zuek ere, lagunduko al didazue nire adarretan balio hauek zaintzen?</string>
 
     <string name="bunkerrak">Bunkerrak</string>
     <string name="video_bunkers">1. Videoa</string>

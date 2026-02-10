@@ -9,6 +9,7 @@
     android:padding="@dimen/espaciado_xl"
     tools:context=".arbol.MainActivity">
 
+    <!-- Título de la actividad -->
     <TextView
         android:id="@+id/tvTitulo"
         android:layout_width="wrap_content"
@@ -21,6 +22,7 @@
         app:layout_constraintBottom_toTopOf="@id/btnAudioQuiz"
         app:layout_constraintVertical_chainStyle="packed" />
 
+    <!-- Botón para abrir la actividad de Audio Quiz -->
     <Button
         android:id="@+id/btnAudioQuiz"
         style="@style/EstiloBotonPrimario"
@@ -33,6 +35,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
+    <!-- Botón para abrir la actividad del Puzzle -->
     <Button
         android:id="@+id/btnPuzzle"
         style="@style/EstiloBotonPrimario"
@@ -44,6 +47,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
+    <!-- Botón para abrir la actividad de Mi arbol -->
     <Button
         android:id="@+id/btnInteractive"
         style="@style/EstiloBotonPrimario"
@@ -54,6 +58,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
+    <!-- botón donde se vera la puntuación total -->
     <Button
         android:id="@+id/btnPuntuazioa"
         style="@style/EstiloBotonPrimario"

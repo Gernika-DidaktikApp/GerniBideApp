@@ -39,14 +39,15 @@ object Constants {
 
         object Bunkers {
             const val ID = "a233c17d-75a8-417d-8862-d0e1550fe59e"              // ID del punto
+            const val VIDEO_BUNKER = "1e981c52-4a46-4511-a5c5-f0f2ecab088d"    // Vídeo Bunkers
             const val SOUND_GAME = "20f2c2d5-6f7f-4e91-a8bb-f28be9fa5748"      // Soinu Jokoa
             const val PEACE_MURAL = "6e74c7c5-6ad7-4714-bc8d-de2484291692"     // Bake murala
             const val REFLECTION = "03ddf94d-6be0-4e54-a76d-824f596a0c98"      // Hausnarketa
-            const val VIDEO_BUNKER = "1e981c52-4a46-4511-a5c5-f0f2ecab088d"    // Vídeo Bunkers
         }
 
         object Picasso {
             const val ID = "d66f036b-c0d3-4765-a64b-dd3643c84c19"              // ID del punto
+            const val AUDIO_PICASSO = "753cdaa2-ee55-4f56-a0d7-36bf8a70822e"    // Audio Picasso
             const val COLOR_PEACE = "2f85d0a6-c54f-49e7-a4cb-31d18a3bb286"     // Colorea la paz
             const val VIEW_INTERPRET = "9899bd1a-d2a9-4421-b520-f1fd8ad53d9a"  // Observa y adivina
             const val MY_MESSAGE = "9a5bbb72-827a-4b7e-bd3b-1e010dff191b"      // Mi mensaje para el mundo
@@ -94,20 +95,20 @@ object Constants {
         const val GERNIKA_CENTER_LNG = -2.6760
 
         // Puntos de interés
-        const val ARBOLA_LAT = 43.3156
-        const val ARBOLA_LNG = -2.6760
+        const val ARBOLA_LAT = 43.313287
+        const val ARBOLA_LNG = -2.679579
 
-        const val BUNKER_LAT = 43.3200
-        const val BUNKER_LNG = -2.6800
+        const val BUNKER_LAT = 43.312137
+        const val BUNKER_LNG = -2.676608
 
-        const val GUERNICA_LAT = 43.3140
-        const val GUERNICA_LNG = -2.6750
+        const val GUERNICA_LAT = 43.315513
+        const val GUERNICA_LNG = -2.680047
 
-        const val PLAZA_LAT = 43.3150
-        const val PLAZA_LNG = -2.6765
+        const val PLAZA_LAT = 43.316139
+        const val PLAZA_LNG = -2.676672
 
-        const val FRONTOI_LAT = 43.3145
-        const val FRONTOI_LNG = -2.6755
+        const val FRONTOI_LAT = 43.317399
+        const val FRONTOI_LNG = -2.678783
     }
 
     /**

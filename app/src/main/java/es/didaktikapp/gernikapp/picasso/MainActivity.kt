@@ -53,6 +53,11 @@ class MainActivity : BaseMenuActivity() {
 
         val prefs = getSharedPreferences("picasso_progress", MODE_PRIVATE)
 
+        if (prefs.getBoolean("audio_picasso_completed", false)) {
+            binding.btnVideoPicasso.background =
+                ContextCompat.getDrawable(this, R.drawable.bg_boton_completado)
+        }
+
         if (prefs.getBoolean("color_peace_completed", false)) {
             binding.btnKolorezBakea.background =
                 ContextCompat.getDrawable(this, R.drawable.bg_boton_completado)
@@ -79,6 +84,11 @@ class MainActivity : BaseMenuActivity() {
      * Cada botón navega a su actividad correspondiente.
      */
     private fun setupClickListeners() {
+        binding.btnVideoPicasso.setOnClickListener {
+            LogManager.write(this@MainActivity, "Navegando a VideoPicassoActivity")
+            startActivity(Intent(this, VideoPicassoActivity::class.java))
+        }
+
         binding.btnKolorezBakea.setOnClickListener {
             LogManager.write(this@MainActivity, "Navegando a ColorPeaceActivity")
             startActivity(Intent(this, ColorPeaceActivity::class.java))
