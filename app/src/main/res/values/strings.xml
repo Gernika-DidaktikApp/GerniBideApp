@@ -61,7 +61,7 @@
     <string name="plaza_activity_4">4. Argazkiak</string>
 
     <!-- Pantalla Arrastrar Productos -->
-    <string name="arrastra_productos_titulo">Produktuak beren postuan jarri</string>
+    <string name="arrastra_productos_titulo">Produktuak beren\npostuan jarri</string>
     <string name="arrastra_instrucciones">Jarri produktu bakoitza dagokion postuan</string>
     <string name="puesto_lacteos">Esnekiak</string>
     <string name="puesto_verduras">Barazkiak</string>

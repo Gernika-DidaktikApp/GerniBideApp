@@ -55,7 +55,7 @@
     <dimen name="text_content_max_width">400dp</dimen>
 
     <!-- Plaza: Puestos del mercado -->
-    <dimen name="plaza_puesto_height">75dp</dimen>
-    <dimen name="plaza_puesto_icon_size">35dp</dimen>
+    <dimen name="plaza_puesto_height">65dp</dimen>
+    <dimen name="plaza_puesto_icon_size">28dp</dimen>
     <dimen name="plaza_producto_size">70dp</dimen>
 </resources>

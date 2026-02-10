@@ -57,7 +57,7 @@
 
     <!-- Pantalla Arrastrar Productos -->
     <string name="plaza_activity_4">4. Fotos</string>
-    <string name="arrastra_productos_titulo">Coloca los productos en su puesto</string>
+    <string name="arrastra_productos_titulo">Coloca los productos\nen su puesto</string>
     <string name="arrastra_instrucciones">Arrastra cada producto a su puesto correspondiente</string>
     <string name="puesto_lacteos">Lácteos</string>
     <string name="puesto_verduras">Verduras</string>
