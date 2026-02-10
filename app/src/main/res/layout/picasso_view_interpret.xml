@@ -28,7 +28,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/espaciado_sm"
-            android:text="1/6"
+            android:text="@string/view_interpret_progress_placeholder"
             android:textAppearance="@style/AparienciaTexto.App.Cuerpo.Defecto"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
