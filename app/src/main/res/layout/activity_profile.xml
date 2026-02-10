@@ -36,7 +36,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:gravity="center"
-                    android:text="AB"
+                    android:text="@string/profile_placeholder_initials"
                     android:textSize="48sp"
                     android:textStyle="bold"
                     android:textColor="@color/white" />
@@ -47,7 +47,7 @@
                 android:id="@+id/tvFullName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Nombre Apellido"
+                android:text="@string/profile_placeholder_name"
                 android:textAppearance="@style/AparienciaTexto.App.Encabezado.Defecto" />
 
             <!-- Username -->
@@ -55,7 +55,7 @@
                 android:id="@+id/tvUsername"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="\@erabiltzailea"
+                android:text="@string/profile_placeholder_username"
                 android:textAppearance="@style/AparienciaTexto.App.Etiqueta.Defecto"
                 android:textColor="@color/txtSecundario"
                 android:layout_marginTop="@dimen/espaciado_xs" />
@@ -65,7 +65,7 @@
                 android:id="@+id/tvMemberSince"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="2024tik kidea"
+                android:text="@string/profile_placeholder_member_since"
                 android:textAppearance="@style/AparienciaTexto.App.Caption"
                 android:layout_marginTop="@dimen/espaciado_xs" />
 
@@ -114,7 +114,7 @@
                         android:id="@+id/tvTopScore"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="0"
+                        android:text="@string/profile_placeholder_zero"
                         android:textAppearance="@style/AparienciaTexto.App.Encabezado.Primario"
                         android:layout_marginTop="@dimen/espaciado_xs" />
 
@@ -151,7 +151,7 @@
                         android:id="@+id/tvActivitiesCompleted"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="0"
+                        android:text="@string/profile_placeholder_zero"
                         android:textSize="@dimen/texto_encabezado"
                         android:textStyle="bold"
                         android:textColor="@color/btnSecundario"
@@ -189,7 +189,7 @@
                         android:id="@+id/tvStreak"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="1"
+                        android:text="@string/profile_placeholder_one"
                         android:textSize="@dimen/texto_encabezado"
                         android:textStyle="bold"
                         android:textColor="@color/error"
