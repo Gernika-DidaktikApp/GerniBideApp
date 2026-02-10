@@ -224,7 +224,7 @@ class RegisterActivity : AppCompatActivity() {
                     isValid = false
                 }
                 binding.editTextIdClase.text.length != 6 -> {
-                    binding.editTextIdClase.error = "El código debe tener 6 caracteres"
+                    binding.editTextIdClase.error = getString(R.string.error_codigo_longitud)
                     isValid = false
                 }
             }

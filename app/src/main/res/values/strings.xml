@@ -29,6 +29,8 @@
     <string name="nombre_requerido">Izena beharrezkoa</string>
     <string name="apellido_requerido">Abizenak beharrezkoak</string>
     <string name="id_clase_requerido">Klasearen kodea beharrezkoa (6 karaktere)</string>
+    <string name="error_codigo_longitud">Kodeak 6 karaktere izan behar ditu</string>
+    <string name="error_no_sesion_activa">Ez dago saio aktiborik</string>
     <string name="pasahitza">Pasahitza</string>
     <string name="pasahitza_requerida">Pasahitza beharrezkoa</string>
     <string name="pasahitza_laburgia">Pasahitza gutxienez 6 karaktere izango ditu</string>

@@ -29,6 +29,8 @@
     <string name="nombre_requerido">Nombre requerido</string>
     <string name="apellido_requerido">Apellido requerido</string>
     <string name="id_clase_requerido">Código de clase requerido (6 caracteres)</string>
+    <string name="error_codigo_longitud">El código debe tener 6 caracteres</string>
+    <string name="error_no_sesion_activa">No hay sesión activa</string>
     <string name="pasahitza">Contraseña</string>
     <string name="pasahitza_requerida">Contraseña requerida</string>
     <string name="pasahitza_laburgia">Contraseña de almenos 6 caracteres</string>
