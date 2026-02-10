@@ -19,7 +19,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/btnSoundGame"
+        app:layout_constraintBottom_toTopOf="@id/btnVideoBunker"
         app:layout_constraintVertical_chainStyle="packed" />
 
     <!-- Boton al video -->
@@ -65,6 +65,7 @@
         style="@style/EstiloBotonPrimario"
         android:layout_width="0dp"
         android:text="@string/_3_hausnarketa"
+        android:layout_marginBottom="@dimen/espaciado_md"
         app:layout_constraintTop_toBottomOf="@id/btnPeaceMural"
         app:layout_constraintBottom_toTopOf="@id/btnPuntuazioa"
         app:layout_constraintStart_toStartOf="parent"

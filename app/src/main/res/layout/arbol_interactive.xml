@@ -86,13 +86,15 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginTop="@dimen/espaciado_sm"
-        app:layout_constraintBottom_toTopOf="@+id/btnFinish"
+        android:layout_marginBottom="@dimen/espaciado_md"
+        app:layout_constraintBottom_toTopOf="@+id/btnBack"
         app:layout_constraintTop_toBottomOf="@+id/wordSelectionScroll">
 
         <ImageView
             android:id="@+id/treeImage"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:contentDescription="@string/my_tree_image_description"
             android:scaleType="fitCenter"
             android:src="@drawable/arbola_image" />
 
