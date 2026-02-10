@@ -313,8 +313,6 @@ CLOUDINARY_UPLOAD_PRESET=tu_upload_preset
 3. Las imágenes se suben automáticamente al completar Photo Mission
 4. Las URLs se guardan en el servidor como `respuesta_contenido`
 
-> 📝 Para más detalles, consulta [CLOUDINARY_SETUP.md](CLOUDINARY_SETUP.md)
-
 ## 🎨 Características Especiales
 
 ### PaintCanvasView
