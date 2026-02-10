@@ -373,11 +373,13 @@
 
     <!-- My Tree -->
     <string name="my_tree_question">¿Qué valor representaría tu árbol?</string>
+    <string name="my_tree_image_description">Árbol de Gernika con valores</string>
     <string name="value_friendship">Amistad</string>
     <string name="value_freedom">Libertad</string>
     <string name="value_solidarity">Solidaridad</string>
     <string name="value_respect">Respeto</string>
     <string name="value_peace">Paz</string>
+    <string name="my_tree_complete">¡Excelente! ¡Todos los valores están en tu árbol!</string>
 
     <!-- Puzzle -->
     <string name="puzzle_victory">¡Has reconstruido el corazón de Gernika!</string>
@@ -469,5 +471,19 @@
     <string name="daltonismo_azalpena">Activar paleta de colores más accesible para personas con daltonismo</string>
     <string name="honi_buruz">Acerca de</string>
     <string name="app_informazioa">Información de la aplicación</string>
+
+    <!-- Profile Placeholders -->
+    <string name="profile_placeholder_initials">AB</string>
+    <string name="profile_placeholder_name">Nombre Apellido</string>
+    <string name="profile_placeholder_username">\@erabiltzailea</string>
+    <string name="profile_placeholder_member_since">Miembro desde 2024</string>
+    <string name="profile_placeholder_zero">0</string>
+    <string name="profile_placeholder_one">1</string>
+
+    <!-- Photo Mission -->
+    <string name="photo_mission_error_guardar_progreso">Error: No se pudo guardar el progreso</string>
+
+    <!-- View Interpret -->
+    <string name="view_interpret_progress_placeholder">1/6</string>
 
 </resources>

@@ -338,11 +338,13 @@
 
     <!-- My Tree -->
     <string name="my_tree_question">Zer balio adieraziko luke zure zuhaitzak?</string>
+    <string name="my_tree_image_description">Gernikako Arbola balioekin</string>
     <string name="value_friendship">Adiskidetasuna</string>
     <string name="value_freedom">Askatasuna</string>
     <string name="value_solidarity">Elkartasuna</string>
     <string name="value_respect">Errespetua</string>
     <string name="value_peace">Bakea</string>
+    <string name="my_tree_complete">Bikain! Balio guztiak zure zuhaitzean daude!</string>
 
     <!-- Puzzle -->
     <string name="puzzle_victory">Gernikako bihotza berreraiki duzu!</string>
@@ -468,6 +470,20 @@
     <string name="sentimiento_tristeza">Tristuraren sentimendua</string>
     <string name="sentimiento_tranquilidad">Lasaitasunaren sentimendua</string>
     <string name="sentimiento_esperanza">Itxaropenaren sentimendua</string>
+
+    <!-- Profile Placeholders -->
+    <string name="profile_placeholder_initials">AB</string>
+    <string name="profile_placeholder_name">Izena Abizena</string>
+    <string name="profile_placeholder_username">\@erabiltzailea</string>
+    <string name="profile_placeholder_member_since">2024tik kidea</string>
+    <string name="profile_placeholder_zero">0</string>
+    <string name="profile_placeholder_one">1</string>
+
+    <!-- Photo Mission -->
+    <string name="photo_mission_error_guardar_progreso">Errorea: Ezin izan da aurrerapena gorde</string>
+
+    <!-- View Interpret -->
+    <string name="view_interpret_progress_placeholder">1/6</string>
 
 </resources>
 
