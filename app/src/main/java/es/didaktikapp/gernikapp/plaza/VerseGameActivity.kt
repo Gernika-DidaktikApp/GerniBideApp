@@ -83,11 +83,11 @@ class VerseGameActivity : BaseMenuActivity() {
         preguntas.add(
             VerseQuestion(
                 1,
-                "Jendea etorri da, Gernikako plazara",
+                getString(R.string.jendea_etorri_da),
                 listOf(
-                    "barazkiak erostera diro ta algaraz",
-                    "gerrikoa jantzi eta pilotan jolaztera",
-                    "baina ni tristuraz nago, horieri  begira"
+                    getString(R.string.barazkiak_erostera),
+                    getString(R.string.gerrikoa_jantzi),
+                    getString(R.string.baina_ni_trizturaz)
                 ),
                 0
             )

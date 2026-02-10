@@ -47,17 +47,17 @@
     <!-- Errores de login -->
     <string name="error_login_credenciales">Erabiltzaile izena edo pasahitza okerra da</string>
     <string name="error_login_servidor">Ezin izan da saioa hasi. Saiatu berriro geroago</string>
-    <string name="error_crear_partida">Ezin izan da partidarik sortu. Saiatu berriro</string>
+    <string name="error_crear_partida">Ezin izan da partida sortu. Saiatu berriro</string>
 
     <!-- Plaza Gernika Module -->
     <!-- Pantalla de Video -->
     <string name="plaza_titulo">Gernikako Plaza nagusia</string>
     <string name="siguiente">Hurrengoa</string>
-    <string name="play_pause">Erreproduzitu/Pausatu</string>
+    <string name="play_pause">Erreproduzitu/Gelditu</string>
 
-    <string name="plaza_activity_1">1. Plazaren informazioa</string>
+    <string name="plaza_activity_1">1. Videoa</string>
     <string name="plaza_activity_2">2. Merkatua</string>
-    <string name="plaza_activity_3">3. Bertsoak</string>
+    <string name="plaza_activity_3">3. Bertsoa</string>
     <string name="plaza_activity_4">4. Argazkiak</string>
 
     <!-- Pantalla Arrastrar Productos -->
@@ -101,9 +101,10 @@
     <string name="tomar_foto">Argazkia atera</string>
     <string name="plaza_txt_video">Plaza da herriko bihotza. Astelehen bakoitzean, inguruko nekazariak plazan biltzen dira beraien produktuak saltzeko. Horrez gain, bertan elkartzen gara jaietan, azoketan eta egun berezietan. Urriko azken astelehena berezia izaten da, eta gure herria kolorez, postu ezberdin askoz eta musikaz betetzen da. Tradizio hauei esker, gure kultura bizirik dagoela eta guztion artean egiten dugula ikasten dugu.</string>
     <string name="_0_00_0_00">0:00 / 0:00</string>
-    <string name="opcion_1">1. aukera</string>
-    <string name="opcion_2">2. aukera</string>
-    <string name="opcion_3">3. aukera</string>
+    <string name="jendea_etorri_da">Jendea etorri da, Gernikako plazara</string>
+    <string name="barazkiak_erostera">barazkiak erostera diro ta algaraz</string>
+    <string name="gerrikoa_jantzi">gerrikoa jantzi eta pilotan jolaztera</string>
+    <string name="baina_ni_trizturaz">baina ni tristuraz nago, horieri  begira</string>
 
     <!-- Errores de validación -->
     <string name="error_username_required">Sartu zure erabiltzailea</string>
@@ -122,7 +123,7 @@
     <string name="map_marker_title_bunker">Astrako bunkereak</string>
     <string name="map_marker_title_guernica">Picasso-ren \"Guernika\"</string>
     <string name="map_marker_title_plaza">Gernikako merkatu plaza</string>
-    <string name="map_marker_title_frontoi">Frontoia Jai-Alai</string>
+    <string name="map_marker_title_frontoi">Jai-Alai Frontoia</string>
     <string name="map_dialog_message">%s-ra iritsi zara.\n¿Sartu nahi duzu?</string>
     <string name="map_dialog_button_enter">Sartu</string>
     <string name="map_dialog_button_cancel">Ez</string>
@@ -275,8 +276,8 @@
     <string name="my_message_load_new">Berria</string>
 
     <!-- Fronton -->
-    <string name="informaci_n_del_front_n">1. Frontoiko Informazioa</string>
-    <string name="juego_pelota_dantzan">2. Jolasa: Dantza Pilota</string>
+    <string name="informaci_n_del_front_n">1. Videoa</string>
+    <string name="juego_pelota_dantzan">2. Dantza Pilota</string>
     <string name="video_y_valores">3. Bideoa eta baloreak</string>
     <string name="tu_valor_del_equipo">4. Zure taldearen balioa</string>
     <string name="videoa_erreproduzitu">Videoa erreproduzitu</string>
@@ -302,8 +303,8 @@
 
     <!-- Fronton - CestaTipActivity -->
     <string name="videoa_gelditu">Videoa gelditu</string>
-    <string name="erantzun_zuzena">Erantzun Zuzena ✅</string>
-    <string name="erantzun_okerra">Erantzun okerra ❌</string>
+    <string name="erantzun_zuzena">Erantzun Zuzena</string>
+    <string name="erantzun_okerra">Erantzun okerra</string>
     <string name="hautatu_aukera_bat">Hautatu aukera bat</string>
 
     <!-- Fronton - ValuesGroupActivity -->
@@ -403,7 +404,6 @@
     <string name="photo_mission_upload_in_progress">Igotze bat abian da dagoeneko</string>
     <string name="photo_mission_error_subir">Errorea argazkia igotzean: %s</string>
     <string name="photo_mission_error_guardar">Errorea argazkia gordetzean: %s</string>
-    <string name="gernikako_plazara_nastelehen_goizean">Gernikako plazara\nastelehen goizean…</string>
     <string name="tradizioa">Tradizioa</string>
     <string name="_1_3">1/3</string>
 

@@ -97,9 +97,10 @@
     <string name="tomar_foto">Tomar foto</string>
     <string name="plaza_txt_video">La plaza es el corazón del pueblo. Cada lunes, los agricultores de los alrededores se reúnen en la plaza para vender sus productos. Además, nos reunimos allí en fiestas, mercados y días especiales. El Último Lunes de Octubre es especial, y nuestro pueblo se llena de colores, numerosos puestos y música. Gracias a estas tradiciones, aprendemos que nuestra cultura está viva y que la hacemos todos juntos.</string>
     <string name="_0_00_0_00">0:00 / 0:00</string>
-    <string name="opcion_1">Opción 1</string>
-    <string name="opcion_2">Opción 2</string>
-    <string name="opcion_3">Opción 3</string>
+    <string name="jendea_etorri_da">La gente ha venido a la plaza de Gernika</string>
+    <string name="barazkiak_erostera">a comprar verduras y entre risas</string>
+    <string name="gerrikoa_jantzi">poniéndose el cinturón para jugar a pelota</string>
+    <string name="baina_ni_trizturaz">pero yo estoy triste, mirando hacia ellos</string>
 
     <!-- Errores de validación -->
     <string name="error_username_required">Introduce tu usuario</string>
@@ -272,8 +273,8 @@
     <string name="my_message_load_new">Nuevo</string>
 
     <!-- Fronton -->
-    <string name="informaci_n_del_front_n">1. Información del Frontón</string>
-    <string name="juego_pelota_dantzan">2. Juego: Pelota Dantzan</string>
+    <string name="informaci_n_del_front_n">1. Vídeo</string>
+    <string name="juego_pelota_dantzan">2. Pelota bailando</string>
     <string name="video_y_valores">3. Vídeo y valores</string>
     <string name="tu_valor_del_equipo">4. Tu valor del equipo</string>
     <string name="videoa_erreproduzitu">Reproducir vídeo</string>
@@ -299,8 +300,8 @@
 
     <!-- Fronton - CestaTipActivity -->
     <string name="videoa_gelditu">Pausar vídeo</string>
-    <string name="erantzun_zuzena">¡Respuesta correcta! ✅</string>
-    <string name="erantzun_okerra">Respuesta incorrecta ❌</string>
+    <string name="erantzun_zuzena">¡Respuesta correcta!</string>
+    <string name="erantzun_okerra">Respuesta incorrecta</string>
     <string name="hautatu_aukera_bat">Selecciona una opción</string>
 
     <!-- Fronton - ValuesGroupActivity -->
@@ -470,9 +471,9 @@
     <string name="profile_logout_confirm">Sí, cerrar</string>
     <string name="profile_logout_cancel">Cancelar</string>
     <string name="profile_logout_success">Sesión cerrada correctamente</string>
-    <string name="plaza_activity_1">1. Video</string>
+    <string name="plaza_activity_1">1. Vídeo</string>
     <string name="plaza_activity_2">2. Mercado</string>
-    <string name="plaza_activity_3">3. Versos</string>
+    <string name="plaza_activity_3">3. Verso</string>
 
     <!-- User Edit -->
     <string name="error_cargar_datos">Error al cargar los datos</string>
