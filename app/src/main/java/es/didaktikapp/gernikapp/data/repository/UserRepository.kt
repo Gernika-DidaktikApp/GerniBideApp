@@ -4,6 +4,7 @@ import android.content.Context
 import es.didaktikapp.gernikapp.LogManager
 import es.didaktikapp.gernikapp.data.local.TokenManager
 import es.didaktikapp.gernikapp.data.models.PerfilProgresoResponse
+import es.didaktikapp.gernikapp.data.models.RespuestasPublicasResponse
 import es.didaktikapp.gernikapp.data.models.UpdateUserRequest
 import es.didaktikapp.gernikapp.data.models.UserResponse
 import es.didaktikapp.gernikapp.data.models.UserStatsResponse
@@ -84,6 +85,27 @@ class UserRepository(context: Context) : BaseRepository(context) {
             apiCall = { apiService.getPerfilProgreso(userId) },
             onSuccess = { response ->
                 LogManager.write(context, "Perfil y progreso obtenido correctamente")
+                response
+            }
+        )
+    }
+
+    /**
+     * Obtiene las respuestas públicas de otros usuarios para una actividad específica.
+     * Usado para mostrar mensajes de otros jugadores en actividades como "Mi Mensaje".
+     *
+     * @param actividadId UUID de la actividad
+     * @param limit Número máximo de respuestas a obtener (default: 5)
+     * @return Resource con lista de respuestas públicas
+     */
+    suspend fun getRespuestasPublicas(
+        actividadId: String,
+        limit: Int = 5
+    ): Resource<RespuestasPublicasResponse> {
+        return safeApiCall(
+            apiCall = { apiService.getRespuestasPublicas(actividadId, limit) },
+            onSuccess = { response ->
+                LogManager.write(context, "Respuestas públicas obtenidas: ${response.totalRespuestas} mensajes")
                 response
             }
         )

@@ -24,6 +24,6 @@ data class RegisterRequest(
     @Json(name = "password")
     val password: String,
 
-    @Json(name = "clase_id")
-    val claseId: String? = null
+    @Json(name = "codigo_clase")
+    val codigoClase: String? = null
 )

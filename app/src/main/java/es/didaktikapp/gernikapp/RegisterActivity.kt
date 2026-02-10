@@ -75,12 +75,12 @@ class RegisterActivity : AppCompatActivity() {
             }
         )
 
-        // ID Clase: SOLO letras + números (máx 10)
+        // Código Clase: SOLO letras + números (exactamente 6 caracteres)
         binding.editTextIdClase.filters = arrayOf(
             InputFilter { source, _, _, _, _, _ ->
                 if (source.matches(Regex("[a-zA-Z0-9]*"))) null else ""
             },
-            InputFilter.LengthFilter(10)
+            InputFilter.LengthFilter(6)
         )
     }
 
@@ -112,9 +112,9 @@ class RegisterActivity : AppCompatActivity() {
                     nombre = binding.editTextNombre.text.toString().trim(),
                     apellido = binding.editTextApellido.text.toString().trim(),
                     password = binding.editTextPassword.text.toString().trim(),
-                    claseId = if (binding.checkBoxClase.isChecked &&
+                    codigoClase = if (binding.checkBoxClase.isChecked &&
                                 !binding.editTextIdClase.text.isBlank())
-                        binding.editTextIdClase.text.toString().trim()
+                        binding.editTextIdClase.text.toString().trim().uppercase()
                     else null
                 )
 
@@ -130,18 +130,18 @@ class RegisterActivity : AppCompatActivity() {
                             LogManager.write(this@RegisterActivity, "Registro exitoso para usuario: ${registerRequest.username}")
 
                             Toast.makeText(this@RegisterActivity, getString(R.string.registro_exitoso), Toast.LENGTH_LONG).show()
-                            val intent = Intent(this@RegisterActivity, MapaActivity::class.java)
+                            val intent = Intent(this@RegisterActivity, LoginActivity::class.java)
                             startActivity(intent)
                             finish()
 
                         } else {
                             val errorMsg = when (response.code()) {
                                 400 -> getString(R.string.error_usuario_existe)
-                                401 -> getString(R.string.error_credenciales_invalidas)
+                                404 -> getString(R.string.error_codigo_clase_no_existe)
                                 422 -> getString(R.string.error_datos_invalidos)
-                                else -> getString(R.string.error_servidor, response.code())
+                                else -> getString(R.string.error_registro_servidor)
                             }
-                            LogManager.write(this@RegisterActivity, "Error en registro: $errorMsg")
+                            LogManager.write(this@RegisterActivity, "Error en registro (${response.code()}): $errorMsg")
 
                             Toast.makeText(this@RegisterActivity, errorMsg, Toast.LENGTH_LONG).show()
                         }
@@ -216,10 +216,18 @@ class RegisterActivity : AppCompatActivity() {
             getString(R.string.pasahitza_laburgia)
         } else null
 
-        // ID Clase si checkbox marcado
-        if (binding.checkBoxClase.isChecked && binding.editTextIdClase.text.isBlank()) {
-            binding.editTextIdClase.error = getString(R.string.id_clase_requerido)
-            isValid = false
+        // Código Clase si checkbox marcado (debe ser exactamente 6 caracteres)
+        if (binding.checkBoxClase.isChecked) {
+            when {
+                binding.editTextIdClase.text.isBlank() -> {
+                    binding.editTextIdClase.error = getString(R.string.id_clase_requerido)
+                    isValid = false
+                }
+                binding.editTextIdClase.text.length != 6 -> {
+                    binding.editTextIdClase.error = "El código debe tener 6 caracteres"
+                    isValid = false
+                }
+            }
         }
 
         return isValid

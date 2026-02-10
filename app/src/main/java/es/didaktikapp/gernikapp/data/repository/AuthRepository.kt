@@ -97,7 +97,7 @@ class AuthRepository(context: Context) : BaseRepository(context) {
      * @param nombre Nombre del usuario
      * @param apellido Apellido del usuario
      * @param password Contraseña
-     * @param claseId ID de la clase (opcional)
+     * @param codigoClase Código de la clase de 6 caracteres (opcional)
      * @return Resource con los datos del usuario creado
      */
     suspend fun register(
@@ -105,7 +105,7 @@ class AuthRepository(context: Context) : BaseRepository(context) {
         nombre: String,
         apellido: String,
         password: String,
-        claseId: String? = null
+        codigoClase: String? = null
     ): Resource<RegisterResponse> {
         return safeApiCall(
             apiCall = {
@@ -114,7 +114,7 @@ class AuthRepository(context: Context) : BaseRepository(context) {
                     nombre = nombre,
                     apellido = apellido,
                     password = password,
-                    claseId = claseId
+                    codigoClase = codigoClase
                 )
                 RetrofitClient.getApiService(context).register(registerRequest)
             }

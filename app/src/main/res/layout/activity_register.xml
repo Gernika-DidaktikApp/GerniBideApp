@@ -73,15 +73,15 @@
             android:buttonTint="@color/btnSecundario"
             android:layout_marginBottom="@dimen/espaciado_md" />
 
-        <!-- Campo para introducir el ID Clase (deshabilitado por defecto) -->
+        <!-- Campo para introducir el Código de Clase (6 caracteres) -->
         <EditText
             android:id="@+id/editTextIdClase"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:autofillHints="class id"
+            android:autofillHints="class code"
             android:hint="@string/klase_id"
-            android:inputType="textNoSuggestions"
-            android:maxLength="10"
+            android:inputType="textCapCharacters|textNoSuggestions"
+            android:maxLength="6"
             android:padding="@dimen/espaciado_base"
             android:visibility="gone" />
     </LinearLayout>

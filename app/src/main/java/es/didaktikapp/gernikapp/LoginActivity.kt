@@ -163,12 +163,20 @@ class LoginActivity : AppCompatActivity() {
                 }
 
                 is Resource.Error -> {
-                    LogManager.write(this@LoginActivity, "Error en login: ${result.message}")
+                    LogManager.write(this@LoginActivity, "Error en login (${result.code}): ${result.message}")
 
                     setLoading(false)
+
+                    // Mostrar mensaje amigable según el código de error
+                    val errorMsg = when (result.code) {
+                        401 -> getString(R.string.error_login_credenciales)
+                        422 -> getString(R.string.error_datos_invalidos)
+                        else -> getString(R.string.error_login_servidor)
+                    }
+
                     Toast.makeText(
                         this@LoginActivity,
-                        result.message,
+                        errorMsg,
                         Toast.LENGTH_LONG
                     ).show()
                     binding.editTextPassword.text.clear()
@@ -261,12 +269,12 @@ class LoginActivity : AppCompatActivity() {
             }
 
             is Resource.Error -> {
-                LogManager.write(this@LoginActivity, "Error al obtener partida: ${result.message}")
+                LogManager.write(this@LoginActivity, "Error al obtener partida (${result.code}): ${result.message}")
 
                 setLoading(false)
                 Toast.makeText(
                     this,
-                    "Error al obtener partida: ${result.message}",
+                    getString(R.string.error_crear_partida),
                     Toast.LENGTH_LONG
                 ).show()
             }
