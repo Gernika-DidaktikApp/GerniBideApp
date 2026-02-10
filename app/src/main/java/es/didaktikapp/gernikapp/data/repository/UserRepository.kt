@@ -78,7 +78,7 @@ class UserRepository(context: Context) : BaseRepository(context) {
         val userId = tokenManager.getUserId()
 
         if (userId == null) {
-            return Resource.Error(context.getString(R.string.error_no_sesion_activa))
+            return Resource.Error("No hay sesión activa")
         }
 
         return safeApiCall(
