@@ -307,7 +307,7 @@
 
     <!-- SettingsActivity -->
     <string name="ezarpenak_gordeta">¡Ajustes guardados!</string>
-    <string name="ezarpenak">AJUSTES</string>
+    <string name="ezarpenak">Ajustes</string>
     <string name="ezarpenak_gorde">GUARDAR AJUSTES</string>
     <string name="soinuarekin">Sonido</string>
     <string name="desaktibatu_soinua">Desactivar todos los sonidos del juego</string>
@@ -347,7 +347,7 @@
     <string name="play">Play</string>
     <string name="pause">Pause</string>
     <string name="stop">Stop</string>
-    <string name="ulermen_galderak">PREGUNTAS DE COMPRENSIÓN</string>
+    <string name="ulermen_galderak">Preguntas de comprensión</string>
     <string name="_1_zertarako_elkartzen_ziren_arbolaren_azpian">1. ¿Para qué se reunían bajo el Árbol?</string>
     <string name="legeak_adosteko_eta_foruak_zin_egiteko">Para acordar leyes y jurar los fueros</string>
     <string name="bazkaltzeko">Para comer</string>
@@ -408,7 +408,7 @@
     <string name="reflection_feedback">Gracias por compartir tu sentimiento.</string>
 
     <!-- Sound Game -->
-    <string name="sound_game_title">JUEGO DE SONIDOS</string>
+    <string name="sound_game_title">Juego de sonidos</string>
     <string name="sound_game_stars">⭐ %1$d / %2$d</string>
     <string name="_0_5">⭐ 0 / 5</string>
     <string name="sound_game_question">¿Este sonido representa miedo o refugio?</string>

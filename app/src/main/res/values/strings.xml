@@ -311,7 +311,7 @@
 
     <!-- SettingActivity -->
     <string name="ezarpenak_gordeta">Ezarpenerak gordeta!</string>
-    <string name="ezarpenak">EZARPENAK</string>
+    <string name="ezarpenak">Ezarpenak</string>
     <string name="ezarpenak_gorde">EZARPENAK GORDE</string>
     <string name="soinuarekin">Soinua</string>
     <string name="desaktibatu_soinua">Desaktibatu jokoaren soinu guztiak</string>
@@ -331,7 +331,7 @@
     <string name="play">Play</string>
     <string name="pause">Pause</string>
     <string name="stop">Stop</string>
-    <string name="ulermen_galderak">ULERMEN GALDERAK</string>
+    <string name="ulermen_galderak">Ulermen galderak</string>
     <string name="_1_zertarako_elkartzen_ziren_arbolaren_azpian">1. Zertarako elkartzen ziren Arbolaren azpian?</string>
     <string name="legeak_adosteko_eta_foruak_zin_egiteko">Legeak adosteko eta foruak zin egiteko</string>
     <string name="bazkaltzeko">Bazkaltzeko</string>
@@ -373,7 +373,7 @@
     <string name="reflection_feedback">Eskerrik asko zure sentimendua partekatzeagatik.</string>
 
     <!-- Sound Game -->
-    <string name="sound_game_title">SOINU JOLASA</string>
+    <string name="sound_game_title">Soinu jolasa</string>
     <string name="sound_game_stars">⭐ %1$d / %2$d</string>
     <string name="_0_5">⭐ 0 / 5</string>
     <string name="sound_game_question">Soinu honek beldurra edo babesa adierazten du?</string>
