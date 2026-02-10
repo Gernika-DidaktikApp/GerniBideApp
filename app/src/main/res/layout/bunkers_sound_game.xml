@@ -5,7 +5,7 @@
     android:id="@+id/soundGameRoot"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/fondo6"
+    android:background="@color/backgroundLight"
     tools:context=".bunkers.SoundGameActivity">
 
     <!-- Titulo del juego -->

@@ -283,7 +283,7 @@ class SoundGameActivity : BaseMenuActivity() {
 
         rootLayout.setBackgroundColor(targetColor)
         rootLayout.postDelayed({
-            rootLayout.setBackgroundResource(R.drawable.fondo6)
+            rootLayout.setBackgroundColor(ContextCompat.getColor(this@SoundGameActivity, R.color.backgroundLight))
         }, 1000)
 
         currentSoundId = -1
