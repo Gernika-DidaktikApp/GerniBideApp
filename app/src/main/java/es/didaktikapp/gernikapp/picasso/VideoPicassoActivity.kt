@@ -13,10 +13,12 @@ import androidx.lifecycle.lifecycleScope
 import es.didaktikapp.gernikapp.BaseMenuActivity
 import es.didaktikapp.gernikapp.LogManager
 import es.didaktikapp.gernikapp.R
+import es.didaktikapp.gernikapp.ZoneCompletionActivity
 import es.didaktikapp.gernikapp.data.local.TokenManager
 import es.didaktikapp.gernikapp.data.repository.GameRepository
 import es.didaktikapp.gernikapp.utils.Constants.Puntos
 import es.didaktikapp.gernikapp.utils.Resource
+import es.didaktikapp.gernikapp.utils.ZoneConfig
 import kotlinx.coroutines.launch
 import java.util.Locale
 
@@ -67,13 +69,14 @@ class VideoPicassoActivity : BaseMenuActivity() {
 
         mediaPlayer.setOnCompletionListener {
             updatePlayPauseButton()
-            btnBack.isEnabled = true
+            LogManager.write(this@VideoPicassoActivity, "Audio Picasso completado")
 
+            btnBack.isEnabled = true
             prefs.edit {
                 putBoolean("audio_picasso_completed", true)
                 putFloat("audio_picasso_score", 100f)
             }
-
+            ZoneCompletionActivity.launchIfComplete(this@VideoPicassoActivity, ZoneConfig.PICASSO)
             completarActividad()
         }
 

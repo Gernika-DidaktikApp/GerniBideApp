@@ -56,6 +56,7 @@ object ZoneConfig {
         prefsName = "bunkers_progress",
         zoneName = "Bunkerrak",
         activities = listOf(
+            ActivityConfig("video_bunker_completed", "video_bunker_score", "Bideoa"),
             ActivityConfig("sound_game_completed", "sound_game_score", "Soinu jolasa"),
             ActivityConfig("peace_mural_completed", "peace_mural_score", "Bake murala"),
             ActivityConfig("reflection_completed", "reflection_score", "Hausnarketa")
@@ -66,6 +67,7 @@ object ZoneConfig {
         prefsName = "picasso_progress",
         zoneName = "Picasso",
         activities = listOf(
+            ActivityConfig("audio_picasso_completed", "audio_picasso_score", "Audio"),
             ActivityConfig("color_peace_completed", "color_peace_score", "Bakea margotu"),
             ActivityConfig("view_interpret_completed", "view_interpret_score", "Begira eta asmatu"),
             ActivityConfig("my_message_completed", "my_message_score", "Nire mezua")
