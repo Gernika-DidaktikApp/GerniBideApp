@@ -81,9 +81,7 @@
                 android:id="@+id/switchMute"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:checked="true"
-                app:thumbTint="@color/btnPrincipal"
-                app:trackTint="@color/btnPrincipal" />
+                android:checked="true" />
         </LinearLayout>
 
         <!-- Tarjeta: selección del tamaño de la letra de la app -->
@@ -175,9 +173,7 @@
             <androidx.appcompat.widget.SwitchCompat
                 android:id="@+id/switchDaltonismo"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:thumbTint="@color/btnPrincipal"
-                app:trackTint="@color/btnPrincipal" />
+                android:layout_height="wrap_content" />
         </LinearLayout>
 
         <!-- Tarjeta: selección de idioma de la aplicación -->
