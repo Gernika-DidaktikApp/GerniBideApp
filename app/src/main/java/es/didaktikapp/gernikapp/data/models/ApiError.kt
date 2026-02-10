@@ -24,7 +24,7 @@ data class ApiError(
  * Formato: { "detail": [{ "type": "...", "loc": [...], "msg": "..." }] }
  *
  * @author Wara Pacheco
- * @version 1
+ * @version 1.0
  */
 @JsonClass(generateAdapter = true)
 data class ValidationError(
@@ -46,7 +46,7 @@ data class ValidationError(
  * Detalle de un error de validación individual.
  *
  * @author Wara Pacheco
- * @version 1
+ * @version 1.0
  */
 @JsonClass(generateAdapter = true)
 data class ValidationErrorDetail(

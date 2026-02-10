@@ -8,6 +8,11 @@ import es.didaktikapp.gernikapp.data.models.ValidationError
 /**
  * Parser para errores de la API.
  * Soporta errores simples y errores de validación (422).
+ *
+ * @author Wara Pacheco
+ * @version 1.0
+ * @see ApiError
+ * @see ValidationError
  */
 object ApiErrorParser {
 

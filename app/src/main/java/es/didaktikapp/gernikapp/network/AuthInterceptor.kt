@@ -10,6 +10,10 @@ import okhttp3.Response
 /**
  * Interceptor que añade el token JWT a las peticiones autenticadas.
  * Los endpoints públicos (login, register, health) no requieren token.
+ *
+ * @author Wara Pacheco
+ * @version 1.0
+ * @see TokenManager
  */
 class AuthInterceptor(
     private val tokenManager: TokenManager

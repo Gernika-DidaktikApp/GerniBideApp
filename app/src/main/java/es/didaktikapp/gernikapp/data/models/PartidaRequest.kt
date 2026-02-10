@@ -8,7 +8,7 @@ import com.squareup.moshi.JsonClass
  * POST /api/v1/partidas
  *
  * @author Wara Pacheco
- * @version 1
+ * @version 1.0
  */
 @JsonClass(generateAdapter = true)
 data class PartidaRequest(
