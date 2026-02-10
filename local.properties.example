@@ -1,0 +1,32 @@
+## GernikApp - Configuración Local
+## Copiar este archivo como 'local.properties' y completar con tus credenciales
+
+# ====================================
+# API Backend Configuration
+# ====================================
+# URL del servidor backend de GernikApp
+# Para desarrollo local usa: http://10.0.2.2:8000 (emulador Android)
+# Para producción usa la URL de tu servidor
+API_BASE_URL=https://gernibide.up.railway.app
+
+# ====================================
+# Cloudinary Configuration
+# ====================================
+# Necesario para la funcionalidad de Photo Mission (subida de imágenes)
+# Obtener credenciales en: https://cloudinary.com/
+CLOUDINARY_CLOUD_NAME=tu_cloud_name_aqui
+CLOUDINARY_API_KEY=tu_api_key_aqui
+CLOUDINARY_API_SECRET=tu_api_secret_aqui
+
+# ====================================
+# Nota sobre Google Maps API Key
+# ====================================
+# La Google Maps API Key NO se configura aquí
+# Se configura en: app/src/main/res/values/google_maps_api.xml
+# Obtener API Key en: https://console.cloud.google.com/google/maps-apis/
+
+# ====================================
+# SDK Location (Automático)
+# ====================================
+# Esta línea la genera automáticamente Android Studio
+# sdk.dir=/path/to/Android/sdk

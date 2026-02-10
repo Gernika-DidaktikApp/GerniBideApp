@@ -1,6 +1,39 @@
-# GernikApp 🏛️
+<div align="center">
+  <img src="app_icon.webp" alt="GernikApp Icon" width="150" height="150" />
 
-Aplicación Android educativa e interactiva sobre Gernika (Euskadi, España). Una experiencia multimedia que combina historia, cultura y valores de paz a través de 5 módulos temáticos con mini-juegos y actividades interactivas.
+  # GerniBide 🏛️
+
+  [![Android](https://img.shields.io/badge/Platform-Android-green.svg)](https://www.android.com/)
+  [![Kotlin](https://img.shields.io/badge/Language-Kotlin-blue.svg)](https://kotlinlang.org/)
+  [![API](https://img.shields.io/badge/API-24%2B-brightgreen.svg)](https://android-arsenal.com/api?level=24)
+  [![License](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+
+  **Aplicación Android educativa e interactiva sobre Gernika (Euskadi, España)**
+
+  <p>Una experiencia multimedia que combina historia, cultura vasca y valores de paz a través de 5 módulos temáticos con mini-juegos y actividades interactivas.</p>
+</div>
+
+---
+
+<p align="justify">
+GernikApp es una herramienta pedagógica diseñada para fomentar el aprendizaje sobre la historia de Gernika, sus tradiciones culturales y el mensaje de paz que representa a nivel mundial. La aplicación integra contenido multimedia, gamificación y sincronización en la nube para ofrecer una experiencia educativa completa.
+</p>
+
+## 📋 Tabla de Contenidos
+
+- [Características](#-características)
+- [Módulos](#-módulos)
+- [Tecnologías](#️-tecnologías)
+- [Estructura del Proyecto](#-estructura-del-proyecto)
+- [Sincronización de Progreso](#-sincronización-de-progreso)
+- [Instalación](#-instalación)
+- [Uso](#-uso)
+- [Cloudinary Integration](#️-cloudinary-integration)
+- [Características Especiales](#-características-especiales)
+- [API Endpoints](#-api-endpoints)
+- [Troubleshooting](#-troubleshooting)
+- [Contribuir](#-contribuir)
+- [Desarrolladores](#-desarrolladores)
 
 ## 📱 Características
 
@@ -140,30 +173,86 @@ SyncManager.clearAllProgress(context)
 
 1. **Clonar el repositorio**
 ```bash
-git clone https://github.com/tu-usuario/GernikApp.git
+git clone https://github.com/Gernika-DidaktikApp/GernikApp.git
 cd GernikApp
 ```
 
-2. **Configurar API Base URL**
+2. **Configurar variables de entorno**
 
-Crear `local.properties` en la raíz del proyecto:
-```properties
-API_BASE_URL=https://tu-api.com
-```
+   **a) Crear archivo `local.properties`**
 
-Si no se especifica, usa `http://10.0.2.2:8000` (emulador Android).
+   Copiar el archivo de ejemplo y completar con tus credenciales:
+   ```bash
+   cp local.properties.example local.properties
+   ```
 
-3. **Google Maps API Key**
+   **b) Editar `local.properties`** con tus credenciales:
 
-Añadir en `app/src/main/res/values/strings.xml`:
-```xml
-<string name="google_maps_key">TU_API_KEY_AQUI</string>
-```
+   ```properties
+   # Backend API
+   API_BASE_URL=https://gernibide.up.railway.app
 
-4. **Build y Run**
-```bash
-./gradlew assembleDebug
-```
+   # Cloudinary (para Photo Mission)
+   CLOUDINARY_CLOUD_NAME=tu_cloud_name_aqui
+   CLOUDINARY_API_KEY=tu_api_key_aqui
+   CLOUDINARY_API_SECRET=tu_api_secret_aqui
+   ```
+
+   > **Nota para desarrollo local**: Si usas el emulador de Android y el backend corre en localhost, usa:
+   > ```properties
+   > API_BASE_URL=http://10.0.2.2:8000
+   > ```
+
+3. **Configurar Google Maps API Key**
+
+   **a) Obtener API Key**
+   - Ve a [Google Cloud Console](https://console.cloud.google.com/)
+   - Crea un proyecto o selecciona uno existente
+   - Habilita "Maps SDK for Android"
+   - En "Credenciales", crea una API Key
+   - Restringe la key a tu aplicación (opcional pero recomendado)
+
+   **b) Añadir la key al proyecto**
+
+   Editar `app/src/main/res/values/google_maps_api.xml`:
+   ```xml
+   <resources>
+       <string name="google_maps_key" templateMergeStrategy="preserve" translatable="false">
+           TU_GOOGLE_MAPS_API_KEY_AQUI
+       </string>
+   </resources>
+   ```
+
+4. **Configurar Cloudinary** (Opcional - solo para Photo Mission)
+
+   Si vas a usar la funcionalidad de Photo Mission:
+   - Crea una cuenta en [Cloudinary](https://cloudinary.com/)
+   - En el Dashboard, obtén:
+     - Cloud Name
+     - API Key
+     - API Secret
+   - Añádelos en `local.properties` (paso 2b)
+
+   > Ver [CLOUDINARY_SETUP.md](CLOUDINARY_SETUP.md) para más detalles
+
+5. **Build y Run**
+   ```bash
+   # Compilar debug
+   ./gradlew assembleDebug
+
+   # Instalar en dispositivo/emulador
+   ./gradlew installDebug
+
+   # O simplemente ejecutar desde Android Studio
+   ```
+
+### Archivos de Configuración
+
+| Archivo | Propósito | En Git |
+|---------|-----------|--------|
+| `local.properties.example` | Plantilla de configuración | ✅ Sí |
+| `local.properties` | Configuración real con credenciales | ❌ No (en .gitignore) |
+
 
 ## 🎮 Uso
 
@@ -342,40 +431,101 @@ Puntos.Arbol.PUZZLE
 
 ## 📚 Documentación Adicional
 
-- [API_ENDPOINTS.md](API_ENDPOINTS.md) - Documentación completa de endpoints
-- [CLOUDINARY_SETUP.md](CLOUDINARY_SETUP.md) - Configuración de Cloudinary
-- [CLAUDE.md](CLAUDE.md) - Contexto del proyecto para desarrollo
+- [API_ENDPOINTS.md](API_ENDPOINTS.md) - Documentación completa de endpoints de la API
+- [CLOUDINARY_SETUP.md](CLOUDINARY_SETUP.md) - Guía detallada de configuración de Cloudinary
+- [CLAUDE.md](CLAUDE.md) - Contexto del proyecto para desarrollo con IA
+- [local.properties.example](local.properties.example) - Plantilla de configuración local
 
 ## 🐛 Troubleshooting
 
-### Error 404 en /respuestas-publicas
+### Errores de Configuración
+
+#### BuildConfig no se genera
+Si ves errores como `Unresolved reference: BuildConfig`:
+1. Verifica que `local.properties` existe en la raíz del proyecto
+2. Ejecuta `Build > Clean Project` y luego `Build > Rebuild Project`
+3. Sincroniza Gradle: `File > Sync Project with Gradle Files`
+
+#### Google Maps no se muestra
+Si el mapa aparece en blanco:
+1. Verifica que `google_maps_key` esté correctamente configurada en `app/src/main/res/values/google_maps_api.xml`
+2. Asegúrate de que la API Key esté habilitada para "Maps SDK for Android"
+3. Revisa que la restricción de la API Key incluya el SHA-1 de tu aplicación
+4. Espera unos minutos después de crear la key (puede tardar en propagarse)
+
+#### Error de conexión a la API
+Si recibes errores de conexión:
+1. **Emulador Android**: Usa `http://10.0.2.2:8000` en lugar de `localhost:8000`
+2. **Dispositivo físico**: Asegúrate de que tu servidor sea accesible desde la red local
+3. Verifica que `API_BASE_URL` en `local.properties` sea correcta
+4. Revisa los logs de Retrofit en Logcat para ver la URL completa que se está usando
+
+#### Error de Cloudinary
+Si falla la subida de fotos en Photo Mission:
+1. Verifica que todas las credenciales de Cloudinary estén en `local.properties`
+2. Asegúrate de que no hay espacios extra en los valores
+3. Confirma que el upload preset esté configurado como "unsigned" en Cloudinary
+4. Revisa [CLOUDINARY_SETUP.md](CLOUDINARY_SETUP.md) para más detalles
+
+### Errores de API
+
+#### Error 404 en /respuestas-publicas
 Si recibes 404 al cargar mensajes públicos:
 1. Verifica que el token JWT no haya expirado (hacer logout/login)
 2. Revisa logs de `AuthInterceptor` para confirmar que el token se está enviando
 3. Verifica que `API_BASE_URL` apunte a la URL correcta en `local.properties`
 
-### Progreso no sincroniza
+#### Error 401 Unauthorized
+Si recibes errores de autenticación:
+1. El token JWT puede haber expirado - cierra sesión y vuelve a iniciar
+2. Verifica que el `AuthInterceptor` esté añadiendo el header correctamente
+3. Revisa que el token se esté guardando correctamente en `TokenManager`
+
+### Errores de Sincronización
+
+#### Progreso no sincroniza
 1. Asegúrate de tener conexión a internet al hacer login
 2. Verifica logs de `SyncManager` para errores de sincronización
 3. Si falla la sincronización, la app continúa con datos locales
+4. Intenta cerrar sesión y volver a iniciar para forzar la sincronización
 
-## 🤝 Contribuir
+#### Puntuaciones no se guardan
+1. Verifica que tengas una partida activa (`juegoId` guardado)
+2. Revisa que las llamadas a `completarEvento()` se estén haciendo correctamente
+3. Comprueba los logs de `GameRepository` para ver si hay errores en la API
 
-1. Fork el proyecto
-2. Crea una rama para tu feature (`git checkout -b feature/AmazingFeature`)
-3. Commit tus cambios (`git commit -m 'Add some AmazingFeature'`)
-4. Push a la rama (`git push origin feature/AmazingFeature`)
-5. Abre un Pull Request
+## 👥 Desarrolladores
 
-## 👥 Autores
-
-- **Wara Pacheco** - Desarrollo principal
+| Nombre             | GitHub                                         |
+|--------------------|------------------------------------------------|
+| **Arantxa Main**   | [@arantxaMain](https://github.com/arantxaMain) |
+| **Erlantz Garcia** | [@Erlantz50](https://github.com/Erlnatz50)     |
+| **Telmo Castillo** | [@telca5](https://github.com/telcas5)          |
+| **Wara Pacheco**   | [@warayasy](https://github.com/warayasy)       |
 
 ---
 
-**Versión**: 1.0
-**Última actualización**: Febrero 2026
-**SDK mínimo**: Android 7.0 (API 24)
-**SDK objetivo**: Android 16 (API 35)
-**Backend**: FastAPI + PostgreSQL
-**Base URL**: https://gernibide.up.railway.app
+## 📊 Información del Proyecto
+
+| Propiedad | Valor |
+|-----------|-------|
+| **Versión** | 1.0 |
+| **Última actualización** | Febrero 2026 |
+| **SDK mínimo** | Android 7.0 (API 24) |
+| **SDK compilación** | Android 16 (API 36) |
+| **SDK objetivo** | Android 16 (API 36) |
+| **Lenguaje** | Kotlin |
+| **JDK** | 11 |
+| **Backend** | FastAPI + PostgreSQL |
+| **Base URL Producción** | https://gernibide.up.railway.app |
+| **Repositorio** | https://github.com/Gernika-DidaktikApp/GernikApp |
+
+## 📄 Licencia
+
+Este proyecto está bajo la Licencia MIT - ver el archivo [LICENSE](LICENSE) para más detalles.
+
+---
+
+<div align="center">
+  <p>Gernibide - Aprendiendo sobre paz, historia y cultura vasca</p>
+</div>
