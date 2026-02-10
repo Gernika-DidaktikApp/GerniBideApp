@@ -33,23 +33,56 @@ import kotlinx.coroutines.launch
  */
 class VerseGameActivity : BaseMenuActivity() {
 
+    /** Texto del verso inicial mostrado al usuario. */
     private lateinit var tvVersoInicial: TextView
+
+    /** Grupo de opciones de respuesta. */
     private lateinit var radioGroup: RadioGroup
+
+    /** Primera opción de respuesta. */
     private lateinit var rbOpcion1: RadioButton
+
+    /** Segunda opción de respuesta. */
     private lateinit var rbOpcion2: RadioButton
+
+    /** Tercera opción de respuesta. */
     private lateinit var rbOpcion3: RadioButton
+
+    /** Botón para comprobar la respuesta seleccionada. */
     private lateinit var btnComprobar: Button
+
+    /** Botón para volver al menú principal del módulo Plaza. */
     private lateinit var btnBack: Button
+
+    /** Repositorio para gestionar el progreso de la actividad en la API. */
     private lateinit var gameRepository: GameRepository
+
+    /** Gestor de sesión que contiene tokens y el juegoId necesario para la API. */
     private lateinit var tokenManager: TokenManager
+
+    /** ID del progreso de la actividad devuelto por la API. */
     private var actividadProgresoId: String? = null
 
+    /** Lista de preguntas del juego. */
     private val preguntas = mutableListOf<VerseQuestion>()
+
+    /** Índice de la pregunta actual. */
     private var preguntaActual = 0
+
+    /** Número de respuestas correctas acumuladas. */
     private var aciertos = 0
 
+    /** Devuelve el layout asociado a esta actividad. */
     override fun getContentLayoutId() = R.layout.plaza_verse_game
 
+    /**
+     * Inicializa la actividad:
+     * - Registra inicio en LogManager
+     * - Inicializa vistas y preguntas
+     * - Inicia actividad en la API
+     * - Muestra la primera pregunta
+     * - Configura listeners de botones
+     */
     override fun onContentInflated() {
         LogManager.write(this@VerseGameActivity, "VerseGameActivity iniciada")
 
@@ -63,6 +96,9 @@ class VerseGameActivity : BaseMenuActivity() {
         setupButtons()
     }
 
+    /**
+     * Inicializa todas las vistas del layout.
+     */
     private fun inicializarVistas() {
         tvVersoInicial = findViewById(R.id.tvVersoInicial)
         radioGroup = findViewById(R.id.radioGroupOpciones)
@@ -79,6 +115,13 @@ class VerseGameActivity : BaseMenuActivity() {
         }
     }
 
+    /**
+     * Inicializa la lista de preguntas del juego.
+     * Cada pregunta contiene:
+     * - Verso inicial
+     * - Tres opciones
+     * - Índice de la respuesta correcta
+     */
     private fun inicializarPreguntas() {
         preguntas.add(
             VerseQuestion(
@@ -94,6 +137,12 @@ class VerseGameActivity : BaseMenuActivity() {
         )
     }
 
+    /**
+     * Muestra la pregunta actual en pantalla:
+     * - Verso inicial
+     * - Opciones de respuesta
+     * - Restablece el estado visual
+     */
     private fun mostrarPregunta() {
         if (preguntaActual < preguntas.size) {
             val pregunta = preguntas[preguntaActual]
@@ -108,6 +157,11 @@ class VerseGameActivity : BaseMenuActivity() {
         }
     }
 
+    /**
+     * Configura los listeners de los botones:
+     * - Comprobar respuesta
+     * - Volver al menú Plaza
+     */
     private fun setupButtons() {
         btnComprobar.setOnClickListener {
             comprobarRespuesta()
@@ -122,6 +176,9 @@ class VerseGameActivity : BaseMenuActivity() {
         }
     }
 
+    /**
+     * Comprueba la respuesta seleccionada por el usuario.
+     */
     private fun comprobarRespuesta() {
         val selectedId = radioGroup.checkedRadioButtonId
         if (selectedId == -1) {
@@ -165,17 +222,26 @@ class VerseGameActivity : BaseMenuActivity() {
         }
     }
 
+    /**
+     * Muestra feedback visual para una respuesta correcta.
+     */
     private fun mostrarFeedbackCorrecto(selectedId: Int) {
         val radioButton = findViewById<RadioButton>(selectedId)
         radioButton.setBackgroundResource(R.drawable.plaza_bg_correct)
         Toast.makeText(this, getString(R.string.verse_game_oso_ondo), Toast.LENGTH_SHORT).show()
     }
 
+    /**
+     * Muestra feedback visual para una respuesta incorrecta.
+     */
     private fun mostrarFeedbackIncorrecto(selectedId: Int) {
         val radioButton = findViewById<RadioButton>(selectedId)
         radioButton.setBackgroundResource(R.drawable.plaza_bg_incorrect)
     }
 
+    /**
+     * Resalta visualmente la opción correcta después de un error.
+     */
     private fun resaltarRespuestaCorrecta(correcta: Int) {
         val correctRadioButton = when (correcta) {
             0 -> rbOpcion1
@@ -186,6 +252,9 @@ class VerseGameActivity : BaseMenuActivity() {
         correctRadioButton.setBackgroundResource(R.drawable.plaza_bg_correct)
     }
 
+    /**
+     * Habilita o deshabilita las opciones de respuesta.
+     */
     private fun habilitarOpciones(enabled: Boolean) {
         rbOpcion1.isEnabled = enabled
         rbOpcion2.isEnabled = enabled
@@ -200,6 +269,13 @@ class VerseGameActivity : BaseMenuActivity() {
         }
     }
 
+
+    /**
+     * Muestra el resultado final del juego:
+     * - Guarda progreso en SharedPreferences
+     * - Envía puntuación a la API
+     * - Desbloquea la zona Plaza si corresponde
+     */
     private fun mostrarResultadoFinal() {
         LogManager.write( this@VerseGameActivity, "Juego completado con $aciertos aciertos de ${preguntas.size}" )
         btnBack.isEnabled = true
@@ -215,6 +291,10 @@ class VerseGameActivity : BaseMenuActivity() {
         ZoneCompletionActivity.launchIfComplete(this, ZoneConfig.PLAZA)
     }
 
+    /**
+     * Inicia la actividad en la API del juego.
+     * Guarda el ID de progreso devuelto.
+     */
     private fun iniciarActividad() {
         val juegoId = tokenManager.getJuegoId() ?: return
         lifecycleScope.launch {
@@ -232,6 +312,9 @@ class VerseGameActivity : BaseMenuActivity() {
         }
     }
 
+    /**
+     * Completa la actividad en la API enviando la puntuación final.
+     */
     private fun completarActividad() {
         val estadoId = actividadProgresoId ?: return
         lifecycleScope.launch {

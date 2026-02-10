@@ -41,18 +41,45 @@ import androidx.core.content.edit
  */
 class DragProductsActivity : BaseMenuActivity() {
 
+    /** Grid donde se muestran los productos arrastrables. */
     private lateinit var gridProductos: GridLayout
+
+    /** Botón para volver al menú principal del módulo Plaza. */
     private lateinit var btnBack: Button
+
+    /** Repositorio para gestionar el inicio y finalización de actividades del juego. */
     private lateinit var gameRepository: GameRepository
+
+    /** Gestor de sesión que contiene tokens y el juegoId necesario para la API. */
     private lateinit var tokenManager: TokenManager
+
+    /** ID del progreso de la actividad devuelto por la API al iniciarla. */
     private var actividadProgresoId: String? = null
+
+    /** Lista de productos que el usuario debe clasificar. */
     private val products = mutableListOf<Product>()
+
+    /** Contador de productos correctamente colocados. */
     private var productosColocados = 0
+
+    /** Sonido ambiente del mercado. */
     private var mediaPlayer: MediaPlayer? = null
+
+    /** Sonido reproducido al acertar un producto. */
     private var sonidoAcierto: MediaPlayer? = null
 
+    /** Devuelve el layout asociado a esta actividad. */
     override fun getContentLayoutId() = R.layout.plaza_drag_products
 
+    /**
+     * Inicializa la actividad:
+     * - Registra inicio en LogManager
+     * - Carga vistas y progreso previo
+     * - Inicia actividad en API
+     * - Crea productos y vistas dinámicas
+     * - Configura puestos y scroll
+     * - Prepara audio ambiente
+     */
     override fun onContentInflated() {
         LogManager.write(this@DragProductsActivity, "DragProductsActivity iniciada")
 
@@ -76,6 +103,9 @@ class DragProductsActivity : BaseMenuActivity() {
         inicializarAudio()
     }
 
+    /**
+     * Inicializa el audio ambiente y el sonido de acierto.
+     */
     private fun inicializarAudio() {
         mediaPlayer = MediaPlayer.create(this, R.raw.plaza_ambience).apply {
             isLooping = true
@@ -84,16 +114,19 @@ class DragProductsActivity : BaseMenuActivity() {
         sonidoAcierto = MediaPlayer.create(this, R.raw.plaza_success)
     }
 
+    /** Reanuda el sonido ambiente al volver a la actividad. */
     override fun onResume() {
         super.onResume()
         mediaPlayer?.start()
     }
 
+    /** Pausa el sonido ambiente al salir de la actividad. */
     override fun onPause() {
         super.onPause()
         mediaPlayer?.pause()
     }
 
+    /** Libera los recursos de audio al destruir la actividad. */
     override fun onDestroy() {
         super.onDestroy()
         mediaPlayer?.release()
@@ -102,6 +135,9 @@ class DragProductsActivity : BaseMenuActivity() {
         sonidoAcierto = null
     }
 
+    /**
+     * Configura el ScrollView para permitir eventos de drag sin interferencias.
+     */
     private fun configurarScrollView() {
         val scrollView = findViewById<android.widget.ScrollView>(R.id.scrollProductos)
 
@@ -117,6 +153,14 @@ class DragProductsActivity : BaseMenuActivity() {
         }
     }
 
+    /**
+     * Inicializa la lista de productos disponibles en el mercado.
+     * Cada producto tiene:
+     * - ID
+     * - Nombre
+     * - Imagen
+     * - Categoría
+     */
     private fun inicializarProductos() {
         // Lácteos
         products.add(Product(1, "Gazta", "Gazta", R.drawable.plaza_gazta, ProductCategory.LACTEOS))
@@ -145,19 +189,26 @@ class DragProductsActivity : BaseMenuActivity() {
         LogManager.write(this@DragProductsActivity, "Productos inicializados: ${products.size} items")
     }
 
+    /**
+     * Crea dinámicamente la vista de cada producto dentro del GridLayout.
+     * Cada producto se envuelve en:
+     * - Un contenedor exterior con fondo
+     * - Un contenedor interior con bordes redondeados
+     * - Un ImageView con la imagen del producto
+     */
     private fun crearVistaProductos() {
         val displayMetrics = resources.displayMetrics
         val density = displayMetrics.density
         val screenWidth = displayMetrics.widthPixels
 
         // Convertir dp a px
-        val scrollMargin = (16 * density * 2).toInt() // 16dp a cada lado del ScrollView
-        val gridPadding = (8 * density * 2).toInt() // 8dp de padding del GridLayout
-        val itemMargin = (4 * density).toInt() // 4dp de margen por item
+        val scrollMargin = (16 * density * 2).toInt()
+        val gridPadding = (8 * density * 2).toInt()
+        val itemMargin = (4 * density).toInt()
 
         // Calcular ancho disponible
         val availableWidth = screenWidth - scrollMargin - gridPadding
-        val totalMargins = itemMargin * 2 * 4 // 4dp * 2 lados * 4 columnas
+        val totalMargins = itemMargin * 2 * 4
         val itemSize = (availableWidth - totalMargins) / 4
 
         products.forEachIndexed { index, producto ->
@@ -166,9 +217,9 @@ class DragProductsActivity : BaseMenuActivity() {
             val col = index % 4
 
             // Centrar la última fila si tiene menos de 4 elementos
-            val isLastRow = index >= 12 // Los últimos 2 productos (índices 12 y 13)
+            val isLastRow = index >= 12
             val adjustedCol = if (isLastRow) {
-                col + 1 // Desplazar 1 columna a la derecha para centrar
+                col + 1
             } else {
                 col
             }
@@ -233,7 +284,7 @@ class DragProductsActivity : BaseMenuActivity() {
                             longPressHandler = Runnable {
                                 onProductoLongClick(container)
                             }
-                            postDelayed(longPressHandler, 500) // 500ms para long press
+                            postDelayed(longPressHandler, 500)
                             false
                         }
                         android.view.MotionEvent.ACTION_MOVE -> {
@@ -245,7 +296,7 @@ class DragProductsActivity : BaseMenuActivity() {
                             parent.parent.parent.requestDisallowInterceptTouchEvent(false)
                             // Cancelar el temporizador
                             longPressHandler?.let { removeCallbacks(it) }
-                            performClick() // Para accesibilidad
+                            performClick()
                             false
                         }
                         else -> false
@@ -259,6 +310,13 @@ class DragProductsActivity : BaseMenuActivity() {
         }
     }
 
+    /**
+     * Inicia el proceso de drag & drop cuando el usuario hace long press
+     * sobre un producto.
+     *
+     * @param view Contenedor del producto arrastrado
+     * @return true si el drag se inició correctamente
+     */
     private fun onProductoLongClick(view: View): Boolean {
         // El view es el contenedor exterior, buscar imageContainer -> imageView
         val container = view as FrameLayout
@@ -282,6 +340,10 @@ class DragProductsActivity : BaseMenuActivity() {
         return true
     }
 
+    /**
+     * Configura los listeners de drag para cada puesto del mercado.
+     * Cada puesto acepta únicamente productos de su categoría.
+     */
     private fun configurarPuestos() {
         // Configurar listeners para cada puesto
         val puesto0 = findViewById<LinearLayout>(R.id.puesto0)
@@ -297,6 +359,15 @@ class DragProductsActivity : BaseMenuActivity() {
         puesto4.setOnDragListener { v, event -> onPuestoDrag(v, event, ProductCategory.ARTESANIA) }
     }
 
+    /**
+     * Maneja los eventos de drag & drop sobre un puesto.
+     *
+     * Comportamiento:
+     * - Cambia opacidad al entrar/salir
+     * - Valida si el producto pertenece a la categoría correcta
+     * - Da feedback visual y sonoro
+     * - Marca progreso y completa actividad si corresponde
+     */
     private fun onPuestoDrag(view: View, event: DragEvent, categoriaEsperada: ProductCategory): Boolean {
         when (event.action) {
             DragEvent.ACTION_DRAG_STARTED -> {
@@ -322,7 +393,7 @@ class DragProductsActivity : BaseMenuActivity() {
 
                     // Respuesta correcta
                     mostrarFeedbackCorrecto(view)
-                    container.visibility = View.INVISIBLE // Mantener el espacio en el grid
+                    container.visibility = View.INVISIBLE
                     productosColocados++
 
                     if (productosColocados >= products.size) {
@@ -363,6 +434,9 @@ class DragProductsActivity : BaseMenuActivity() {
         }
     }
 
+    /**
+     * Muestra feedback visual y reproduce sonido al acertar un producto.
+     */
     private fun mostrarFeedbackCorrecto(view: View) {
         view.setBackgroundColor(ContextCompat.getColor(this, R.color.correcto))
         view.postDelayed({
@@ -378,6 +452,10 @@ class DragProductsActivity : BaseMenuActivity() {
         }
     }
 
+    /**
+     * Muestra un diálogo de actividad completada cuando todos los productos
+     * han sido colocados correctamente.
+     */
     private fun mostrarMensajeCompletado() {
         // Mostrar el diálogo después de un pequeño delay para que se vea el último acierto
         gridProductos.postDelayed({
@@ -392,6 +470,9 @@ class DragProductsActivity : BaseMenuActivity() {
         }, 800)
     }
 
+    /**
+     * Muestra feedback visual cuando el producto no corresponde al puesto.
+     */
     private fun mostrarFeedbackIncorrecto(view: View) {
         view.setBackgroundColor(ContextCompat.getColor(this, R.color.error))
         view.postDelayed({
@@ -399,6 +480,9 @@ class DragProductsActivity : BaseMenuActivity() {
         }, 500)
     }
 
+    /**
+     * Configura el botón de volver al menú principal del módulo Plaza.
+     */
     private fun setupButtons() {
         btnBack.setOnClickListener {
             LogManager.write(this@DragProductsActivity, "Usuario salió de DragProductsActivity")
@@ -409,6 +493,10 @@ class DragProductsActivity : BaseMenuActivity() {
         }
     }
 
+    /**
+     * Inicia la actividad en la API del juego.
+     * Guarda el ID de progreso devuelto para completarla más tarde.
+     */
     private fun iniciarActividad() {
         val juegoId = tokenManager.getJuegoId() ?: return
         lifecycleScope.launch {
@@ -426,6 +514,9 @@ class DragProductsActivity : BaseMenuActivity() {
         }
     }
 
+    /**
+     * Completa la actividad en la API enviando una puntuación de 100.
+     */
     private fun completarActividad() {
         val estadoId = actividadProgresoId ?: return
         lifecycleScope.launch {

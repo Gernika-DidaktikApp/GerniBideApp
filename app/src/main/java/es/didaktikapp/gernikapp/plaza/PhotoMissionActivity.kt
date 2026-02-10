@@ -48,24 +48,58 @@ import androidx.core.content.edit
  */
 class PhotoMissionActivity : BaseMenuActivity() {
 
+    /** Botón para tomar una nueva foto. */
     private lateinit var btnTomarFoto: Button
-    private lateinit var btnIgo: Button
-    private lateinit var btnBack: Button
-    private lateinit var ivFotoPreview: ImageView
-    private lateinit var tvSeleccionarEtiqueta: TextView
-    private lateinit var rgEtiquetas: RadioGroup
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                            private lateinit var rvGaleria: RecyclerView
-    private lateinit var progressBar: ProgressBar
-    private lateinit var adapter: PhotoMissionAdapter
-    private lateinit var gameRepository: GameRepository
-    private lateinit var cloudinaryRepository: CloudinaryRepository
-    private lateinit var tokenManager: TokenManager
-    private var actividadProgresoId: String? = null
-    private var actividadEstado: String? = null // "en_progreso" o "completado"
 
+    /** Botón para subir la foto seleccionada. */
+    private lateinit var btnIgo: Button
+
+    /** Botón para volver al menú principal del módulo Plaza. */
+    private lateinit var btnBack: Button
+
+    /** Vista previa de la foto tomada. */
+    private lateinit var ivFotoPreview: ImageView
+
+    /** Texto que indica al usuario que seleccione una etiqueta. */
+    private lateinit var tvSeleccionarEtiqueta: TextView
+
+    /** Grupo de RadioButtons para elegir la etiqueta. */
+    private lateinit var rgEtiquetas: RadioGroup
+
+    /** RecyclerView que muestra la galería de fotos tomadas. */
+    private lateinit var rvGaleria: RecyclerView
+
+    /** Barra de progreso mostrada durante la subida a Cloudinary. */
+    private lateinit var progressBar: ProgressBar
+
+    /** Adaptador de la galería de fotos. */
+    private lateinit var adapter: PhotoMissionAdapter
+
+    /** Repositorio para gestionar el progreso de la actividad en la API. */
+    private lateinit var gameRepository: GameRepository
+
+    /** Repositorio para subir imágenes a Cloudinary. */
+    private lateinit var cloudinaryRepository: CloudinaryRepository
+
+    /** Gestor de sesión que contiene tokens y el juegoId necesario para la API. */
+    private lateinit var tokenManager: TokenManager
+
+    /** ID del progreso de la actividad devuelto por la API. */
+    private var actividadProgresoId: String? = null
+
+    /** Estado de la actividad en la API ("en_progreso" o "completado"). */
+    private var actividadEstado: String? = null
+
+    /** Lista de fotos tomadas por el usuario. */
     private val galeriaFotos = mutableListOf<FotoGaleria>()
+
+    /** Foto actual tomada por la cámara. */
     private var fotoActual: Bitmap? = null
+
+    /** Contador incremental para asignar IDs locales a las fotos. */
     private var contadorFotos = 0
+
+    /** Indica si una foto se está subiendo actualmente. */
     private var isUploading = false
 
     companion object {
@@ -74,11 +108,14 @@ class PhotoMissionActivity : BaseMenuActivity() {
         private const val KEY_ACTIVIDAD_PROGRESO_ID = "actividad_progreso_id"
     }
 
-    // Moshi para parsear JSON de forma segura
+    /** Instancia de Moshi para parsear JSON de forma segura. */
     private val moshi = Moshi.Builder()
         .add(KotlinJsonAdapterFactory())
         .build()
 
+    /**
+     * Launcher para solicitar permiso de cámara.
+     */
     private val requestPermissionLauncher = registerForActivityResult(
         ActivityResultContracts.RequestPermission()
     ) { isGranted ->
@@ -89,6 +126,9 @@ class PhotoMissionActivity : BaseMenuActivity() {
         }
     }
 
+    /**
+     * Launcher para capturar una foto con la cámara.
+     */
     private val takePictureLauncher = registerForActivityResult(
         ActivityResultContracts.StartActivityForResult()
     ) { result ->
@@ -102,8 +142,16 @@ class PhotoMissionActivity : BaseMenuActivity() {
         }
     }
 
+    /** Devuelve el layout asociado a esta actividad. */
     override fun getContentLayoutId() = R.layout.plaza_photo_mission
 
+    /**
+     * Inicializa la actividad:
+     * - Registra inicio en LogManager
+     * - Inicializa repositorios y vistas
+     * - Configura RecyclerView y botones
+     * - Inicia o recupera progreso desde la API
+     */
     override fun onContentInflated() {
         LogManager.write(this@PhotoMissionActivity, "PhotoMissionActivity iniciada")
 
@@ -117,6 +165,9 @@ class PhotoMissionActivity : BaseMenuActivity() {
         iniciarActividad() // Carga la foto automáticamente si existe
     }
 
+    /**
+     * Inicializa todas las vistas del layout.
+     */
     private fun inicializarVistas() {
         btnTomarFoto = findViewById(R.id.btnTomarFoto)
         btnIgo = findViewById(R.id.btnIgo)
@@ -128,12 +179,21 @@ class PhotoMissionActivity : BaseMenuActivity() {
         progressBar = findViewById(R.id.progressBar)
     }
 
+    /**
+     * Configura el RecyclerView de la galería con un GridLayout de 2 columnas.
+     */
     private fun setupRecyclerView() {
         adapter = PhotoMissionAdapter(galeriaFotos)
         rvGaleria.layoutManager = GridLayoutManager(this, 2)
         rvGaleria.adapter = adapter
     }
 
+    /**
+     * Configura los listeners de los botones:
+     * - Tomar foto
+     * - Subir foto
+     * - Volver al menú Plaza
+     */
     private fun setupButtons() {
         btnTomarFoto.setOnClickListener {
             verificarPermisoCamara()
@@ -152,6 +212,9 @@ class PhotoMissionActivity : BaseMenuActivity() {
         }
     }
 
+    /**
+     * Muestra la vista previa de la foto tomada y habilita la selección de etiqueta.
+     */
     private fun mostrarVistaPrevia(bitmap: Bitmap) {
         ivFotoPreview.setImageBitmap(bitmap)
         ivFotoPreview.visibility = View.VISIBLE
@@ -161,6 +224,10 @@ class PhotoMissionActivity : BaseMenuActivity() {
         btnIgo.visibility = View.VISIBLE
     }
 
+    /**
+     * Valida la foto y etiqueta seleccionada, sube la imagen a Cloudinary
+     * y guarda el progreso en la API.
+     */
     private fun subirFoto() {
         val selectedId = rgEtiquetas.checkedRadioButtonId
 
@@ -269,6 +336,9 @@ class PhotoMissionActivity : BaseMenuActivity() {
         }
     }
 
+    /**
+     * Restablece la interfaz tras subir una foto.
+     */
     private fun resetearVista() {
         // Liberar memoria del Bitmap antes de establecerlo a null
         fotoActual?.recycle()
@@ -281,6 +351,9 @@ class PhotoMissionActivity : BaseMenuActivity() {
         btnTomarFoto.visibility = View.VISIBLE
     }
 
+    /**
+     * Verifica si el permiso de cámara está concedido.
+     */
     private fun verificarPermisoCamara() {
         when {
             ContextCompat.checkSelfPermission(
@@ -295,11 +368,17 @@ class PhotoMissionActivity : BaseMenuActivity() {
         }
     }
 
+    /**
+     * Abre la cámara usando un intent implícito.
+     */
     private fun abrirCamara() {
         val takePictureIntent = android.content.Intent(MediaStore.ACTION_IMAGE_CAPTURE)
         takePictureLauncher.launch(takePictureIntent)
     }
 
+    /**
+     * Inicia o recupera el progreso de la actividad desde la API.
+     */
     private fun iniciarActividad() {
         val juegoId = tokenManager.getJuegoId() ?: return
         lifecycleScope.launch {
@@ -313,7 +392,7 @@ class PhotoMissionActivity : BaseMenuActivity() {
                 when (val result = gameRepository.getActividadProgreso(progresoIdGuardado)) {
                     is Resource.Success -> {
                         actividadProgresoId = result.data.id
-                        actividadEstado = result.data.estado // Guardar el estado
+                        actividadEstado = result.data.estado
                         Log.d(TAG, "✅ Progreso cargado - ID: ${result.data.id}, Estado: ${result.data.estado}")
                         Log.d(TAG, "🔍 Tiene respuesta_contenido: ${!result.data.respuestaContenido.isNullOrEmpty()}")
 
@@ -347,7 +426,7 @@ class PhotoMissionActivity : BaseMenuActivity() {
         when (val result = gameRepository.iniciarActividad(juegoId, Puntos.Plaza.ID, Puntos.Plaza.PHOTO_MISSION)) {
             is Resource.Success -> {
                 actividadProgresoId = result.data.id
-                actividadEstado = result.data.estado // Guardar el estado (debería ser "en_progreso")
+                actividadEstado = result.data.estado
 
                 // Guardar el ID del progreso
                 val prefs = getSharedPreferences(PREFS_NAME, MODE_PRIVATE)

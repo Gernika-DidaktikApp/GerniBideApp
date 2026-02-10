@@ -12,11 +12,21 @@ import es.didaktikapp.gernikapp.utils.ZoneConfig
 
 /**
  * Activity principal del módulo Plaza que gestiona el menú de actividades disponibles.
+ *
+ * @author Arantxa Main
+ * @version 1.0
  */
 class MainActivity : BaseMenuActivity() {
 
+    /** Binding del layout plaza_main.xml. */
     private lateinit var binding: PlazaMainBinding
 
+    /**
+     * Inicializa la actividad:
+     * - Registra el inicio en LogManager
+     * - Infla el layout
+     * - Configura los listeners de los botones del menú
+     */
     override fun onContentInflated() {
         LogManager.write(this@MainActivity, "PlazaMainActivity iniciada")
 
@@ -24,11 +34,21 @@ class MainActivity : BaseMenuActivity() {
         setupClickListeners()
     }
 
+    /**
+     * Se ejecuta cada vez que la Activity vuelve a primer plano.
+     * Actualiza el estado visual de las actividades completadas.
+     */
     override fun onResume() {
         super.onResume()
         updateCompletedActivities()
     }
 
+    /**
+     * Actualiza el aspecto visual de los botones según el progreso del usuario.
+     *
+     * - Cambia el fondo de los botones completados
+     * - Muestra el botón de puntuación si la zona Plaza está completada
+     */
     private fun updateCompletedActivities() {
         LogManager.write(this@MainActivity, "Actualizando actividades completadas del módulo Plaza")
 
@@ -60,6 +80,15 @@ class MainActivity : BaseMenuActivity() {
         }
     }
 
+    /**
+     * Configura los listeners de los botones del menú principal.
+     *
+     * Cada botón navega a su actividad correspondiente:
+     * - VideoActivity
+     * - DragProductsActivity
+     * - VerseGameActivity
+     * - PhotoMissionActivity
+     */
     private fun setupClickListeners() {
         binding.btnVideo.setOnClickListener {
             LogManager.write(this@MainActivity, "Navegando a VideoActivity")

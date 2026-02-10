@@ -23,17 +23,40 @@ class PhotoMissionAdapter(
     private val fotos: List<FotoGaleria>
 ) : RecyclerView.Adapter<PhotoMissionAdapter.FotoViewHolder>() {
 
+    /**
+     * ViewHolder que contiene las vistas de cada elemento de la galería:
+     * - ivFoto: Imagen de la foto
+     * - tvEtiqueta: Texto con la etiqueta asociada
+     */
     class FotoViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val ivFoto: ImageView = view.findViewById(R.id.ivFoto)
         val tvEtiqueta: TextView = view.findViewById(R.id.tvEtiqueta)
     }
 
+    /**
+     * Infla el layout de cada elemento de la galería.
+     *
+     * @param parent Vista padre del RecyclerView
+     * @param viewType Tipo de vista (no usado en este adaptador)
+     * @return Un nuevo FotoViewHolder con el layout inflado
+     */
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FotoViewHolder {
         val view = LayoutInflater.from(parent.context)
             .inflate(R.layout.plaza_item_photo_mission, parent, false)
         return FotoViewHolder(view)
     }
 
+    /**
+     * Enlaza los datos de una foto con su ViewHolder.
+     *
+     * Proceso:
+     * - Si la foto tiene URL → se carga con Coil desde Cloudinary
+     * - Si tiene Bitmap local → se muestra directamente
+     * - Se asigna la etiqueta en euskera
+     *
+     * @param holder ViewHolder que se va a actualizar
+     * @param position Posición del elemento en la lista
+     */
     override fun onBindViewHolder(holder: FotoViewHolder, position: Int) {
         val foto = fotos[position]
 
@@ -53,5 +76,8 @@ class PhotoMissionAdapter(
         holder.tvEtiqueta.text = foto.etiqueta.etiquetaEuskera
     }
 
+    /**
+     * Devuelve el número total de fotos en la galería.
+     */
     override fun getItemCount() = fotos.size
 }

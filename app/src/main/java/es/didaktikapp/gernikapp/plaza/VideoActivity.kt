@@ -37,21 +37,50 @@ import es.didaktikapp.gernikapp.LogManager
  */
 class VideoActivity : BaseMenuActivity() {
 
+    /** Vista que reproduce el vídeo del módulo Plaza. */
     private lateinit var videoView: VideoView
+
+    /** Botón para reproducir o pausar el vídeo. */
     private lateinit var btnPlayPause: ImageButton
+
+    /** Barra de progreso que muestra y controla la posición del vídeo. */
     private lateinit var seekBar: SeekBar
+
+    /** Texto que muestra el tiempo actual y total del vídeo. */
     private lateinit var tvTime: TextView
+
+    /** Botón para volver al menú principal del módulo Plaza. */
     private lateinit var btnBack: Button
+
+    /** Indicador de carga mostrado mientras el vídeo se prepara. */
     private lateinit var progressBar: ProgressBar
+
+    /** Repositorio para gestionar el progreso de la actividad en la API. */
     private lateinit var gameRepository: GameRepository
+
+    /** Gestor de sesión que contiene tokens y el juegoId necesario para la API. */
     private lateinit var tokenManager: TokenManager
+
+    /** ID del progreso de la actividad devuelto por la API. */
     private var actividadProgresoId: String? = null
 
+    /** Handler para actualizar la SeekBar en tiempo real. */
     private val handler = Handler(Looper.getMainLooper())
+
+    /** Indica si el usuario está moviendo manualmente la SeekBar. */
     private var isTracking = false
 
+    /** Devuelve el layout asociado a esta actividad. */
     override fun getContentLayoutId() = R.layout.plaza_video
 
+    /**
+     * Inicializa la actividad:
+     * - Registra inicio en LogManager
+     * - Inicializa repositorios y vistas
+     * - Comprueba progreso previo
+     * - Inicia actividad en la API
+     * - Configura reproductor y controles
+     */
     override fun onContentInflated() {
         LogManager.write(this@VideoActivity, "VideoActivity iniciada")
 
@@ -77,6 +106,13 @@ class VideoActivity : BaseMenuActivity() {
         setupButtons()
     }
 
+    /**
+     * Configura el reproductor de vídeo:
+     * - Carga el vídeo desde res/raw
+     * - Muestra un indicador de carga mientras se prepara
+     * - Inicia reproducción automática al estar listo
+     * - Registra finalización y guarda progreso
+     */
     private fun setupVideoPlayer() {
         // Cargar el video desde raw resources
         val videoUri = "android.resource://${packageName}/${R.raw.plaza}".toUri()
@@ -118,6 +154,11 @@ class VideoActivity : BaseMenuActivity() {
         }
     }
 
+    /**
+     * Configura los controles del vídeo:
+     * - Botón Play/Pause
+     * - SeekBar interactiva
+     */
     private fun setupVideoControls() {
         // Botón Play/Pause
         btnPlayPause.setOnClickListener {
@@ -151,6 +192,9 @@ class VideoActivity : BaseMenuActivity() {
         })
     }
 
+    /**
+     * Actualiza el icono del botón Play/Pause según el estado del vídeo.
+     */
     private fun updatePlayPauseButton() {
         val iconRes = if (videoView.isPlaying) {
             android.R.drawable.ic_media_pause
@@ -160,6 +204,9 @@ class VideoActivity : BaseMenuActivity() {
         btnPlayPause.setImageResource(iconRes)
     }
 
+    /**
+     * Actualiza la SeekBar mientras el vídeo está reproduciéndose.
+     */
     private fun updateSeekBar() {
         if (!isTracking && videoView.isPlaying) {
             seekBar.progress = videoView.currentPosition
@@ -168,6 +215,9 @@ class VideoActivity : BaseMenuActivity() {
         }
     }
 
+    /**
+     * Actualiza el texto que muestra el tiempo actual y total del vídeo.
+     */
     private fun updateTimeDisplay() {
         val current = videoView.currentPosition / 1000
         val total = videoView.duration / 1000
@@ -176,6 +226,9 @@ class VideoActivity : BaseMenuActivity() {
             total / 60, total % 60)
     }
 
+    /**
+     * Configura el botón de retroceso para volver al menú Plaza.
+     */
     private fun setupButtons() {
         btnBack.setOnClickListener {
             LogManager.write(this@VideoActivity, "Usuario salió de VideoActivity")
@@ -186,6 +239,9 @@ class VideoActivity : BaseMenuActivity() {
         }
     }
 
+    /**
+     * Activa el botón de retroceso con una animación de transición.
+     */
     private fun enableButtonWithTransition() {
         val transition = ContextCompat.getDrawable(this, R.drawable.bg_boton_secundario_transition) as? TransitionDrawable
         if (transition != null) {
@@ -197,6 +253,9 @@ class VideoActivity : BaseMenuActivity() {
         }
     }
 
+    /**
+     * Pausa el vídeo y detiene actualizaciones cuando la actividad entra en segundo plano.
+     */
     override fun onPause() {
         super.onPause()
         if (videoView.isPlaying) {
@@ -205,11 +264,18 @@ class VideoActivity : BaseMenuActivity() {
         handler.removeCallbacksAndMessages(null)
     }
 
+    /**
+     * Limpia callbacks pendientes al destruir la actividad.
+     */
     override fun onDestroy() {
         super.onDestroy()
         handler.removeCallbacksAndMessages(null)
     }
 
+    /**
+     * Inicia la actividad en la API del juego.
+     * Guarda el ID de progreso devuelto.
+     */
     private fun iniciarActividad() {
         val juegoId = tokenManager.getJuegoId() ?: return
         lifecycleScope.launch {
@@ -227,6 +293,9 @@ class VideoActivity : BaseMenuActivity() {
         }
     }
 
+    /**
+     * Completa la actividad en la API enviando una puntuación de 100.
+     */
     private fun completarActividad() {
         val estadoId = actividadProgresoId ?: return
         lifecycleScope.launch {
