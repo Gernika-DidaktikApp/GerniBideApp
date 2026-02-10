@@ -21,9 +21,6 @@
         android:roundIcon="@mipmap/ic_gernibide_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.GernikApp">
-        <activity
-            android:name=".picasso.VideoPicassoActivity"
-            android:exported="false" />
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
@@ -106,6 +103,10 @@
             android:name=".plaza.VerseGameActivity"
             android:exported="false"
             android:screenOrientation="portrait" /> <!-- Actividades de picasso -->
+        <activity
+            android:name=".picasso.VideoPicassoActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".picasso.ColorPeaceActivity"
             android:exported="false"
