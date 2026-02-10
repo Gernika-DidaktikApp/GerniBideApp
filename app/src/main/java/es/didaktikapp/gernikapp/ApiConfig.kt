@@ -58,6 +58,10 @@ object ApiConfig {
     /** GET - Obtener resumen de progreso de un punto */
     const val ACTIVIDAD_PROGRESO_RESUMEN = "/api/v1/actividad-progreso/punto/{id_juego}/{id_punto}/resumen"
 
+    // ============ ACTIVIDADES ============
+    /** GET - Obtener respuestas públicas de otros usuarios para una actividad */
+    const val ACTIVIDAD_RESPUESTAS_PUBLICAS = "/api/v1/actividades/{actividad_id}/respuestas-publicas"
+
     // ============ PARTIDAS ============
     /** POST - Crear nueva partida */
     const val PARTIDAS_CREATE = "/api/v1/partidas"

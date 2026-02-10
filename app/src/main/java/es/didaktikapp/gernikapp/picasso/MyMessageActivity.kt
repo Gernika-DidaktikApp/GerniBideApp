@@ -18,40 +18,41 @@ import es.didaktikapp.gernikapp.LogManager
 import es.didaktikapp.gernikapp.R
 import es.didaktikapp.gernikapp.data.local.TokenManager
 import es.didaktikapp.gernikapp.data.repository.GameRepository
+import es.didaktikapp.gernikapp.data.repository.UserRepository
 import es.didaktikapp.gernikapp.databinding.PicassoMyMessageBinding
 import es.didaktikapp.gernikapp.utils.Constants
 import es.didaktikapp.gernikapp.ZoneCompletionActivity
 import es.didaktikapp.gernikapp.utils.Constants.Puntos
 import es.didaktikapp.gernikapp.utils.Resource
 import es.didaktikapp.gernikapp.utils.ZoneConfig
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import java.io.File
 
 /**
  * Activity para escribir mensajes de paz.
- * Permite al usuario escribir un mensaje corto sobre paz que se guarda y se muestra
- * junto con otros mensajes de usuarios anteriores.
+ * Permite al usuario escribir un mensaje corto sobre paz que se envía al servidor
+ * y se muestra junto con mensajes de otros usuarios obtenidos desde la API.
  *
  * Características:
  * - Editor de texto con contador de caracteres
  * - Validación de longitud mínima (Constants.Messages.MIN_MESSAGE_LENGTH)
- * - Guardado del mensaje personal del usuario
- * - Visualización de mensajes recientes en tarjetas (CardView)
- * - Mensajes de ejemplo precargados si no existen mensajes previos
- * - Límite de mensajes mostrados (Constants.Messages.MAX_DISPLAYED_MESSAGES)
+ * - Guardado del mensaje personal del usuario en SharedPreferences
+ * - Envío del mensaje al servidor como respuesta_contenido
+ * - Visualización de mensajes públicos de otros usuarios desde la API (límite: 5)
+ * - Mensajes mostrados en tarjetas (CardView) con nombre del autor
  *
  * @property binding ViewBinding del layout picasso_my_message.xml
  * @property gameRepository Repositorio para gestionar eventos del juego
+ * @property userRepository Repositorio para obtener respuestas públicas de la API
  * @property tokenManager Gestor de tokens JWT y juegoId
  * @property actividadProgresoId ID del estado del evento actual (puede ser null)
- * @property messagesFile Archivo externo donde se almacenan todos los mensajes
  *
  * Condiciones:
  * - Requiere SharedPreferences "my_message_prefs" para el mensaje del usuario
  * - Requiere SharedPreferences "picasso_progress" para marcar actividad completada
- * - Guarda mensajes en archivo externo: Constants.Files.PEACE_MESSAGES_FILENAME
  * - Longitud mínima del mensaje: Constants.Messages.MIN_MESSAGE_LENGTH caracteres
- * - Muestra máximo Constants.Messages.MAX_DISPLAYED_MESSAGES mensajes recientes
+ * - Muestra últimos 5 mensajes públicos de otros usuarios desde el servidor
+ * - Envía mensaje como respuesta_contenido al completar la actividad
  *
  * @author Wara Pacheco
  */
@@ -59,12 +60,9 @@ class MyMessageActivity : BaseMenuActivity() {
 
     private lateinit var binding: PicassoMyMessageBinding
     private lateinit var gameRepository: GameRepository
+    private lateinit var userRepository: UserRepository
     private lateinit var tokenManager: TokenManager
     private var actividadProgresoId: String? = null
-
-    private val messagesFile by lazy {
-        File(getExternalFilesDir(null), Constants.Files.PEACE_MESSAGES_FILENAME)
-    }
 
     companion object {
         private const val PREFS_NAME = "my_message_prefs"
@@ -78,6 +76,7 @@ class MyMessageActivity : BaseMenuActivity() {
         LogManager.write(this@MyMessageActivity, "MyMessageActivity iniciada")
 
         gameRepository = GameRepository(this)
+        userRepository = UserRepository(this)
         tokenManager = TokenManager(this)
         binding = PicassoMyMessageBinding.inflate(layoutInflater, contentContainer, true)
         iniciarActividad()
@@ -199,30 +198,36 @@ class MyMessageActivity : BaseMenuActivity() {
             .putFloat("my_message_score", 100f)
             .apply()
         ZoneCompletionActivity.launchIfComplete(this, ZoneConfig.PICASSO)
-        completarActividad()
 
-        // Limpiar input
-        binding.messageInput.text.clear()
+        // Completar actividad y recargar mensajes después
+        completarActividad(message) {
+            lifecycleScope.launch {
+                // Limpiar input
+                binding.messageInput.text.clear()
 
-        // Ocultar teclado
-        hideKeyboard()
+                // Ocultar teclado
+                hideKeyboard()
 
-        // Recargar mensajes
-        loadMessages()
+                // Pequeño delay para que el servidor procese el mensaje
+                Log.d("MyMessage", "⏳ Esperando 500ms antes de recargar mensajes...")
+                delay(500)
 
-        // Mostrar mensaje de confirmación con el mensaje enviado
-        showConfirmationDialog(message)
+                // Recargar mensajes después de enviar al servidor
+                loadMessages()
+
+                // Mostrar mensaje de confirmación con el mensaje enviado
+                showConfirmationDialog(message)
+            }
+        }
     }
 
     /**
-     * Guarda el mensaje del usuario en dos lugares:
-     * 1. SharedPreferences personal del usuario (para recordar su mensaje)
-     * 2. Archivo compartido externo (para mostrar en la lista general)
+     * Guarda el mensaje del usuario en SharedPreferences personal.
+     * El mensaje se envía al servidor mediante completarActividad() con respuesta_contenido.
      *
      * @param message Texto del mensaje a guardar
      */
     private fun saveMessage(message: String) {
-        // Guardar mensaje personal del usuario
         LogManager.write(this@MyMessageActivity, "Mensaje guardado localmente en Picasso")
 
         val prefs = getSharedPreferences(PREFS_NAME, MODE_PRIVATE)
@@ -230,13 +235,6 @@ class MyMessageActivity : BaseMenuActivity() {
             putBoolean(KEY_HAS_MESSAGE, true)
             putString(KEY_USER_MESSAGE, message)
             apply()
-        }
-
-        // Guardar en archivo compartido
-        try {
-            messagesFile.appendText("$message\n")
-        } catch (e: Exception) {
-            Toast.makeText(this, getString(R.string.my_message_error_save), Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -250,33 +248,56 @@ class MyMessageActivity : BaseMenuActivity() {
     }
 
     /**
-     * Carga y muestra los mensajes más recientes del archivo.
+     * Carga y muestra los mensajes más recientes desde el servidor.
      *
      * Proceso:
-     * 1. Si el archivo no existe, crea mensajes de ejemplo
-     * 2. Lee las últimas N líneas (Constants.Messages.MAX_DISPLAYED_MESSAGES)
-     * 3. Las muestra en orden inverso (más recientes primero)
-     * 4. Si no hay mensajes, muestra mensaje de estado vacío
+     * 1. Llama a la API para obtener respuestas públicas de otros usuarios (límite: 5)
+     * 2. Muestra los mensajes en orden (más recientes primero)
+     * 3. Si no hay mensajes, muestra mensaje de estado vacío
+     * 4. Si falla la API, muestra mensaje de estado vacío
      */
     private fun loadMessages() {
+        Log.d("MyMessage", "🔄 loadMessages() iniciado - UUID: ${Puntos.Picasso.MY_MESSAGE}")
         binding.messagesContainer.removeAllViews()
 
-        if (!messagesFile.exists()) {
-            addSampleMessages()
-        }
+        lifecycleScope.launch {
+            when (val result = userRepository.getRespuestasPublicas(Puntos.Picasso.MY_MESSAGE, limit = 5)) {
+                is Resource.Success -> {
+                    val respuestas = result.data.respuestas
 
-        try {
-            val messages = messagesFile.readLines().filter { it.isNotBlank() }.takeLast(Constants.Messages.MAX_DISPLAYED_MESSAGES).reversed()
+                    Log.d("MyMessage", "✅ Respuesta del servidor recibida")
+                    Log.d("MyMessage", "   Total respuestas: ${result.data.totalRespuestas}")
+                    Log.d("MyMessage", "   Respuestas en lista: ${respuestas.size}")
 
-            if (messages.isEmpty()) {
-                addEmptyStateMessage()
-            } else {
-                messages.forEach { message ->
-                    addMessageView(message)
+                    respuestas.forEachIndexed { index, respuesta ->
+                        Log.d("MyMessage", "   [$index] ${respuesta.usuario}: ${respuesta.mensaje.take(50)}...")
+                    }
+
+                    if (respuestas.isEmpty()) {
+                        Log.d("MyMessage", "⚠️ No hay mensajes, mostrando estado vacío")
+                        addEmptyStateMessage()
+                    } else {
+                        respuestas.forEach { respuesta ->
+                            addMessageView(respuesta.mensaje, respuesta.usuario)
+                        }
+                    }
+
+                    LogManager.write(this@MyMessageActivity, "Mensajes públicos cargados: ${respuestas.size}")
                 }
+                is Resource.Error -> {
+                    Log.e("MyMessage", "❌ Error cargando mensajes: ${result.message}")
+                    LogManager.write(this@MyMessageActivity, "Error cargando mensajes públicos: ${result.message}")
+
+                    // Si es 404, la actividad no existe o no tiene mensajes
+                    if (result.message?.contains("404") == true) {
+                        Log.e("MyMessage", "⚠️ PROBLEMA: La actividad con UUID ${Puntos.Picasso.MY_MESSAGE} no existe en el servidor")
+                        Log.e("MyMessage", "   Verifica que el UUID sea correcto en Constants.kt")
+                    }
+
+                    addEmptyStateMessage()
+                }
+                is Resource.Loading -> { /* No-op */ }
             }
-        } catch (e: Exception) {
-            addEmptyStateMessage()
         }
     }
 
@@ -285,8 +306,9 @@ class MyMessageActivity : BaseMenuActivity() {
      * Diseño: fondo azul claro (#E3F2FD), texto azul (#1976D2), bordes redondeados.
      *
      * @param message Texto del mensaje a mostrar
+     * @param usuario Nombre del usuario que escribió el mensaje
      */
-    private fun addMessageView(message: String) {
+    private fun addMessageView(message: String, usuario: String) {
         val messageCard = CardView(this).apply {
             layoutParams = LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.MATCH_PARENT,
@@ -304,7 +326,7 @@ class MyMessageActivity : BaseMenuActivity() {
                 LinearLayout.LayoutParams.MATCH_PARENT,
                 LinearLayout.LayoutParams.WRAP_CONTENT
             )
-            text = "\"$message\""
+            text = "\"$message\"\n— $usuario"
             textSize = 14f
             setTextColor(ContextCompat.getColor(this@MyMessageActivity, R.color.btnSecundario))
             setPadding(dpToPx(24), dpToPx(16), dpToPx(24), dpToPx(16))
@@ -335,25 +357,6 @@ class MyMessageActivity : BaseMenuActivity() {
         binding.messagesContainer.addView(emptyText)
     }
 
-    /**
-     * Crea el archivo de mensajes con 4 mensajes de ejemplo predefinidos.
-     * Se ejecuta solo la primera vez que se accede a la actividad.
-     * Los mensajes de ejemplo se obtienen de strings.xml para soporte multiidioma.
-     */
-    private fun addSampleMessages() {
-        val sampleMessages = listOf(
-            getString(R.string.my_message_sample_1),
-            getString(R.string.my_message_sample_2),
-            getString(R.string.my_message_sample_3),
-            getString(R.string.my_message_sample_4)
-        )
-
-        try {
-            messagesFile.writeText(sampleMessages.joinToString("\n") + "\n")
-        } catch (e: Exception) {
-            // Ignorar error
-        }
-    }
 
     /**
      * Muestra un diálogo de confirmación después de enviar el mensaje.
@@ -424,20 +427,34 @@ class MyMessageActivity : BaseMenuActivity() {
      * Completa el evento en la API del juego.
      * Requiere un actividadProgresoId válido obtenido de iniciarActividad().
      *
+     * Envía el mensaje del usuario como respuesta_contenido para guardarlo en el servidor.
+     * Ejecuta el callback onSuccess cuando la operación se completa exitosamente.
+     *
+     * @param mensaje Mensaje de paz escrito por el usuario
+     * @param onSuccess Callback a ejecutar cuando la operación sea exitosa
      * @see iniciarActividad
      * Puntuación enviada: 100.0 (actividad completada)
      */
-    private fun completarActividad() {
+    private fun completarActividad(mensaje: String, onSuccess: () -> Unit) {
         val estadoId = actividadProgresoId ?: return
         lifecycleScope.launch {
-            when (val result = gameRepository.completarActividad(estadoId, 100.0)) {
+            when (val result = gameRepository.completarActividad(estadoId, 100.0, mensaje)) {
                 is Resource.Success -> {
-                    Log.d("MyMessage", "Completado")
-                    LogManager.write(this@MyMessageActivity, "API completarActividad PICASSO_MY_MESSAGE")
+                    Log.d("MyMessage", "✅ Completado con mensaje: $mensaje")
+                    LogManager.write(this@MyMessageActivity, "API completarActividad PICASSO_MY_MESSAGE con mensaje: $mensaje")
+
+                    // Ejecutar callback después de completar exitosamente
+                    onSuccess()
                 }
                 is Resource.Error -> {
-                    Log.e("MyMessage", "Error: ${result.message}")
+                    Log.e("MyMessage", "❌ Error: ${result.message}")
                     LogManager.write(this@MyMessageActivity, "Error completarActividad PICASSO_MY_MESSAGE: ${result.message}")
+
+                    Toast.makeText(
+                        this@MyMessageActivity,
+                        getString(R.string.my_message_error_save),
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
                 is Resource.Loading -> { }
             }

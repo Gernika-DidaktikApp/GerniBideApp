@@ -22,13 +22,13 @@
     <string name="izena">Izena</string>
     <string name="abizena_k">Abizenak</string>
     <string name="klase_batekoa_zara">Klase batekoa zara?</string>
-    <string name="klase_id">Klasearen IDa</string>
+    <string name="klase_id">Klasearen kodea (6 karaktere)</string>
     <string name="izena_eman">ERREGISTRATU</string>
     <string name="baduzu_kontu_bat_saioa_hasi">Kontu bat duzu dagoeneko? Saioa hasi</string>
     <string name="nombre_usuario_requerido">Erabiltzaile izena beharrezkoa</string>
     <string name="nombre_requerido">Izena beharrezkoa</string>
     <string name="apellido_requerido">Abizenak beharrezkoak</string>
-    <string name="id_clase_requerido">Klasearen IDa beharrezkoa</string>
+    <string name="id_clase_requerido">Klasearen kodea beharrezkoa (6 karaktere)</string>
     <string name="pasahitza">Pasahitza</string>
     <string name="pasahitza_requerida">Pasahitza beharrezkoa</string>
     <string name="pasahitza_laburgia">Pasahitza gutxienez 6 karaktere izango ditu</string>
@@ -37,10 +37,15 @@
     <string name="registro_exitoso">¡Erabiltzailea erregistratuta!</string>
 
     <!-- Errores de registro -->
-    <string name="error_usuario_existe">Erabiltzaile izena dagoeneko existitzen da</string>
-    <string name="error_credenciales_invalidas">Kredentzial baliogabeak</string>
-    <string name="error_datos_invalidos">Datu baliogabeak</string>
-    <string name="error_servidor">Zerbitzariaren errorea (%d)</string>
+    <string name="error_usuario_existe">Erabiltzaile izen hori hartuta dago. Mesedez, beste bat aukeratu</string>
+    <string name="error_codigo_clase_no_existe">Ez dago klase kode hori duen klasea</string>
+    <string name="error_datos_invalidos">Datuak ez dira zuzenak. Egiaztatu mesedez</string>
+    <string name="error_registro_servidor">Ezin izan da erregistroa egin. Saiatu berriro geroago</string>
+
+    <!-- Errores de login -->
+    <string name="error_login_credenciales">Erabiltzaile izena edo pasahitza okerra da</string>
+    <string name="error_login_servidor">Ezin izan da saioa hasi. Saiatu berriro geroago</string>
+    <string name="error_crear_partida">Ezin izan da partidarik sortu. Saiatu berriro</string>
 
     <!-- Plaza Gernika Module -->
     <!-- Pantalla de Video -->
@@ -426,7 +431,7 @@
     <!-- User Edit -->
     <string name="error_cargar_datos">Errorea datuak kargatzean</string>
     <string name="error_actualizar">Errorea eguneratzerakoan</string>
-    <string name="clase_id_requerido">Klase ID-a beharrezkoa da</string>
+    <string name="clase_id_requerido">Klasearen kodea beharrezkoa (6 karaktere)</string>
 
     <string name="daltonismo_modua">Modu daltonismoa</string>
     <string name="daltonismo_azalpena">Kolore-paleta eskuragarriagoa aktibatu daltonismoa dutenentzako</string>

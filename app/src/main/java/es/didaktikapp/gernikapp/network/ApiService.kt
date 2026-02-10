@@ -15,12 +15,14 @@ import es.didaktikapp.gernikapp.data.models.UpdateUserRequest
 import es.didaktikapp.gernikapp.data.models.UserResponse
 import es.didaktikapp.gernikapp.data.models.UserStatsResponse
 import es.didaktikapp.gernikapp.data.models.PerfilProgresoResponse
+import es.didaktikapp.gernikapp.data.models.RespuestasPublicasResponse
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
 import retrofit2.http.PUT
 import retrofit2.http.Path
+import retrofit2.http.Query
 
 /**
  * Interface de Retrofit para los endpoints de la API.
@@ -105,6 +107,21 @@ interface ApiService {
     suspend fun getPerfilProgreso(
         @Path("usuario_id") usuarioId: String
     ): Response<PerfilProgresoResponse>
+
+    /**
+     * Obtiene las respuestas públicas de otros usuarios para una actividad específica.
+     * Usado para mostrar mensajes de otros jugadores en actividades como "Mi Mensaje".
+     * Requiere autenticación (token JWT).
+     *
+     * @param actividadId UUID de la actividad
+     * @param limit Número máximo de respuestas a obtener (default: 20, max: 100)
+     * @return Response con lista de respuestas públicas
+     */
+    @GET(ApiConfig.ACTIVIDAD_RESPUESTAS_PUBLICAS)
+    suspend fun getRespuestasPublicas(
+        @Path("actividad_id") actividadId: String,
+        @Query("limit") limit: Int = 5
+    ): Response<RespuestasPublicasResponse>
 
     // ============ PARTIDAS ============
 
