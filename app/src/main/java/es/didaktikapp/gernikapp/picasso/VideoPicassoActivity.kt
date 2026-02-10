@@ -22,24 +22,60 @@ import es.didaktikapp.gernikapp.utils.ZoneConfig
 import kotlinx.coroutines.launch
 import java.util.Locale
 
+/**
+ * Activity del módulo Picasso encargada de reproducir el audio explicativo sobre la obra de Picasso.
+ *
+ * @author Erlantz García
+ * @version 1.0
+ */
 class VideoPicassoActivity : BaseMenuActivity() {
 
+    /** Reproductor de audio que reproduce la narración de Picasso. */
     private lateinit var mediaPlayer: MediaPlayer
+
+    /** Barra de progreso que muestra y controla la posición del audio. */
     private lateinit var seekBar: SeekBar
+
+    /** Texto que muestra el tiempo actual y total del audio. */
     private lateinit var tvTime: TextView
+
+    /** Botón para reproducir o pausar el audio. */
     private lateinit var btnPlayPause: ImageButton
+
+    /** Botón para volver al menú principal del módulo Picasso. */
     private lateinit var btnBack: Button
+
+    /** Imagen mostrada durante la reproducción del audio (cuadro de Picasso). */
     private lateinit var imageView: ImageView
 
+    /** Repositorio para gestionar el inicio y finalización de actividades del juego. */
     private lateinit var gameRepository: GameRepository
+
+    /** Gestor de sesión que contiene tokens y el juegoId necesario para la API. */
     private lateinit var tokenManager: TokenManager
+
+    /** ID del progreso de la actividad devuelto por la API al iniciarla. */
     private var actividadProgresoId: String? = null
 
+    /** Handler que actualiza la barra de progreso del audio en tiempo real. */
     private val handler = Handler(Looper.getMainLooper())
+
+    /** Indica si el usuario está moviendo manualmente la SeekBar. */
     private var isTracking = false
 
+    /**
+     * Devuelve el layout asociado a esta actividad (picasso_audio.xml).
+     */
     override fun getContentLayoutId() = R.layout.picasso_audio
 
+    /**
+     * Inicializa la actividad:
+     * - Registra el inicio en el LogManager
+     * - Configura vistas y listeners
+     * - Inicia la actividad en la API
+     * - Prepara el reproductor de audio y su SeekBar
+     * - Marca la actividad como completada al finalizar el audio
+     */
     override fun onContentInflated() {
         LogManager.write(this, "VideoPicassoActivity iniciada")
 
@@ -60,10 +96,8 @@ class VideoPicassoActivity : BaseMenuActivity() {
             btnBack.isEnabled = true
         }
 
-        // Imagen
         imageView.setImageResource(R.drawable.picasso_kuadroa)
 
-        // Audio
         mediaPlayer = MediaPlayer.create(this, R.raw.picasso_audio)
         seekBar.max = mediaPlayer.duration
 
@@ -115,6 +149,9 @@ class VideoPicassoActivity : BaseMenuActivity() {
         }
     }
 
+    /**
+     * Actualiza el icono del botón de reproducción según el estado del MediaPlayer.
+     */
     private fun updatePlayPauseButton() {
         val icon = if (mediaPlayer.isPlaying)
             android.R.drawable.ic_media_pause
@@ -124,6 +161,9 @@ class VideoPicassoActivity : BaseMenuActivity() {
         btnPlayPause.setImageResource(icon)
     }
 
+    /**
+     * Actualiza la SeekBar mientras el audio está reproduciéndose.
+     */
     private fun updateSeekBar() {
         if (!isTracking && mediaPlayer.isPlaying) {
             seekBar.progress = mediaPlayer.currentPosition
@@ -132,6 +172,9 @@ class VideoPicassoActivity : BaseMenuActivity() {
         }
     }
 
+    /**
+     * Actualiza el texto que muestra el tiempo actual y total del audio.
+     */
     private fun updateTimeDisplay() {
         val current = mediaPlayer.currentPosition / 1000
         val total = mediaPlayer.duration / 1000
@@ -143,18 +186,29 @@ class VideoPicassoActivity : BaseMenuActivity() {
         )
     }
 
+    /**
+     * Pausa el audio cuando la actividad entra en segundo plano
+     * y detiene las actualizaciones de la SeekBar.
+     */
     override fun onPause() {
         super.onPause()
         if (mediaPlayer.isPlaying) mediaPlayer.pause()
         handler.removeCallbacksAndMessages(null)
     }
 
+    /**
+     * Libera los recursos del MediaPlayer al destruir la actividad.
+     */
     override fun onDestroy() {
         super.onDestroy()
         mediaPlayer.release()
         handler.removeCallbacksAndMessages(null)
     }
 
+    /**
+     * Inicia la actividad en la API del juego.
+     * Guarda el ID de progreso devuelto para completarla más tarde.
+     */
     private fun iniciarActividad() {
         val juegoId = tokenManager.getJuegoId() ?: return
         lifecycleScope.launch {
@@ -175,6 +229,10 @@ class VideoPicassoActivity : BaseMenuActivity() {
         }
     }
 
+    /**
+     * Completa la actividad en la API enviando una puntuación de 100.
+     * Se llama automáticamente cuando el audio termina.
+     */
     private fun completarActividad() {
         val estadoId = actividadProgresoId ?: return
         lifecycleScope.launch {

@@ -48,21 +48,42 @@ import kotlinx.coroutines.launch
  *
  * @see Question
  * @author Wara Pacheco
+ * @version 1.0
  */
 class ViewInterpretActivity : BaseMenuActivity() {
 
+    /** Binding del layout picasso_view_interpret.xml. */
     private lateinit var binding: PicassoViewInterpretBinding
+
+    /** Repositorio para gestionar el inicio y finalización de actividades del juego. */
     private lateinit var gameRepository: GameRepository
+
+    /** Gestor de sesión que contiene tokens y el juegoId necesario para la API. */
     private lateinit var tokenManager: TokenManager
+
+    /** ID del progreso de la actividad devuelto por la API al iniciarla. */
     private var actividadProgresoId: String? = null
+
+    /** Índice de la pregunta actual (0–5). */
     private var currentQuestionIndex = 0
+
+    /** Número de respuestas correctas acumuladas. */
     private var correctAnswers = 0
 
     companion object {
+        /** Key para guardar el índice de la pregunta actual. */
         private const val KEY_QUESTION_INDEX = "question_index"
+
+        /** Key para guardar el número de respuestas correctas. */
         private const val KEY_CORRECT_ANSWERS = "correct_answers"
+
+        /** Nombre del archivo SharedPreferences del quiz. */
         private const val PREFS_NAME = "view_interpret_progress"
+
+        /** Indica si existe progreso guardado. */
         private const val KEY_HAS_SAVED_PROGRESS = "has_saved_progress"
+
+        /** Indica si el test ya fue completado. */
         private const val KEY_TEST_COMPLETED = "test_completed"
 
         /**
@@ -104,7 +125,7 @@ class ViewInterpretActivity : BaseMenuActivity() {
         }
 
         /**
-         * Limpia todo el progreso guardado del quiz.
+         * Limpia el progreso guardado del quiz.
          *
          * @param context Contexto de la aplicación
          */
@@ -140,6 +161,14 @@ class ViewInterpretActivity : BaseMenuActivity() {
         Question("picasso_gerlaria", "view_interpret_q6", listOf("view_interpret_q6_opt1", "view_interpret_q6_opt2", "view_interpret_q6_opt3", "view_interpret_q6_opt4"), 1, "view_interpret_q6_feedback")
     )
 
+    /**
+     * Inicializa la actividad:
+     * - Registra inicio en LogManager
+     * - Infla el layout
+     * - Inicia la actividad en la API
+     * - Configura listeners de opciones y botón siguiente
+     * - Comprueba si existe progreso guardado
+     */
     override fun onContentInflated() {
         LogManager.write(this@ViewInterpretActivity, "ViewInterpretActivity iniciada")
 
@@ -155,12 +184,18 @@ class ViewInterpretActivity : BaseMenuActivity() {
         checkForSavedProgress()
     }
 
+    /**
+     * Guarda el estado actual del quiz cuando la actividad puede ser destruida temporalmente
+     */
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         outState.putInt(KEY_QUESTION_INDEX, currentQuestionIndex)
         outState.putInt(KEY_CORRECT_ANSWERS, correctAnswers)
     }
 
+    /**
+     * Restaura el estado del quiz previamente guardado en onSaveInstanceState().
+     */
     override fun onRestoreInstanceState(savedInstanceState: Bundle) {
         super.onRestoreInstanceState(savedInstanceState)
         currentQuestionIndex = savedInstanceState.getInt(KEY_QUESTION_INDEX, 0)

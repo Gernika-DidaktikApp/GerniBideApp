@@ -30,11 +30,20 @@ import java.io.File
  * @see PaintCanvasView
  * @see ColorPeaceActivity
  * @author Wara Pacheco
+ * @version 1.0
  */
 class ResultActivity : BaseMenuActivity() {
 
+    /** Binding del layout picasso_result.xml. */
     private lateinit var binding: PicassoResultBinding
 
+    /**
+     * Inicializa la actividad:
+     * - Registra el inicio en LogManager
+     * - Infla el layout
+     * - Carga y muestra el resultado final
+     * - Configura los botones de navegación
+     */
     override fun onContentInflated() {
         LogManager.write(this@ResultActivity, "ResultActivity iniciada")
 

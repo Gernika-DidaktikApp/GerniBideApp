@@ -55,26 +55,46 @@ import java.io.File
  * @see PaintCanvasView
  * @see ResultActivity
  * @author Wara Pacheco
+ * @version 1.0
  */
 class ColorPeaceActivity : BaseMenuActivity() {
 
+    /** Binding del layout picasso_color_peace.xml que contiene toda la UI. */
     private lateinit var binding: PicassoColorPeaceBinding
+
+    /** Repositorio para gestionar el inicio y finalización de actividades del juego. */
     private lateinit var gameRepository: GameRepository
+
+    /** Gestor de sesión: contiene tokens y el juegoId necesario para la API. */
     private lateinit var tokenManager: TokenManager
+
+    /** ID del progreso de la actividad devuelto por la API al iniciarla. */
     private var actividadProgresoId: String? = null
 
-    // Colores disponibles
+    /** Color azul disponible en la paleta. */
     private val colorBlue = Color.parseColor("#4FC3F7")
+
+    /** Color verde disponible en la paleta. */
     private val colorGreen = Color.parseColor("#66BB6A")
+
+    /** Color amarillo disponible en la paleta. */
     private val colorYellow = Color.parseColor("#FFEB3B")
+
+    /** Color rosa disponible en la paleta. */
     private val colorPink = Color.parseColor("#F48FB1")
-    private val colorEraser = Color.parseColor("#E0E0E0")  // Gris claro - funciona como borrador
+
+    /** Color gris claro usado como borrador. */
+    private val colorEraser = Color.parseColor("#E0E0E0")
 
     companion object {
+        /** Nombre del archivo SharedPreferences donde se guarda el progreso del módulo Picasso. */
         private const val PROGRESS_PREFS = "picasso_progress"
+
+        /** Clave que indica si la actividad Color Peace ya fue completada. */
         private const val KEY_COLOR_PEACE_COMPLETED = "color_peace_completed"
     }
 
+    /** Inicializa la actividad: infla el layout, configura listeners y determina el modo (pintar o vista previa). */
     override fun onContentInflated() {
         LogManager.write(this@ColorPeaceActivity, "ColorPeaceActivity iniciada")
 

@@ -30,8 +30,15 @@ import es.didaktikapp.gernikapp.utils.ZoneConfig
  */
 class MainActivity : BaseMenuActivity() {
 
+    /** Binding del layout principal del módulo Picasso (picasso_main.xml). */
     private lateinit var binding: PicassoMainBinding
 
+    /**
+     * Inicializa la actividad una vez inflado el contenido:
+     * - Registra el inicio en el LogManager
+     * - Infla el layout del módulo Picasso
+     * - Configura los listeners de los botones del menú
+     */
     override fun onContentInflated() {
         LogManager.write(this@MainActivity, "PicassoMainActivity iniciada")
 
@@ -39,6 +46,11 @@ class MainActivity : BaseMenuActivity() {
         setupClickListeners()
     }
 
+    /**
+     * Se ejecuta cada vez que la Activity vuelve a primer plano.
+     * Actualiza el estado visual de las actividades completadas
+     * para reflejar cambios realizados en otras pantallas.
+     */
     override fun onResume() {
         super.onResume()
         updateCompletedActivities()

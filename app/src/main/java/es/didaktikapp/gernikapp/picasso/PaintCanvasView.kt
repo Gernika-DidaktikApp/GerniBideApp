@@ -54,6 +54,7 @@ import kotlin.math.min
  * - Constants.Paint.MAX_ZOOM: Zoom máximo permitido
  *
  * @author Wara Pacheco
+ * @version 1.0
  */
 class PaintCanvasView @JvmOverloads constructor(
     context: Context,
@@ -61,11 +62,19 @@ class PaintCanvasView @JvmOverloads constructor(
     defStyleAttr: Int = 0
 ) : View(context, attrs, defStyleAttr) {
 
+    /** Bitmap donde se almacenan todos los trazos pintados por el usuario. */
     private var paintBitmap: Bitmap? = null
+
+    /** Canvas asociado al bitmap, utilizado para dibujar los trazos de forma permanente. */
     private var bitmapCanvas: Canvas? = null
+
+    /** Lista de trazos realizados, cada uno compuesto por un Path y un Paint. */
     private val paths = mutableListOf<Pair<Path, Paint>>()
+
+    /** Path actual que el usuario está dibujando en tiempo real. */
     private var currentPath = Path()
 
+    /** Configuración de pintura activa (color, grosor, estilo). */
     private var currentPaint = Paint().apply {
         isAntiAlias = true
         strokeWidth = Constants.Paint.STROKE_WIDTH
@@ -76,6 +85,7 @@ class PaintCanvasView @JvmOverloads constructor(
         alpha = Constants.Paint.ALPHA_VALUE
     }
 
+    /** Color actual seleccionado por el usuario para pintar o borrar. */
     var currentColor: Int = Color.parseColor("#4FC3F7")
         set(value) {
             field = value
@@ -99,26 +109,42 @@ class PaintCanvasView @JvmOverloads constructor(
             }
         }
 
-    // Zoom (sin pan/movimiento)
+    /** Matriz utilizada para aplicar transformaciones de zoom al canvas. */
     private val matrix = Matrix()
+
+    /** Factor de escala actual aplicado al canvas (1.0 = sin zoom). */
     private var scaleFactor = 1f
 
+    /** Detector de gestos para manejar el zoom mediante pellizco. */
     private val scaleGestureDetector = ScaleGestureDetector(context, ScaleListener())
 
+    /** Última posición X registrada durante el trazado. */
     private var lastTouchX = 0f
+
+    /** Última posición Y registrada durante el trazado. */
     private var lastTouchY = 0f
+
+    /** Indica si el usuario está actualmente dibujando un trazo. */
     private var isPainting = false
+
+    /** Indica si el usuario está utilizando el modo borrador. */
     private var isEraserMode = false
 
-    // Límites del área pintable
+    /** Límite izquierdo del área donde se permite pintar. */
     private var paintableLeft = 0f
+
+    /** Límite superior del área donde se permite pintar. */
     private var paintableTop = 0f
+
+    /** Límite derecho del área donde se permite pintar. */
     private var paintableRight = 0f
+
+    /** Límite inferior del área donde se permite pintar. */
     private var paintableBottom = 0f
 
     /**
      * Inicializa el bitmap de pintura con las dimensiones del View.
-     * Crea un bitmap transparente y establece el área pintable por defecto a todo el canvas.
+     * Crea un bitmap transparente y establece el área pintable por defecto a el canvas.
      *
      * Condiciones:
      * - Solo se ejecuta si width y height son mayores a 0
@@ -288,7 +314,7 @@ class PaintCanvasView @JvmOverloads constructor(
     }
 
     /**
-     * Limpia todo el canvas borrando todos los trazos.
+     * Limpia el canvas borrando todos los trazos.
      * Resetea el bitmap a transparente y limpia la lista de paths.
      */
     fun clearCanvas() {

@@ -55,23 +55,50 @@ import kotlinx.coroutines.launch
  * - Envía mensaje como respuesta_contenido al completar la actividad
  *
  * @author Wara Pacheco
+ * @version 1.0
  */
 class MyMessageActivity : BaseMenuActivity() {
 
+    /** Binding del layout picasso_my_message.xml que contiene toda la interfaz de la actividad. */
     private lateinit var binding: PicassoMyMessageBinding
+
+    /** Repositorio encargado de gestionar el inicio y finalización de actividades del juego en la API. */
     private lateinit var gameRepository: GameRepository
+
+    /** Repositorio para obtener mensajes públicos y datos de usuario desde la API. */
     private lateinit var userRepository: UserRepository
+
+    /** Gestor de sesión que almacena tokens, IDs y el juegoId necesario para registrar progreso. */
     private lateinit var tokenManager: TokenManager
+
+    /** ID del progreso de la actividad devuelto por la API al iniciarla. */
     private var actividadProgresoId: String? = null
 
     companion object {
+        /** Nombre del archivo SharedPreferences donde se guarda el mensaje personal del usuario. */
         private const val PREFS_NAME = "my_message_prefs"
+
+        /** Clave para almacenar el mensaje escrito por el usuario. */
         private const val KEY_USER_MESSAGE = "user_message"
+
+        /** Clave que indica si el usuario ya tiene un mensaje guardado. */
         private const val KEY_HAS_MESSAGE = "has_message"
+
+        /** SharedPreferences donde se guarda el progreso del módulo Picasso. */
         private const val PROGRESS_PREFS = "picasso_progress"
+
+        /** Clave que indica si la actividad MyMessage ya fue completada. */
         private const val KEY_MY_MESSAGE_COMPLETED = "my_message_completed"
     }
 
+    /**
+     * Inicializa la actividad:
+     * - Registra el inicio en el LogManager
+     * - Infla el layout
+     * - Inicia el evento en la API
+     * - Configura contador, botones y listeners
+     * - Carga mensajes guardados y mensajes públicos
+     */
     override fun onContentInflated() {
         LogManager.write(this@MyMessageActivity, "MyMessageActivity iniciada")
 
@@ -132,6 +159,7 @@ class MyMessageActivity : BaseMenuActivity() {
         })
     }
 
+    /** Configura el botón de enviar para ejecutar la función sendMessage(). */
     private fun setupSendButton() {
         binding.sendButton.setOnClickListener {
             sendMessage()
